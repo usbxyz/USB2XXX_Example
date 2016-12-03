@@ -1,0 +1,14 @@
+.svn
+
+#Python
+__pycache__
+*.py[cod]
+*.egg
+*.egg-info
+
+#vs
+ipch
+Release
+Debug
+*.sdf
+*.user

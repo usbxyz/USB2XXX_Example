@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "USB2XXXSPIADS1256", "USB2XXXSPIADS1256\USB2XXXSPIADS1256.vcxproj", "{7AF6CAE9-762E-48F5-83C9-63A6C73C82EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7AF6CAE9-762E-48F5-83C9-63A6C73C82EB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7AF6CAE9-762E-48F5-83C9-63A6C73C82EB}.Debug|Win32.Build.0 = Debug|Win32
+		{7AF6CAE9-762E-48F5-83C9-63A6C73C82EB}.Release|Win32.ActiveCfg = Release|Win32
+		{7AF6CAE9-762E-48F5-83C9-63A6C73C82EB}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

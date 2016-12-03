@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "USB2XXXIICLM75A", "USB2XXXIICLM75A\USB2XXXIICLM75A.vcxproj", "{E66D11AB-A105-47F6-9950-96517DD5796B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E66D11AB-A105-47F6-9950-96517DD5796B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E66D11AB-A105-47F6-9950-96517DD5796B}.Debug|Win32.Build.0 = Debug|Win32
+		{E66D11AB-A105-47F6-9950-96517DD5796B}.Release|Win32.ActiveCfg = Release|Win32
+		{E66D11AB-A105-47F6-9950-96517DD5796B}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
