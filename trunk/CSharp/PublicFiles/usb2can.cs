@@ -60,20 +60,16 @@ namespace USB2XXX
 
         //5.定义CAN Bootloader命令列表
         public struct CBL_CMD_LIST{
-            public Byte EraseFlash;         //擦出APP储存扇区数据
-            public Byte WriteBlockFlash;    //以多字节形式写数据
-            public Byte ReadBlockFlash;     //以多字节形式读数据
-            public Byte BlockWriteInfo;     //设置多字节写数据相关参数（写起始地址，数据量）
-            public Byte BlockReadInfo;      //设置多字节数据读相关参数（读起始地址，数据量）
-            public Byte OnlineCheck;        //检测节点是否在线，同时返回固件信息
-            public Byte CmdSuccess;         //命令执行成功
-            public Byte CmdFaild;           //命令执行失败
-            public Byte SetBaudRate;        //设置节点波特率
-            public Byte ExcuteApp;          //执行应用程序
-            public Byte Undefine0;          //未定义，保留以后用
-            public Byte Undefine1;          //未定义，保留以后用
-            public Byte Undefine2;          //未定义，保留以后用
-            public Byte Undefine3;          //未定义，保留以后用
+            //Bootloader相关命令
+            public Byte Erase;          //擦出APP储存扇区数据
+            public Byte WriteInfo;      //设置多字节写数据相关参数（写起始地址，数据量）
+            public Byte Write;          //以多字节形式写数据
+            public Byte Check;          //检测节点是否在线，同时返回固件信息
+            public Byte SetBaudRate;    //设置节点波特率
+            public Byte Excute;         //执行固件
+            //节点返回状态
+            public Byte CmdSuccess;     //命令执行成功
+            public Byte CmdFaild;       //命令执行失败
         }
 
         //6.函数返回错误代码定义
@@ -104,13 +100,13 @@ namespace USB2XXX
         [DllImport("USB2XXX.dll")]
         public const Int32 CAN_BL_NodeCheck(Int32 DevIndex,Int32 CANIndex,UInt16 NodeAddr,ref UInt32 pVersion,ref UInt32 pType,UInt32 TimeOut);
         [DllImport("USB2XXX.dll")]
-        public const Int32 CAN_BL_EraseFlash(Int32 DevIndex,Int32 CANIndex,UInt16 NodeAddr,UInt32 FlashStartAddr,UInt32 FlashEndAddr,UInt32 TimeOut);
+        public const Int32 CAN_BL_Erase(Int32 DevIndex,Int32 CANIndex,UInt16 NodeAddr,UInt32 FlashSize,UInt32 TimeOut);
         [DllImport("USB2XXX.dll")]
-        public const Int32 CAN_BL_WriteBlock(Int32 DevIndex,Int32 CANIndex,UInt16 NodeAddr,UInt32 FlashStartAddr,Byte[] pData,UInt32 DataNum,UInt32 TimeOut);
+        public const Int32 CAN_BL_Write(Int32 DevIndex,Int32 CANIndex,UInt16 NodeAddr,UInt32 AddrOffset,Byte[] pData,UInt32 DataNum,UInt32 TimeOut);
         [DllImport("USB2XXX.dll")]
-        public const Int32 CAN_BL_ExcuteApp(Int32 DevIndex,Int32 CANIndex,UInt16 NodeAddr,UInt32 FlashStartAddr);
+        public const Int32 CAN_BL_Excute(Int32 DevIndex,Int32 CANIndex,UInt16 NodeAddr,UInt32 Type);
         [DllImport("USB2XXX.dll")]
-        public const Int32 CAN_BL_SetBaudRate(Int32 DevIndex,Int32 CANIndex,UInt16 NodeAddr,ref CAN_INIT_CONFIG pInitConfig,UInt32 BaudRate,UInt32 TimeOut);
+        public const Int32 CAN_BL_SetNewBaudRate(Int32 DevIndex,Int32 CANIndex,UInt16 NodeAddr,ref CAN_INIT_CONFIG pInitConfig,UInt32 NewBaudRate,UInt32 TimeOut);
 
     }
 }
