@@ -23,7 +23,7 @@
 
 #define CONTINUE_GET_ADC_DATA   1
 #define ADC_NUMS                10
-
+//计算一个整数bit位为1的个数
 uint32_t BitCount(uint32_t data)
 {
   uint32_t count=0;
@@ -33,6 +33,7 @@ uint32_t BitCount(uint32_t data)
   }
   return count;
 }
+//连续读取ADC数据的回调函数
 #if CONTINUE_GET_ADC_DATA
 int WINAPI GetAdcDataHandle(int DevIndex,unsigned short *pData,int DataNum)
 {
@@ -47,7 +48,7 @@ int main(int argc, const char* argv[])
     int DevIndex = 0;
     bool state;
     int ret;
-    char ADC_Channel = 0x01;
+    char ADC_Channel = 0x03;//使能ADC_CH0和ADC_CH1
     short Buffer[40960];
     //扫描查找设备
     ret = USB_ScanDevice(NULL);
@@ -76,13 +77,13 @@ int main(int argc, const char* argv[])
         printf("    Functions:%08X\n",DevInfo.Functions);
         printf("    Functions:%s\n",FuncStr);
     }
-    
+    //初始化ADC
     ret = ADC_Init(DevIndex,ADC_Channel,1000000);
     if(ret != ADC_SUCCESS){
         printf("Init adc error!\n");
         return 0;
     }
-
+    //手动读取ADC数据
     ret = ADC_Read(DevIndex,Buffer,ADC_NUMS);
     if(ret != ADC_SUCCESS){
         printf("Read adc error!\n");
@@ -92,11 +93,13 @@ int main(int argc, const char* argv[])
             printf("ADC Data[%d] = %fV\n",i,(Buffer[i]*3.3)/4095);
         }
     }
+    //延时
 #ifndef OS_UNIX
     Sleep(100);
 #else
     usleep(100*1000);
 #endif
+    //手动读取ADC数据
     ret = ADC_Read(DevIndex,Buffer,ADC_NUMS);
     if(ret != ADC_SUCCESS){
         printf("Read adc error!\n");
@@ -106,6 +109,7 @@ int main(int argc, const char* argv[])
             printf("ADC Data[%d] = %fV\n",i,(Buffer[i]*3.3)/4095);
         }
     }
+    //启动连续读取ADC数据，数据读取到之后会调用GetAdcDataHandle回调函数，可以在该回调函数里面处理数据
 #if CONTINUE_GET_ADC_DATA
     ret = ADC_StartContinueRead(DevIndex,ADC_Channel,1000000,10240,GetAdcDataHandle);
     if(ret != ADC_SUCCESS){
@@ -114,31 +118,21 @@ int main(int argc, const char* argv[])
     }else{
         printf("Start Continue Read ADC ADC_SUCCESS!\n");
     }
+    //延时
 #ifndef OS_UNIX
     Sleep(3000);
 #else
     usleep(3000*1000);
 #endif
-
+    //停止连续读取数据
     ret = ADC_StopContinueRead(DevIndex);
     if(ret != ADC_SUCCESS){
         printf("Stop Continue Read adc error!\n");
         return 0;
     }
 #endif
-/*
-    uint16_t ReadDataBuffer[20480];
-    int ReadDataNum;
-    int AllDataNum = 0;
-    do{
-        ReadDataNum = ADC_GetData(DevIndex,ReadDataBuffer,20480);
-        AllDataNum += ReadDataNum;
-    }while(ReadDataNum > 0);
-    printf("Get %d Byte Data\n",AllDataNum);
-    printf("ADC Data = %fV\n",(ReadDataBuffer[0]*3.3)/4095);
-*/
     //关闭设备
     USB_CloseDevice(DevIndex);
-	return 0;
+    return 0;
 }
 
