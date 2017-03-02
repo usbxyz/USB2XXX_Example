@@ -1,5 +1,5 @@
 
-import com.usbxyz.USB2XXX;
+import com.usbxyz.USB_Device;
 
 public class USB2XXXUSBDeviceTest {
     /** 
@@ -10,7 +10,7 @@ public class USB2XXXUSBDeviceTest {
         int devIndex = 0;
         boolean state;
         //扫描设备
-        ret = USB2XXX.INSTANCE.USB_ScanDevice(null);
+        ret = USB_Device.INSTANCE.USB_ScanDevice(null);
         if(ret > 0){
         	System.out.println("DeviceNum = "+ret);
         }else{
@@ -18,15 +18,15 @@ public class USB2XXXUSBDeviceTest {
         	return;
         }
         //打开设备
-        state = USB2XXX.INSTANCE.USB_OpenDevice(devIndex);
+        state = USB_Device.INSTANCE.USB_OpenDevice(devIndex);
         if(!state){
         	System.out.println("open device error");
         	return;
         }
         //获取设备信息
-        USB2XXX.DEVICE_INFO DevInfo = new USB2XXX.DEVICE_INFO();
+        USB_Device.DEVICE_INFO DevInfo = new USB_Device.DEVICE_INFO();
         byte[] funcStr = new byte[128];
-        state = USB2XXX.INSTANCE.USB_GetDeviceInfo(devIndex,DevInfo,funcStr);
+        state = USB_Device.INSTANCE.USB_GetDeviceInfo(devIndex,DevInfo,funcStr);
         if(!state){
         	System.out.println("get device infomation error");
         	return;
@@ -43,7 +43,7 @@ public class USB2XXXUSBDeviceTest {
             }
         }
         //关闭设备
-        USB2XXX.INSTANCE.USB_CloseDevice(devIndex);
+        USB_Device.INSTANCE.USB_CloseDevice(devIndex);
     }  
     
     

@@ -1,4 +1,5 @@
-import com.usbxyz.USB2XXX;
+import com.usbxyz.USB_Device;
+import com.usbxyz.USB2IIC;
 
 public class USB2XXXIICTest {
 	  /** 
@@ -12,7 +13,7 @@ public class USB2XXXIICTest {
         byte[] WriteDataBuffer = new byte[1024];
         byte[] ReadDataBuffer = new byte[1024];
         //扫描设备
-        ret = USB2XXX.INSTANCE.USB_ScanDevice(null);
+        ret = USB_Device.INSTANCE.USB_ScanDevice(null);
         if(ret > 0){
         	System.out.println("Device Num = "+ret);
         }else{
@@ -20,15 +21,15 @@ public class USB2XXXIICTest {
         	return;
         }
         //打开设备
-        state = USB2XXX.INSTANCE.USB_OpenDevice(DevIndex);
+        state = USB_Device.INSTANCE.USB_OpenDevice(DevIndex);
         if(!state){
         	System.out.println("open device error");
         	return;
         }
         //获取设备信息
-        USB2XXX.DEVICE_INFO DevInfo = new USB2XXX.DEVICE_INFO();
+        USB_Device.DEVICE_INFO DevInfo = new USB_Device.DEVICE_INFO();
         byte[] funcStr = new byte[128];
-        state = USB2XXX.INSTANCE.USB_GetDeviceInfo(DevIndex,DevInfo,funcStr);
+        state = USB_Device.INSTANCE.USB_GetDeviceInfo(DevIndex,DevInfo,funcStr);
         if(!state){
         	System.out.println("get device infomation error");
         	return;
@@ -45,13 +46,13 @@ public class USB2XXXIICTest {
             }
         }
         //配置I2C总线相关参数
-        USB2XXX.IIC_CONFIG IICConfig = new USB2XXX.IIC_CONFIG();
+        USB2IIC.IIC_CONFIG IICConfig = new USB2IIC.IIC_CONFIG();
         IICConfig.AddrBits = 7;
         IICConfig.ClockSpeedHz = 100000;
         IICConfig.EnablePu = 1;
         IICConfig.Master = 1;
-        ret = USB2XXX.INSTANCE.IIC_Init(DevIndex,IICIndex,IICConfig);
-        if(ret != USB2XXX.IIC_SUCCESS){
+        ret = USB2IIC.INSTANCE.IIC_Init(DevIndex,IICIndex,IICConfig);
+        if(ret != USB2IIC.IIC_SUCCESS){
             System.out.println("Initialize device error!\n");
             return;
         }else{
@@ -63,8 +64,8 @@ public class USB2XXXIICTest {
             for(int j=0;j<8;j++){
                 WriteDataBuffer[1+j] = (byte)(i+j);
             }
-            ret = USB2XXX.INSTANCE.IIC_WriteBytes(DevIndex,IICIndex,(short)0x50,WriteDataBuffer,9,10);
-            if(ret != USB2XXX.IIC_SUCCESS){
+            ret = USB2IIC.INSTANCE.IIC_WriteBytes(DevIndex,IICIndex,(short)0x50,WriteDataBuffer,9,10);
+            if(ret != USB2IIC.IIC_SUCCESS){
                 System.out.println("Write data error!\n");
                 return;
             }
@@ -76,8 +77,8 @@ public class USB2XXXIICTest {
         }
         //读数据
         WriteDataBuffer[0] = 0x00;//起始地址
-        ret = USB2XXX.INSTANCE.IIC_WriteReadBytes(DevIndex,IICIndex,(short)0x50,WriteDataBuffer,1,ReadDataBuffer,256,10);
-        if(ret != USB2XXX.IIC_SUCCESS){
+        ret = USB2IIC.INSTANCE.IIC_WriteReadBytes(DevIndex,IICIndex,(short)0x50,WriteDataBuffer,1,ReadDataBuffer,256,10);
+        if(ret != USB2IIC.IIC_SUCCESS){
             System.out.println("Read data error!");
             return;
         }else{
@@ -92,6 +93,6 @@ public class USB2XXXIICTest {
         System.out.println("");
         System.out.println("24C02 test success!");
         //关闭设备
-        USB2XXX.INSTANCE.USB_CloseDevice(DevIndex);
+        USB_Device.INSTANCE.USB_CloseDevice(DevIndex);
     }  
 }
