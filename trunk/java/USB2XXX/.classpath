@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="F:/OtherWork/STM32/USB2XXX_Example/trunk/java/USB2XXX/lib/JNA/jna-4.2.1.jar"/>
-	<classpathentry kind="lib" path="F:/OtherWork/STM32/USB2XXX_Example/trunk/java/USB2XXX/lib/JNA/jna-platform-4.2.1.jar"/>
+	<classpathentry kind="lib" path="./lib/JNA/jna-4.2.1.jar"/>
+	<classpathentry kind="lib" path="./lib/JNA/jna-platform-4.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
