@@ -24,25 +24,27 @@
 int main(int argc, const char* argv[])
 {
     DEVICE_INFO DevInfo;
-    int DevIndex = 0;
+    int DevHandle = 0;
+    int DevHandles[20];
     bool state;
     int ret;
     unsigned int PinValue;
     //扫描查找设备
-    ret = USB_ScanDevice();
+    ret = USB_ScanDevice(DevHandles);
     if(ret <= 0){
         printf("No device connected!\n");
         return 0;
     }
+    DevHandle = DevHandles[0];//选择第一个设备
     //打开设备
-    state = USB_OpenDevice(DevIndex);
+    state = USB_OpenDevice(DevHandle);
     if(!state){
         printf("Open device error!\n");
         return 0;
     }
     //获取固件信息
     char FuncStr[256]={0};
-    state = USB_GetDeviceInfo(DevIndex,&DevInfo,FuncStr);
+    state = DEV_GetDeviceInfo(DevHandle,&DevInfo,FuncStr);
     if(!state){
         printf("Get device infomation error!\n");
         return 0;
@@ -56,49 +58,49 @@ int main(int argc, const char* argv[])
         printf("    Functions:%s\n",FuncStr);
     }
     //输出测试——没上下拉
-    GPIO_SetOutput(DevIndex,0xFFFF,0);
+    GPIO_SetOutput(DevHandle,0xFFFF,0);
     for(int i=0;i<10;i++){
-        GPIO_Write(DevIndex,0xFFFF,0xAAAA);
-        GPIO_Write(DevIndex,0xFFFF,0x5555);
+        GPIO_Write(DevHandle,0xFFFF,0xAAAA);
+        GPIO_Write(DevHandle,0xFFFF,0x5555);
     }
     //输出测试——上拉
-    GPIO_SetOutput(DevIndex,0xFFFF,1);
+    GPIO_SetOutput(DevHandle,0xFFFF,1);
    for(int i=0;i<10;i++){
-        GPIO_Write(DevIndex,0xFFFF,0xAAAA);
-        GPIO_Write(DevIndex,0xFFFF,0x5555);
+        GPIO_Write(DevHandle,0xFFFF,0xAAAA);
+        GPIO_Write(DevHandle,0xFFFF,0x5555);
     }
     //输出测试——下拉
-    GPIO_SetOutput(DevIndex,0xFFFF,2);
+    GPIO_SetOutput(DevHandle,0xFFFF,2);
     for(int i=0;i<10;i++){
-        GPIO_Write(DevIndex,0xFFFF,0xAAAA);
-        GPIO_Write(DevIndex,0xFFFF,0x5555);
+        GPIO_Write(DevHandle,0xFFFF,0xAAAA);
+        GPIO_Write(DevHandle,0xFFFF,0x5555);
     }
     //测试输入——浮空
-    GPIO_SetInput(DevIndex,0xFFFF,0);
-    GPIO_Read(DevIndex,0xFFFF,&PinValue);
+    GPIO_SetInput(DevHandle,0xFFFF,0);
+    GPIO_Read(DevHandle,0xFFFF,&PinValue);
     printf("READ DATA(Float):%04X\n",PinValue);
     //测试输入——上拉输入
-    GPIO_SetInput(DevIndex,0xFFFF,1);
-    GPIO_Read(DevIndex,0xFFFF,&PinValue);
+    GPIO_SetInput(DevHandle,0xFFFF,1);
+    GPIO_Read(DevHandle,0xFFFF,&PinValue);
     printf("READ DATA(Pu):%04X\n",PinValue);
     //测试输入——下拉输入
-    GPIO_SetInput(DevIndex,0xFFFF,2);
-    GPIO_Read(DevIndex,0xFFFF,&PinValue);
+    GPIO_SetInput(DevHandle,0xFFFF,2);
+    GPIO_Read(DevHandle,0xFFFF,&PinValue);
     printf("READ DATA(Pd):%04X\n",PinValue);
     //测试开漏输入——浮空
-    GPIO_SetOpenDrain(DevIndex,0xFFFF,0);
-    GPIO_Read(DevIndex,0xFFFF,&PinValue);
+    GPIO_SetOpenDrain(DevHandle,0xFFFF,0);
+    GPIO_Read(DevHandle,0xFFFF,&PinValue);
     printf("READ DATA(OD-Float):%04X\n",PinValue);
     //测试开漏输入——上拉输入
-    GPIO_SetOpenDrain(DevIndex,0xFFFF,1);
-    GPIO_Read(DevIndex,0xFFFF,&PinValue);
+    GPIO_SetOpenDrain(DevHandle,0xFFFF,1);
+    GPIO_Read(DevHandle,0xFFFF,&PinValue);
     printf("READ DATA(OD-Pu):%04X\n",PinValue);
     //测试开漏输入——下拉输入
-    GPIO_SetOpenDrain(DevIndex,0xFFFF,2);
-    GPIO_Read(DevIndex,0xFFFF,&PinValue);
+    GPIO_SetOpenDrain(DevHandle,0xFFFF,2);
+    GPIO_Read(DevHandle,0xFFFF,&PinValue);
     printf("READ DATA(OD-Pd):%04X\n",PinValue);
     //关闭设备
-    USB_CloseDevice(DevIndex);
+    USB_CloseDevice(DevHandle);
     return 0;
 }
 

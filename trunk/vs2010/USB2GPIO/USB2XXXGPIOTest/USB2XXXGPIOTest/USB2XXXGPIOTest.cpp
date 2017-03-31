@@ -54,9 +54,18 @@ int main(int argc, const char* argv[])
         printf("    Version:v%d.%d.%d\n",(DevInfo.HardwareVersion>>24)&0xFF,(DevInfo.HardwareVersion>>16)&0xFF,DevInfo.HardwareVersion&0xFFFF);
         printf("    Functions:%08X\n",DevInfo.Functions);
         printf("    Functions:%s\n",FuncStr);
+        printf("%08X",DevInfo.FirmwareVersion);
     }
     //输出测试——没上下拉
     GPIO_SetOutput(DevIndex,0xFFFF,0);
+    GPIO_Write(DevIndex,0xFFFF,0xFFFF);
+    getchar();
+    GPIO_Write(DevIndex,0xFFFF,0);
+    getchar();
+    GPIO_Write(DevIndex,0xFFFF,0xFFFF);
+    getchar();
+    GPIO_Write(DevIndex,0xFFFF,0);
+    getchar();
     for(int i=0;i<10;i++){
         GPIO_Write(DevIndex,0xFFFF,0xAAAA);
         GPIO_Write(DevIndex,0xFFFF,0x5555);
