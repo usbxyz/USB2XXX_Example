@@ -26,15 +26,20 @@
 #endif
 #endif
 
-#define DECODE_WINDOW_SIZE  4
+#include "usb2ir.h"
 
-typedef struct _IRTimeSeries{
-  int   DataTime;//输出DataType的时间，单位为0.25us
-  char  DataType;//1-输出高电平或者调制波，0-输出低电平或者不输出调制波
-}IRTimeSeries,*PIRTimeSeries;
+typedef struct _IR_RESULTS{
+    ir_type_t              decode_type;  // UNKNOWN, NEC, SONY, RC5, ...
+    unsigned int           address;      // Used by Panasonic & Sharp [16-bits]
+    unsigned int           value;        // Decoded value [max 32-bits]
+    int                    bits;         // Number of bits in decoded value
+    volatile unsigned int  *rawbuf;      // Raw intervals in 1uS ticks
+    int                    rawlen;       // Number of records in rawbuf
+    int                    overflow;     // true iff IR raw code too long
+}IR_RESULTS,*PIR_RESULTS;
 
 //解析到I2C数据后的回调函数
-typedef  int (WINAPI IR_GET_DATA_HANDLE)(int DeviceIndex,int Channel,PIRTimeSeries pIRData,int IRDataNum);
+typedef  int (WINAPI IR_GET_DATA_HANDLE)(int DevHandle,int ChannelIndex,IR_RESULTS *pIRResults);
 
 //定义函数返回错误代码
 #define SUCCESS             (0)   //函数执行成功
@@ -47,8 +52,8 @@ typedef  int (WINAPI IR_GET_DATA_HANDLE)(int DeviceIndex,int Channel,PIRTimeSeri
 extern "C"
 {
 #endif
-	int WINAPI IR_SnifferStart(int DevIndex,int Channel,unsigned int SampleRateHz,IR_GET_DATA_HANDLE *pGetIRDataHandle);
-	int WINAPI IR_SnifferStop(int DevIndex);
+	int WINAPI IR_SnifferStart(int DevHandle,unsigned char Channel,IR_GET_DATA_HANDLE *pGetIRDataHandle);
+	int WINAPI IR_SnifferStop(int DevHandle);
 #ifdef __cplusplus
 }
 #endif

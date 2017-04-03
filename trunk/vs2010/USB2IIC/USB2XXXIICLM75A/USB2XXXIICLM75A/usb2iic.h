@@ -55,31 +55,31 @@ extern "C"
 {
 #endif
 
-int WINAPI IIC_Init(int DevIndex,int IICIndex, PIIC_CONFIG pConfig);
-int WINAPI IIC_GetSlaveAddr(int DevIndex,int IICIndex,short *pSlaveAddr);
-int WINAPI IIC_WriteBytes(int DevIndex,int IICIndex,short SlaveAddr,unsigned char *pWriteData,int WriteLen,int TimeOutMs);
-int WINAPI IIC_ReadBytes(int DevIndex,int IICIndex,short SlaveAddr,unsigned char *pReadData,int ReadLen,int TimeOutMs);
-int WINAPI IIC_WriteReadBytes(int DevIndex,int IICIndex,short SlaveAddr,unsigned char *pWriteData,int WriteLen,unsigned char *pReadData,int ReadLen,int TimeOutMs);
-int WINAPI IIC_SlaveWriteBytes(int DevIndex,int IICIndex,unsigned char *pWriteData,int WriteLen,int TimeOutMs);
-int WINAPI IIC_SlaveReadBytes(int DevIndex,int IICIndex,unsigned char *pReadData,int TimeOutMs);
-int WINAPI IIC_SlaveWriteRemain(int DevIndex,int IICIndex);
+int WINAPI IIC_Init(int DevHandle,int IICIndex, PIIC_CONFIG pConfig);
+int WINAPI IIC_GetSlaveAddr(int DevHandle,int IICIndex,short *pSlaveAddr);
+int WINAPI IIC_WriteBytes(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pWriteData,int WriteLen,int TimeOutMs);
+int WINAPI IIC_ReadBytes(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pReadData,int ReadLen,int TimeOutMs);
+int WINAPI IIC_WriteReadBytes(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pWriteData,int WriteLen,unsigned char *pReadData,int ReadLen,int TimeOutMs);
+int WINAPI IIC_SlaveWriteBytes(int DevHandle,int IICIndex,unsigned char *pWriteData,int WriteLen,int TimeOutMs);
+int WINAPI IIC_SlaveReadBytes(int DevHandle,int IICIndex,unsigned char *pReadData,int TimeOutMs);
+int WINAPI IIC_SlaveWriteRemain(int DevHandle,int IICIndex);
 
-int WINAPI IIC_WriteBytesOfEvent(int DevIndex,int IICIndex,short SlaveAddr,unsigned char *pWriteData,int WriteLen,int EventPin,unsigned char EventType,int TimeOutOfEventMs);
-int WINAPI IIC_ReadBytesOfEvent(int DevIndex,int IICIndex,short SlaveAddr,unsigned char *pReadData,int ReadLen,int EventPin,unsigned char EventType,int TimeOutOfEventMs);
-int WINAPI IIC_WriteReadBytesOfEvent(int DevIndex,int IICIndex,short SlaveAddr,unsigned char *pWriteData,int WriteLen,unsigned char *pReadData,int ReadLen,int EventPin,unsigned char EventType,int TimeOutOfEventMs);
+int WINAPI IIC_WriteBytesOfEvent(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pWriteData,int WriteLen,int EventPin,unsigned char EventType,int TimeOutOfEventMs);
+int WINAPI IIC_ReadBytesOfEvent(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pReadData,int ReadLen,int EventPin,unsigned char EventType,int TimeOutOfEventMs);
+int WINAPI IIC_WriteReadBytesOfEvent(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pWriteData,int WriteLen,unsigned char *pReadData,int ReadLen,int EventPin,unsigned char EventType,int TimeOutOfEventMs);
 
-int WINAPI SMBUS_Init(int DevIndex,int IICIndex,int ClockSpeedHz,unsigned char EnablePu);
-int WINAPI SMBUS_QuickCommand(int DevIndex,int IICIndex,short SlaveAddr,unsigned char WriteReadFlag);
-int WINAPI SMBUS_WriteByte(int DevIndex,int IICIndex,short SlaveAddr,unsigned char Data,unsigned char WithPEC);
-int WINAPI SMBUS_ReadByte(int DevIndex,int IICIndex,short SlaveAddr,unsigned char *pData,unsigned char WithPEC);
-int WINAPI SMBUS_WriteByteProtocol(int DevIndex,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned char Data,unsigned char WithPEC);
-int WINAPI SMBUS_WriteWordProtocol(int DevIndex,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned short Data,unsigned char WithPEC);
-int WINAPI SMBUS_ReadByteProtocol(int DevIndex,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned char *pData,unsigned char WithPEC);
-int WINAPI SMBUS_ReadWordProtocol(int DevIndex,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned short *pData,unsigned char WithPEC);
-int WINAPI SMBUS_ProcessCall(int DevIndex,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned short WriteData, unsigned short *pReadData,unsigned char WithPEC);
-int WINAPI SMBUS_BlockWrite(int DevIndex,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned char *pWriteData,int WriteCount,unsigned char WithPEC);
-int WINAPI SMBUS_BlockRead(int DevIndex,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned char *pReadData,int *pReadCount,unsigned char WithPEC);
-int WINAPI SMBUS_BlockProcessCall(int DevIndex,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned char *pWriteData,int WriteCount, unsigned char *pReadData,int *pReadCount,unsigned char WithPEC);
+int WINAPI SMBUS_Init(int DevHandle,int IICIndex,int ClockSpeedHz,unsigned char EnablePu);
+int WINAPI SMBUS_QuickCommand(int DevHandle,int IICIndex,short SlaveAddr,unsigned char WriteReadFlag);
+int WINAPI SMBUS_WriteByte(int DevHandle,int IICIndex,short SlaveAddr,unsigned char Data,unsigned char WithPEC);
+int WINAPI SMBUS_ReadByte(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pData,unsigned char WithPEC);
+int WINAPI SMBUS_WriteByteProtocol(int DevHandle,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned char Data,unsigned char WithPEC);
+int WINAPI SMBUS_WriteWordProtocol(int DevHandle,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned short Data,unsigned char WithPEC);
+int WINAPI SMBUS_ReadByteProtocol(int DevHandle,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned char *pData,unsigned char WithPEC);
+int WINAPI SMBUS_ReadWordProtocol(int DevHandle,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned short *pData,unsigned char WithPEC);
+int WINAPI SMBUS_ProcessCall(int DevHandle,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned short WriteData, unsigned short *pReadData,unsigned char WithPEC);
+int WINAPI SMBUS_BlockWrite(int DevHandle,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned char *pWriteData,int WriteCount,unsigned char WithPEC);
+int WINAPI SMBUS_BlockRead(int DevHandle,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned char *pReadData,int *pReadCount,unsigned char WithPEC);
+int WINAPI SMBUS_BlockProcessCall(int DevHandle,int IICIndex,short SlaveAddr,unsigned char CommandCode, unsigned char *pWriteData,int WriteCount, unsigned char *pReadData,int *pReadCount,unsigned char WithPEC);
 
 #ifdef __cplusplus
 }

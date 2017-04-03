@@ -65,11 +65,11 @@ extern "C"
 {
 #endif
 
-int WINAPI CNT_Init(int DevIndex, unsigned char ChannelMask, PCNT_CONFIG pConfig);
-int WINAPI CNT_Start(int DevIndex, unsigned char ChannelMask);
-int WINAPI CNT_Stop(int DevIndex, unsigned char ChannelMask);
-int WINAPI CNT_SetValue(int DevIndex, unsigned char ChannelMask,unsigned int *pCntValues);
-int WINAPI CNT_GetValue(int DevIndex, unsigned char ChannelMask,unsigned int *pCntValues);
+int WINAPI CNT_Init(int DevHandle, unsigned char ChannelMask, PCNT_CONFIG pConfig);
+int WINAPI CNT_Start(int DevHandle, unsigned char ChannelMask);
+int WINAPI CNT_Stop(int DevHandle, unsigned char ChannelMask);
+int WINAPI CNT_SetValue(int DevHandle, unsigned char ChannelMask,unsigned int *pCntValues);
+int WINAPI CNT_GetValue(int DevHandle, unsigned char ChannelMask,unsigned int *pCntValues);
 
 #ifdef __cplusplus
 }

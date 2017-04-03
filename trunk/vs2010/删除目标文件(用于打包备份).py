@@ -40,11 +40,11 @@ def removeDirs(rootDir):
 			print ("dir "+file+" removed!") 
 	os.rmdir(rootDir)
 
-dllsrcPath = 'F:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\vs2010\\Release\\USB2XXX.dll'
-libsrcPath = 'F:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\vs2010\\Release\\USB2XXX.lib'
-libusbDllFile = 'F:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\libusb-1.0.20\\Win32\\Release\\dll\\libusb-1.0.dll'
-headerFilePath = 'F:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\source\\usb2xxx'
-usbHeaderFilePath = 'F:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\source'
+dllsrcPath = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\vs2010\\Release\\USB2XXX.dll'
+libsrcPath = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\vs2010\\Release\\USB2XXX.lib'
+libusbDllFile = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\vs2010\\USB2XXX\\lib\\win32\\libusb-1.0.dll'
+headerFilePath = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\source\\usb2xxx'
+usbHeaderFilePath = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\source'
 def copyLibFiles():
     for root, dirs, files in os.walk(os.getcwd(), topdown=False):
         for name in dirs:# Copy USB2XXX.dll and USB2XXX.lib and libusb-1.0.dll
@@ -71,10 +71,7 @@ def backupProject():
 				removeDirs(os.path.join(root, name))
 def copyHeaderFiles():
     if os.path.exists(headerFilePath):
-        headerFileList = os.listdir(headerFilePath)
-        for file in headerFileList:
-            if '.cpp' in file:
-                headerFileList.remove(file)
+        headerFileList = [item for item in filter(lambda file: file.endswith('.h'),os.listdir(headerFilePath))]
         print(headerFileList)
     for root, dirs, files in os.walk(os.getcwd(), topdown=False):
         for name in files:
@@ -91,6 +88,6 @@ if __name__ == '__main__':
     backupProject()
     print('Clear Success!')
     copyLibFiles()
-    print('Copy File Success!')
+    print('Copy Lib File Success!')
     copyHeaderFiles()
     print('Copy Header File Success!')

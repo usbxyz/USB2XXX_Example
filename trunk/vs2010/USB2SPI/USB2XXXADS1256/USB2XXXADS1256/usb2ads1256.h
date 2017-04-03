@@ -67,34 +67,34 @@ extern "C"
 #endif
 /**
   * @brief  初始化配置ADS1256
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  Channel 需要配置的ADS通道号，取值0或者1
   * @param  pConfig ADS1256配置参数指针
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI ADS1256_Init(int DevIndex,char Channel,ADS1256_CONFIG *pConfig);
+int WINAPI ADS1256_Init(int DevHandle,char Channel,ADS1256_CONFIG *pConfig);
 /**
   * @brief  启动ADS转换，调用该函数后，适配器会自动读取ADS转换数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  Channel 需要启动的ADS通道号，取值0或者1
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI ADS1256_Start(int DevIndex,char Channel);
+int WINAPI ADS1256_Start(int DevHandle,char Channel);
 /**
   * @brief  启动ADC连续转换模式
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  Channel 需要读取数据的ADS通道号，取值0或者1
   * @param  pData 数据存储缓冲区首地址
   * @retval 函数执行状态，小于0函数执行出错，大于0为实际采集到的ADC数据
   */
-int WINAPI ADS1256_Read(int DevIndex,char Channel,int *pData);
+int WINAPI ADS1256_Read(int DevHandle,char Channel,int *pData);
 /**
   * @brief  停止ADS转换，调用该函数后，适配器会自动停止ADS转换数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  Channel 需要启动的ADS通道号，取值0或者1
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI ADS1256_Stop(int DevIndex,char Channel);
+int WINAPI ADS1256_Stop(int DevHandle,char Channel);
 
 
 #ifdef __cplusplus

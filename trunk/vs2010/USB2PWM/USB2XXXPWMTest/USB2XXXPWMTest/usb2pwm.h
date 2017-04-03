@@ -47,10 +47,10 @@ extern "C"
 {
 #endif
 
-int WINAPI PWM_Init(int DevIndex, PPWM_CONFIG pConfig);
-int WINAPI PWM_Start(int DevIndex,unsigned char ChannelMask,unsigned int RunTimeUs);
-int WINAPI PWM_SetPulse(int DevIndex,unsigned char ChannelMask,unsigned short *pPulse);
-int WINAPI PWM_Stop(int DevIndex,unsigned char ChannelMask);
+int WINAPI PWM_Init(int DevHandle, PPWM_CONFIG pConfig);
+int WINAPI PWM_Start(int DevHandle,unsigned char ChannelMask,unsigned int RunTimeUs);
+int WINAPI PWM_SetPulse(int DevHandle,unsigned char ChannelMask,unsigned short *pPulse);
+int WINAPI PWM_Stop(int DevHandle,unsigned char ChannelMask);
 
 #ifdef __cplusplus
 }

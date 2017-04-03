@@ -63,10 +63,10 @@ extern "C"
 {
 #endif
 
-int WINAPI UART_Init(int DevIndex, unsigned char Channel, PUART_CONFIG pConfig);
-int WINAPI UART_WriteBytes(int DevIndex,unsigned char Channel,unsigned char *pWriteData,int DataSize);
-int WINAPI UART_WriteBytesAsync(int DevIndex,unsigned char Channel,unsigned char *pWriteData,int DataSize);
-int WINAPI UART_ReadBytes(int DevIndex,unsigned char Channel,unsigned char *pReadData,int TimeOutMs);
+int WINAPI UART_Init(int DevHandle, unsigned char Channel, PUART_CONFIG pConfig);
+int WINAPI UART_WriteBytes(int DevHandle,unsigned char Channel,unsigned char *pWriteData,int DataSize);
+int WINAPI UART_WriteBytesAsync(int DevHandle,unsigned char Channel,unsigned char *pWriteData,int DataSize);
+int WINAPI UART_ReadBytes(int DevHandle,unsigned char Channel,unsigned char *pReadData,int TimeOutMs);
 
 #ifdef __cplusplus
 }

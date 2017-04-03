@@ -21,18 +21,12 @@
 #include "ir_sniffer.h"
 
 
-int __stdcall IRGetDataHandle(int DeviceIndex,int Channel,PIRTimeSeries pIRData,int IRDataNum)
+int __stdcall IRGetDataHandle(int DeviceIndex,int ChannelIndex,IR_RESULTS *pIRResults)
 {
-    int DataNum = 0;
-    for(int i=0;i<IRDataNum;i++){
-        /*if(pIRData[i].DataTime < 10000000){
-            DataNum++;
-        }else{
-            printf("DataNum = %d\n",DataNum);
-            DataNum = 0;
-        }*/
-        printf("IRData[%d].DataType = %d,IRData[%d].DataTime = %d\n",i,pIRData[i].DataType,i,pIRData[i].DataTime);
-    }
+    printf("pIRResults->decode_type = %d\n",pIRResults->decode_type);
+    printf("pIRResults->value = 0x%08X\n",pIRResults->value);
+    printf("pIRResults->rawlen = %d\n",pIRResults->rawlen);
+    printf("\n");
     return 0;
 }
 
@@ -68,7 +62,7 @@ int main(int argc, const char* argv[])
 	    printf("Firmware Functions:%08X\n",DevInfo.Functions);
     }
     //
-    ret = IR_SnifferStart(DevIndex,0x00,10000000,IRGetDataHandle);
+    ret = IR_SnifferStart(DevIndex,0x01,IRGetDataHandle);
     printf("ret = %d\n",ret);
     getchar();
     IR_SnifferStop(DevIndex);

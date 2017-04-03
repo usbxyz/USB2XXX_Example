@@ -39,19 +39,19 @@
 #define SNIFFER_SAMPLE_MODE_8CH     (8)
 
 //定义从机模式下连续读取数据的回调函数
-typedef  int (WINAPI SNIFFER_GET_DATA_HANDLE)(int DevIndex,unsigned char *pData,int DataNum);//接收数据回掉函数
+typedef  int (WINAPI SNIFFER_GET_DATA_HANDLE)(int DevHandle,unsigned char *pData,int DataNum);//接收数据回掉函数
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-	int WINAPI SNIFFER_Init(int DevIndex,char WriteMode,unsigned int SampleRateHz,char SampleMode);
-	int WINAPI SNIFFER_StartRead(int DevIndex,SNIFFER_GET_DATA_HANDLE *pGetDataHandle);
-	int WINAPI SNIFFER_StopRead(int DevIndex);
-    int WINAPI SNIFFER_GetData(int DevIndex,unsigned char *pDataBuffer,int BufferSize);
-    int WINAPI SNIFFER_WriteData(int DevIndex,unsigned char *pWriteData,int WriteLen);
-    int WINAPI SNIFFER_ContinueWriteData(int DevIndex,unsigned char *pWriteData,int WriteLen);
-    int WINAPI SNIFFER_StopContinueWrite(int DevIndex);
+	int WINAPI SNIFFER_Init(int DevHandle,char WriteMode,unsigned int SampleRateHz,char SampleMode);
+	int WINAPI SNIFFER_StartRead(int DevHandle,SNIFFER_GET_DATA_HANDLE *pGetDataHandle);
+	int WINAPI SNIFFER_StopRead(int DevHandle);
+    int WINAPI SNIFFER_GetData(int DevHandle,unsigned char *pDataBuffer,int BufferSize);
+    int WINAPI SNIFFER_WriteData(int DevHandle,unsigned char *pWriteData,int WriteLen);
+    int WINAPI SNIFFER_ContinueWriteData(int DevHandle,unsigned char *pWriteData,int WriteLen);
+    int WINAPI SNIFFER_StopContinueWrite(int DevHandle);
 #ifdef __cplusplus
 }
 #endif

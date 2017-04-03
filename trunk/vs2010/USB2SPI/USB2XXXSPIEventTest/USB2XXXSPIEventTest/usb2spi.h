@@ -79,7 +79,7 @@
 #define EVENT_TYPE_FALLING  0x10
 
 //定义从机模式下连续读取数据的回调函数
-typedef  int (WINAPI *PSPI_GET_DATA_HANDLE)(int DevIndex,int SPIIndex,unsigned char *pData,int DataNum);//接收数据回掉函数
+typedef  int (WINAPI *PSPI_GET_DATA_HANDLE)(int DevHandle,int SPIIndex,unsigned char *pData,int DataNum);//接收数据回掉函数
 
 //定义初始化SPI的数据类型
 typedef struct _SPI_CONFIG{
@@ -129,46 +129,46 @@ extern "C"
 #endif
 /**
   * @brief  SPI初始化配置函数
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pConfig SPI初始化配置结构体指针
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_Init(int DevIndex,int SPIIndex, PSPI_CONFIG pConfig);
+int WINAPI SPI_Init(int DevHandle,int SPIIndex, PSPI_CONFIG pConfig);
 
 /**
   * @brief  SPI发送数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteData 数据发送缓冲区首地址
   * @param  WriteLen 数据发送字节数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_WriteBytes(int DevIndex,int SPIIndex,unsigned char *pWriteData,int WriteLen);
+int WINAPI SPI_WriteBytes(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteLen);
 
 /**
   * @brief  SPI异步方式发送数据，函数调用之后不会等待数据发送完毕，该方式可以加大数据发送速率
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteData 数据发送缓冲区首地址
   * @param  WriteLen 数据发送字节数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_WriteBytesAsync(int DevIndex,int SPIIndex,unsigned char *pWriteData,int WriteLen);
+int WINAPI SPI_WriteBytesAsync(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteLen);
 
 /**
   * @brief  SPI接收数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pReadData 数据接收缓冲区首地址
   * @param  ReadLen 接收数据字节数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_ReadBytes(int DevIndex,int SPIIndex,unsigned char *pReadData,int ReadLen);
+int WINAPI SPI_ReadBytes(int DevHandle,int SPIIndex,unsigned char *pReadData,int ReadLen);
 
 /**
   * @brief  SPI发送接收数据，全双工模式下发送和接收同时进行，半双工模式下发送和接收分开进行，整个操作过程片选一直有效
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteData 发送数据缓冲区首地址
   * @param  WriteLen 发送数据字节数
@@ -177,11 +177,11 @@ int WINAPI SPI_ReadBytes(int DevIndex,int SPIIndex,unsigned char *pReadData,int 
   * @param  IntervalTime 半双工模式下，发送数据和接收数据之间的时间间隔，单位为微妙
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_WriteReadBytes(int DevIndex,int SPIIndex,unsigned char *pWriteData,int WriteLen,unsigned char *pReadData,int ReadLen,int IntervalTimeUs);
+int WINAPI SPI_WriteReadBytes(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteLen,unsigned char *pReadData,int ReadLen,int IntervalTimeUs);
 
 /**
   * @brief  等到有效事件后SPI发送数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteData 数据发送缓冲区首地址
   * @param  WriteLen 数据发送字节数
@@ -190,12 +190,12 @@ int WINAPI SPI_WriteReadBytes(int DevIndex,int SPIIndex,unsigned char *pWriteDat
   * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_WriteBytesOfEvent(int DevIndex,int SPIIndex,unsigned char *pWriteData,int WriteLen,int EventPin,unsigned char EventType,int TimeOutOfMs);
+int WINAPI SPI_WriteBytesOfEvent(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteLen,int EventPin,unsigned char EventType,int TimeOutOfMs);
 
 
 /**
   * @brief  等到有效事件后SPI接收数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pReadData 数据接收缓冲区首地址
   * @param  ReadLen 接收数据字节数
@@ -204,11 +204,11 @@ int WINAPI SPI_WriteBytesOfEvent(int DevIndex,int SPIIndex,unsigned char *pWrite
   * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_ReadBytesOfEvent(int DevIndex,int SPIIndex,unsigned char *pReadData,int ReadLen,int EventPin,unsigned char EventType,int TimeOutOfMs);
+int WINAPI SPI_ReadBytesOfEvent(int DevHandle,int SPIIndex,unsigned char *pReadData,int ReadLen,int EventPin,unsigned char EventType,int TimeOutOfMs);
 
 /**
   * @brief  等到有效事件后SPI发送接收数据，全双工模式下发送和接收同时进行，半双工模式下发送和接收分开进行，整个操作过程片选一直有效
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteData 发送数据缓冲区首地址
   * @param  WriteLen 发送数据字节数
@@ -220,159 +220,159 @@ int WINAPI SPI_ReadBytesOfEvent(int DevIndex,int SPIIndex,unsigned char *pReadDa
   * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_WriteReadBytesOfEvent(int DevIndex,int SPIIndex,unsigned char *pWriteData,int WriteLen,unsigned char *pReadData,int ReadLen,int IntervalTimeUs,int EventPin,unsigned char EventType,int TimeOutOfMs);
+int WINAPI SPI_WriteReadBytesOfEvent(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteLen,unsigned char *pReadData,int ReadLen,int IntervalTimeUs,int EventPin,unsigned char EventType,int TimeOutOfMs);
 
 
 /**
   * @brief  二进制模式写数据，该函数可以发送任意bit数数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteBitStr 二进制数据字符串，如："100110011"
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_WriteBits(int DevIndex,int SPIIndex,char *pWriteBitStr);
+int WINAPI SPI_WriteBits(int DevHandle,int SPIIndex,char *pWriteBitStr);
 
 /**
   * @brief  二进制模式读数据，该函数可以读取任意bit数数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pReadBitStr 读取到的二进制数据字符串，如："100110011"
   * @param  ReadBitsNum 读取数据的二进制bit数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_ReadBits(int DevIndex,int SPIIndex,char *pReadBitStr,int ReadBitsNum);
+int WINAPI SPI_ReadBits(int DevHandle,int SPIIndex,char *pReadBitStr,int ReadBitsNum);
 
 /**
   * @brief  二进制模式写读数据，该函数可以写读取任意bit数数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteBitStr 写二进制数据字符串，如："100110011"
   * @param  pReadBitStr 读取到的二进制数据字符串，如："100110011"
   * @param  ReadBitsNum 读取数据的二进制bit数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_WriteReadBits(int DevIndex,int SPIIndex,char *pWriteBitStr,char *pReadBitStr,int ReadBitsNum);
+int WINAPI SPI_WriteReadBits(int DevHandle,int SPIIndex,char *pWriteBitStr,char *pReadBitStr,int ReadBitsNum);
 
 /**
   * @brief  SPI从机模式下将数据写入数据发送缓冲区，等待主机的时钟信号再将数据发送出去
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteData 发送数据缓冲区首地址
   * @param  WriteLen 发送数据字节数
   * @param  TimeOutMs 等待数据发送完毕超时时间，若小于或者等于0则不会等待数据发送完毕，函数立即返回
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_SlaveWriteBytes(int DevIndex,int SPIIndex,unsigned char *pWriteData,int WriteLen,int TimeOutMs);
+int WINAPI SPI_SlaveWriteBytes(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteLen,int TimeOutMs);
 
 /**
   * @brief  SPI从机模式下获取接收数据缓冲区的数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pReadData 数据接收缓冲区首地址
   * @param  pReadLen 接收到的数据字节数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_SlaveReadBytes(int DevIndex,int SPIIndex,unsigned char *pReadData,int TimeOutMs);
+int WINAPI SPI_SlaveReadBytes(int DevHandle,int SPIIndex,unsigned char *pReadData,int TimeOutMs);
 
 /**
   * @brief  SPI从机模式下连续读取数据,SPI在从机模式下接收到数据之后，通过回调函数传出数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pSlaveReadDataHandle 从机模式下接收到数据后的回调函数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_SlaveContinueRead(int DevIndex,int SPIIndex,PSPI_GET_DATA_HANDLE pSlaveReadDataHandle);
+int WINAPI SPI_SlaveContinueRead(int DevHandle,int SPIIndex,PSPI_GET_DATA_HANDLE pSlaveReadDataHandle);
 
 /**
   * @brief  SPI从机模式下获取接收数据缓冲区的数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pReadData 数据接收缓冲区首地址
   * @param  BufferSize 数据缓冲区大小
   * @retval 获取到的数据字节数
   */
-int WINAPI SPI_SlaveGetBytes(int DevIndex,int SPIIndex,unsigned char *pReadData,int BufferSize);
+int WINAPI SPI_SlaveGetBytes(int DevHandle,int SPIIndex,unsigned char *pReadData,int BufferSize);
 /**
   * @brief  停止SPI从机模式下连续读取数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_SlaveContinueReadStop(int DevIndex,int SPIIndex);
+int WINAPI SPI_SlaveContinueReadStop(int DevHandle,int SPIIndex);
 /**
   * @brief  读写SPI-Flash初始化配置
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  ClockSpeed SPI时钟信号频率，单位为Hz,最大为50MHz，依次成倍递减
   * @param  pConfig SPI-Flash相关参数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_FlashInit(int DevIndex,int SPIIndex,int ClockSpeed, PSPI_FLASH_CONFIG pConfig);
+int WINAPI SPI_FlashInit(int DevHandle,int SPIIndex,int ClockSpeed, PSPI_FLASH_CONFIG pConfig);
 
 /**
   * @brief  读取SPI-Flash芯片的ID号
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pID 芯片ID号存储首地址，其长度由SPI_FLASH_CONFIG中的ID_Length决定
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_FlashReadID(int DevIndex,int SPIIndex,unsigned char *pID);
+int WINAPI SPI_FlashReadID(int DevHandle,int SPIIndex,unsigned char *pID);
 
 /**
   * @brief  擦除SPI-Flash的扇区数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  StartSector 起始扇区号，注意是扇区号，不是具体的扇区地址
   * @param  NumSector 需要擦除的扇区数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_FlashEraseSector(int DevIndex,int SPIIndex,int StartSector,int NumSector);
+int WINAPI SPI_FlashEraseSector(int DevHandle,int SPIIndex,int StartSector,int NumSector);
 
 /**
   * @brief  擦除SPI-Flash整个芯片的数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_FlashEraseChip(int DevIndex,int SPIIndex);
+int WINAPI SPI_FlashEraseChip(int DevHandle,int SPIIndex);
 
 
 /**
   * @brief  向SPI-Flash写数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  StartAddr 写数据起始地址
   * @param  pWriteData 写数据缓冲区首地址
   * @param  WriteLen 写数据字节数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_FlashWrite(int DevIndex,int SPIIndex,int StartAddr,unsigned char *pWriteData,int WriteLen);
+int WINAPI SPI_FlashWrite(int DevHandle,int SPIIndex,int StartAddr,unsigned char *pWriteData,int WriteLen);
 
 /**
   * @brief  从SPI-Flash读数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  StartAddr 写数据起始地址
   * @param  pReadData 读数据缓冲区首地址
   * @param  ReadLen 读数据字节数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_FlashRead(int DevIndex,int SPIIndex,int StartAddr,unsigned char *pReadData,int ReadLen);
+int WINAPI SPI_FlashRead(int DevHandle,int SPIIndex,int StartAddr,unsigned char *pReadData,int ReadLen);
 
 /**
   * @brief  从SPI-Flash读数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  StartAddr 写数据起始地址
   * @param  pReadData 读数据缓冲区首地址
   * @param  ReadLen 读数据字节数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_FlashReadFast(int DevIndex,int SPIIndex,int StartAddr,unsigned char *pReadData,int ReadLen);
+int WINAPI SPI_FlashReadFast(int DevHandle,int SPIIndex,int StartAddr,unsigned char *pReadData,int ReadLen);
 
 /**
   * @brief  Block模式写数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteData 写数据起始地址
   * @param  BlockSize 每次写数据字节数
@@ -380,11 +380,11 @@ int WINAPI SPI_FlashReadFast(int DevIndex,int SPIIndex,int StartAddr,unsigned ch
   * @param  IntervalTime 每次写数据之间的时间间隔，单位为微妙
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_BlockWriteBytes(int DevIndex,int SPIIndex,unsigned char *pWriteData,int BlockSize,int BlockNum,int IntervalTimeUs);
+int WINAPI SPI_BlockWriteBytes(int DevHandle,int SPIIndex,unsigned char *pWriteData,int BlockSize,int BlockNum,int IntervalTimeUs);
 
 /**
   * @brief  Block模式读数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pReadData 读数据缓冲区首地址
   * @param  BlockSize 每次读数据字节数
@@ -392,11 +392,11 @@ int WINAPI SPI_BlockWriteBytes(int DevIndex,int SPIIndex,unsigned char *pWriteDa
   * @param  IntervalTime 每次写数据之间的时间间隔，单位为微妙
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_BlockReadBytes(int DevIndex,int SPIIndex,unsigned char *pReadData,int BlockSize,int BlockNum,int IntervalTimeUs);
+int WINAPI SPI_BlockReadBytes(int DevHandle,int SPIIndex,unsigned char *pReadData,int BlockSize,int BlockNum,int IntervalTimeUs);
 
 /**
   * @brief  Block模式写读数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteData 写数据起始地址
   * @param  WriteBlockSize 每次读数据字节数
@@ -406,11 +406,11 @@ int WINAPI SPI_BlockReadBytes(int DevIndex,int SPIIndex,unsigned char *pReadData
   * @param  IntervalTime 每次写数据之间的时间间隔，单位为微妙
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_BlockWriteReadBytes(int DevIndex,int SPIIndex,unsigned char *pWriteData,int WriteBlockSize,unsigned char *pReadData,int ReadBlockSize,int BlockNum,int IntervalTimeUs);
+int WINAPI SPI_BlockWriteReadBytes(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteBlockSize,unsigned char *pReadData,int ReadBlockSize,int BlockNum,int IntervalTimeUs);
 
 /**
   * @brief  Block模式写数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteData 写数据起始地址
   * @param  BlockSize 每次写数据字节数
@@ -420,11 +420,11 @@ int WINAPI SPI_BlockWriteReadBytes(int DevIndex,int SPIIndex,unsigned char *pWri
   * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_BlockWriteBytesOfEvent(int DevIndex,int SPIIndex,unsigned char *pWriteData,int BlockSize,int BlockNum,int EventPin,unsigned char EventType,int TimeOutOfMs);
+int WINAPI SPI_BlockWriteBytesOfEvent(int DevHandle,int SPIIndex,unsigned char *pWriteData,int BlockSize,int BlockNum,int EventPin,unsigned char EventType,int TimeOutOfMs);
 
 /**
   * @brief  Block模式读数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pReadData 读数据缓冲区首地址
   * @param  BlockSize 每次读数据字节数
@@ -434,11 +434,11 @@ int WINAPI SPI_BlockWriteBytesOfEvent(int DevIndex,int SPIIndex,unsigned char *p
   * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_BlockReadBytesOfEvent(int DevIndex,int SPIIndex,unsigned char *pReadData,int BlockSize,int BlockNum,int EventPin,unsigned char EventType,int TimeOutOfMs);
+int WINAPI SPI_BlockReadBytesOfEvent(int DevHandle,int SPIIndex,unsigned char *pReadData,int BlockSize,int BlockNum,int EventPin,unsigned char EventType,int TimeOutOfMs);
 
 /**
   * @brief  Block模式写读数据
-  * @param  DevIndex 设备索引号
+  * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pWriteData 写数据起始地址
   * @param  WriteBlockSize 每次读数据字节数
@@ -450,7 +450,7 @@ int WINAPI SPI_BlockReadBytesOfEvent(int DevIndex,int SPIIndex,unsigned char *pR
   * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_BlockWriteReadBytesOfEvent(int DevIndex,int SPIIndex,unsigned char *pWriteData,int WriteBlockSize,unsigned char *pReadData,int ReadBlockSize,int BlockNum,int EventPin,unsigned char EventType,int TimeOutOfMs);
+int WINAPI SPI_BlockWriteReadBytesOfEvent(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteBlockSize,unsigned char *pReadData,int ReadBlockSize,int BlockNum,int EventPin,unsigned char EventType,int TimeOutOfMs);
 
 #ifdef __cplusplus
 }
