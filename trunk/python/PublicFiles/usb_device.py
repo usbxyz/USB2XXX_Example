@@ -35,18 +35,18 @@ else:
     exit()
 
 # Scan device
-def USB_ScanDevice(pDevNum):
-    return USB2XXXLib.USB_ScanDevice(pDevNum)
+def USB_ScanDevice(pDevHandle):
+    return USB2XXXLib.USB_ScanDevice(pDevHandle)
 
 # Open device
-def USB_OpenDevice(DevIndex):
-    return USB2XXXLib.USB_OpenDevice(DevIndex)
+def USB_OpenDevice(DevHandle):
+    return USB2XXXLib.USB_OpenDevice(DevHandle)
 
 # Get USB2XXX infomation
-def USB_GetDeviceInfo(DevIndex, pDevInfo, pFunctionStr):
-    return USB2XXXLib.USB_GetDeviceInfo(DevIndex, pDevInfo, pFunctionStr)
+def USB_GetDeviceInfo(DevHandle, pDevInfo, pFunctionStr):
+    return USB2XXXLib.USB_GetDeviceInfo(DevHandle, pDevInfo, pFunctionStr)
 
 # Close device
-def USB_CloseDevice(DevIndex):
-    return USB2XXXLib.USB_CloseDevice(DevIndex)
+def USB_CloseDevice(DevHandle):
+    return USB2XXXLib.USB_CloseDevice(DevHandle)
 

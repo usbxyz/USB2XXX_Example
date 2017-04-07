@@ -42,14 +42,14 @@ namespace USB2XXX
             Byte   CounterPinMode;   //计数器输入引脚模式，0-浮空输入，1-上拉输入，2-下拉输入
         }
         [DllImport("USB2XXX.dll")]
-        public const Int32 CNT_Init(Int32 DevIndex, Byte ChannelMask, ref CNT_CONFIG pConfig);
+        public const Int32 CNT_Init(Int32 DevHandle, Byte ChannelMask, ref CNT_CONFIG pConfig);
         [DllImport("USB2XXX.dll")]
-        public const Int32 CNT_Start(Int32 DevIndex, Byte ChannelMask);
+        public const Int32 CNT_Start(Int32 DevHandle, Byte ChannelMask);
         [DllImport("USB2XXX.dll")]
-        public const Int32 CNT_Stop(Int32 DevIndex, Byte ChannelMask);
+        public const Int32 CNT_Stop(Int32 DevHandle, Byte ChannelMask);
         [DllImport("USB2XXX.dll")]
-        public const Int32 CNT_SetValue(Int32 DevIndex, Byte ChannelMask,ref pCntValues);
+        public const Int32 CNT_SetValue(Int32 DevHandle, Byte ChannelMask,ref pCntValues);
         [DllImport("USB2XXX.dll")]
-        public const Int32 CNT_GetValue(Int32 DevIndex, Byte ChannelMask,ref pCntValues);
+        public const Int32 CNT_GetValue(Int32 DevHandle, Byte ChannelMask,ref pCntValues);
     }
 }

@@ -40,12 +40,12 @@ namespace USB2XXX
             Byte TEPolarity;   //TE输出控制，0x80-输出TE信号，且低电平有效，0x81-输出TE信号，且高电平有效，0x00不输出TE信号
         }
         [DllImport("USB2XXX.dll")]
-        public const Int32 UART_Init(Int32 DevIndex, Byte Channel, PUART_CONFIG pConfig);
+        public const Int32 UART_Init(Int32 DevHandle, Byte Channel, PUART_CONFIG pConfig);
         [DllImport("USB2XXX.dll")]
-        public const Int32 UART_WriteBytes(Int32 DevIndex,Byte Channel,Byte[] pWriteData,Int32 DataSize);
+        public const Int32 UART_WriteBytes(Int32 DevHandle,Byte Channel,Byte[] pWriteData,Int32 DataSize);
         [DllImport("USB2XXX.dll")]
-        public const Int32 UART_WriteBytesAsync(Int32 DevIndex,Byte Channel,Byte[] pWriteData,Int32 DataSize);
+        public const Int32 UART_WriteBytesAsync(Int32 DevHandle,Byte Channel,Byte[] pWriteData,Int32 DataSize);
         [DllImport("USB2XXX.dll")]
-        public const Int32 UART_ReadBytes(Int32 DevIndex,Byte Channel,Byte[] pReadData,Int32 TimeOutMs);
+        public const Int32 UART_ReadBytes(Int32 DevHandle,Byte Channel,Byte[] pReadData,Int32 TimeOutMs);
     }
 }
