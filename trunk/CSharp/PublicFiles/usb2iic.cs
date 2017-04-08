@@ -32,55 +32,55 @@ namespace USB2XXX
         }
         //USB2IIC相关函数定义
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 IIC_Init(Int32 DevIndex,Int32 IICIndex, ref IIC_CONFIG pConfig);
+        public static extern Int32 IIC_Init(Int32 DevHandle,Int32 IICIndex, ref IIC_CONFIG pConfig);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 IIC_GetSlaveAddr(Int32 DevIndex,Int32 IICIndex,Int16[] pSlaveAddr);
+        public static extern Int32 IIC_GetSlaveAddr(Int32 DevHandle,Int32 IICIndex,Int16[] pSlaveAddr);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 IIC_WriteBytes(Int32 DevIndex,Int32 IICIndex,Int16 SlaveAddr,Byte[] pWriteData,Int32 WriteLen,Int32 TimeOutMs);
+        public static extern Int32 IIC_WriteBytes(Int32 DevHandle,Int32 IICIndex,Int16 SlaveAddr,Byte[] pWriteData,Int32 WriteLen,Int32 TimeOutMs);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 IIC_ReadBytes(Int32 DevIndex,Int32 IICIndex,Int16 SlaveAddr,Byte[] pReadData,Int32 ReadLen,Int32 TimeOutMs);
+        public static extern Int32 IIC_ReadBytes(Int32 DevHandle,Int32 IICIndex,Int16 SlaveAddr,Byte[] pReadData,Int32 ReadLen,Int32 TimeOutMs);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 IIC_WriteReadBytes(Int32 DevIndex,Int32 IICIndex,Int16 SlaveAddr,Byte[] pWriteData,Int32 WriteLen,Byte[] pReadData,Int32 ReadLen,Int32 TimeOutMs);
+        public static extern Int32 IIC_WriteReadBytes(Int32 DevHandle,Int32 IICIndex,Int16 SlaveAddr,Byte[] pWriteData,Int32 WriteLen,Byte[] pReadData,Int32 ReadLen,Int32 TimeOutMs);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 IIC_SlaveWriteBytes(Int32 DevIndex,Int32 IICIndex,Byte[] pWriteData,Int32 WriteLen,Int32 TimeOutMs);
+        public static extern Int32 IIC_SlaveWriteBytes(Int32 DevHandle,Int32 IICIndex,Byte[] pWriteData,Int32 WriteLen,Int32 TimeOutMs);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 IIC_SlaveReadBytes(Int32 DevIndex,Int32 IICIndex,Byte[] pReadData,Int32 TimeOutMs);
+        public static extern Int32 IIC_SlaveReadBytes(Int32 DevHandle,Int32 IICIndex,Byte[] pReadData,Int32 TimeOutMs);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 IIC_SlaveWriteRemain(Int32 DevIndex,Int32 IICIndex);
+        public static extern Int32 IIC_SlaveWriteRemain(Int32 DevHandle,Int32 IICIndex);
 
         //事件操作相关函数
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 IIC_WriteBytesOfEvent(Int32 DevIndex,Int32 IICIndex,Int16 SlaveAddr,Byte[] pWriteData,Int32 WriteLen,Int32 EventPin,Byte EventType,Int32 TimeOutOfEventMs);
+        public static extern Int32 IIC_WriteBytesOfEvent(Int32 DevHandle,Int32 IICIndex,Int16 SlaveAddr,Byte[] pWriteData,Int32 WriteLen,Int32 EventPin,Byte EventType,Int32 TimeOutOfEventMs);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 IIC_ReadBytesOfEvent(Int32 DevIndex,Int32 IICIndex,Int16 SlaveAddr,Byte[] pReadData,Int32 ReadLen,Int32 EventPin,Byte EventType,Int32 TimeOutOfEventMs);
+        public static extern Int32 IIC_ReadBytesOfEvent(Int32 DevHandle,Int32 IICIndex,Int16 SlaveAddr,Byte[] pReadData,Int32 ReadLen,Int32 EventPin,Byte EventType,Int32 TimeOutOfEventMs);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 IIC_WriteReadBytesOfEvent(Int32 DevIndex, Int32 IICIndex, Int16 SlaveAddr, Byte[] pWriteData, Int32 WriteLen, Byte[] pReadData, Int32 ReadLen, Int32 EventPin, Byte EventType, Int32 TimeOutOfEventMs);
+        public static extern Int32 IIC_WriteReadBytesOfEvent(Int32 DevHandle, Int32 IICIndex, Int16 SlaveAddr, Byte[] pWriteData, Int32 WriteLen, Byte[] pReadData, Int32 ReadLen, Int32 EventPin, Byte EventType, Int32 TimeOutOfEventMs);
 
         //SMBus相关函数定义
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_Init(Int32 DevIndex,Int32 IICIndex,Int32 ClockSpeedHz,Byte EnablePu);
+        public static extern Int32 SMBUS_Init(Int32 DevHandle,Int32 IICIndex,Int32 ClockSpeedHz,Byte EnablePu);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_QuickCommand(Int32 DevIndex,Int32 IICIndex,UInt16 SlaveAddr,Byte WriteReadFlag);
+        public static extern Int32 SMBUS_QuickCommand(Int32 DevHandle,Int32 IICIndex,UInt16 SlaveAddr,Byte WriteReadFlag);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_WriteByte(Int32 DevIndex,Int32 IICIndex,UInt16 SlaveAddr,Byte Data,Byte WithPEC);
+        public static extern Int32 SMBUS_WriteByte(Int32 DevHandle,Int32 IICIndex,UInt16 SlaveAddr,Byte Data,Byte WithPEC);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_ReadByte(Int32 DevIndex,Int32 IICIndex,UInt16 SlaveAddr,Byte[] pData,Byte WithPEC);
+        public static extern Int32 SMBUS_ReadByte(Int32 DevHandle,Int32 IICIndex,UInt16 SlaveAddr,Byte[] pData,Byte WithPEC);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_WriteByteProtocol(Int32 DevIndex,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, Byte Data,Byte WithPEC);
+        public static extern Int32 SMBUS_WriteByteProtocol(Int32 DevHandle,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, Byte Data,Byte WithPEC);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_WriteWordProtocol(Int32 DevIndex,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, UInt16 Data,Byte WithPEC);
+        public static extern Int32 SMBUS_WriteWordProtocol(Int32 DevHandle,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, UInt16 Data,Byte WithPEC);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_ReadByteProtocol(Int32 DevIndex,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, Byte[] pData,Byte WithPEC);
+        public static extern Int32 SMBUS_ReadByteProtocol(Int32 DevHandle,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, Byte[] pData,Byte WithPEC);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_ReadWordProtocol(Int32 DevIndex,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, UInt16[] pData,Byte WithPEC);
+        public static extern Int32 SMBUS_ReadWordProtocol(Int32 DevHandle,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, UInt16[] pData,Byte WithPEC);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_ProcessCall(Int32 DevIndex,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, UInt16 WriteData, UInt16[] pReadData,Byte WithPEC);
+        public static extern Int32 SMBUS_ProcessCall(Int32 DevHandle,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, UInt16 WriteData, UInt16[] pReadData,Byte WithPEC);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_BlockWrite(Int32 DevIndex,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, Byte[] pWriteData,Int32 WriteCount,Byte WithPEC);
+        public static extern Int32 SMBUS_BlockWrite(Int32 DevHandle,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, Byte[] pWriteData,Int32 WriteCount,Byte WithPEC);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_BlockRead(Int32 DevIndex,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, Byte[] pReadData,Int32[] pReadCount,Byte WithPEC);
+        public static extern Int32 SMBUS_BlockRead(Int32 DevHandle,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, Byte[] pReadData,Int32[] pReadCount,Byte WithPEC);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SMBUS_BlockProcessCall(Int32 DevIndex,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, Byte[] pWriteData,Int32 WriteCount, Byte[] pReadData,Int32[] pReadCount,Byte WithPEC);
+        public static extern Int32 SMBUS_BlockProcessCall(Int32 DevHandle,Int32 IICIndex,UInt16 SlaveAddr,Byte CommandCode, Byte[] pWriteData,Int32 WriteCount, Byte[] pReadData,Int32[] pReadCount,Byte WithPEC);
 
     }
 }

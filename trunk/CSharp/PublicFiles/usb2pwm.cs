@@ -29,12 +29,12 @@ namespace USB2XXX
         }
         //函数定义
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 PWM_Init(Int32 DevIndex, ref PWM_CONFIG pConfig);
+        public static extern Int32 PWM_Init(Int32 DevHandle, ref PWM_CONFIG pConfig);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 PWM_Start(Int32 DevIndex,Byte ChannelMask,Int32 RunTimeUs);
+        public static extern Int32 PWM_Start(Int32 DevHandle,Byte ChannelMask,Int32 RunTimeUs);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 PWM_SetPulse(Int32 DevIndex,Byte ChannelMask,UInt16[] pPulse);
+        public static extern Int32 PWM_SetPulse(Int32 DevHandle,Byte ChannelMask,UInt16[] pPulse);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 PWM_Stop(Int32 DevIndex,Byte ChannelMask);
+        public static extern Int32 PWM_Stop(Int32 DevHandle,Byte ChannelMask);
     }
 }

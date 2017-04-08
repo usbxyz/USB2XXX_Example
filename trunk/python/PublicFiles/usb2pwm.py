@@ -25,13 +25,13 @@ class PWM_CONFIG(Structure):
 
 
 # Initialize pwm
-def PWM_Init(DevIndex,pConfig):
-    return USB2XXXLib.PWM_Init(DevIndex,pConfig)
+def PWM_Init(DevHandle,pConfig):
+    return USB2XXXLib.PWM_Init(DevHandle,pConfig)
 
 # 启动PWM
-def PWM_Start(DevIndex,ChannelMask,RunTimeOfUs):
-    return USB2XXXLib.PWM_Start(DevIndex,ChannelMask,RunTimeOfUs)
+def PWM_Start(DevHandle,ChannelMask,RunTimeOfUs):
+    return USB2XXXLib.PWM_Start(DevHandle,ChannelMask,RunTimeOfUs)
 
 # 停止PWM
-def PWM_Stop(DevIndex,ChannelMask):
-    return USB2XXXLib.PWM_Stop(DevIndex,ChannelMask)
+def PWM_Stop(DevHandle,ChannelMask):
+    return USB2XXXLib.PWM_Stop(DevHandle,ChannelMask)

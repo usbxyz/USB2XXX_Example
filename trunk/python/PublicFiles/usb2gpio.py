@@ -15,18 +15,18 @@ GPIO_ERR_CMD_FAIL = -4       # execute function error
 
 
 # 将GPIO设置为输入模式
-def GPIO_SetInput(DevIndex,PinMask,PuPd):
-    return USB2XXXLib.GPIO_SetInput(DevIndex,PinMask,PuPd)
+def GPIO_SetInput(DevHandle,PinMask,PuPd):
+    return USB2XXXLib.GPIO_SetInput(DevHandle,PinMask,PuPd)
 # 将GPIO设置为输出模式
-def GPIO_SetOutput(DevIndex,PinMask,PuPd):
-    return USB2XXXLib.GPIO_SetOutput(DevIndex,PinMask,PuPd)
+def GPIO_SetOutput(DevHandle,PinMask,PuPd):
+    return USB2XXXLib.GPIO_SetOutput(DevHandle,PinMask,PuPd)
 # 将GPIO设置为开漏模式（可做双向引脚）
-def GPIO_SetOpenDrain(DevIndex,PinMask,PuPd):
-    return USB2XXXLib.GPIO_SetOpenDrain(DevIndex,PinMask,PuPd)
+def GPIO_SetOpenDrain(DevHandle,PinMask,PuPd):
+    return USB2XXXLib.GPIO_SetOpenDrain(DevHandle,PinMask,PuPd)
 # 控制GPIO输出高电平或者低电平
-def GPIO_Write(DevIndex,PinMask,PinValue):
-    return USB2XXXLib.GPIO_Write(DevIndex,PinMask,PinValue)
+def GPIO_Write(DevHandle,PinMask,PinValue):
+    return USB2XXXLib.GPIO_Write(DevHandle,PinMask,PinValue)
 # 读取GPIO引脚状态
-def GPIO_Read(DevIndex,PinMask,pPinValue):
-    return USB2XXXLib.GPIO_Read(DevIndex,PinMask,pPinValue)
+def GPIO_Read(DevHandle,PinMask,pPinValue):
+    return USB2XXXLib.GPIO_Read(DevHandle,PinMask,pPinValue)
 

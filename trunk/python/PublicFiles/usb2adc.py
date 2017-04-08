@@ -21,21 +21,21 @@ else:
     ADC_GET_DATA_HANDLE = CFUNCTYPE(c_int,c_int,c_void_p,c_int)# First argument is return type
 
 # Initialize adc
-def ADC_Init(DevIndex,Channel,SampleRateHz):
-    return USB2XXXLib.ADC_Init(DevIndex,Channel,SampleRateHz)
+def ADC_Init(DevHandle,Channel,SampleRateHz):
+    return USB2XXXLib.ADC_Init(DevHandle,Channel,SampleRateHz)
 
 # Read adc data
-def ADC_Read(DevIndex,pData,DataNum):
-    return USB2XXXLib.ADC_Read(DevIndex,pData,DataNum)
+def ADC_Read(DevHandle,pData,DataNum):
+    return USB2XXXLib.ADC_Read(DevHandle,pData,DataNum)
 
 # Start continue read data
-def ADC_StartContinueRead(DevIndex,Channel,SampleRateHz, FrameSize, pGetDataHandle):
-    return USB2XXXLib.ADC_StartContinueRead(DevIndex,Channel, SampleRateHz, FrameSize, pGetDataHandle)
+def ADC_StartContinueRead(DevHandle,Channel,SampleRateHz, FrameSize, pGetDataHandle):
+    return USB2XXXLib.ADC_StartContinueRead(DevHandle,Channel, SampleRateHz, FrameSize, pGetDataHandle)
 
 # Stop continue read data
-def ADC_StopContinueRead(DevIndex):
-    return USB2XXXLib.ADC_StopContinueRead(DevIndex)
+def ADC_StopContinueRead(DevHandle):
+    return USB2XXXLib.ADC_StopContinueRead(DevHandle)
 
 # Get data from buffer
-def ADC_GetData(DevIndex,pDataBuffer, BufferSize):
-    return USB2XXXLib.ADC_GetData( DevIndex, pDataBuffer, BufferSize)
+def ADC_GetData(DevHandle,pDataBuffer, BufferSize):
+    return USB2XXXLib.ADC_GetData( DevHandle, pDataBuffer, BufferSize)
