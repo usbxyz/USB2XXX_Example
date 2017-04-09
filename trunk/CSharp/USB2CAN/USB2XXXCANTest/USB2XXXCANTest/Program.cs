@@ -114,7 +114,7 @@ namespace USB2XXXCANTest
             }
             int SendedNum = USB2CAN.CAN_SendMsg(DevIndex,CANIndex,CanMsg,(UInt32)CanMsg.Length);
             if(SendedNum >= 0){
-                Console.WriteLine("Success send frames:%d",SendedNum);
+                Console.WriteLine("Success send frames:{0}",SendedNum);
             }else{
                 Console.WriteLine("Send CAN data failed!");
             }

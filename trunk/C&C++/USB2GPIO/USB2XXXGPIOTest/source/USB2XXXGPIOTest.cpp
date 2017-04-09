@@ -54,9 +54,22 @@ int main(int argc, const char* argv[])
         printf("    Version:v%d.%d.%d\n",(DevInfo.HardwareVersion>>24)&0xFF,(DevInfo.HardwareVersion>>16)&0xFF,DevInfo.HardwareVersion&0xFFFF);
         printf("    Functions:%08X\n",DevInfo.Functions);
         printf("    Functions:%s\n",FuncStr);
+        printf("%08X",DevInfo.FirmwareVersion);
     }
     //输出测试——没上下拉
+<<<<<<< HEAD:trunk/vs2010/USB2GPIO/USB2XXXGPIOTest/USB2XXXGPIOTest/USB2XXXGPIOTest.cpp
+    GPIO_SetOutput(DevIndex,0xFFFF,0);
+    GPIO_Write(DevIndex,0xFFFF,0xFFFF);
+    getchar();
+    GPIO_Write(DevIndex,0xFFFF,0);
+    getchar();
+    GPIO_Write(DevIndex,0xFFFF,0xFFFF);
+    getchar();
+    GPIO_Write(DevIndex,0xFFFF,0);
+    getchar();
+=======
     GPIO_SetOutput(DevHandle[0],0xFFFF,0);
+>>>>>>> 2a544fa3f7c3090c0362aa61e26d73a426ac53c9:trunk/C&C++/USB2GPIO/USB2XXXGPIOTest/source/USB2XXXGPIOTest.cpp
     for(int i=0;i<10;i++){
         GPIO_Write(DevHandle[0],0xFFFF,0xAAAA);
         GPIO_Write(DevHandle[0],0xFFFF,0x5555);

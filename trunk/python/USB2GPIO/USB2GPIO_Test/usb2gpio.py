@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 """
 文件说明：USB2XXX GPIO操作相关函数集合
 更多帮助：www.usbxyz.com
@@ -13,20 +14,24 @@ GPIO_ERR_USB_WRITE_FAIL = -2 # USB write data error
 GPIO_ERR_USB_READ_FAIL = -3  # USB read data error
 GPIO_ERR_CMD_FAIL = -4       # execute function error
 
+# 上下拉电阻配置
+GPIO_PUPD_NOPULL  =     0x00    #没有上拉下拉
+GPIO_PUPD_UP      =     0x01    #使能上拉
+GPIO_PUPD_DOWN    =     0x02    #使能下拉
 
 # 将GPIO设置为输入模式
-def GPIO_SetInput(DevIndex,PinMask,PuPd):
-    return USB2XXXLib.GPIO_SetInput(DevIndex,PinMask,PuPd)
+def GPIO_SetInput(DevHandle,PinMask,PuPd):
+    return USB2XXXLib.GPIO_SetInput(DevHandle,PinMask,PuPd)
 # 将GPIO设置为输出模式
-def GPIO_SetOutput(DevIndex,PinMask,PuPd):
-    return USB2XXXLib.GPIO_SetOutput(DevIndex,PinMask,PuPd)
+def GPIO_SetOutput(DevHandle,PinMask,PuPd):
+    return USB2XXXLib.GPIO_SetOutput(DevHandle,PinMask,PuPd)
 # 将GPIO设置为开漏模式（可做双向引脚）
-def GPIO_SetOpenDrain(DevIndex,PinMask,PuPd):
-    return USB2XXXLib.GPIO_SetOpenDrain(DevIndex,PinMask,PuPd)
+def GPIO_SetOpenDrain(DevHandle,PinMask,PuPd):
+    return USB2XXXLib.GPIO_SetOpenDrain(DevHandle,PinMask,PuPd)
 # 控制GPIO输出高电平或者低电平
-def GPIO_Write(DevIndex,PinMask,PinValue):
-    return USB2XXXLib.GPIO_Write(DevIndex,PinMask,PinValue)
+def GPIO_Write(DevHandle,PinMask,PinValue):
+    return USB2XXXLib.GPIO_Write(DevHandle,PinMask,PinValue)
 # 读取GPIO引脚状态
-def GPIO_Read(DevIndex,PinMask,pPinValue):
-    return USB2XXXLib.GPIO_Read(DevIndex,PinMask,pPinValue)
+def GPIO_Read(DevHandle,PinMask,pPinValue):
+    return USB2XXXLib.GPIO_Read(DevHandle,PinMask,pPinValue)
 
