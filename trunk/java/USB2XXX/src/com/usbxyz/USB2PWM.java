@@ -34,8 +34,8 @@ public interface USB2PWM extends Library {
 		byte  	ChannelMask;    //通道号，若要使能某个通道，则对应位为1，最低位对应通道0
 	};
 	
-	int  PWM_Init(int DevIndex, PWM_CONFIG pConfig);
-	int  PWM_Start(int DevIndex,byte ChannelMask,int RunTimeUs);
-	int  PWM_SetPulse(int DevIndex,byte ChannelMask,short[] pPulse);
-	int  PWM_Stop(int DevIndex,byte ChannelMask);
+	int  PWM_Init(int DevHandle, PWM_CONFIG pConfig);
+	int  PWM_Start(int DevHandle,byte ChannelMask,int RunTimeUs);
+	int  PWM_SetPulse(int DevHandle,byte ChannelMask,short[] pPulse);
+	int  PWM_Stop(int DevHandle,byte ChannelMask);
 }

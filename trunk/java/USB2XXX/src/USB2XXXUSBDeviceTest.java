@@ -7,18 +7,20 @@ public class USB2XXXUSBDeviceTest {
      */  
     public static void main(String[] args) {   
         int ret;
-        int devIndex = 0;
+        int DevHandle = 0;
+        int[] DevHandleArry = new int[20]; 
         boolean state;
         //扫描设备
-        ret = USB_Device.INSTANCE.USB_ScanDevice(null);
+        ret = USB_Device.INSTANCE.USB_ScanDevice(DevHandleArry);
         if(ret > 0){
         	System.out.println("DeviceNum = "+ret);
+        	DevHandle = DevHandleArry[0];
         }else{
         	System.out.println("No device");
         	return;
         }
         //打开设备
-        state = USB_Device.INSTANCE.USB_OpenDevice(devIndex);
+        state = USB_Device.INSTANCE.USB_OpenDevice(DevHandle);
         if(!state){
         	System.out.println("open device error");
         	return;
@@ -26,7 +28,7 @@ public class USB2XXXUSBDeviceTest {
         //获取设备信息
         USB_Device.DEVICE_INFO DevInfo = new USB_Device.DEVICE_INFO();
         byte[] funcStr = new byte[128];
-        state = USB_Device.INSTANCE.USB_GetDeviceInfo(devIndex,DevInfo,funcStr);
+        state = USB_Device.INSTANCE.USB_GetDeviceInfo(DevHandle,DevInfo,funcStr);
         if(!state){
         	System.out.println("get device infomation error");
         	return;
@@ -43,7 +45,7 @@ public class USB2XXXUSBDeviceTest {
             }
         }
         //关闭设备
-        USB_Device.INSTANCE.USB_CloseDevice(devIndex);
+        USB_Device.INSTANCE.USB_CloseDevice(DevHandle);
     }  
     
     

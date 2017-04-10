@@ -127,16 +127,56 @@ public interface USB2CAN extends Library {
         public byte   CmdFaild;        //命令执行失败
     }
 	//USB2CAN函数定义
-	int  CAN_Init(int DevIndex, byte CANIndex, CAN_INIT_CONFIG pCanConfig);
-	int  CAN_Filter_Init(int DevIndex, byte CANIndex, CAN_FILTER_CONFIG pFilterConfig);
-	int  CAN_SendMsg(int DevIndex, byte CANIndex, CAN_MSG pCanSendMsg,int SendMsgNum);
-	int  CAN_GetMsg(int DevIndex, byte CANIndex, CAN_MSG pCanGetMsg);
-	int  CAN_GetStatus(int DevIndex, byte CANIndex, CAN_STATUS pCANStatus);
+	/**
+	 * 初始化配置USB2CAN
+	 * @param DevHandle 设备句柄
+	 * @param CANIndex CAN通道号
+	 * @param pCanConfig CAN通信配置参数结构体
+	 * @return
+	 */
+	int  CAN_Init(int DevHandle, byte CANIndex, CAN_INIT_CONFIG pCanConfig);
+	
+	/**
+	 * 初始化配置CAN过滤器
+	 * @param DevHandle 设备句柄
+	 * @param CANIndex CAN通道号
+	 * @param pFilterConfig 过滤器配置参数结构体
+	 * @return
+	 */
+	int  CAN_Filter_Init(int DevHandle, byte CANIndex, CAN_FILTER_CONFIG pFilterConfig);
+	
+	/**
+	 * 发送CAN总线数据帧
+	 * @param DevHandle 设备句柄
+	 * @param CANIndex CAN通道号
+	 * @param pCanSendMsg 待发送的CAN数据数组
+	 * @param SendMsgNum 待发送的CAN数据帧数
+	 * @return
+	 */
+	int  CAN_SendMsg(int DevHandle, byte CANIndex, CAN_MSG[] pCanSendMsg,int SendMsgNum);
+	
+	/**
+	 * 从USB2CAN适配器读取接收到的CAN数据帧
+	 * @param DevHandle 设备句柄
+	 * @param CANIndex CAN通道号
+	 * @param pCanGetMsg 存储CAN数据帧数组
+	 * @return
+	 */
+	int  CAN_GetMsg(int DevHandle, byte CANIndex, CAN_MSG[] pCanGetMsg);
+	
+	/**
+	 * 获取USB2CAN适配器内部状态
+	 * @param DevHandle 设备句柄
+	 * @param CANIndex CAN通道号
+	 * @param pCANStatus CAN状态结构体
+	 * @return
+	 */
+	int  CAN_GetStatus(int DevHandle, byte CANIndex, CAN_STATUS pCANStatus);
 
-	int  CAN_BL_Init(int DevIndex,int CANIndex,CAN_INIT_CONFIG pInitConfig,CBL_CMD_LIST pCmdList);
-	int  CAN_BL_NodeCheck(int DevIndex,int CANIndex,short NodeAddr,int[] pVersion,int[] pType,int TimeOut);
-	int  CAN_BL_Erase(int DevIndex,int CANIndex,short NodeAddr,int FlashSize,int TimeOut);
-	int  CAN_BL_Write(int DevIndex,int CANIndex,short NodeAddr,int AddrOffset,byte[] pData,int DataNum,int TimeOut);
-	int  CAN_BL_Excute(int DevIndex,int CANIndex,short NodeAddr,int Type);
-	int  CAN_BL_SetNewBaudRate(int DevIndex,int CANIndex,short NodeAddr,CAN_INIT_CONFIG pInitConfig,int NewBaudRate,int TimeOut);
+	int  CAN_BL_Init(int DevHandle,int CANIndex,CAN_INIT_CONFIG pInitConfig,CBL_CMD_LIST pCmdList);
+	int  CAN_BL_NodeCheck(int DevHandle,int CANIndex,short NodeAddr,int[] pVersion,int[] pType,int TimeOut);
+	int  CAN_BL_Erase(int DevHandle,int CANIndex,short NodeAddr,int FlashSize,int TimeOut);
+	int  CAN_BL_Write(int DevHandle,int CANIndex,short NodeAddr,int AddrOffset,byte[] pData,int DataNum,int TimeOut);
+	int  CAN_BL_Excute(int DevHandle,int CANIndex,short NodeAddr,int Type);
+	int  CAN_BL_SetNewBaudRate(int DevHandle,int CANIndex,short NodeAddr,CAN_INIT_CONFIG pInitConfig,int NewBaudRate,int TimeOut);
 }

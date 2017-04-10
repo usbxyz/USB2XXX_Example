@@ -42,30 +42,30 @@ public interface USB2IIC extends Library {
     public static int IIC_ERROR_TIMEOUT     = 4;   //超时
     public static int IIC_ERROR_NACK        = 5;   //从机无应答
     //USB2IIC相关函数定义
-    int IIC_Init(int DevIndex,int IICIndex, IIC_CONFIG pConfig);
-    int IIC_GetSlaveAddr(int DevIndex,int IICIndex,short[] pSlaveAddr);
-    int IIC_WriteBytes(int DevIndex,int IICIndex,short SlaveAddr,byte[] pWriteData,int WriteLen,int TimeOutMs);
-    int IIC_ReadBytes(int DevIndex,int IICIndex,short SlaveAddr,byte[] pReadData,int ReadLen,int TimeOutMs);
-    int IIC_WriteReadBytes(int DevIndex,int IICIndex,short SlaveAddr,byte[] pWriteData,int WriteLen,byte[] pReadData,int ReadLen,int TimeOutMs);
-    int IIC_SlaveWriteBytes(int DevIndex,int IICIndex,byte[] pWriteData,int WriteLen,int TimeOutMs);
-    int IIC_SlaveReadBytes(int DevIndex,int IICIndex,byte[] pReadData,int TimeOutMs);
-    int IIC_SlaveWriteRemain(int DevIndex,int IICIndex);
+    int IIC_Init(int DevHandle,int IICIndex, IIC_CONFIG pConfig);
+    int IIC_GetSlaveAddr(int DevHandle,int IICIndex,short[] pSlaveAddr);
+    int IIC_WriteBytes(int DevHandle,int IICIndex,short SlaveAddr,byte[] pWriteData,int WriteLen,int TimeOutMs);
+    int IIC_ReadBytes(int DevHandle,int IICIndex,short SlaveAddr,byte[] pReadData,int ReadLen,int TimeOutMs);
+    int IIC_WriteReadBytes(int DevHandle,int IICIndex,short SlaveAddr,byte[] pWriteData,int WriteLen,byte[] pReadData,int ReadLen,int TimeOutMs);
+    int IIC_SlaveWriteBytes(int DevHandle,int IICIndex,byte[] pWriteData,int WriteLen,int TimeOutMs);
+    int IIC_SlaveReadBytes(int DevHandle,int IICIndex,byte[] pReadData,int TimeOutMs);
+    int IIC_SlaveWriteRemain(int DevHandle,int IICIndex);
 
-    int IIC_WriteBytesOfEvent(int DevIndex,int IICIndex,short SlaveAddr,byte[] pWriteData,int WriteLen,int EventPin,byte EventType,int TimeOutOfEventMs);
-    int IIC_ReadBytesOfEvent(int DevIndex,int IICIndex,short SlaveAddr,byte[] pReadData,int ReadLen,int EventPin,byte EventType,int TimeOutOfEventMs);
-    int IIC_WriteReadBytesOfEvent(int DevIndex,int IICIndex,short SlaveAddr,byte[] pWriteData,int WriteLen,byte[] pReadData,int ReadLen,int EventPin,byte EventType,int TimeOutOfEventMs);
+    int IIC_WriteBytesOfEvent(int DevHandle,int IICIndex,short SlaveAddr,byte[] pWriteData,int WriteLen,int EventPin,byte EventType,int TimeOutOfEventMs);
+    int IIC_ReadBytesOfEvent(int DevHandle,int IICIndex,short SlaveAddr,byte[] pReadData,int ReadLen,int EventPin,byte EventType,int TimeOutOfEventMs);
+    int IIC_WriteReadBytesOfEvent(int DevHandle,int IICIndex,short SlaveAddr,byte[] pWriteData,int WriteLen,byte[] pReadData,int ReadLen,int EventPin,byte EventType,int TimeOutOfEventMs);
 
-    int SMBUS_Init(int DevIndex,int IICIndex,int ClockSpeedHz,byte EnablePu);
-    int SMBUS_QuickCommand(int DevIndex,int IICIndex,short SlaveAddr,byte WriteReadFlag);
-    int SMBUS_WriteByte(int DevIndex,int IICIndex,short SlaveAddr,byte Data,byte WithPEC);
-    int SMBUS_ReadByte(int DevIndex,int IICIndex,short SlaveAddr,byte[] pData,byte WithPEC);
-    int SMBUS_WriteByteProtocol(int DevIndex,int IICIndex,short SlaveAddr,byte CommandCode, byte Data,byte WithPEC);
-    int SMBUS_WriteWordProtocol(int DevIndex,int IICIndex,short SlaveAddr,byte CommandCode, short Data,byte WithPEC);
-    int SMBUS_ReadByteProtocol(int DevIndex,int IICIndex,short SlaveAddr,byte CommandCode, byte[] pData,byte WithPEC);
-    int SMBUS_ReadWordProtocol(int DevIndex,int IICIndex,short SlaveAddr,byte CommandCode, short[] pData,byte WithPEC);
-    int SMBUS_ProcessCall(int DevIndex,int IICIndex,short SlaveAddr,byte CommandCode, short WriteData, short[] pReadData,byte WithPEC);
-    int SMBUS_BlockWrite(int DevIndex,int IICIndex,short SlaveAddr,byte CommandCode, byte[] pWriteData,int WriteCount,byte WithPEC);
-    int SMBUS_BlockRead(int DevIndex,int IICIndex,short SlaveAddr,byte CommandCode, byte[] pReadData,int[] pReadCount,byte WithPEC);
-    int SMBUS_BlockProcessCall(int DevIndex,int IICIndex,short SlaveAddr,byte CommandCode, byte[] pWriteData,int WriteCount,byte[] pReadData,int[] pReadCount,byte WithPEC);
+    int SMBUS_Init(int DevHandle,int IICIndex,int ClockSpeedHz,byte EnablePu);
+    int SMBUS_QuickCommand(int DevHandle,int IICIndex,short SlaveAddr,byte WriteReadFlag);
+    int SMBUS_WriteByte(int DevHandle,int IICIndex,short SlaveAddr,byte Data,byte WithPEC);
+    int SMBUS_ReadByte(int DevHandle,int IICIndex,short SlaveAddr,byte[] pData,byte WithPEC);
+    int SMBUS_WriteByteProtocol(int DevHandle,int IICIndex,short SlaveAddr,byte CommandCode, byte Data,byte WithPEC);
+    int SMBUS_WriteWordProtocol(int DevHandle,int IICIndex,short SlaveAddr,byte CommandCode, short Data,byte WithPEC);
+    int SMBUS_ReadByteProtocol(int DevHandle,int IICIndex,short SlaveAddr,byte CommandCode, byte[] pData,byte WithPEC);
+    int SMBUS_ReadWordProtocol(int DevHandle,int IICIndex,short SlaveAddr,byte CommandCode, short[] pData,byte WithPEC);
+    int SMBUS_ProcessCall(int DevHandle,int IICIndex,short SlaveAddr,byte CommandCode, short WriteData, short[] pReadData,byte WithPEC);
+    int SMBUS_BlockWrite(int DevHandle,int IICIndex,short SlaveAddr,byte CommandCode, byte[] pWriteData,int WriteCount,byte WithPEC);
+    int SMBUS_BlockRead(int DevHandle,int IICIndex,short SlaveAddr,byte CommandCode, byte[] pReadData,int[] pReadCount,byte WithPEC);
+    int SMBUS_BlockProcessCall(int DevHandle,int IICIndex,short SlaveAddr,byte CommandCode, byte[] pWriteData,int WriteCount,byte[] pReadData,int[] pReadCount,byte WithPEC);
 
 }

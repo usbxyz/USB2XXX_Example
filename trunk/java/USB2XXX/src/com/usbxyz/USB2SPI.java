@@ -71,7 +71,7 @@ public interface USB2SPI extends Library {
     public static int SPI_ERR_PARAMETER       = (-5);  //参数错误
     //定义从机模式下连续读取数据的回调函数
     public interface SPI_GET_DATA_HANDLE{
-        int SPI_GetDataHandle(int DevIndex,int SPIIndex,byte[] pData,int DataNum);//接收数据回掉函数
+        int SPI_GetDataHandle(int DevHandle,int SPIIndex,byte[] pData,int DataNum);//接收数据回掉函数
     }
     
     //定义初始化SPI的数据类型
@@ -132,46 +132,46 @@ public interface USB2SPI extends Library {
 	//USB2SPI相关函数
 	/**
 	  * @brief  SPI初始化配置函数
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pConfig SPI初始化配置结构体指针
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_Init(int DevIndex,int SPIIndex, SPI_CONFIG pConfig);
+	int  SPI_Init(int DevHandle,int SPIIndex, SPI_CONFIG pConfig);
 
 	/**
 	  * @brief  SPI发送数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteData 数据发送缓冲区首地址
 	  * @param  WriteLen 数据发送字节数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_WriteBytes(int DevIndex,int SPIIndex,byte[] pWriteData,int WriteLen);
+	int  SPI_WriteBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen);
 
 	/**
 	  * @brief  SPI异步方式发送数据，函数调用之后不会等待数据发送完毕，该方式可以加大数据发送速率
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteData 数据发送缓冲区首地址
 	  * @param  WriteLen 数据发送字节数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_WriteBytesAsync(int DevIndex,int SPIIndex,byte[] pWriteData,int WriteLen);
+	int  SPI_WriteBytesAsync(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen);
 
 	/**
 	  * @brief  SPI接收数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pReadData 数据接收缓冲区首地址
 	  * @param  ReadLen 接收数据字节数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_ReadBytes(int DevIndex,int SPIIndex,byte[] pReadData,int ReadLen);
+	int  SPI_ReadBytes(int DevHandle,int SPIIndex,byte[] pReadData,int ReadLen);
 
 	/**
 	  * @brief  SPI发送接收数据，全双工模式下发送和接收同时进行，半双工模式下发送和接收分开进行，整个操作过程片选一直有效
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteData 发送数据缓冲区首地址
 	  * @param  WriteLen 发送数据字节数
@@ -180,11 +180,11 @@ public interface USB2SPI extends Library {
 	  * @param  IntervalTime 半双工模式下，发送数据和接收数据之间的时间间隔，单位为微妙
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_WriteReadBytes(int DevIndex,int SPIIndex,byte[] pWriteData,int WriteLen,byte[] pReadData,int ReadLen,int IntervalTimeUs);
+	int  SPI_WriteReadBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen,byte[] pReadData,int ReadLen,int IntervalTimeUs);
 
 	/**
 	  * @brief  等到有效事件后SPI发送数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteData 数据发送缓冲区首地址
 	  * @param  WriteLen 数据发送字节数
@@ -193,12 +193,12 @@ public interface USB2SPI extends Library {
 	  * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_WriteBytesOfEvent(int DevIndex,int SPIIndex,byte[] pWriteData,int WriteLen,int EventPin,byte EventType,int TimeOutOfMs);
+	int  SPI_WriteBytesOfEvent(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen,int EventPin,byte EventType,int TimeOutOfMs);
 
 
 	/**
 	  * @brief  等到有效事件后SPI接收数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pReadData 数据接收缓冲区首地址
 	  * @param  ReadLen 接收数据字节数
@@ -207,11 +207,11 @@ public interface USB2SPI extends Library {
 	  * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_ReadBytesOfEvent(int DevIndex,int SPIIndex,byte[] pReadData,int ReadLen,int EventPin,byte EventType,int TimeOutOfMs);
+	int  SPI_ReadBytesOfEvent(int DevHandle,int SPIIndex,byte[] pReadData,int ReadLen,int EventPin,byte EventType,int TimeOutOfMs);
 
 	/**
 	  * @brief  等到有效事件后SPI发送接收数据，全双工模式下发送和接收同时进行，半双工模式下发送和接收分开进行，整个操作过程片选一直有效
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteData 发送数据缓冲区首地址
 	  * @param  WriteLen 发送数据字节数
@@ -223,159 +223,159 @@ public interface USB2SPI extends Library {
 	  * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_WriteReadBytesOfEvent(int DevIndex,int SPIIndex,byte[] pWriteData,int WriteLen,byte[] pReadData,int ReadLen,int IntervalTimeUs,int EventPin,byte EventType,int TimeOutOfMs);
+	int  SPI_WriteReadBytesOfEvent(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen,byte[] pReadData,int ReadLen,int IntervalTimeUs,int EventPin,byte EventType,int TimeOutOfMs);
 
 
 	/**
 	  * @brief  二进制模式写数据，该函数可以发送任意bit数数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteBitStr 二进制数据字符串，如："100110011"
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_WriteBits(int DevIndex,int SPIIndex,byte[] pWriteBitStr);
+	int  SPI_WriteBits(int DevHandle,int SPIIndex,byte[] pWriteBitStr);
 
 	/**
 	  * @brief  二进制模式读数据，该函数可以读取任意bit数数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pReadBitStr 读取到的二进制数据字符串，如："100110011"
 	  * @param  ReadBitsNum 读取数据的二进制bit数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_ReadBits(int DevIndex,int SPIIndex,byte[] pReadBitStr,int ReadBitsNum);
+	int  SPI_ReadBits(int DevHandle,int SPIIndex,byte[] pReadBitStr,int ReadBitsNum);
 
 	/**
 	  * @brief  二进制模式写读数据，该函数可以写读取任意bit数数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteBitStr 写二进制数据字符串，如："100110011"
 	  * @param  pReadBitStr 读取到的二进制数据字符串，如："100110011"
 	  * @param  ReadBitsNum 读取数据的二进制bit数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_WriteReadBits(int DevIndex,int SPIIndex,byte[] pWriteBitStr,byte[] pReadBitStr,int ReadBitsNum);
+	int  SPI_WriteReadBits(int DevHandle,int SPIIndex,byte[] pWriteBitStr,byte[] pReadBitStr,int ReadBitsNum);
 
 	/**
 	  * @brief  SPI从机模式下将数据写入数据发送缓冲区，等待主机的时钟信号再将数据发送出去
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteData 发送数据缓冲区首地址
 	  * @param  WriteLen 发送数据字节数
 	  * @param  TimeOutMs 等待数据发送完毕超时时间，若小于或者等于0则不会等待数据发送完毕，函数立即返回
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_SlaveWriteBytes(int DevIndex,int SPIIndex,byte[] pWriteData,int WriteLen,int TimeOutMs);
+	int  SPI_SlaveWriteBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen,int TimeOutMs);
 
 	/**
 	  * @brief  SPI从机模式下获取接收数据缓冲区的数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pReadData 数据接收缓冲区首地址
 	  * @param  pReadLen 接收到的数据字节数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_SlaveReadBytes(int DevIndex,int SPIIndex,byte[] pReadData,int TimeOutMs);
+	int  SPI_SlaveReadBytes(int DevHandle,int SPIIndex,byte[] pReadData,int TimeOutMs);
 
 	/**
 	  * @brief  SPI从机模式下连续读取数据,SPI在从机模式下接收到数据之后，通过回调函数传出数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pSlaveReadDataHandle 从机模式下接收到数据后的回调函数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_SlaveContinueRead(int DevIndex,int SPIIndex,SPI_GET_DATA_HANDLE pSlaveReadDataHandle);
+	int  SPI_SlaveContinueRead(int DevHandle,int SPIIndex,SPI_GET_DATA_HANDLE pSlaveReadDataHandle);
 
 	/**
 	  * @brief  SPI从机模式下获取接收数据缓冲区的数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pReadData 数据接收缓冲区首地址
 	  * @param  BufferSize 数据缓冲区大小
 	  * @retval 获取到的数据字节数
 	  */
-	int  SPI_SlaveGetBytes(int DevIndex,int SPIIndex,byte[] pReadData,int BufferSize);
+	int  SPI_SlaveGetBytes(int DevHandle,int SPIIndex,byte[] pReadData,int BufferSize);
 	/**
 	  * @brief  停止SPI从机模式下连续读取数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_SlaveContinueReadStop(int DevIndex,int SPIIndex);
+	int  SPI_SlaveContinueReadStop(int DevHandle,int SPIIndex);
 	/**
 	  * @brief  读写SPI-Flash初始化配置
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  ClockSpeed SPI时钟信号频率，单位为Hz,最大为50MHz，依次成倍递减
 	  * @param  pConfig SPI-Flash相关参数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_FlashInit(int DevIndex,int SPIIndex,int ClockSpeed, SPI_FLASH_CONFIG pConfig);
+	int  SPI_FlashInit(int DevHandle,int SPIIndex,int ClockSpeed, SPI_FLASH_CONFIG pConfig);
 
 	/**
 	  * @brief  读取SPI-Flash芯片的ID号
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pID 芯片ID号存储首地址，其长度由SPI_FLASH_CONFIG中的ID_Length决定
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_FlashReadID(int DevIndex,int SPIIndex,byte[] pID);
+	int  SPI_FlashReadID(int DevHandle,int SPIIndex,byte[] pID);
 
 	/**
 	  * @brief  擦除SPI-Flash的扇区数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  StartSector 起始扇区号，注意是扇区号，不是具体的扇区地址
 	  * @param  NumSector 需要擦除的扇区数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_FlashEraseSector(int DevIndex,int SPIIndex,int StartSector,int NumSector);
+	int  SPI_FlashEraseSector(int DevHandle,int SPIIndex,int StartSector,int NumSector);
 
 	/**
 	  * @brief  擦除SPI-Flash整个芯片的数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_FlashEraseChip(int DevIndex,int SPIIndex);
+	int  SPI_FlashEraseChip(int DevHandle,int SPIIndex);
 
 
 	/**
 	  * @brief  向SPI-Flash写数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  StartAddr 写数据起始地址
 	  * @param  pWriteData 写数据缓冲区首地址
 	  * @param  WriteLen 写数据字节数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_FlashWrite(int DevIndex,int SPIIndex,int StartAddr,byte[] pWriteData,int WriteLen);
+	int  SPI_FlashWrite(int DevHandle,int SPIIndex,int StartAddr,byte[] pWriteData,int WriteLen);
 
 	/**
 	  * @brief  从SPI-Flash读数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  StartAddr 写数据起始地址
 	  * @param  pReadData 读数据缓冲区首地址
 	  * @param  ReadLen 读数据字节数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_FlashRead(int DevIndex,int SPIIndex,int StartAddr,byte[] pReadData,int ReadLen);
+	int  SPI_FlashRead(int DevHandle,int SPIIndex,int StartAddr,byte[] pReadData,int ReadLen);
 
 	/**
 	  * @brief  从SPI-Flash读数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  StartAddr 写数据起始地址
 	  * @param  pReadData 读数据缓冲区首地址
 	  * @param  ReadLen 读数据字节数
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_FlashReadFast(int DevIndex,int SPIIndex,int StartAddr,byte[] pReadData,int ReadLen);
+	int  SPI_FlashReadFast(int DevHandle,int SPIIndex,int StartAddr,byte[] pReadData,int ReadLen);
 
 	/**
 	  * @brief  Block模式写数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteData 写数据起始地址
 	  * @param  BlockSize 每次写数据字节数
@@ -383,11 +383,11 @@ public interface USB2SPI extends Library {
 	  * @param  IntervalTime 每次写数据之间的时间间隔，单位为微妙
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_BlockWriteBytes(int DevIndex,int SPIIndex,byte[] pWriteData,int BlockSize,int BlockNum,int IntervalTimeUs);
+	int  SPI_BlockWriteBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int BlockSize,int BlockNum,int IntervalTimeUs);
 
 	/**
 	  * @brief  Block模式读数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pReadData 读数据缓冲区首地址
 	  * @param  BlockSize 每次读数据字节数
@@ -395,11 +395,11 @@ public interface USB2SPI extends Library {
 	  * @param  IntervalTime 每次写数据之间的时间间隔，单位为微妙
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_BlockReadBytes(int DevIndex,int SPIIndex,byte[] pReadData,int BlockSize,int BlockNum,int IntervalTimeUs);
+	int  SPI_BlockReadBytes(int DevHandle,int SPIIndex,byte[] pReadData,int BlockSize,int BlockNum,int IntervalTimeUs);
 
 	/**
 	  * @brief  Block模式写读数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteData 写数据起始地址
 	  * @param  WriteBlockSize 每次读数据字节数
@@ -409,11 +409,11 @@ public interface USB2SPI extends Library {
 	  * @param  IntervalTime 每次写数据之间的时间间隔，单位为微妙
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_BlockWriteReadBytes(int DevIndex,int SPIIndex,byte[] pWriteData,int WriteBlockSize,byte[] pReadData,int ReadBlockSize,int BlockNum,int IntervalTimeUs);
+	int  SPI_BlockWriteReadBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteBlockSize,byte[] pReadData,int ReadBlockSize,int BlockNum,int IntervalTimeUs);
 
 	/**
 	  * @brief  Block模式写数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteData 写数据起始地址
 	  * @param  BlockSize 每次写数据字节数
@@ -423,11 +423,11 @@ public interface USB2SPI extends Library {
 	  * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_BlockWriteBytesOfEvent(int DevIndex,int SPIIndex,byte[] pWriteData,int BlockSize,int BlockNum,int EventPin,byte EventType,int TimeOutOfMs);
+	int  SPI_BlockWriteBytesOfEvent(int DevHandle,int SPIIndex,byte[] pWriteData,int BlockSize,int BlockNum,int EventPin,byte EventType,int TimeOutOfMs);
 
 	/**
 	  * @brief  Block模式读数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pReadData 读数据缓冲区首地址
 	  * @param  BlockSize 每次读数据字节数
@@ -437,11 +437,11 @@ public interface USB2SPI extends Library {
 	  * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_BlockReadBytesOfEvent(int DevIndex,int SPIIndex,byte[] pReadData,int BlockSize,int BlockNum,int EventPin,byte EventType,int TimeOutOfMs);
+	int  SPI_BlockReadBytesOfEvent(int DevHandle,int SPIIndex,byte[] pReadData,int BlockSize,int BlockNum,int EventPin,byte EventType,int TimeOutOfMs);
 
 	/**
 	  * @brief  Block模式写读数据
-	  * @param  DevIndex 设备索引号
+	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pWriteData 写数据起始地址
 	  * @param  WriteBlockSize 每次读数据字节数
@@ -453,7 +453,7 @@ public interface USB2SPI extends Library {
 	  * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_BlockWriteReadBytesOfEvent(int DevIndex,int SPIIndex,byte[] pWriteData,int WriteBlockSize,byte[] pReadData,int ReadBlockSize,int BlockNum,int EventPin,byte EventType,int TimeOutOfMs);
+	int  SPI_BlockWriteReadBytesOfEvent(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteBlockSize,byte[] pReadData,int ReadBlockSize,int BlockNum,int EventPin,byte EventType,int TimeOutOfMs);
 
 	
 }

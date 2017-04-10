@@ -6,21 +6,23 @@ public class USB2XXXSPIW25Q32 {
      */  
     public static void main(String[] args) {   
         int ret;
-        int DevIndex = 0;
+        int DevHandle = 0;
+        int[] DevHandleArry = new int[20];
         boolean state;
         int IICIndex = 0;
         byte[] WriteDataBuffer = new byte[1024];
         byte[] ReadDataBuffer = new byte[1024];
         //扫描设备
-        ret = USB_Device.INSTANCE.USB_ScanDevice(null);
+        ret = USB_Device.INSTANCE.USB_ScanDevice(DevHandleArry);
         if(ret > 0){
         	System.out.println("Device Num = "+ret);
+        	DevHandle = DevHandleArry[0];
         }else{
         	System.out.println("No device");
         	return;
         }
         //打开设备
-        state = USB_Device.INSTANCE.USB_OpenDevice(DevIndex);
+        state = USB_Device.INSTANCE.USB_OpenDevice(DevHandle);
         if(!state){
         	System.out.println("open device error");
         	return;
@@ -28,7 +30,7 @@ public class USB2XXXSPIW25Q32 {
         //获取设备信息
         USB_Device.DEVICE_INFO DevInfo = new USB_Device.DEVICE_INFO();
         byte[] funcStr = new byte[128];
-        state = USB_Device.INSTANCE.USB_GetDeviceInfo(DevIndex,DevInfo,funcStr);
+        state = USB_Device.INSTANCE.USB_GetDeviceInfo(DevHandle,DevInfo,funcStr);
         if(!state){
         	System.out.println("get device infomation error");
         	return;

@@ -53,9 +53,9 @@ public interface USB2CNT extends Library {
 		byte   CounterPinMode;   //计数器输入引脚模式，0-浮空输入，1-上拉输入，2-下拉输入
 	};
 	
-	int  CNT_Init(int DevIndex, byte ChannelMask, CNT_CONFIG pConfig);
-	int  CNT_Start(int DevIndex, byte ChannelMask);
-	int  CNT_Stop(int DevIndex, byte ChannelMask);
-	int  CNT_SetValue(int DevIndex, byte ChannelMask,int[] pCntValues);
-	int  CNT_GetValue(int DevIndex, byte ChannelMask,int[] pCntValues);
+	int  CNT_Init(int DevHandle, byte ChannelMask, CNT_CONFIG pConfig);
+	int  CNT_Start(int DevHandle, byte ChannelMask);
+	int  CNT_Stop(int DevHandle, byte ChannelMask);
+	int  CNT_SetValue(int DevHandle, byte ChannelMask,int[] pCntValues);
+	int  CNT_GetValue(int DevHandle, byte ChannelMask,int[] pCntValues);
 }

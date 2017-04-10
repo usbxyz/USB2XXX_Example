@@ -50,8 +50,8 @@ public interface USB2UART extends Library {
 		byte TEPolarity;   //TE输出控制，0x80-输出TE信号，且低电平有效，0x81-输出TE信号，且高电平有效，0x00不输出TE信号
 	};
 	
-	int  UART_Init(int DevIndex, byte Channel, UART_CONFIG pConfig);
-	int  UART_WriteBytes(int DevIndex,byte Channel,byte[] pWriteData,int DataSize);
-	int  UART_WriteBytesAsync(int DevIndex,byte Channel,byte[] pWriteData,int DataSize);
-	int  UART_ReadBytes(int DevIndex,byte Channel,byte[] pReadData,int TimeOutMs);
+	int  UART_Init(int DevHandle, byte Channel, UART_CONFIG pConfig);
+	int  UART_WriteBytes(int DevHandle,byte Channel,byte[] pWriteData,int DataSize);
+	int  UART_WriteBytesAsync(int DevHandle,byte Channel,byte[] pWriteData,int DataSize);
+	int  UART_ReadBytes(int DevHandle,byte Channel,byte[] pReadData,int TimeOutMs);
 }
