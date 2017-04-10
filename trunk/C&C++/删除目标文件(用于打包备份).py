@@ -73,6 +73,8 @@ def backupProject():
 		for name in files:# Remove .sdf file
 			if '.sdf' in name:
 				os.remove(os.path.join(root, name))
+			if '.suo' in name:
+				os.remove(os.path.join(root, name))
 			if '.cmd' in name:
 				os.remove(os.path.join(root, name))
 			if '.vcxproj.filters' in name:
@@ -80,7 +82,7 @@ def backupProject():
 			if '.vcxproj.user' in name:
 				os.remove(os.path.join(root, name))
 		for name in dirs:# Remove buil directory
-			if name == 'Debug' or name == 'ipch'or name == 'Release' or name == 'raspberrypi':
+			if name == 'Debug' or name == 'ipch'or name == 'Release' or name == 'raspberrypi' or name =='.vs':
 				removeFiles(os.path.join(root, name),())
 				removeDirs(os.path.join(root, name))
 def copyHeaderFiles():

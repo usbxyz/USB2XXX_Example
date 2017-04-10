@@ -16,8 +16,18 @@ INC = -I../../source
 OS_TYPE = $(shell uname -m)
 ifeq ($(OS_TYPE), x86_64)
 LIBS = -L./lib/x64 -lUSB2XXX -lusb-1.0 -lpthread
-else
+endif
+ifeq ($(OS_TYPE), x86_32)
 LIBS = -L./lib/x86 -lUSB2XXX -lusb-1.0 -lpthread
+endif
+ifeq ($(findstring armv6,$(OS_TYPE)), armv6)
+LIBS = -L./lib/ARMv7 -lUSB2XXX -lusb-1.0 -lpthread
+endif
+ifeq ($(findstring armv7,$(OS_TYPE)), armv7)
+LIBS = -L./lib/ARMv7 -lUSB2XXX -lusb-1.0 -lpthread
+endif
+ifeq ($(findstring armv8,$(OS_TYPE)), armv8)
+LIBS = -L./lib/ARMv7 -lUSB2XXX -lusb-1.0 -lpthread
 endif
 # The target file
 OBJS = $(SRCS:.cpp=.o)
