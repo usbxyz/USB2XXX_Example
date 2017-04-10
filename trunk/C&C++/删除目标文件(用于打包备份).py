@@ -124,8 +124,8 @@ def creatLinuxProject():
                     shutil.copy(os.path.join(libusb_so_path_x86),os.path.join(root, lib_root_path+'/lib/x86'))
                     shutil.copy(os.path.join(usb2xxx_so_path_x64),os.path.join(root, lib_root_path+'/lib/x64'))
                     shutil.copy(os.path.join(libusb_so_path_x64),os.path.join(root, lib_root_path+'/lib/x64'))
-                    #shutil.copy(os.path.join(usb2xxx_so_path_ARMv7),os.path.join(root, lib_root_path+'/lib/ARMv7'))
-                    #shutil.copy(os.path.join(libusb_so_path_ARMv7),os.path.join(root, lib_root_path+'/lib/ARMv7'))
+                    shutil.copy(os.path.join(usb2xxx_so_path_ARMv7),os.path.join(root, lib_root_path+'/lib/ARMv7'))
+                    shutil.copy(os.path.join(libusb_so_path_ARMv7),os.path.join(root, lib_root_path+'/lib/ARMv7'))
 if __name__ == '__main__': 
     backupProject()
     print('Clear Success!')
