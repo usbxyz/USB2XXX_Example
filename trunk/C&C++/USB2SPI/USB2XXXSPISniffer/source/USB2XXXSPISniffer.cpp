@@ -144,6 +144,5 @@ int main(int argc, const char* argv[])
     printf("MOSI Data Num = %d Byte\n",MOSIFileSize);
     printf("MISO Data Num = %d Byte\n",MISOFileSize);
     printf("Test SPI_SUCCESS!\n");
-    getchar();
     return 0;
 }
