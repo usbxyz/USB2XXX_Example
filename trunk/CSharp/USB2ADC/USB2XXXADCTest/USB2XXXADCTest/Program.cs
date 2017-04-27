@@ -20,7 +20,7 @@ namespace USB2XXXADCTest
             }
             return count;
         }
-        public static Int32 GetAdcDataHandle(Int32 DevIndex, UInt16[] pData, Int32 DataNum)
+        public static Int32 GetAdcDataHandle(Int32 DevHandle, UInt16[] pData, Int32 DataNum)
         {
             Console.WriteLine("Get %d Byte Data", DataNum);
             Console.WriteLine("ADC Data = %fV", (pData[0] * 3.3) / 4095);
@@ -29,14 +29,15 @@ namespace USB2XXXADCTest
         static void Main(string[] args)
         {
             usb_device.DEVICE_INFO DevInfo = new usb_device.DEVICE_INFO();
-            Int32 DevIndex = 0;
+            Int32[] DevHandles = new Int32[20];
+            Int32 DevHandle = 0;
             Byte ADC_Channel = 0x01;
             bool state;
             Int32 DevNum, ret;
             Int32 ADC_NUMS = 10;
             UInt16[] Buffer = new UInt16[40960];
             //扫描查找设备
-            DevNum = usb_device.USB_ScanDevice(null);
+            DevNum = usb_device.USB_ScanDevice(DevHandles);
             if (DevNum <= 0)
             {
                 Console.WriteLine("No device connected!");
@@ -47,8 +48,9 @@ namespace USB2XXXADCTest
             {
                 Console.WriteLine("Have {0} device connected!", DevNum);
             }
+            DevHandle = DevHandles[0];
             //打开设备
-            state = usb_device.USB_OpenDevice(DevIndex);
+            state = usb_device.USB_OpenDevice(DevHandle);
             if (!state)
             {
                 Console.WriteLine("Open device error!");
@@ -62,7 +64,7 @@ namespace USB2XXXADCTest
             //获取固件信息
 #if GET_FIRMWARE_INFO
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevIndex, ref DevInfo, FuncStr);
+            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");
@@ -81,7 +83,7 @@ namespace USB2XXXADCTest
             }
 #endif
             //初始化设备
-            ret = USB2ADC.ADC_Init(DevIndex, ADC_Channel, 1000000);
+            ret = USB2ADC.ADC_Init(DevHandle, ADC_Channel, 1000000);
             if (ret != USB2ADC.ADC_SUCCESS)
             {
                 Console.WriteLine("Init adc error!");
@@ -89,7 +91,7 @@ namespace USB2XXXADCTest
                 return;
             }
             //读取ADC数据
-            ret = USB2ADC.ADC_Read(DevIndex, Buffer, ADC_NUMS);
+            ret = USB2ADC.ADC_Read(DevHandle, Buffer, ADC_NUMS);
             if (ret != USB2ADC.ADC_SUCCESS)
             {
                 Console.WriteLine("Read adc error!\n");
@@ -104,7 +106,7 @@ namespace USB2XXXADCTest
                 }
             }
             //启动连续读数据函数
-            ret = USB2ADC.ADC_StartContinueRead(DevIndex, ADC_Channel, 1000000, 10240, GetAdcDataHandle);
+            ret = USB2ADC.ADC_StartContinueRead(DevHandle, ADC_Channel, 1000000, 10240, GetAdcDataHandle);
             if (ret != USB2ADC.ADC_SUCCESS)
             {
                 Console.WriteLine("Start Continue Read adc error!\n");
@@ -118,7 +120,7 @@ namespace USB2XXXADCTest
             //延时，接收到数据之后会自动调用回掉函数
             System.Threading.Thread.Sleep(3000);
             //停止自动接收
-            ret = USB2ADC.ADC_StopContinueRead(DevIndex);
+            ret = USB2ADC.ADC_StopContinueRead(DevHandle);
             if (ret != USB2ADC.ADC_SUCCESS)
             {
                 Console.WriteLine("Stop Continue Read adc error!\n");
@@ -126,7 +128,7 @@ namespace USB2XXXADCTest
                 return;
             }
             //关闭设备
-            usb_device.USB_CloseDevice(DevIndex);
+            usb_device.USB_CloseDevice(DevHandle);
         }
     }
 }

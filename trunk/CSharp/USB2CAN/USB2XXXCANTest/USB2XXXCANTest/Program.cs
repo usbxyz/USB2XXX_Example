@@ -23,12 +23,13 @@ namespace USB2XXXCANTest
         static void Main(string[] args)
         {
             usb_device.DEVICE_INFO DevInfo = new usb_device.DEVICE_INFO();
-            Int32 DevIndex = 0;
+            Int32[] DevHandles = new Int32[20];
+            Int32 DevHandle = 0;
             Byte CANIndex = 0;
             bool state;
             Int32 DevNum, ret;
             //扫描查找设备
-            DevNum = usb_device.USB_ScanDevice(null);
+            DevNum = usb_device.USB_ScanDevice(DevHandles);
             if (DevNum <= 0)
             {
                 Console.WriteLine("No device connected!");
@@ -38,8 +39,9 @@ namespace USB2XXXCANTest
             {
                 Console.WriteLine("Have {0} device connected!", DevNum);
             }
+            DevHandle = DevHandles[0];
             //打开设备
-            state = usb_device.USB_OpenDevice(DevIndex);
+            state = usb_device.USB_OpenDevice(DevHandle);
             if (!state)
             {
                 Console.WriteLine("Open device error!");
@@ -51,7 +53,7 @@ namespace USB2XXXCANTest
             }
             //获取固件信息
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevIndex, ref DevInfo, FuncStr);
+            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");
@@ -83,7 +85,7 @@ namespace USB2XXXCANTest
             CANConfig.CAN_BS1 = 2;
             CANConfig.CAN_BS2 = 1;
             CANConfig.CAN_SJW = 1;
-            ret = USB2CAN.CAN_Init(DevIndex,CANIndex,ref CANConfig);
+            ret = USB2CAN.CAN_Init(DevHandle,CANIndex,ref CANConfig);
             if(ret != USB2CAN.CAN_SUCCESS){
                 Console.WriteLine("Config CAN failed!");
                 return;
@@ -99,7 +101,7 @@ namespace USB2XXXCANTest
             CANFilter.MASK_IDE = 0;
             CANFilter.MASK_RTR = 0;
             CANFilter.MASK_Std_Ext = 0;
-            USB2CAN.CAN_Filter_Init(DevIndex,CANIndex,ref CANFilter);
+            USB2CAN.CAN_Filter_Init(DevHandle,CANIndex,ref CANFilter);
 #if CAN_SEND_MSG//发送CAN帧
             USB2CAN.CAN_MSG[] CanMsg = new USB2CAN.CAN_MSG[5];
             for(int i=0;i<5;i++){
@@ -112,7 +114,7 @@ namespace USB2XXXCANTest
                     CanMsg[i].Data[j] = (Byte)j;
                 }
             }
-            int SendedNum = USB2CAN.CAN_SendMsg(DevIndex,CANIndex,CanMsg,(UInt32)CanMsg.Length);
+            int SendedNum = USB2CAN.CAN_SendMsg(DevHandle,CANIndex,CanMsg,(UInt32)CanMsg.Length);
             if(SendedNum >= 0){
                 Console.WriteLine("Success send frames:{0}",SendedNum);
             }else{
@@ -121,7 +123,7 @@ namespace USB2XXXCANTest
 #endif
 #if CAN_GET_STATUS
             USB2CAN.CAN_STATUS CANStatus = new USB2CAN.CAN_STATUS();
-            ret = USB2CAN.CAN_GetStatus(DevIndex,CANIndex,ref CANStatus);
+            ret = USB2CAN.CAN_GetStatus(DevHandle,CANIndex,ref CANStatus);
             if(ret == USB2CAN.CAN_SUCCESS){
                 Console.WriteLine("TSR = {0:X8}",CANStatus.TSR);
                 Console.WriteLine("ESR = {0:X8}",CANStatus.ESR);
@@ -141,7 +143,7 @@ namespace USB2XXXCANTest
                     CanMsgBuffer[i] = new USB2CAN.CAN_MSG();
                     CanMsgBuffer[i].Data = new Byte[8];
                 }
-                int CanNum = USB2CAN.CAN_GetMsg(DevIndex, CANIndex, CanMsgBuffer);
+                int CanNum = USB2CAN.CAN_GetMsg(DevHandle, CANIndex, CanMsgBuffer);
                 if (CanNum > 0)
                 {
                     for (int i = 0; i < CanNum; i++)
@@ -165,7 +167,7 @@ namespace USB2XXXCANTest
             }
 #endif
             //关闭设备
-            usb_device.USB_CloseDevice(DevIndex);
+            usb_device.USB_CloseDevice(DevHandle);
         }
     }
 }

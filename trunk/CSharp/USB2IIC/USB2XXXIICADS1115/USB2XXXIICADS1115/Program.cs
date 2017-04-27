@@ -11,12 +11,13 @@ namespace USB2XXXIICADS1115
         static void Main(string[] args)
         {
             usb_device.DEVICE_INFO DevInfo = new usb_device.DEVICE_INFO();
-            Int32 DevIndex = 0;
+            Int32[] DevHandles = new Int32[20];
+            Int32 DevHandle = 0;
             Int32 IICIndex = 0;
             bool state;
             Int32 DevNum, ret;
             //扫描查找设备
-            DevNum = usb_device.USB_ScanDevice(null);
+            DevNum = usb_device.USB_ScanDevice(DevHandles);
             if (DevNum <= 0)
             {
                 Console.WriteLine("No device connected!");
@@ -26,8 +27,9 @@ namespace USB2XXXIICADS1115
             {
                 Console.WriteLine("Have {0} device connected!", DevNum);
             }
+            DevHandle = DevHandles[0];
             //打开设备
-            state = usb_device.USB_OpenDevice(DevIndex);
+            state = usb_device.USB_OpenDevice(DevHandle);
             if (!state)
             {
                 Console.WriteLine("Open device error!");
@@ -39,7 +41,7 @@ namespace USB2XXXIICADS1115
             }
             //获取固件信息
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevIndex, ref DevInfo, FuncStr);
+            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");
@@ -60,7 +62,7 @@ namespace USB2XXXIICADS1115
             IICConfig.AddrBits = 7;            //7bit地址模式
             IICConfig.ClockSpeedHz = 400000;     //时钟频率400KHz
             IICConfig.Master = 1;              //主机模式
-            ret = USB2IIC.IIC_Init(DevIndex, IICIndex, ref IICConfig);
+            ret = USB2IIC.IIC_Init(DevHandle, IICIndex, ref IICConfig);
             if (ret != USB2IIC.IIC_SUCCESS)
             {
                 Console.WriteLine("Config IIC failed!");
@@ -86,7 +88,7 @@ namespace USB2XXXIICADS1115
             WriteDataBuffer[2] = (byte)(Config & 0xFF);
             Int16 SlaveAddr = 0x48;
             //调用写数据函数
-            ret = USB2IIC.IIC_WriteBytes(DevIndex, IICIndex, SlaveAddr, WriteDataBuffer, WriteDataBuffer.Length, 10);
+            ret = USB2IIC.IIC_WriteBytes(DevHandle, IICIndex, SlaveAddr, WriteDataBuffer, WriteDataBuffer.Length, 10);
             if (ret != USB2IIC.IIC_SUCCESS)
             {
                 Console.WriteLine("Write IIC failed!");
@@ -103,8 +105,8 @@ namespace USB2XXXIICADS1115
             for (int i = 0; i < ReadDataNum; i++)
             {
                 WriteDataBuffer[0] = 0x00;
-                ret = USB2IIC.IIC_WriteReadBytesOfEvent(DevIndex, IICIndex, SlaveAddr, WriteDataBuffer, 1, ReadDataBuffer, ReadDataBuffer.Length,1<<2,0x10,200);
-                //ret = USB2IIC.IIC_WriteReadBytes(DevIndex, IICIndex, SlaveAddr, WriteDataBuffer, 1, ReadDataBuffer, ReadDataBuffer.Length, 10);
+                ret = USB2IIC.IIC_WriteReadBytesOfEvent(DevHandle, IICIndex, SlaveAddr, WriteDataBuffer, 1, ReadDataBuffer, ReadDataBuffer.Length,1<<2,0x10,200);
+                //ret = USB2IIC.IIC_WriteReadBytes(DevHandle, IICIndex, SlaveAddr, WriteDataBuffer, 1, ReadDataBuffer, ReadDataBuffer.Length, 10);
                 if (ret != USB2IIC.IIC_SUCCESS)
                 {
                     Console.WriteLine("WriteRead IIC failed!");
