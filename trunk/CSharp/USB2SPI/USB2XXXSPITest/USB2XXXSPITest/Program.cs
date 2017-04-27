@@ -13,7 +13,8 @@ namespace USB2XXXSPITest
         {
             usb_device.DEVICE_INFO DevInfo = new usb_device.DEVICE_INFO();
             USB2SPI.SPI_CONFIG SPIConfig = new USB2SPI.SPI_CONFIG();
-            Int32 DevIndex = 0;
+            Int32[] DevHandles = new Int32[20];
+            Int32 DevHandle = 0;
             Int32 SPIIndex = 0;
             bool state;
             Int32 DevNum,ret;
@@ -30,8 +31,9 @@ namespace USB2XXXSPITest
             {
                 Console.WriteLine("Have {0} device connected!", DevNum);
             }
+            DevHandle = DevHandles[0];
             //打开设备
-            state = usb_device.USB_OpenDevice(DevIndex);
+            state = usb_device.USB_OpenDevice(DevHandle);
             if (!state)
             {
                 Console.WriteLine("Open device error!");
@@ -43,7 +45,7 @@ namespace USB2XXXSPITest
             }
             //获取固件信息
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevIndex, ref DevInfo, FuncStr);
+            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");
@@ -69,7 +71,7 @@ namespace USB2XXXSPITest
             SPIConfig.LSBFirst = USB2SPI.SPI_MSB;
             SPIConfig.Master = USB2SPI.SPI_MASTER;
             SPIConfig.SelPolarity = USB2SPI.SPI_SEL_LOW;
-            ret = USB2SPI.SPI_Init(DevIndex, SPIIndex, ref SPIConfig);
+            ret = USB2SPI.SPI_Init(DevHandle, SPIIndex, ref SPIConfig);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("Initialize device error!");
@@ -79,7 +81,7 @@ namespace USB2XXXSPITest
             for(int i=0;i<WriteBuffer.Length;i++){
                 WriteBuffer[i] = (Byte)i;
             }
-            ret = USB2SPI.SPI_WriteBytes(DevIndex, SPIIndex, WriteBuffer, WriteBuffer.Length);
+            ret = USB2SPI.SPI_WriteBytes(DevHandle, SPIIndex, WriteBuffer, WriteBuffer.Length);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("SPI write data error!");
@@ -87,7 +89,7 @@ namespace USB2XXXSPITest
             }
             //SPI异步发送数据，调用该函数后会立即返回，但是SPI数据不一定发送完毕，但是在下一次发送数据之前会保证数据发送完毕
             for(int i=0;i<64;i++){
-                ret = USB2SPI.SPI_AsyncWriteBytes(DevIndex, SPIIndex, WriteBuffer, WriteBuffer.Length);
+                ret = USB2SPI.SPI_AsyncWriteBytes(DevHandle, SPIIndex, WriteBuffer, WriteBuffer.Length);
                 if (ret != USB2SPI.SPI_SUCCESS)
                 {
                     Console.WriteLine("SPI async write data error!");
@@ -95,7 +97,7 @@ namespace USB2XXXSPITest
                 }
             }
             //SPI接收数据
-            ret = USB2SPI.SPI_ReadBytes(DevIndex, SPIIndex, ReadBuffer, 32);
+            ret = USB2SPI.SPI_ReadBytes(DevHandle, SPIIndex, ReadBuffer, 32);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("SPI read data error!");
@@ -112,7 +114,7 @@ namespace USB2XXXSPITest
             }
             //SPI先发送数据，再接收数据，整个过程片选信号一直有效
             int IntervalTime = 10;//发送和接收数据之间的时间间隔，单位为us
-            ret = USB2SPI.SPI_WriteReadBytes(DevIndex, SPIIndex, WriteBuffer, WriteBuffer.Length, ReadBuffer, 32, IntervalTime);
+            ret = USB2SPI.SPI_WriteReadBytes(DevHandle, SPIIndex, WriteBuffer, WriteBuffer.Length, ReadBuffer, 32, IntervalTime);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("SPI write read data error!");

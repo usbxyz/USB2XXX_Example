@@ -12,9 +12,9 @@ namespace USB2XXXW25Q40
     {
         static void Main(string[] args)
         {
-            int[] DevSns = new int[10];
+            Int32[] DevHandles = new Int32[20];
             Console.WriteLine("扫描设备...");
-            int DevCnt = GetDevSns(DevSns);//获取设备连接数，同时获取每个设备的序号
+            int DevCnt = usb_device.USB_ScanDevice(DevHandles);//获取设备连接数，同时获取每个设备的序号
             if (DevCnt <= 0)
             {
                 Console.WriteLine("获取设备列表失败！当前可能无设备连接！");
@@ -25,22 +25,19 @@ namespace USB2XXXW25Q40
                 Console.WriteLine("扫描到{0}个设备,每个设备的序号分别为：",DevCnt);
                 for (int i = 0; i < DevCnt; i++)
                 {
-                    Console.Write(DevSns[i].ToString("X8") + "  ");
+                    Console.Write(DevHandles[i].ToString("X8") + "  ");
                 }
                 Console.WriteLine("");
             }
-            //根据设备序号获取设备索引号
-            
-            Console.WriteLine("根据设备序号获取设备索引号...");
-            int[] DevIndex = new int[DevCnt];
+            //循环打开所有设备
+            Console.WriteLine("循环打开所有设备...");
             for (int i = 0; i < DevCnt; i++)
             {
-                
-                DevIndex[i] = GetDevIndex(DevSns[i]);
-                if (DevIndex[i] < 0)
+                //打开设备
+                bool state = usb_device.USB_OpenDevice(DevHandles[i]);
+                if (!state)
                 {
-                    Console.WriteLine("获取设备索引号失败！当前可能无设备连接或者当前序号的设备未连接！");
-                    return;
+                    Console.WriteLine("Open device({0}) error!", DevHandles[i]);
                 }
             }
             
@@ -54,7 +51,7 @@ namespace USB2XXXW25Q40
                 {
                     t[i] = new Thread(new ParameterizedThreadStart(SPIWriteReadThread));
                     t[i].IsBackground = true;
-                    t[i].Start(i.ToString());
+                    t[i].Start(DevHandles[i].ToString());
                 }
                 for (int i = 0; i < DevCnt; i++)
                 {
@@ -63,70 +60,15 @@ namespace USB2XXXW25Q40
                 Console.WriteLine("TestTimes = {0}", TestTimes);
             }
         }
-        //获取设备序号列表
-        static int GetDevSns(int[] DevSns)
-        {
-            bool state;
-            int DevCnt = usb_device.USB_ScanDevice(null);
-            usb_device.DEVICE_INFO DevInfo = new usb_device.DEVICE_INFO();
-            for (int i = 0; i < DevCnt; i++)
-            {
-                //打开设备
-                state = usb_device.USB_OpenDevice(i);
-                if (!state)
-                {
-                    Console.WriteLine("Open device error!");
-                    return -1;
-                }
-                //获取固件信息
-                state = usb_device.USB_GetDeviceInfo(i, ref DevInfo, null);
-                if (!state)
-                {
-                    Console.WriteLine("Get device infomation error!");
-                    return -1;
-                }
-                DevSns[i] = (int)DevInfo.SerialNumber[2];
-            }
-            return DevCnt;
-        }
-        //根据设备序号获取设备索引号
-        static int GetDevIndex(int DevSn)
-        {
-            bool state;
-            int DevCnt = usb_device.USB_ScanDevice(null);
-            usb_device.DEVICE_INFO DevInfo = new usb_device.DEVICE_INFO();
-            for (int i = 0; i < DevCnt; i++)
-            {
-                //打开设备
-                state = usb_device.USB_OpenDevice(i);
-                if (!state)
-                {
-                    Console.WriteLine("Open device error!");
-                    return -1;
-                }
-                //获取固件信息
-                state = usb_device.USB_GetDeviceInfo(i, ref DevInfo, null);
-                if (!state)
-                {
-                    Console.WriteLine("Get device infomation error!");
-                    return -1;
-                }
-                if (DevSn == DevInfo.SerialNumber[2])
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
-  
-        public static void SPIWriteReadThread(object Index)
+      
+        public static void SPIWriteReadThread(object DevHandleStr)
         {
             USB2SPI.SPI_CONFIG SPIConfig = new USB2SPI.SPI_CONFIG();
             int ret;
             int SPIIndex = 0;//使用SPI1
-            int DevIndex = Convert.ToInt32(Index.ToString());
+            int DevHandle = Convert.ToInt32(DevHandleStr.ToString());
             //根据W25Q40配置USB2SPI适配器
-            Console.WriteLine("{0}配置USB2SPI适配器...", DevIndex);
+            Console.WriteLine("{0}配置USB2SPI适配器...", DevHandle);
             SPIConfig.ClockSpeedHz = 25000000>>2;
             SPIConfig.CPHA = 0;
             SPIConfig.CPOL = 0;
@@ -134,25 +76,25 @@ namespace USB2XXXW25Q40
             SPIConfig.Master = USB2SPI.SPI_MASTER;
             SPIConfig.Mode = USB2SPI.SPI_MODE_HARD_HDX;
             SPIConfig.SelPolarity = USB2SPI.SPI_SEL_LOW;
-            ret = USB2SPI.SPI_Init(DevIndex, SPIIndex, ref SPIConfig);
+            ret = USB2SPI.SPI_Init(DevHandle, SPIIndex, ref SPIConfig);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
-                Console.WriteLine("{0}初始化设备错误!", DevIndex);
+                Console.WriteLine("{0}初始化设备错误!", DevHandle);
                 return;
             }
             //写数据
-            Console.WriteLine("{0}USB2SPI适配器写数据...", DevIndex);
+            Console.WriteLine("{0}USB2SPI适配器写数据...", DevHandle);
             Byte[] WriteData = new Byte[10240];
-            ret = USB2SPI.SPI_WriteBytes(DevIndex, SPIIndex, WriteData, WriteData.Length);
+            ret = USB2SPI.SPI_WriteBytes(DevHandle, SPIIndex, WriteData, WriteData.Length);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("{0}写数据出错！", SPIIndex);
                 while (true) ; 
             }
             //读数据
-            Console.WriteLine("{0}USB2SPI适配器读数据...", DevIndex);
+            Console.WriteLine("{0}USB2SPI适配器读数据...", DevHandle);
             Byte[] ReadData = new Byte[10240];
-            ret = USB2SPI.SPI_ReadBytes(DevIndex, SPIIndex, ReadData, ReadData.Length);
+            ret = USB2SPI.SPI_ReadBytes(DevHandle, SPIIndex, ReadData, ReadData.Length);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("{0}读数据出错！", SPIIndex);

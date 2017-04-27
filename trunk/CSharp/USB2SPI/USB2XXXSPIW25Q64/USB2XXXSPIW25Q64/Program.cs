@@ -12,14 +12,15 @@ namespace USB2XXXSPIW25Q64
         {
             usb_device.DEVICE_INFO DevInfo = new usb_device.DEVICE_INFO();
             USB2SPI.SPI_FLASH_CONFIG SPIFlashConfig = new USB2SPI.SPI_FLASH_CONFIG();
-            Int32 DevIndex = 0;
+            Int32[] DevHandles = new Int32[20];
+            Int32 DevHandle = 0;
             Int32 SPIIndex = 1;
             bool state;
             Int32 DevNum, ret;
             Byte[] WriteBuffer = new Byte[64];
             Byte[] ReadBuffer = new Byte[20480];
             //扫描查找设备
-            DevNum = usb_device.USB_ScanDevice(null);
+            DevNum = usb_device.USB_ScanDevice(DevHandles);
             if (DevNum <= 0)
             {
                 Console.WriteLine("No device connected!");
@@ -29,8 +30,9 @@ namespace USB2XXXSPIW25Q64
             {
                 Console.WriteLine("Have {0} device connected!", DevNum);
             }
+            DevHandle = DevHandles[0];//选择设备0
             //打开设备
-            state = usb_device.USB_OpenDevice(DevIndex);
+            state = usb_device.USB_OpenDevice(DevHandle);
             if (!state)
             {
                 Console.WriteLine("Open device error!");
@@ -42,7 +44,7 @@ namespace USB2XXXSPIW25Q64
             }
             //获取固件信息
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevIndex, ref DevInfo, FuncStr);
+            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");
@@ -76,14 +78,14 @@ namespace USB2XXXSPIW25Q64
             SPIFlashConfig.ReadFastAddressBytes = 3;
             SPIFlashConfig.SectorSize = 4096;
             SPIFlashConfig.WritePageAddressBytes = 3;
-            ret = USB2SPI.SPI_FlashInit(DevIndex, SPIIndex, 50000000 >> 2, ref SPIFlashConfig);
+            ret = USB2SPI.SPI_FlashInit(DevHandle, SPIIndex, 50000000 >> 2, ref SPIFlashConfig);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("Initialize Device Error!");
                 return;
             }
             //读取芯片ID
-            ret = USB2SPI.SPI_FlashReadID(DevIndex, SPIIndex, SPIFlashConfig.ID);
+            ret = USB2SPI.SPI_FlashReadID(DevHandle, SPIIndex, SPIFlashConfig.ID);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("Get Device ID Error!");
@@ -103,7 +105,7 @@ namespace USB2XXXSPIW25Q64
                 }
             }
             //擦除扇区
-            ret = USB2SPI.SPI_FlashEraseSector(DevIndex,SPIIndex,0,1);
+            ret = USB2SPI.SPI_FlashEraseSector(DevHandle, SPIIndex, 0, 1);
             if(ret != USB2SPI.SPI_SUCCESS){
                 Console.WriteLine("Erase Sector Error!");
                 return;
@@ -113,12 +115,12 @@ namespace USB2XXXSPIW25Q64
             {
                 TestBuffer[i] = (Byte)i;
             }
-            ret = USB2SPI.SPI_FlashWrite(DevIndex,SPIIndex,0,TestBuffer,256);
+            ret = USB2SPI.SPI_FlashWrite(DevHandle, SPIIndex, 0, TestBuffer, 256);
             if(ret != USB2SPI.SPI_SUCCESS){
                 Console.WriteLine("Flash Write Error!");
                 return;
             }
-            ret = USB2SPI.SPI_FlashReadFast(DevIndex,SPIIndex,0,TestBuffer,256);
+            ret = USB2SPI.SPI_FlashReadFast(DevHandle, SPIIndex, 0, TestBuffer, 256);
             if(ret != USB2SPI.SPI_SUCCESS){
                 Console.WriteLine("Flash Read Error!");
                 return;

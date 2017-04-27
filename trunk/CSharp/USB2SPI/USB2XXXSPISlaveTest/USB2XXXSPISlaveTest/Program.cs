@@ -9,7 +9,7 @@ namespace USB2XXXSPITest
 {
     class Program
     {
-        public static Int32 SPI_SlaveReadDataHandle(Int32 DevIndex, Int32 SPIIndex, Byte[] pData, Int32 DataNum)
+        public static Int32 SPI_SlaveReadDataHandle(Int32 DevHandle, Int32 SPIIndex, Byte[] pData, Int32 DataNum)
         {
             Console.WriteLine("Slave Read Data Count: " + DataNum.ToString());
             return 0;
@@ -18,14 +18,15 @@ namespace USB2XXXSPITest
         {
             usb_device.DEVICE_INFO DevInfo = new usb_device.DEVICE_INFO();
             USB2SPI.SPI_CONFIG SPIConfig = new USB2SPI.SPI_CONFIG();
-            Int32 DevIndex = 0;
+            Int32[] DevHandles = new Int32[20];
+            Int32 DevHandle = 0;
             Int32 SPIIndex = 0;
             bool state;
             Int32 DevNum, ret;
             Byte[] WriteBuffer = new Byte[64];
             Byte[] ReadBuffer = new Byte[20480];
             //扫描查找设备
-            DevNum = usb_device.USB_ScanDevice(null);
+            DevNum = usb_device.USB_ScanDevice(DevHandles);
             if (DevNum <= 0)
             {
                 Console.WriteLine("No device connected!");
@@ -35,8 +36,9 @@ namespace USB2XXXSPITest
             {
                 Console.WriteLine("Have {0} device connected!", DevNum);
             }
+			DevHandle = DevHandles[0];
             //打开设备
-            state = usb_device.USB_OpenDevice(DevIndex);
+            state = usb_device.USB_OpenDevice(DevHandle);
             if (!state)
             {
                 Console.WriteLine("Open device error!");
@@ -48,7 +50,7 @@ namespace USB2XXXSPITest
             }
             //获取固件信息
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevIndex, ref DevInfo, FuncStr);
+            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");
@@ -82,7 +84,7 @@ namespace USB2XXXSPITest
             SPIConfig.LSBFirst = USB2SPI.SPI_MSB;
             SPIConfig.Master = USB2SPI.SPI_MASTER;
             SPIConfig.SelPolarity = USB2SPI.SPI_SEL_LOW;
-            ret = USB2SPI.SPI_Init(DevIndex, SPIIndex, ref SPIConfig);
+            ret = USB2SPI.SPI_Init(DevHandle, SPIIndex, ref SPIConfig);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("Initialize device error!");
@@ -94,7 +96,7 @@ namespace USB2XXXSPITest
             }
             /*
             while(true){
-                ret = USB2SPI.SPI_SlaveWriteBytes(DevIndex, SPIIndex, WriteBuffer, 16, 5000);
+                ret = USB2SPI.SPI_SlaveWriteBytes(DevHandle, SPIIndex, WriteBuffer, 16, 5000);
                 if (ret != USB2SPI.SPI_SUCCESS)
                 {
                     Console.WriteLine("SPI slave write data error!");
@@ -105,9 +107,9 @@ namespace USB2XXXSPITest
             */
             Console.WriteLine("Start receive data to file,the file name is data.txt");
             Console.WriteLine("Press any key to exit the data reception!");
-            USB2SPI.SPI_SlaveContinueRead(DevIndex, SPIIndex, SPI_SlaveReadDataHandle);
+            USB2SPI.SPI_SlaveContinueRead(DevHandle, SPIIndex, SPI_SlaveReadDataHandle);
             Console.ReadLine();
-            USB2SPI.SPI_SlaveContinueReadStop(DevIndex, SPIIndex);
+            USB2SPI.SPI_SlaveContinueReadStop(DevHandle, SPIIndex);
             Console.WriteLine("Test SPI_SUCCESS!");
             return;
         }

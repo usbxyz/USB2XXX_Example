@@ -12,7 +12,8 @@ namespace USB2XXXSPIADS1256
         {
             usb_device.DEVICE_INFO DevInfo = new usb_device.DEVICE_INFO();
             USB2SPI.SPI_CONFIG SPIConfig = new USB2SPI.SPI_CONFIG();
-            Int32 DevIndex = 0;
+            Int32[] DevHandles = new Int32[20];
+            Int32 DevHandle = 0;
             Int32 ADS1256Index = USB2SPI.SPI1_CS0;
             UInt32 ResetPinMask,DrdyPinMask;
             bool state;
@@ -20,7 +21,7 @@ namespace USB2XXXSPIADS1256
             Byte[] WriteBuffer = new Byte[64];
             Byte[] ReadBuffer = new Byte[20480];
             //扫描查找设备
-            DevNum = usb_device.USB_ScanDevice(null);
+            DevNum = usb_device.USB_ScanDevice(DevHandles);
             if (DevNum <= 0)
             {
                 Console.WriteLine("No device connected!");
@@ -30,8 +31,9 @@ namespace USB2XXXSPIADS1256
             {
                 Console.WriteLine("Have {0} device connected!", DevNum);
             }
+            DevHandle = DevHandles[0];
             //打开设备
-            state = usb_device.USB_OpenDevice(DevIndex);
+            state = usb_device.USB_OpenDevice(DevHandle);
             if (!state)
             {
                 Console.WriteLine("Open device error!");
@@ -43,7 +45,7 @@ namespace USB2XXXSPIADS1256
             }
             //获取固件信息
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevIndex, ref DevInfo, FuncStr);
+            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");
@@ -71,7 +73,7 @@ namespace USB2XXXSPIADS1256
                 ResetPinMask = 1 << 1;
                 DrdyPinMask = 1 << 0;
             }
-            ret = USB2GPIO.GPIO_SetOutput(DevIndex, ResetPinMask, 1);
+            ret = USB2GPIO.GPIO_SetOutput(DevHandle, ResetPinMask, 1);
             if (ret != USB2GPIO.GPIO_SUCCESS)
             {
                 Console.WriteLine("Initialize gpio error!");
@@ -85,16 +87,16 @@ namespace USB2XXXSPIADS1256
             SPIConfig.LSBFirst = USB2SPI.SPI_MSB;
             SPIConfig.Master = USB2SPI.SPI_MASTER;
             SPIConfig.SelPolarity = USB2SPI.SPI_SEL_LOW;
-            ret = USB2SPI.SPI_Init(DevIndex, ADS1256Index, ref SPIConfig);
+            ret = USB2SPI.SPI_Init(DevHandle, ADS1256Index, ref SPIConfig);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("Initialize device error!");
                 return;
             }
             //RESET引脚输出低脉冲复位ADS1256
-            USB2GPIO.GPIO_Write(DevIndex, ResetPinMask, 0); //输出低电平
+            USB2GPIO.GPIO_Write(DevHandle, ResetPinMask, 0); //输出低电平
             System.Threading.Thread.Sleep(10);
-            USB2GPIO.GPIO_Write(DevIndex, ResetPinMask, ResetPinMask);  //输出高电平
+            USB2GPIO.GPIO_Write(DevHandle, ResetPinMask, ResetPinMask);  //输出高电平
             //准备配置寄存器数据
             WriteBuffer[0] = 0x50;//ADS1256_CMD_WREG
             WriteBuffer[1] = 0x04;
@@ -103,7 +105,7 @@ namespace USB2XXXSPIADS1256
             WriteBuffer[4] = 0;   //PGA
             WriteBuffer[5] = 0xA1;//1000SPS
             WriteBuffer[6] = 0xFF;
-            ret = USB2SPI.SPI_WriteBytesOfEvent(DevIndex, ADS1256Index, WriteBuffer, 7, (Int32)DrdyPinMask, 0x00, 1000);
+            ret = USB2SPI.SPI_WriteBytesOfEvent(DevHandle, ADS1256Index, WriteBuffer, 7, (Int32)DrdyPinMask, 0x00, 1000);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("SPI Event Write Data Error!");
@@ -112,7 +114,7 @@ namespace USB2XXXSPIADS1256
             //准备读配置寄存器数据，验证配置数据写入是否成功
             WriteBuffer[0] = 0x10;//ADS1256_CMD_RREG;
             WriteBuffer[1] = 4;
-            ret = USB2SPI.SPI_WriteReadBytesOfEvent(DevIndex, ADS1256Index, WriteBuffer, 2, ReadBuffer,5,10,(Int32)DrdyPinMask, 0x10, 1000);
+            ret = USB2SPI.SPI_WriteReadBytesOfEvent(DevHandle, ADS1256Index, WriteBuffer, 2, ReadBuffer,5,10,(Int32)DrdyPinMask, 0x10, 1000);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("SPI Event Write&Read Data Error!");
@@ -128,7 +130,7 @@ namespace USB2XXXSPIADS1256
             WriteBuffer[0] = 0xFC;//ADS1256_CMD_SYNC
             WriteBuffer[1] = 0x00;//ADS1256_CMD_WAKEUP
             WriteBuffer[2] = 0x03;//ADS1256_CMD_RDATAC
-            ret = USB2SPI.SPI_WriteReadBytesOfEvent(DevIndex, ADS1256Index, WriteBuffer, 3, ReadBuffer, 3, 10, (Int32)DrdyPinMask, 0x10, 1000);
+            ret = USB2SPI.SPI_WriteReadBytesOfEvent(DevHandle, ADS1256Index, WriteBuffer, 3, ReadBuffer, 3, 10, (Int32)DrdyPinMask, 0x10, 1000);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("SPI Event Write&Read Data Error!");
@@ -137,7 +139,7 @@ namespace USB2XXXSPIADS1256
             Console.WriteLine("Continuous Get ADC Data!");
             //检测DRADY引脚下降沿之后读回数据
             int ReadDataNum = 10;
-            ret = USB2SPI.SPI_BlockReadBytesOfEvent(DevIndex, ADS1256Index, ReadBuffer, 3, ReadDataNum, (Int32)DrdyPinMask, 0x10, 100);
+            ret = USB2SPI.SPI_BlockReadBytesOfEvent(DevHandle, ADS1256Index, ReadBuffer, 3, ReadDataNum, (Int32)DrdyPinMask, 0x10, 100);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("SPI Event BlockRead Data Error!");
@@ -156,7 +158,7 @@ namespace USB2XXXSPIADS1256
             }
             //发送停止连续采样数据命令
             WriteBuffer[0] = 0x0F;//ADS1256_CMD_SDATAC
-            ret = USB2SPI.SPI_WriteBytesOfEvent(DevIndex, ADS1256Index, WriteBuffer, 1, (Int32)DrdyPinMask, 0x10, 1000);
+            ret = USB2SPI.SPI_WriteBytesOfEvent(DevHandle, ADS1256Index, WriteBuffer, 1, (Int32)DrdyPinMask, 0x10, 1000);
             if (ret != USB2SPI.SPI_SUCCESS)
             {
                 Console.WriteLine("SPI Event Write Data Error!");
@@ -177,7 +179,7 @@ namespace USB2XXXSPIADS1256
                 for (Channel = 0; Channel < 8; Channel++)
                 {
                     WriteBuffer[2] = (byte)((Channel << 4) | 0x08);
-                    ret = USB2SPI.SPI_WriteReadBytesOfEvent(DevIndex, ADS1256Index, WriteBuffer, 6, ReadBuffer, 3, 10, (Int32)DrdyPinMask, 0x10, 1000);
+                    ret = USB2SPI.SPI_WriteReadBytesOfEvent(DevHandle, ADS1256Index, WriteBuffer, 6, ReadBuffer, 3, 10, (Int32)DrdyPinMask, 0x10, 1000);
                     if (ret != USB2SPI.SPI_SUCCESS)
                     {
                         Console.WriteLine("SPI Event Write&Read Data Error!");
