@@ -4,46 +4,24 @@ import shutil
 import time,  datetime
 import platform
 
-libraryFile = ''
-libusb1FilePath = '/usr/local/lib/libusb-1.0.so'
-if(platform.system()=="Linux"):
-    if "64bit" in platform.architecture():
-        libraryFile = '/home/wdluo/USB2XXX/trunk/USB2XXX/USB2XXX/ubuntu-64bit/USB2XXX/bin/Release/libUSB2XXX.so'
-    else:
-        libraryFile = '/home/wdluo/USB2XXX/trunk/USB2XXX/USB2XXX/ubuntu-32bit/USB2XXX/bin/Release/libUSB2XXX.so'
-elif(platform.system()=="Windows"):
-    USB2XXXDllFile = 'F:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\vs2010\\Release\\USB2XXX.dll'
-    libusbDllFile = 'F:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\libusb-1.0.20\\Win32\\Release\\dll\\libusb-1.0.dll'
-else:
-    print("system error")
-    exit()
+usb2xxx_dll_path_32 = '..\\..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\msvc\\win32\\USB2XXX.dll'
+libusb_dll_path_32 = '..\\..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\msvc\\win32\\libusb-1.0.dll'
 
 def copyLibFiles():
     for root, dirs, files in os.walk(os.getcwd(), topdown=False):
         if(platform.system()=="Windows"):
             for name in files:# Copy USB2XXX.dll and USB2XXX.lib
-                if("USB2XXX.dll" in name):
-                    shutil.copy(USB2XXXDllFile,os.path.join(root, name))
-                if("libusb" in name):
-                    shutil.copy(libusbDllFile,os.path.join(root, name))
+                if(".lvlib" in name):
+                    dll_path = os.path.dirname(os.path.join(root, name))
+                    shutil.copy(os.path.join(usb2xxx_dll_path_32),os.path.join(dll_path))
+                    shutil.copy(os.path.join(libusb_dll_path_32),os.path.join(dll_path))
         else:
             print("system error")
             exit()
 
-def copyPublicFiles():
-    # shutil.copy(usbDeviceHeaderFile,'./PublicFiles');# copy the header file to ./PublicFiles
-    PublicFileList = os.listdir("../PublicFiles")
-    print(PublicFileList)
-    for root, dirs, files in os.walk(os.getcwd(), topdown=False):
-        for name in files:
-            if name in PublicFileList and not "PublicFiles" in root:
-                shutil.copy(os.path.join("../PublicFiles", name),os.path.join(root, name))
-
 if __name__ == '__main__': 
     copyLibFiles()
     print('Copy Lib File Success!')
-    #copyPublicFiles()
-    print('Copy Public File Success!')
 
 
 
