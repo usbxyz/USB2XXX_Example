@@ -20,7 +20,7 @@
 #include "usb_device.h"
 #include "usb2spi.h"
 
-#define USE_SPI_FLASH_API   1
+#define USE_SPI_FLASH_API   0
 
 int main(int argc, const char* argv[])
 {
@@ -30,7 +30,7 @@ int main(int argc, const char* argv[])
     bool state;
     int ret,i;
     //扫描查找设备
-    ret = USB_ScanDevice(NULL);
+    ret = USB_ScanDevice(DevHandle);
     if(ret <= 0){
         printf("No device connected!\n");
         return 0;

@@ -22,12 +22,12 @@ namespace USB2XXX
         }
         //方法定义
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 USB_ScanDevice(Int32[] pDevNum);
+        public static extern Int32 USB_ScanDevice(Int32[] pDevHandle);
         [DllImport("USB2XXX.dll")]
-        public static extern bool USB_OpenDevice(Int32 DevIndex);
+        public static extern bool USB_OpenDevice(Int32 DevHandle);
         [DllImport("USB2XXX.dll")]
-        public static extern bool USB_CloseDevice(Int32 DevIndex);
+        public static extern bool USB_CloseDevice(Int32 DevHandle);
         [DllImport("USB2XXX.dll")]
-        public static extern bool USB_GetDeviceInfo(Int32 DevIndex, ref DEVICE_INFO pDevInfo, StringBuilder pFunctionStr);
+        public static extern bool DEV_GetDeviceInfo(Int32 DevHandle, ref DEVICE_INFO pDevInfo, StringBuilder pFunctionStr);
     }
 }

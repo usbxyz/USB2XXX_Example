@@ -44,7 +44,7 @@ namespace USB2XXX
         public const Int32 SPI_ERR_CMD_FAIL        = (-4);  //命令执行失败
         public const Int32 SPI_ERR_PARAMETER       = (-5);  //参数错误
         //定义从机模式下连续读取数据的回调函数
-        public delegate Int32 SPI_GET_DATA_HANDLE(Int32 DevIndex, Int32 SPIIndex, Byte[] pData, Int32 DataNum);//接收数据回掉函数
+        public delegate Int32 SPI_GET_DATA_HANDLE(Int32 DevHandle, Int32 SPIIndex, Byte[] pData, Int32 DataNum);//接收数据回掉函数
         //定义初始化SPI的数据类型
         public struct SPI_CONFIG
         {
@@ -84,50 +84,50 @@ namespace USB2XXX
 
         /**
           * @brief  SPI初始化配置函数
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pConfig SPI初始化配置结构体指针
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_Init(Int32 DevIndex,Int32 SPIIndex, ref SPI_CONFIG pConfig);
+        public static extern Int32 SPI_Init(Int32 DevHandle,Int32 SPIIndex, ref SPI_CONFIG pConfig);
 
         /**
           * @brief  SPI发送数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pWriteData 数据发送缓冲区首地址
           * @param  WriteLen 数据发送字节数
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_WriteBytes(Int32 DevIndex,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen);
+        public static extern Int32 SPI_WriteBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen);
 
         /**
           * @brief  SPI异步方式发送数据，函数调用之后不会等待数据发送完毕，该方式可以加大数据发送速率
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pWriteData 数据发送缓冲区首地址
           * @param  WriteLen 数据发送字节数
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_AsyncWriteBytes(Int32 DevIndex,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen);
+        public static extern Int32 SPI_AsyncWriteBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen);
 
         /**
           * @brief  SPI接收数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pReadData 数据接收缓冲区首地址
           * @param  ReadLen 接收数据字节数
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_ReadBytes(Int32 DevIndex,Int32 SPIIndex,Byte[] pReadData,Int32 ReadLen);
+        public static extern Int32 SPI_ReadBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pReadData,Int32 ReadLen);
 
         /**
           * @brief  SPI发送接收数据，全双工模式下发送和接收同时进行，半双工模式下发送和接收分开进行，整个操作过程片选一直有效
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pWriteData 发送数据缓冲区首地址
           * @param  WriteLen 发送数据字节数
@@ -137,10 +137,10 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_WriteReadBytes(Int32 DevIndex,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen,Byte[] pReadData,Int32 ReadLen,Int32 IntervalTimeUs);
+        public static extern Int32 SPI_WriteReadBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen,Byte[] pReadData,Int32 ReadLen,Int32 IntervalTimeUs);
         /**
             * @brief  等到有效事件后SPI发送数据
-            * @param  DevIndex 设备索引号
+            * @param  DevHandle 设备句柄
             * @param  SPIIndex SPI通道号，取值0或者1
             * @param  pWriteData 数据发送缓冲区首地址
             * @param  WriteLen 数据发送字节数
@@ -150,12 +150,12 @@ namespace USB2XXX
             * @retval 函数执行状态，小于0函数执行出错
             */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_WriteBytesOfEvent(Int32 DevIndex,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen,Int32 EventPin,Byte EventType,Int32 TimeOutOfMs);
+        public static extern Int32 SPI_WriteBytesOfEvent(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen,Int32 EventPin,Byte EventType,Int32 TimeOutOfMs);
 
 
         /**
           * @brief  等到有效事件后SPI接收数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pReadData 数据接收缓冲区首地址
           * @param  ReadLen 接收数据字节数
@@ -165,11 +165,11 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_ReadBytesOfEvent(Int32 DevIndex,Int32 SPIIndex,Byte[] pReadData,Int32 ReadLen,Int32 EventPin,Byte EventType,Int32 TimeOutOfMs);
+        public static extern Int32 SPI_ReadBytesOfEvent(Int32 DevHandle,Int32 SPIIndex,Byte[] pReadData,Int32 ReadLen,Int32 EventPin,Byte EventType,Int32 TimeOutOfMs);
 
         /**
           * @brief  等到有效事件后SPI发送接收数据，全双工模式下发送和接收同时进行，半双工模式下发送和接收分开进行，整个操作过程片选一直有效
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pWriteData 发送数据缓冲区首地址
           * @param  WriteLen 发送数据字节数
@@ -182,32 +182,32 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_WriteReadBytesOfEvent(Int32 DevIndex,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen,Byte[] pReadData,Int32 ReadLen,Int32 IntervalTimeUs,Int32 EventPin,Byte EventType,Int32 TimeOutOfMs);
+        public static extern Int32 SPI_WriteReadBytesOfEvent(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen,Byte[] pReadData,Int32 ReadLen,Int32 IntervalTimeUs,Int32 EventPin,Byte EventType,Int32 TimeOutOfMs);
 
         /**
           * @brief  二进制模式写数据，该函数可以发送任意bit数数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pWriteBitStr 二进制数据字符串，如："100110011"
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_WriteBits(Int32 DevIndex,Int32 SPIIndex,StringBuilder pWriteBitStr);
+        public static extern Int32 SPI_WriteBits(Int32 DevHandle,Int32 SPIIndex,StringBuilder pWriteBitStr);
 
         /**
           * @brief  二进制模式读数据，该函数可以读取任意bit数数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pReadBitStr 读取到的二进制数据字符串，如："100110011"
           * @param  ReadBitsNum 读取数据的二进制bit数
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_ReadBits(Int32 DevIndex,Int32 SPIIndex,StringBuilder pReadBitStr,Int32 ReadBitsNum);
+        public static extern Int32 SPI_ReadBits(Int32 DevHandle,Int32 SPIIndex,StringBuilder pReadBitStr,Int32 ReadBitsNum);
 
         /**
           * @brief  二进制模式写读数据，该函数可以写读取任意bit数数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pWriteBitStr 写二进制数据字符串，如："100110011"
           * @param  pReadBitStr 读取到的二进制数据字符串，如："100110011"
@@ -215,11 +215,11 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_WriteReadBits(Int32 DevIndex,Int32 SPIIndex,StringBuilder pWriteBitStr,StringBuilder pReadBitStr,Int32 ReadBitsNum);
+        public static extern Int32 SPI_WriteReadBits(Int32 DevHandle,Int32 SPIIndex,StringBuilder pWriteBitStr,StringBuilder pReadBitStr,Int32 ReadBitsNum);
 
         /**
           * @brief  SPI从机模式下将数据写入数据发送缓冲区，等待主机的时钟信号再将数据发送出去
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pWriteData 发送数据缓冲区首地址
           * @param  WriteLen 发送数据字节数
@@ -227,92 +227,92 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_SlaveWriteBytes(Int32 DevIndex,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen,Int32 TimeOutMs);
+        public static extern Int32 SPI_SlaveWriteBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen,Int32 TimeOutMs);
 
         /**
           * @brief  SPI从机模式下获取接收数据缓冲区的数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pReadData 数据接收缓冲区首地址
           * @param  pReadLen 接收到的数据字节数
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_SlaveReadBytes(Int32 DevIndex,Int32 SPIIndex,Byte[] pReadData,Int32 TimeOutMs);
+        public static extern Int32 SPI_SlaveReadBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pReadData,Int32 TimeOutMs);
 
         /**
           * @brief  SPI从机模式下连续读取数据,SPI在从机模式下接收到数据之后，通过回调函数传出数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pSlaveReadDataHandle 从机模式下接收到数据后的回调函数
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_SlaveContinueRead(Int32 DevIndex,Int32 SPIIndex,SPI_GET_DATA_HANDLE pSlaveReadDataHandle);
+        public static extern Int32 SPI_SlaveContinueRead(Int32 DevHandle,Int32 SPIIndex,SPI_GET_DATA_HANDLE pSlaveReadDataHandle);
 
         /**
           * @brief  SPI从机模式下获取接收数据缓冲区的数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pReadData 数据接收缓冲区首地址
           * @param  BufferSize 数据缓冲区大小
           * @retval 获取到的数据字节数
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_SlaveGetBytes(Int32 DevIndex,Int32 SPIIndex,Byte[] pReadData,Int32 BufferSize);
+        public static extern Int32 SPI_SlaveGetBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pReadData,Int32 BufferSize);
         /**
           * @brief  停止SPI从机模式下连续读取数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_SlaveContinueReadStop(Int32 DevIndex,Int32 SPIIndex);
+        public static extern Int32 SPI_SlaveContinueReadStop(Int32 DevHandle,Int32 SPIIndex);
         /**
           * @brief  读写SPI-Flash初始化配置
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  ClockSpeed SPI时钟信号频率，单位为Hz,最大为50MHz，依次成倍递减
           * @param  pConfig SPI-Flash相关参数
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_FlashInit(Int32 DevIndex,Int32 SPIIndex,Int32 ClockSpeed, ref SPI_FLASH_CONFIG pConfig);
+        public static extern Int32 SPI_FlashInit(Int32 DevHandle,Int32 SPIIndex,Int32 ClockSpeed, ref SPI_FLASH_CONFIG pConfig);
 
         /**
           * @brief  读取SPI-Flash芯片的ID号
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pID 芯片ID号存储首地址，其长度由SPI_FLASH_CONFIG中的ID_Length决定
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_FlashReadID(Int32 DevIndex,Int32 SPIIndex,Byte[] pID);
+        public static extern Int32 SPI_FlashReadID(Int32 DevHandle,Int32 SPIIndex,Byte[] pID);
 
         /**
           * @brief  擦除SPI-Flash的扇区数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  StartSector 起始扇区号，注意是扇区号，不是具体的扇区地址
           * @param  NumSector 需要擦除的扇区数
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_FlashEraseSector(Int32 DevIndex,Int32 SPIIndex,Int32 StartSector,Int32 NumSector);
+        public static extern Int32 SPI_FlashEraseSector(Int32 DevHandle,Int32 SPIIndex,Int32 StartSector,Int32 NumSector);
 
         /**
           * @brief  擦除SPI-Flash整个芯片的数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_FlashEraseChip(Int32 DevIndex,Int32 SPIIndex);
+        public static extern Int32 SPI_FlashEraseChip(Int32 DevHandle,Int32 SPIIndex);
 
 
         /**
           * @brief  向SPI-Flash写数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  StartAddr 写数据起始地址
           * @param  pWriteData 写数据缓冲区首地址
@@ -320,11 +320,11 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_FlashWrite(Int32 DevIndex,Int32 SPIIndex,Int32 StartAddr,Byte[] pWriteData,Int32 WriteLen);
+        public static extern Int32 SPI_FlashWrite(Int32 DevHandle,Int32 SPIIndex,Int32 StartAddr,Byte[] pWriteData,Int32 WriteLen);
 
         /**
           * @brief  从SPI-Flash读数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  StartAddr 写数据起始地址
           * @param  pReadData 读数据缓冲区首地址
@@ -332,11 +332,11 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_FlashRead(Int32 DevIndex,Int32 SPIIndex,Int32 StartAddr,Byte[] pReadData,Int32 ReadLen);
+        public static extern Int32 SPI_FlashRead(Int32 DevHandle,Int32 SPIIndex,Int32 StartAddr,Byte[] pReadData,Int32 ReadLen);
 
         /**
           * @brief  从SPI-Flash读数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  StartAddr 写数据起始地址
           * @param  pReadData 读数据缓冲区首地址
@@ -344,11 +344,11 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_FlashReadFast(Int32 DevIndex,Int32 SPIIndex,Int32 StartAddr,Byte[] pReadData,Int32 ReadLen);
+        public static extern Int32 SPI_FlashReadFast(Int32 DevHandle,Int32 SPIIndex,Int32 StartAddr,Byte[] pReadData,Int32 ReadLen);
 
         /**
           * @brief  Block模式写数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pWriteData 写数据起始地址
           * @param  BlockSize 每次写数据字节数
@@ -357,11 +357,11 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_BlockWriteBytes(Int32 DevIndex,Int32 SPIIndex,Byte[] pWriteData,Int32 BlockSize,Int32 BlockNum,Int32 IntervalTimeUs);
+        public static extern Int32 SPI_BlockWriteBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Int32 BlockSize,Int32 BlockNum,Int32 IntervalTimeUs);
 
         /**
           * @brief  Block模式读数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pReadData 读数据缓冲区首地址
           * @param  BlockSize 每次读数据字节数
@@ -370,11 +370,11 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_BlockReadBytes(Int32 DevIndex,Int32 SPIIndex,Byte[] pReadData,Int32 BlockSize,Int32 BlockNum,Int32 IntervalTimeUs);
+        public static extern Int32 SPI_BlockReadBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pReadData,Int32 BlockSize,Int32 BlockNum,Int32 IntervalTimeUs);
 
         /**
           * @brief  Block模式写读数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pWriteData 写数据起始地址
           * @param  WriteBlockSize 每次读数据字节数
@@ -385,11 +385,11 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_BlockWriteReadBytes(Int32 DevIndex,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteBlockSize,Byte[] pReadData,Int32 ReadBlockSize,Int32 BlockNum,Int32 IntervalTimeUs);
+        public static extern Int32 SPI_BlockWriteReadBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteBlockSize,Byte[] pReadData,Int32 ReadBlockSize,Int32 BlockNum,Int32 IntervalTimeUs);
 
         /**
           * @brief  Block模式写数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pWriteData 写数据起始地址
           * @param  BlockSize 每次写数据字节数
@@ -400,11 +400,11 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_BlockWriteBytesOfEvent(Int32 DevIndex, Int32 SPIIndex, Byte[] pWriteData, Int32 BlockSize, Int32 BlockNum, Int32 EventPin, Byte EventType, Int32 TimeOutOfMs);
+        public static extern Int32 SPI_BlockWriteBytesOfEvent(Int32 DevHandle, Int32 SPIIndex, Byte[] pWriteData, Int32 BlockSize, Int32 BlockNum, Int32 EventPin, Byte EventType, Int32 TimeOutOfMs);
 
         /**
           * @brief  Block模式读数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pReadData 读数据缓冲区首地址
           * @param  BlockSize 每次读数据字节数
@@ -415,11 +415,11 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_BlockReadBytesOfEvent(Int32 DevIndex,Int32 SPIIndex,Byte[] pReadData,Int32 BlockSize,Int32 BlockNum,Int32 EventPin,Byte EventType,Int32 TimeOutOfMs);
+        public static extern Int32 SPI_BlockReadBytesOfEvent(Int32 DevHandle,Int32 SPIIndex,Byte[] pReadData,Int32 BlockSize,Int32 BlockNum,Int32 EventPin,Byte EventType,Int32 TimeOutOfMs);
 
         /**
           * @brief  Block模式写读数据
-          * @param  DevIndex 设备索引号
+          * @param  DevHandle 设备句柄
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  pWriteData 写数据起始地址
           * @param  WriteBlockSize 每次读数据字节数
@@ -432,7 +432,7 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_BlockWriteReadBytesOfEvent(Int32 DevIndex,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteBlockSize,Byte[] pReadData,Int32 ReadBlockSize,Int32 BlockNum,Int32 EventPin,Byte EventType,Int32 TimeOutOfMs);
+        public static extern Int32 SPI_BlockWriteReadBytesOfEvent(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteBlockSize,Byte[] pReadData,Int32 ReadBlockSize,Int32 BlockNum,Int32 EventPin,Byte EventType,Int32 TimeOutOfMs);
 
     }
 }

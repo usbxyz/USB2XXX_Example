@@ -14,7 +14,7 @@ namespace USB2XXXSPIW25Q64
             USB2SPI.SPI_FLASH_CONFIG SPIFlashConfig = new USB2SPI.SPI_FLASH_CONFIG();
             Int32[] DevHandles = new Int32[20];
             Int32 DevHandle = 0;
-            Int32 SPIIndex = 1;
+            Int32 SPIIndex = 0;
             bool state;
             Int32 DevNum, ret;
             Byte[] WriteBuffer = new Byte[64];
@@ -44,7 +44,7 @@ namespace USB2XXXSPIW25Q64
             }
             //获取固件信息
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
+            state = usb_device.DEV_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");

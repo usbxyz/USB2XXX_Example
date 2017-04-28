@@ -4,20 +4,8 @@ import shutil
 import time,  datetime
 import platform
 
-libraryFile = ''
-libusb0FilePath = '/usr/local/lib/libusb.so'
-libusb1FilePath = '/usr/local/lib/libusb-1.0.so'
-if(platform.system()=="Linux"):
-    if "64bit" in platform.architecture():
-        libraryFile = '/home/wdluo/USB2XXX/trunk/USB2XXX/USB2XXX/ubuntu-64bit/USB2XXX/bin/Release/libUSB2XXX.so'
-    else:
-        libraryFile = '/home/wdluo/USB2XXX/trunk/USB2XXX/USB2XXX/ubuntu-32bit/USB2XXX/bin/Release/libUSB2XXX.so'
-elif(platform.system()=="Windows"):
-    USB2XXXDllFile = 'F:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\vs2010\\Release\\USB2XXX.dll'
-    libusbDllFile = 'F:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\libusb-1.0.20\\Win32\\Release\\dll\\libusb-1.0.dll'
-else:
-    print("system error")
-    exit()
+usb2xxx_dll_path_32 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\msvc\\win32\\USB2XXX.dll'
+libusb_dll_path_32 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\msvc\\win32\\libusb-1.0.dll'
 
 # list all directory
 def listDir(rootDir):
@@ -56,8 +44,8 @@ def copyLibFiles():
             allDirName = os.path.join(root, name)
             if(platform.system()=="Windows"):
                 if 'bin' in allDirName and ('Debug' in allDirName or 'Release' in allDirName):
-                    shutil.copy(USB2XXXDllFile,os.path.join(root, name))
-                    shutil.copy(libusbDllFile,os.path.join(root, name))
+                    shutil.copy(os.path.join(usb2xxx_dll_path_32),os.path.join(root, name))
+                    shutil.copy(os.path.join(libusb_dll_path_32),os.path.join(root, name))
             else:
                 print("system error")
                 exit()
