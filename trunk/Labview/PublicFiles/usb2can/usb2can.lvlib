@@ -13,5 +13,5 @@
 	<Item Name="CAN Get Status.vi" Type="VI" URL="../VIs/CAN Get Status.vi"/>
 	<Item Name="CAN Init.vi" Type="VI" URL="../VIs/CAN Init.vi"/>
 	<Item Name="CAN Send Msg.vi" Type="VI" URL="../VIs/CAN Send Msg.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../USB2XXX.dll"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>

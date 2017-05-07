@@ -6,5 +6,5 @@
 	<Item Name="ADS1256 Read.vi" Type="VI" URL="../VIs/ADS1256 Read.vi"/>
 	<Item Name="ADS1256 Start.vi" Type="VI" URL="../VIs/ADS1256 Start.vi"/>
 	<Item Name="ADS1256 Stop.vi" Type="VI" URL="../VIs/ADS1256 Stop.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../USB2XXX.dll"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>

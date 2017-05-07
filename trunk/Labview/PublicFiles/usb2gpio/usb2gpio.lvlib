@@ -7,5 +7,5 @@
 	<Item Name="GPIO Set Open Drain.vi" Type="VI" URL="../VIs/GPIO Set Open Drain.vi"/>
 	<Item Name="GPIO Set Output.vi" Type="VI" URL="../VIs/GPIO Set Output.vi"/>
 	<Item Name="GPIO Write.vi" Type="VI" URL="../VIs/GPIO Write.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../USB2XXX.dll"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>

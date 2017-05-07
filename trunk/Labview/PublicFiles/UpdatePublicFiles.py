@@ -20,7 +20,8 @@ def copyLibFiles():
             exit()
 
 if __name__ == '__main__': 
-    copyLibFiles()
+    shutil.copy(os.path.join(usb2xxx_dll_path_32),os.path.join(os.getcwd()+'\\USB2XXX.dll'))
+    shutil.copy(os.path.join(libusb_dll_path_32),os.path.join(os.getcwd()+'\\libusb-1.0.dll'))
     print('Copy Lib File Success!')
 
 

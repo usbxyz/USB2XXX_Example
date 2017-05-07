@@ -25,5 +25,5 @@
 	<Item Name="SMBUS Write Byte Protocol.vi" Type="VI" URL="../VIs/SMBUS Write Byte Protocol.vi"/>
 	<Item Name="SMBUS Write Byte.vi" Type="VI" URL="../VIs/SMBUS Write Byte.vi"/>
 	<Item Name="SMBUS Write Word Protocol.vi" Type="VI" URL="../VIs/SMBUS Write Word Protocol.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../USB2XXX.dll"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>

@@ -7,5 +7,5 @@
 	<Item Name="CNT Set Value.vi" Type="VI" URL="../VIs/CNT Set Value.vi"/>
 	<Item Name="CNT Start.vi" Type="VI" URL="../VIs/CNT Start.vi"/>
 	<Item Name="CNT Stop.vi" Type="VI" URL="../VIs/CNT Stop.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../USB2XXX.dll"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>

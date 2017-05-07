@@ -10,5 +10,5 @@
 	<Item Name="USB Close Device.vi" Type="VI" URL="../VIs/USB Close Device.vi"/>
 	<Item Name="USB Open Device.vi" Type="VI" URL="../VIs/USB Open Device.vi"/>
 	<Item Name="USB Scan Device.vi" Type="VI" URL="../VIs/USB Scan Device.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../USB2XXX.dll"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>

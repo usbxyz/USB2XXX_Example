@@ -6,5 +6,5 @@
 	<Item Name="PWM Set Pulse.vi" Type="VI" URL="../VIs/PWM Set Pulse.vi"/>
 	<Item Name="PWM Start.vi" Type="VI" URL="../VIs/PWM Start.vi"/>
 	<Item Name="PWM Stop.vi" Type="VI" URL="../VIs/PWM Stop.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../USB2XXX.dll"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>

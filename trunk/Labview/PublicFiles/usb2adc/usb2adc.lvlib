@@ -7,5 +7,5 @@
 	<Item Name="ADC Read.vi" Type="VI" URL="../VIs/ADC Read.vi"/>
 	<Item Name="ADC Start Continue Read.vi" Type="VI" URL="../VIs/ADC Start Continue Read.vi"/>
 	<Item Name="ADC Stop Continue Read.vi" Type="VI" URL="../VIs/ADC Stop Continue Read.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../USB2XXX.dll"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>

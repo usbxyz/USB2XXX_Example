@@ -31,5 +31,5 @@
 	<Item Name="SPI Write Read Bits.vi" Type="VI" URL="../VIs/SPI Write Read Bits.vi"/>
 	<Item Name="SPI Write Read Bytes Of Event.vi" Type="VI" URL="../VIs/SPI Write Read Bytes Of Event.vi"/>
 	<Item Name="SPI Write Read Bytes.vi" Type="VI" URL="../VIs/SPI Write Read Bytes.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../USB2XXX.dll"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>
