@@ -47,7 +47,6 @@ int main(int argc, const char* argv[])
         printf("Hardware Version:v%d.%d.%d\n",(DevInfo.HardwareVersion>>24)&0xFF,(DevInfo.HardwareVersion>>16)&0xFF,DevInfo.HardwareVersion&0xFFFF);
 	    printf("Firmware Functions:%s\n",FuncStr);
     }
-
     //配置SPI总线相关参数
     SPIConfig.Mode = 0;
     SPIConfig.ClockSpeedHz = 50000000;
@@ -142,6 +141,32 @@ int main(int argc, const char* argv[])
 	printf("读取数据字节数: %.3f MBytes\n",PackSize*PackNum/(1024*1024.0));
 	printf("读取数据消耗时间: %f s\n",(EndTime-StartTime)/dfFreq);
 	printf("读取数据速度: %.3f MByte/s\n",PackSize*PackNum/((EndTime-StartTime)/dfFreq)/(1024*1024));
+	printf("-----------------------www.usbxyz.com-----------------------\n");
+    //多次传输数据，测试每次传输数据消耗时间
+    printf("\n开始测试...\n");
+    printf("传输方式：主机发送数据\n");
+    printf("传输模式：同步模式\n");
+    printf("SPI时钟频率：%d Hz\n",SPIConfig.ClockSpeedHz);
+    QueryPerformanceFrequency(&litmp);// Get the performance counter frequency, in n/s
+    dfFreq = (double)litmp.QuadPart;
+    QueryPerformanceCounter(&litmp);  // Get the current value of the performance counter
+    StartTime = litmp.QuadPart;       // Start time
+    int TestCount = 10000;
+    for(int i=0;i<TestCount;i++){
+        ret = SPI_WriteBytes(DevHandle[0],SPIIndex,WriteBuffer,3);
+        if(ret != SPI_SUCCESS){
+            printf("SPI read data error!\n");
+            getchar();
+            return 0;
+        }
+    }
+    //获取结束时间并打印输出耗时和速度
+    QueryPerformanceCounter(&litmp);// Get the current value of the performance counter
+    EndTime = litmp.QuadPart; // Stop time
+	printf("-----------------------www.usbxyz.com-----------------------\n");
+	printf("函数调用次数: %d 次\n",TestCount);
+	printf("总消耗时间: %f ms\n",(EndTime-StartTime)*1000.0/dfFreq);
+	printf("平均调用耗时: %.3f ms/次\n",((EndTime-StartTime)*1000.0/dfFreq)/TestCount);
 	printf("-----------------------www.usbxyz.com-----------------------\n");
     printf("速度测试完毕！\n");
     getchar();
