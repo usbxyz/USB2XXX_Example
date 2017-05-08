@@ -48,12 +48,14 @@ int main(int argc, const char* argv[])
     ret = USB_ScanDevice(DevHandle);
     if(ret <= 0){
         printf("No device connected!\n");
+        getchar();
         return 0;
     }
     //打开设备
     state = USB_OpenDevice(DevHandle[0]);
     if(!state){
         printf("Open device error!\n");
+        getchar();
         return 0;
     }
     //获取固件信息
@@ -61,6 +63,7 @@ int main(int argc, const char* argv[])
     state = DEV_GetDeviceInfo(DevHandle[0],&DevInfo,FuncStr);
     if(!state){
         printf("Get device infomation error!\n");
+        getchar();
         return 0;
     }else{
         printf("Firmware Name:%s\n",DevInfo.FirmwareName);
@@ -78,12 +81,14 @@ int main(int argc, const char* argv[])
     ret = ADS1256_Init(DevHandle[0],ADS1256Channel,&ADS1256Config);
     if(ret != ADS1256_SUCCESS){
         printf("Initialize ADS1256 error!\n");
+        getchar();
         return 0;
     }
     //启动ADS1256
     ret = ADS1256_Start(DevHandle[0],ADS1256Channel);
     if(ret != ADS1256_SUCCESS){
         printf("Start ADS1256 error!\n");
+        getchar();
         return 0;
     }
     //延时一段时间后读取数据
@@ -92,6 +97,7 @@ int main(int argc, const char* argv[])
     ret = ADS1256_Read(DevHandle[0],ADS1256Channel,DataBuffer);
     if(ret < 0){
         printf("Read ADS1256 error!\n");
+        getchar();
         return 0;
     }else{
         DataNum += ret;
@@ -101,6 +107,7 @@ int main(int argc, const char* argv[])
     ret = ADS1256_Read(DevHandle[0],ADS1256Channel,&DataBuffer[DataNum]);
     if(ret < 0){
         printf("Read ADS1256 error!\n");
+        getchar();
         return 0;
     }else{
         DataNum += ret;
@@ -109,6 +116,7 @@ int main(int argc, const char* argv[])
     ret = ADS1256_Stop(DevHandle[0],ADS1256Channel);
     if(ret != ADS1256_SUCCESS){
         printf("Stop ADS1256 error!\n");
+        getchar();
         return 0;
     }
     //延时一段时间后读取数据
@@ -116,6 +124,7 @@ int main(int argc, const char* argv[])
     ret = ADS1256_Read(DevHandle[0],ADS1256Channel,&DataBuffer[DataNum]);
     if(ret < 0){
         printf("Read ADS1256 error!\n");
+        getchar();
         return 0;
     }else{
         DataNum += ret;
@@ -125,5 +134,6 @@ int main(int argc, const char* argv[])
         printf("ADCDataBuffer[%d] = %f\r\n",i+1,(DataBuffer[i+1]*0.59604644775390625)/(double)((1<<(int)ADS1256Config.PGA)*(1000000)));
     }
     printf("ADS1256 Test End!\n");
+    getchar();
     return 0;
 }
