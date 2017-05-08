@@ -21,7 +21,7 @@
 #include "usb_device.h"
 #include "usb2ads1256.h"
 /*
-硬件连接说明
+硬件连接说明,注意蓝色端子的电源必须接上，否则可能会导致初始化失败
 USB2XXX_CH1  USB2XXX_CH0   ADS1256|
 ----------------------------------|
 P0           P8            DRDY   |
@@ -30,6 +30,8 @@ P4           P13           CS     |
 P5           P12           SCLK   |
 P6           P11           DOUT   |
 P7           P10           DIN    |
+3V3                        DVDD   |
+GND                        DGND   |
 */
 
 //主函数
@@ -39,7 +41,7 @@ int main(int argc, const char* argv[])
     unsigned char WriteBuffer[8]={0};
     unsigned char ReadDataBuffer[8];
     int DevHandle[10];
-    int ADS1256Channel = 0;
+    int ADS1256Channel = 1;
     bool state;
     int ret,k=0,DataNum=0;
     //扫描查找设备
