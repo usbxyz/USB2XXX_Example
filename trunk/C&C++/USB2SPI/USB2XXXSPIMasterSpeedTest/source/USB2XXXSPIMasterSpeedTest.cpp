@@ -17,7 +17,7 @@ int main(int argc, const char* argv[])
     const int PackNum = 1000;
     bool state;
     int ret;
-    unsigned char WriteBuffer[PackSize];
+    unsigned char WriteBuffer[PackSize]={0};
     unsigned char ReadBuffer[PackSize];
     //…®√Ë≤È’“…Ë±∏
     ret = USB_ScanDevice(DevHandle);
