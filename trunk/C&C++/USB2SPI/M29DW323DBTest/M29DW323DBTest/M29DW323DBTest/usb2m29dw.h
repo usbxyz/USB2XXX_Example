@@ -31,15 +31,16 @@
 #define M29DW_ERR_USB_WRITE_FAIL  (-2)  //USBÐ´Êý¾ÝÊ§°Ü
 #define M29DW_ERR_USB_READ_FAIL   (-3)  //USB¶ÁÊý¾ÝÊ§°Ü
 #define M29DW_ERR_CMD_FAIL        (-4)  //ÃüÁîÖ´ÐÐÊ§°Ü
-
+#define M29DW_ERR_TIME_OUT        (-5)
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
 int WINAPI M29DW_Init(int DevHandle);
-int WINAPI M29DW_Write(int DevHandle,unsigned int StartAddr,unsigned short *pWriteData,int WriteDataLen);
-int WINAPI M29DW_Read(int DevHandle,unsigned int StartAddr,unsigned short *pReadData,int ReadDataLen);
+int WINAPI M29DW_WriteData(int DevHandle,unsigned int StartAddr,unsigned short *pWriteData,int WriteDataLen);
+int WINAPI M29DW_ReadData(int DevHandle,unsigned int StartAddr,unsigned short *pReadData,int ReadDataLen);
+int WINAPI M29DW_BlockErase(int DevHandle,unsigned int BlockAddr);
 
 #ifdef __cplusplus
 }

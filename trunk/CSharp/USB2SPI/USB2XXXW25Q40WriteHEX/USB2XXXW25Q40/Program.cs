@@ -89,7 +89,7 @@ namespace USB2XXXW25Q40
                     }
                     if (DataType == 0x00)//'00' Data Rrecord：用来记录数据，HEX文件的大部分记录都是数据记录
                     {
-                        Addr = Convert.ToUInt16(szLine.Substring(3, 4), 16) + StartAddr;
+                        Addr = Convert.ToUInt16(szLine.Substring(3, 4), 16) + (StartAddr<<16);
                         szHex = szLine.Substring(9, DataLen * 2); //读取有效字符：后0和1
                         Byte[] DataBuffer = new Byte[DataLen];
                         Int32 i = 0, j = 0;
