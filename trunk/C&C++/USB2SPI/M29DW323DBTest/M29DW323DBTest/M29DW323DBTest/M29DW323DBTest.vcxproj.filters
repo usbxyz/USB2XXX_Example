@@ -26,12 +26,6 @@
     <ClInclude Include="usb2m29dw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="usb2gpio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="usb2spi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="USB2XXX.lib" />

@@ -41,6 +41,7 @@ int WINAPI M29DW_Init(int DevHandle);
 int WINAPI M29DW_WriteData(int DevHandle,unsigned int StartAddr,unsigned short *pWriteData,int WriteDataLen);
 int WINAPI M29DW_ReadData(int DevHandle,unsigned int StartAddr,unsigned short *pReadData,int ReadDataLen);
 int WINAPI M29DW_BlockErase(int DevHandle,unsigned int BlockAddr);
+int WINAPI M29DW_ReadID(int DevHandle,unsigned short *pManufacturerCode,unsigned short *pDeviceCode);
 
 #ifdef __cplusplus
 }

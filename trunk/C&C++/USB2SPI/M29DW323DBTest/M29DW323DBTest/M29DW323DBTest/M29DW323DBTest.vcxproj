@@ -77,9 +77,7 @@
     <ClCompile Include="M29DW323DBTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="usb2gpio.h" />
     <ClInclude Include="usb2m29dw.h" />
-    <ClInclude Include="usb2spi.h" />
     <ClInclude Include="usb_device.h" />
   </ItemGroup>
   <ItemGroup>
