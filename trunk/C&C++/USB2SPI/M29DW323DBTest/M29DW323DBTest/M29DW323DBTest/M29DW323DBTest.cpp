@@ -1,10 +1,10 @@
   /*
   ******************************************************************************
-  * @file     : USB2XXXSPIADS1256.cpp
+  * @file     : M29DW323DBTest.cpp
   * @Copyright: usbxyz 
   * @Revision : ver 1.0
-  * @Date     : 2014/12/19 9:33
-  * @brief    : USB2XXX SPI M95128 test demo
+  * @Date     : 2017/05/27 17:15
+  * @brief    : M29DW323DB test demo
   ******************************************************************************
   * @attention
   *
@@ -115,12 +115,6 @@ int main(int argc, const char* argv[])
         ret = M29DW_BlockErase(DevHandle[0],ChipBlockInfo_M29DW323DB[b].BlockStartAddr);
         if(ret != M29DW_SUCCESS){
             printf("Block Erase error!\n");
-            return 0;
-        }
-
-        ret = M29DW_ReadData(DevHandle[0],ChipBlockInfo_M29DW323DB[b].BlockStartAddr,ReadDataBuffer,TestDataNum);
-        if(ret != M29DW_SUCCESS){
-            printf("Read data error!\n");
             return 0;
         }
         printf("Write&Read block(%d) data...\n",b);
