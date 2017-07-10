@@ -24,8 +24,20 @@ FILE *pMISOFile;
 int MISOFileSize = 0;
 int __stdcall MISOGetDataCallback(int DevHandle,int SPIIndex,unsigned char *pData,int DataNum)
 {
-    fwrite(pData,1,DataNum,pMISOFile);
-    MISOFileSize += DataNum;
+    for(int i=0;i<(DataNum/16);i++){
+        for(int j=0;j<16;j++,MISOFileSize++){
+            fprintf(pMISOFile,"%02X ",*pData++);
+        }
+        if((MISOFileSize%16)==0){
+            fprintf(pMISOFile,"\n");
+        }
+    }
+    for(int j=0;j<(DataNum%16);j++,MISOFileSize++){
+        fprintf(pMISOFile,"%02X ",*pData++);
+        if((MISOFileSize%16)==0){
+            fprintf(pMISOFile,"\n");
+        }
+    }
     printf("MISO Get Data Num:%d\n",DataNum);
     return 0;
 }
@@ -35,8 +47,20 @@ FILE *pMOSIFile;
 int MOSIFileSize = 0;
 int __stdcall MOSIGetDataCallback(int DevHandle,int SPIIndex,unsigned char *pData,int DataNum)
 {
-    fwrite(pData,1,DataNum,pMOSIFile);
-    MOSIFileSize += DataNum;
+    for(int i=0;i<(DataNum/16);i++){
+        for(int j=0;j<16;j++,MOSIFileSize++){
+            fprintf(pMOSIFile,"%02X ",*pData++);
+        }
+        if((MISOFileSize%16)==0){
+            fprintf(pMOSIFile,"\n");
+        }
+    }
+    for(int j=0;j<(DataNum%16);j++,MOSIFileSize++){
+        fprintf(pMOSIFile,"%02X ",*pData++);
+        if((MISOFileSize%16)==0){
+            fprintf(pMOSIFile,"\n");
+        }
+    }
     printf("MOSI Get Data Num:%d\n",DataNum);
     return 0;
 }
@@ -85,14 +109,14 @@ int main(int argc, const char* argv[])
     }
     //输入SPI相关参数，必须和主机匹配
     int DataTemp;
-    /*printf("Please input CPHA(0 or 1):");
+    printf("Please input CPHA(0 or 1):");
     scanf("%d",&DataTemp);
     SPIConfig.CPHA = DataTemp;
     printf("Please input CPOL(0 or 1):");
     scanf("%d",&DataTemp);
     SPIConfig.CPOL = DataTemp;
     printf("SPIConfig.CPHA = %d\n",SPIConfig.CPHA);
-    printf("SPIConfig.CPOL = %d\n",SPIConfig.CPOL);*/
+    printf("SPIConfig.CPOL = %d\n",SPIConfig.CPOL);
     //配置SPI总线相关参数(配置为从机模式)
     SPIConfig.Mode = SPI_MODE_HARD_FDX;
     SPIConfig.ClockSpeedHz = 50000000;
@@ -115,11 +139,11 @@ int main(int argc, const char* argv[])
     }
     //输入文件名
     //printf("Please input file name:");
-    const char *pMISOFileName = "MISO_Data.bin";
-    const char *pMOSIFileName = "MOSI_Data.bin";
+    const char *pMISOFileName = "MISO_Data.txt";
+    const char *pMOSIFileName = "MOSI_Data.txt";
     //gets(FileName);
     printf("Start receive data to file!\n");
-    printf("Press any key to exit the data reception!\n");
+    printf("Input 'q' to exit the data reception!\n");
     //printf("Data saved to data.csv\n");
     pMISOFile=fopen(pMISOFileName,"wb"); //获取文件的指针
     if(pMISOFile == NULL){
@@ -135,7 +159,12 @@ int main(int argc, const char* argv[])
     }
     SPI_SlaveContinueRead(DevHandle,MOSISPIIndex,MOSIGetDataCallback);
     SPI_SlaveContinueRead(DevHandle,MISOSPIIndex,MISOGetDataCallback);
-    getchar();
+    while(1){
+        scanf("%c",&DataTemp);
+        if(DataTemp=='q'){
+            break;
+        }
+    }
     SPI_SlaveContinueReadStop(DevHandle,MOSISPIIndex);
     SPI_SlaveContinueReadStop(DevHandle,MISOSPIIndex);
     USB_CloseDevice(DevHandle);
