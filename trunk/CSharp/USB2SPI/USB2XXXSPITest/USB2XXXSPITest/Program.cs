@@ -21,7 +21,7 @@ namespace USB2XXXSPITest
             Byte[] WriteBuffer = new Byte[64];
             Byte[] ReadBuffer = new Byte[20480];
             //扫描查找设备
-            DevNum = usb_device.USB_ScanDevice(null);
+            DevNum = usb_device.USB_ScanDevice(DevHandles);
             if (DevNum <= 0)
             {
                 Console.WriteLine("No device connected!");
