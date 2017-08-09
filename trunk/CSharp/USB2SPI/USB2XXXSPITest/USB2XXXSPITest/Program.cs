@@ -89,7 +89,7 @@ namespace USB2XXXSPITest
             }
             //SPI异步发送数据，调用该函数后会立即返回，但是SPI数据不一定发送完毕，但是在下一次发送数据之前会保证数据发送完毕
             for(int i=0;i<64;i++){
-                ret = USB2SPI.SPI_AsyncWriteBytes(DevHandle, SPIIndex, WriteBuffer, WriteBuffer.Length);
+                ret = USB2SPI.SPI_WriteBytesAsync(DevHandle, SPIIndex, WriteBuffer, WriteBuffer.Length);
                 if (ret != USB2SPI.SPI_SUCCESS)
                 {
                     Console.WriteLine("SPI async write data error!");

@@ -112,7 +112,7 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_AsyncWriteBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen);
+        public static extern Int32 SPI_WriteBytesAsync(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Int32 WriteLen);
 
         /**
           * @brief  SPI接收数据
