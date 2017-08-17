@@ -14,7 +14,7 @@ int main(int argc, const char* argv[])
     bool state;
     int ret;
     //…®√Ë≤È’“…Ë±∏
-    ret = USB_ScanDevice(NULL);
+    ret = USB_ScanDevice(DevHandle);
     if(ret <= 0){
         printf("No device connected!\n");
         getchar();

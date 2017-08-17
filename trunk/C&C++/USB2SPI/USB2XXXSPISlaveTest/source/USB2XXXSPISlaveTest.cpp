@@ -38,6 +38,7 @@ int main(int argc, const char* argv[])
     bool state;
     int ret;
     unsigned char ReadBuffer[20480];
+    unsigned char WriteBuffer[20480];
     //扫描查找设备
     ret = USB_ScanDevice(DevHandle);
     if(ret <= 0){
@@ -91,6 +92,12 @@ int main(int argc, const char* argv[])
         getchar();
         return 0;
     }
+    //从机模式写数据，数据写入适配器内部数据缓冲区，等待主机读取
+    ret = SPI_SlaveWriteBytes(DevHandle[0],SPIIndex,WriteBuffer,32,0);
+    printf("ret = %d\n",ret);
+    //通过主动调用从机接收数据函数获取数据
+    //ret = SPI_SlaveReadBytes(DevHandle[0],SPIIndex)
+    //通过回调函数方式接收数据，并将数据写入文件中
     //输入文件名
     printf("Please input file name:");
     char FileName[512]={0};
