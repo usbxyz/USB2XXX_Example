@@ -36,8 +36,6 @@ int main(int argc, const char* argv[])
     int CANIndex = 0;//USB2XXX只支持一个通道，所以该参数必须为0
     bool state;
     int ret;
-    //printf("%d\n",sizeof(CanMsg));
-    //return 0;
     //扫描查找设备
     ret = USB_ScanDevice(DevHandle);
     if(ret <= 0){
