@@ -1,4 +1,3 @@
-#-*- coding: utf-8 -*-
 """
 文件说明：USB2XXX GPIO操作相关函数集合
 更多帮助：www.usbxyz.com
@@ -14,10 +13,6 @@ GPIO_ERR_USB_WRITE_FAIL = -2 # USB write data error
 GPIO_ERR_USB_READ_FAIL = -3  # USB read data error
 GPIO_ERR_CMD_FAIL = -4       # execute function error
 
-# 上下拉电阻配置
-GPIO_PUPD_NOPULL  =     0x00    #没有上拉下拉
-GPIO_PUPD_UP      =     0x01    #使能上拉
-GPIO_PUPD_DOWN    =     0x02    #使能下拉
 
 # 将GPIO设置为输入模式
 def GPIO_SetInput(DevHandle,PinMask,PuPd):

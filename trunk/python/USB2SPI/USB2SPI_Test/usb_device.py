@@ -35,18 +35,29 @@ else:
     exit()
 
 # Scan device
-def USB_ScanDevice(pDevNum):
-    return USB2XXXLib.USB_ScanDevice(pDevNum)
+def USB_ScanDevice(pDevHandle):
+    return USB2XXXLib.USB_ScanDevice(pDevHandle)
 
 # Open device
-def USB_OpenDevice(DevIndex):
-    return USB2XXXLib.USB_OpenDevice(DevIndex)
+def USB_OpenDevice(DevHandle):
+    return USB2XXXLib.USB_OpenDevice(DevHandle)
 
 # Get USB2XXX infomation
-def USB_GetDeviceInfo(DevIndex, pDevInfo, pFunctionStr):
-    return USB2XXXLib.USB_GetDeviceInfo(DevIndex, pDevInfo, pFunctionStr)
+def DEV_GetDeviceInfo(DevHandle, pDevInfo, pFunctionStr):
+    return USB2XXXLib.DEV_GetDeviceInfo(DevHandle, pDevInfo, pFunctionStr)
 
 # Close device
-def USB_CloseDevice(DevIndex):
-    return USB2XXXLib.USB_CloseDevice(DevIndex)
+def USB_CloseDevice(DevHandle):
+    return USB2XXXLib.USB_CloseDevice(DevHandle)
 
+def DEV_EraseUserData(DevHandle):
+    return USB2XXXLib.DEV_EraseUserData(DevHandle)
+
+def DEV_WriteUserData(DevHandle,OffsetAddr,pWriteData,DataLen):
+    return USB2XXXLib.DEV_WriteUserData(DevHandle,OffsetAddr,pWriteData,DataLen)
+
+def DEV_ReadUserData(DevHandle,OffsetAddr,pReadData,DataLen):
+    return USB2XXXLib.DEV_ReadUserData(DevHandle,OffsetAddr,pReadData,DataLen)
+
+def DEV_SetPowerLevel(DevHandle,PowerLevel):
+    return USB2XXXLib.DEV_SetPowerLevel(DevHandle,PowerLevel)

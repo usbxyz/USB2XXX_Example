@@ -87,81 +87,81 @@ class SPI_FLASH_CONFIG(Structure):
     ]
 # SPI基础函数
 # SPI初始化配置函数
-def SPI_Init(DevIndex,SPIIndex, pConfig):
-    return USB2XXXLib.SPI_Init(DevIndex,SPIIndex, pConfig)
+def SPI_Init(DevHandle,SPIIndex, pConfig):
+    return USB2XXXLib.SPI_Init(DevHandle,SPIIndex, pConfig)
 # SPI写数据，该函数必须等待SPI数据传输完毕之后再返回
-def SPI_WriteBytes(DevIndex,SPIIndex,pWriteData,WriteLen):
-    return USB2XXXLib.SPI_WriteBytes(DevIndex,SPIIndex,pWriteData,WriteLen)
+def SPI_WriteBytes(DevHandle,SPIIndex,pWriteData,WriteLen):
+    return USB2XXXLib.SPI_WriteBytes(DevHandle,SPIIndex,pWriteData,WriteLen)
 # SPI异步模式写数据，调用该函数不等待数据发送完毕立即返回，下次发送数据的时候会等待之前的数据传输完毕
-def SPI_AsyncWriteBytes(DevIndex,SPIIndex,pWriteData,WriteLen):
-    return USB2XXXLib.SPI_AsyncWriteBytes(DevIndex,SPIIndex,pWriteData,WriteLen)
+def SPI_WriteBytesAsync(DevHandle,SPIIndex,pWriteData,WriteLen):
+    return USB2XXXLib.SPI_WriteBytesAsync(DevHandle,SPIIndex,pWriteData,WriteLen)
 # SPI读数据
-def SPI_ReadBytes(DevIndex,SPIIndex,pReadData,ReadLen):
-    return USB2XXXLib.SPI_ReadBytes(DevIndex,SPIIndex,pReadData,ReadLen)
+def SPI_ReadBytes(DevHandle,SPIIndex,pReadData,ReadLen):
+    return USB2XXXLib.SPI_ReadBytes(DevHandle,SPIIndex,pReadData,ReadLen)
 # SPI写读数据
-def SPI_WriteReadBytes(DevIndex,SPIIndex,pWriteData,WriteLen,pReadData,ReadLen,IntervalTimeUs):
-    return USB2XXXLib.SPI_WriteReadBytes(DevIndex,SPIIndex,pWriteData,WriteLen,pReadData,ReadLen,IntervalTimeUs)
+def SPI_WriteReadBytes(DevHandle,SPIIndex,pWriteData,WriteLen,pReadData,ReadLen,IntervalTimeUs):
+    return USB2XXXLib.SPI_WriteReadBytes(DevHandle,SPIIndex,pWriteData,WriteLen,pReadData,ReadLen,IntervalTimeUs)
 
 # 二进制模式操作函数
 # 二进制模式写数据
-def SPI_WriteBits(DevIndex,SPIIndex,pWriteBitStr):
-    return USB2XXXLib.SPI_WriteBits(DevIndex,SPIIndex,pWriteBitStr) 
+def SPI_WriteBits(DevHandle,SPIIndex,pWriteBitStr):
+    return USB2XXXLib.SPI_WriteBits(DevHandle,SPIIndex,pWriteBitStr) 
 # 二进制模式读数据
-def SPI_ReadBits(DevIndex,SPIIndex,pReadBitStr,ReadBitsNum):
-    return USB2XXXLib.SPI_ReadBits(DevIndex,SPIIndex,pReadBitStr,ReadBitsNum)
+def SPI_ReadBits(DevHandle,SPIIndex,pReadBitStr,ReadBitsNum):
+    return USB2XXXLib.SPI_ReadBits(DevHandle,SPIIndex,pReadBitStr,ReadBitsNum)
 # 二进制模式写读数据
-def SPI_WriteReadBits(DevIndex,SPIIndex,pWriteBitStr,pReadBitStr,ReadBitsNum):
-    return USB2XXXLib.SPI_WriteReadBits(DevIndex,SPIIndex,pWriteBitStr,pReadBitStr,ReadBitsNum)
+def SPI_WriteReadBits(DevHandle,SPIIndex,pWriteBitStr,pReadBitStr,ReadBitsNum):
+    return USB2XXXLib.SPI_WriteReadBits(DevHandle,SPIIndex,pWriteBitStr,pReadBitStr,ReadBitsNum)
 
 # SPI 块操作相关函数
 # Block模式写数据
-def SPI_BlockWriteBytes(DevIndex,SPIIndex,pWriteData,BlockSize,BlockNum,IntervalTimeUs):
-    return USB2XXXLib.SPI_BlockWriteBytes(DevIndex,SPIIndex,pWriteData,BlockSize,BlockNum,IntervalTimeUs)
+def SPI_BlockWriteBytes(DevHandle,SPIIndex,pWriteData,BlockSize,BlockNum,IntervalTimeUs):
+    return USB2XXXLib.SPI_BlockWriteBytes(DevHandle,SPIIndex,pWriteData,BlockSize,BlockNum,IntervalTimeUs)
 # Block模式读数据
-def SPI_BlockReadBytes(DevIndex,SPIIndex,pReadData,BlockSize,BlockNum,IntervalTimeUs):
-    return USB2XXXLib.SPI_BlockReadBytes(DevIndex,SPIIndex,pReadData,BlockSize,BlockNum,IntervalTimeUs)
+def SPI_BlockReadBytes(DevHandle,SPIIndex,pReadData,BlockSize,BlockNum,IntervalTimeUs):
+    return USB2XXXLib.SPI_BlockReadBytes(DevHandle,SPIIndex,pReadData,BlockSize,BlockNum,IntervalTimeUs)
 # Block模式写读数据
-def SPI_BlockWriteReadBytes(DevIndex,SPIIndex,pWriteData,WriteBlockSize,pReadData,ReadBlockSize,BlockNum,IntervalTimeUs):
-    return USB2XXXLib.SPI_BlockWriteReadBytes(DevIndex,SPIIndex,pWriteData,WriteBlockSize,pReadData,ReadBlockSize,BlockNum,IntervalTimeUs)
+def SPI_BlockWriteReadBytes(DevHandle,SPIIndex,pWriteData,WriteBlockSize,pReadData,ReadBlockSize,BlockNum,IntervalTimeUs):
+    return USB2XXXLib.SPI_BlockWriteReadBytes(DevHandle,SPIIndex,pWriteData,WriteBlockSize,pReadData,ReadBlockSize,BlockNum,IntervalTimeUs)
 
 # SPI从机模式相关函数
 # 从机模式写数据
-def SPI_SlaveWriteBytes(DevIndex,SPIIndex,pWriteData,WriteLen,TimeOutMs):
-    return USB2XXXLib.SPI_SlaveWriteBytes(DevIndex,SPIIndex,pWriteData,WriteLen,TimeOutMs)
+def SPI_SlaveWriteBytes(DevHandle,SPIIndex,pWriteData,WriteLen,TimeOutMs):
+    return USB2XXXLib.SPI_SlaveWriteBytes(DevHandle,SPIIndex,pWriteData,WriteLen,TimeOutMs)
 # 从机模式读数据
-def SPI_SlaveReadBytes(DevIndex,SPIIndex,pReadData,TimeOutMs):
-    return USB2XXXLib.SPI_SlaveReadBytes(DevIndex,SPIIndex,pReadData,TimeOutMs)
+def SPI_SlaveReadBytes(DevHandle,SPIIndex,pReadData,TimeOutMs):
+    return USB2XXXLib.SPI_SlaveReadBytes(DevHandle,SPIIndex,pReadData,TimeOutMs)
 # 从机模式连续读数据，该函数会启动一个线程读取数据
-def SPI_SlaveContinueRead(DevIndex,SPIIndex,pSlaveReadDataHandle):
-    return USB2XXXLib.SPI_SlaveContinueRead(DevIndex,SPIIndex,pSlaveReadDataHandle)
+def SPI_SlaveContinueRead(DevHandle,SPIIndex,pSlaveReadDataHandle):
+    return USB2XXXLib.SPI_SlaveContinueRead(DevHandle,SPIIndex,pSlaveReadDataHandle)
 # 从机模式读数据，该数据已经被内部读数据线程读到内部缓冲区中
-def SPI_SlaveGetBytes(DevIndex,SPIIndex,pReadData,BufferSize):
-    return USB2XXXLib.SPI_SlaveGetBytes(DevIndex,SPIIndex,pReadData,BufferSize)
+def SPI_SlaveGetBytes(DevHandle,SPIIndex,pReadData,BufferSize):
+    return USB2XXXLib.SPI_SlaveGetBytes(DevHandle,SPIIndex,pReadData,BufferSize)
 # 停止从机模式连续读数据
-def SPI_SlaveContinueReadStop(DevIndex,SPIIndex):
-    return USB2XXXLib.SPI_SlaveContinueReadStop(DevIndex,SPIIndex)
+def SPI_SlaveContinueReadStop(DevHandle,SPIIndex):
+    return USB2XXXLib.SPI_SlaveContinueReadStop(DevHandle,SPIIndex)
 
 #SPI Flash操作相关函数
 # Flash参数初始化
-def SPI_FlashInit(DevIndex,SPIIndex,ClockSpeed,pConfig):
-    return USB2XXXLib.SPI_FlashInit(DevIndex,SPIIndex,ClockSpeed,pConfig)
+def SPI_FlashInit(DevHandle,SPIIndex,ClockSpeed,pConfig):
+    return USB2XXXLib.SPI_FlashInit(DevHandle,SPIIndex,ClockSpeed,pConfig)
 # Flash读取芯片ID
-def SPI_FlashReadID(DevIndex,SPIIndex,pID):
-    return USB2XXXLib.SPI_FlashReadID(DevIndex,SPIIndex,pID)
+def SPI_FlashReadID(DevHandle,SPIIndex,pID):
+    return USB2XXXLib.SPI_FlashReadID(DevHandle,SPIIndex,pID)
 # Flash擦出扇区
-def SPI_FlashEraseSector(DevIndex,SPIIndex,StartSector,NumSector):
-    return USB2XXXLib.SPI_FlashEraseSector(DevIndex,SPIIndex,StartSector,NumSector)
+def SPI_FlashEraseSector(DevHandle,SPIIndex,StartSector,NumSector):
+    return USB2XXXLib.SPI_FlashEraseSector(DevHandle,SPIIndex,StartSector,NumSector)
 # Flash擦出整片
-def SPI_FlashEraseChip(DevIndex,SPIIndex):
-    return USB2XXXLib.SPI_FlashEraseChip(DevIndex,SPIIndex)
+def SPI_FlashEraseChip(DevHandle,SPIIndex):
+    return USB2XXXLib.SPI_FlashEraseChip(DevHandle,SPIIndex)
 # Flash写数据
-def SPI_FlashWrite(DevIndex,SPIIndex,StartAddr,pWriteData,WriteLen):
-    return USB2XXXLib.SPI_FlashWrite(DevIndex,SPIIndex,StartAddr,pWriteData,WriteLen)
+def SPI_FlashWrite(DevHandle,SPIIndex,StartAddr,pWriteData,WriteLen):
+    return USB2XXXLib.SPI_FlashWrite(DevHandle,SPIIndex,StartAddr,pWriteData,WriteLen)
 # Flash读数据
-def SPI_FlashRead(DevIndex,SPIIndex,StartAddr,pReadData,ReadLen):
-    return USB2XXXLib.SPI_FlashRead(DevIndex,SPIIndex,StartAddr,pReadData,ReadLen)
+def SPI_FlashRead(DevHandle,SPIIndex,StartAddr,pReadData,ReadLen):
+    return USB2XXXLib.SPI_FlashRead(DevHandle,SPIIndex,StartAddr,pReadData,ReadLen)
 # Flash快速模式读数据
-def SPI_FlashReadFast(DevIndex,SPIIndex,StartAddr,pReadData,ReadLen):
-    return USB2XXXLib.SPI_FlashReadFast(DevIndex,SPIIndex,StartAddr,pReadData,ReadLen)
+def SPI_FlashReadFast(DevHandle,SPIIndex,StartAddr,pReadData,ReadLen):
+    return USB2XXXLib.SPI_FlashReadFast(DevHandle,SPIIndex,StartAddr,pReadData,ReadLen)
 
 
