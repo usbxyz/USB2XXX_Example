@@ -44,7 +44,7 @@ if __name__ == '__main__':
     else:
         print("Get device infomation faild!")
         exit()
-    # Initialize spi
+    # 初始化CAN
     CANConfig = CAN_INIT_CONFIG()
     CANConfig.CAN_Mode = 1      # 1-自发自收模式，0-正常模式
     CANConfig.CAN_ABOM = 0

@@ -56,9 +56,9 @@ typedef struct _LIN_CONFIG{
 }LIN_CONFIG,*PLIN_CONFIG;
 //设置从模式下ID操作模式
 typedef struct _SLAVE_LIN_DATA{
-  uint8_t DataLen;  //从模式下发送数据的长度或者从模式接收数据的长度，不含校验字节
-  uint8_t WorkMode; //0-从模式发送数据，1-从模式接收数据
-  uint8_t Data[9];  //从模式下接收到的数据字节或者待发送的数据字节
+  unsigned char DataLen;  //从模式下发送数据的长度或者从模式接收数据的长度，不含校验字节
+  unsigned char WorkMode; //0-从模式发送数据，1-从模式接收数据
+  unsigned char Data[9];  //从模式下接收到的数据字节或者待发送的数据字节
 }SLAVE_LIN_DATA,*PSLAVE_LIN_DATA;
 
 #ifdef __cplusplus
