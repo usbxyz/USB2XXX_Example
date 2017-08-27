@@ -114,9 +114,10 @@ if __name__ == '__main__':
     elif ret == 0:
         print("LIN slave read no data!")
     else:
+        print("LIN Slave Read Data:")
         for i in range(0,ret):
             print("Data[%d]: "%i,end='')
-            print("ID = 0x%02X "%LINSlaveDataBuffer[i].Data[0]&0x3F,end='')
+            print("ID = 0x%02X "%(LINSlaveDataBuffer[i].Data[0]&0x3F),end='')
             print("Data = ",end='')
             for j in range(0,LINSlaveDataBuffer[i].DataLen):
                 print("0x%02X "%LINSlaveDataBuffer[i].Data[1+j],end='')
@@ -132,7 +133,10 @@ if __name__ == '__main__':
         print("LIN read data no data!")
         exit()
     else:
+        print("LIN Master Read Data:")
         print("LIN Read: ",end='')
+        print("ID = 0x%02X "%(ID&0x3F),end='')
+        print("Data = ",end='')
         for i in range(0,ret):
             print("0x%02X "%read_buffer[i],end='')
         print("")

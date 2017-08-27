@@ -36,7 +36,7 @@ class LIN_CONFIG(Structure):
         ("BreakBits",c_ubyte),     # Break长度，0x00-10bit,0x20-11bit
     ]
 # 设置从模式下ID操作模式
-class LIN_CONFIG(Structure):
+class SLAVE_LIN_DATA(Structure):
     _fields_ = [
         ("DataLen",c_ubyte),   # 从模式下发送数据的长度或者从模式接收数据的长度，不含校验字节
         ("WorkMode",c_ubyte),  # 0-从模式发送数据，1-从模式接收数据
