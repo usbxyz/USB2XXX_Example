@@ -52,35 +52,35 @@ else:
 # SPI初始化参数结构体
 class SPI_CONFIG(Structure):
     _fields_ = [
-        ("Mode", c_char),       # SPI控制方式:0-硬件控制（全双工模式）,1-硬件控制（半双工模式），2-软件控制（半双工模式）,3-单总线模式，数据线输入输出都为MOSI
-        ("Master", c_char),     # 主从选择控制:0-从机，1-主机
-        ("CPOL", c_char),       # 时钟极性控制:0-SCK空闲时为低电平，1-SCK空闲时为高电平
-        ("CPHA",c_char),        # 时钟相位控制:0-第一个SCK时钟采样，1-第二个SCK时钟采样
-        ("LSBFirst",c_char),    # 数据移位方式:0-MSB在前，1-LSB在前
-        ("SelPolarity",c_char), # 片选信号极性:0-低电平选中，1-高电平选中
+        ("Mode", c_ubyte),       # SPI控制方式:0-硬件控制（全双工模式）,1-硬件控制（半双工模式），2-软件控制（半双工模式）,3-单总线模式，数据线输入输出都为MOSI
+        ("Master", c_ubyte),     # 主从选择控制:0-从机，1-主机
+        ("CPOL", c_ubyte),       # 时钟极性控制:0-SCK空闲时为低电平，1-SCK空闲时为高电平
+        ("CPHA",c_ubyte),        # 时钟相位控制:0-第一个SCK时钟采样，1-第二个SCK时钟采样
+        ("LSBFirst",c_ubyte),    # 数据移位方式:0-MSB在前，1-LSB在前
+        ("SelPolarity",c_ubyte), # 片选信号极性:0-低电平选中，1-高电平选中
         ("ClockSpeedHz",c_uint) # SPI时钟频率:单位为HZ，硬件模式下最大50000000，最小390625，频率按2的倍数改变
     ]
 
 # 定义SPI Flash器件配置参数数据类型
 class SPI_FLASH_CONFIG(Structure):
     _fields_ = [
-    ("CMD_WriteEnable", c_char),            # 使能写命令
-    (" CMD_WriteDisable", c_char),          # 禁止写命令
-    ("CMD_WritePage", c_char),              # 写数据命令
-    ("WritePageAddressBytes", c_char),      # 写数据时的地址宽度，单位为字节
-    ("CMD_EraseSector", c_char),            # 扇区擦出命令
-    ("EraseSectorAddressBytes", c_char),    # 扇区擦出的地址宽度，单位为字节
-    ("CMD_EraseBulk", c_char),              # 块擦出命令
-    ("CMD_EraseChip", c_char),              # 整片擦出命令
-    ("CMD_ReadID", c_char),                 # 读芯片ID命令
-    ("CMD_ReadData", c_char),               # 读数据命令
-    ("ReadDataAddressBytes", c_char),       # 读数据时的地址宽度，单位为字节
-    ("CMD_ReadFast", c_char),               # 快速模式读数据命令
-    ("ReadFastAddressBytes", c_char),       # 快速读数据时的地址宽度，单位为字节
-    ("CMD_ReadStatus", c_char),             # 读取状态寄存器命令
-    ("CMD_WriteStatus", c_char),            # 写状态寄存器命令
-    ("ID", c_char*16),                      # 芯片ID存储数组
-    ("ID_Length", c_char),                  # ID长度，单位为字节
+    ("CMD_WriteEnable", c_ubyte),            # 使能写命令
+    (" CMD_WriteDisable", c_ubyte),          # 禁止写命令
+    ("CMD_WritePage", c_ubyte),              # 写数据命令
+    ("WritePageAddressBytes", c_ubyte),      # 写数据时的地址宽度，单位为字节
+    ("CMD_EraseSector", c_ubyte),            # 扇区擦出命令
+    ("EraseSectorAddressBytes", c_ubyte),    # 扇区擦出的地址宽度，单位为字节
+    ("CMD_EraseBulk", c_ubyte),              # 块擦出命令
+    ("CMD_EraseChip", c_ubyte),              # 整片擦出命令
+    ("CMD_ReadID", c_ubyte),                 # 读芯片ID命令
+    ("CMD_ReadData", c_ubyte),               # 读数据命令
+    ("ReadDataAddressBytes", c_ubyte),       # 读数据时的地址宽度，单位为字节
+    ("CMD_ReadFast", c_ubyte),               # 快速模式读数据命令
+    ("ReadFastAddressBytes", c_ubyte),       # 快速读数据时的地址宽度，单位为字节
+    ("CMD_ReadStatus", c_ubyte),             # 读取状态寄存器命令
+    ("CMD_WriteStatus", c_ubyte),            # 写状态寄存器命令
+    ("ID", c_ubyte*16),                      # 芯片ID存储数组
+    ("ID_Length", c_ubyte),                  # ID长度，单位为字节
     ("PageSize", c_int),                    # 页大小，单位为字节
     ("NumPages", c_int),                    # 芯片总的页数
     ("SectorSize", c_int),                  # 扇区大小，单位为字节
