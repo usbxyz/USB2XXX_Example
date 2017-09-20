@@ -29,7 +29,7 @@ if __name__ == '__main__':
     # Get device infomation
     USB2XXXInfo = DEVICE_INFO()
     USB2XXXFunctionString = (c_char * 256)()
-    ret = USB_GetDeviceInfo(DevHandles[DevIndex],byref(USB2XXXInfo),byref(USB2XXXFunctionString))
+    ret = DEV_GetDeviceInfo(DevHandles[DevIndex],byref(USB2XXXInfo),byref(USB2XXXFunctionString))
     if(bool(ret)):
         print("USB2XXX device infomation:")
         print("--Firmware Name: %s"%bytes(USB2XXXInfo.FirmwareName).decode('ascii'))
