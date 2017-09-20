@@ -24,8 +24,8 @@ class IIC_CONFIG(Structure):
     _fields_ = [
         ("ClockSpeed", c_uint),   # IIC时钟频率:单位为Hz
         ("OwnAddr", c_ushort),    # USB2XXX为从机时自己的地址
-        ("Master", c_byte),       # 主从选择控制:0-从机，1-主机
-        ("AddrBits",c_byte)       # 从机地址模式，7-7bit模式，10-10bit模式
+        ("Master", c_ubyte),      # 主从选择控制:0-从机，1-主机
+        ("AddrBits",c_ubyte)      # 从机地址模式，7-7bit模式，10-10bit模式
     ]
 # 初始化I2C总线
 def IIC_Init(DevHandle,IICIndex, pConfig):

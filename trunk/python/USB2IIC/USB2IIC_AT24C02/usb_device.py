@@ -20,16 +20,25 @@ class DEVICE_INFO(Structure):
 # Import library
 if(platform.system()=="Windows"):
     if "64bit" in platform.architecture():
-        USB2XXXLib = windll.LoadLibrary( ".\\lib\\windows\\x86_64\\USB2XXX.dll" )
+        windll.LoadLibrary( "./lib/windows/x86_64/libusb-1.0.dll" )
+        USB2XXXLib = windll.LoadLibrary( "./lib/windows/x86_64/USB2XXX.dll" )
     else:
-        USB2XXXLib = windll.LoadLibrary( ".\\lib\\windows\\x86_32\\USB2XXX.dll" )
+        windll.LoadLibrary( "./lib/windows/x86_32/libusb-1.0.dll" )
+        USB2XXXLib = windll.LoadLibrary( "./lib/windows/x86_32/USB2XXX.dll" )
 elif(platform.system()=="Darwin"):
+    cdll.LoadLibrary( "./lib/macos/libusb-1.0.dylib" )
     USB2XXXLib = cdll.LoadLibrary( "./lib/macos/libUSB2XXX.dylib" )
 elif(platform.system()=="Linux"):
-    if "64bit" in platform.architecture():
-        USB2XXXLib = cdll.LoadLibrary( "./lib/linux/x86_64/libUSB2XXX.so" )
+    if 'arm' in platform.machine():
+        cdll.LoadLibrary( "./lib/linux/ARMv7/libusb-1.0.so" )
+        USB2XXXLib = cdll.LoadLibrary( "./lib/linux/ARMv7/libUSB2XXX.so" )
     else:
-        USB2XXXLib = cdll.LoadLibrary( "./lib/linux/x86_32/libUSB2XXX.so" )
+        if "64bit" in platform.architecture():
+            cdll.LoadLibrary( "./lib/linux/x86_64/libusb-1.0.so" )
+            USB2XXXLib = cdll.LoadLibrary( "./lib/linux/x86_64/libUSB2XXX.so" )
+        else:
+            cdll.LoadLibrary( "./lib/linux/x86_64/libusb-1.0.so" )
+            USB2XXXLib = cdll.LoadLibrary( "./lib/linux/x86_32/libUSB2XXX.so" )
 else:
     print("unsupported system")
     exit()

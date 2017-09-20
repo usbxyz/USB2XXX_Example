@@ -9,17 +9,18 @@ from usb_device import *
 from usb2iic import *
 
 if __name__ == '__main__': 
+    DevHandles = (c_uint * 20)()
     DevIndex = 0
     IICIndex = 0
     # Scan device
-    ret = USB_ScanDevice(0)
+    ret = USB_ScanDevice(byref(DevHandles))
     if(ret == 0):
         print("No device connected!")
         exit()
     else:
         print("Have %d device connected!"%ret)
     # Open device
-    ret = USB_OpenDevice(DevIndex)
+    ret = USB_OpenDevice(DevHandles[DevIndex])
     if(bool(ret)):
         print("Open device success!")
     else:
@@ -28,7 +29,7 @@ if __name__ == '__main__':
     # Get device infomation
     USB2XXXInfo = DEVICE_INFO()
     USB2XXXFunctionString = (c_char * 256)()
-    ret = USB_GetDeviceInfo(DevIndex,byref(USB2XXXInfo),byref(USB2XXXFunctionString))
+    ret = USB_GetDeviceInfo(DevHandles[DevIndex],byref(USB2XXXInfo),byref(USB2XXXFunctionString))
     if(bool(ret)):
         print("USB2XXX device infomation:")
         print("--Firmware Name: %s"%bytes(USB2XXXInfo.FirmwareName).decode('ascii'))
@@ -49,7 +50,7 @@ if __name__ == '__main__':
     IICConfig.Master = 1
     IICConfig.AddrBits = 7
     # 初始化IIC
-    ret = IIC_Init(DevIndex,IICIndex,byref(IICConfig));
+    ret = IIC_Init(DevHandles[DevIndex],IICIndex,byref(IICConfig));
     if ret != IIC_SUCCESS:
         print("Initialize iic faild!")
         exit()
@@ -57,7 +58,7 @@ if __name__ == '__main__':
         print("Initialize iic sunccess!")
     # 扫描IIC总线上能正常应答的设备
     SlaveAddr = (c_ushort * 128)()
-    SlaveAddrNum = IIC_GetSlaveAddr(DevIndex,IICIndex,byref(SlaveAddr))
+    SlaveAddrNum = IIC_GetSlaveAddr(DevHandles[DevIndex],IICIndex,byref(SlaveAddr))
     if SlaveAddrNum == 0:
         print("Get iic address faild!")
         exit()
@@ -74,7 +75,7 @@ if __name__ == '__main__':
         WriteBuffer[1] = p<<3
         for i in range(0,8):
             WriteBuffer[2+i] = p*8+i
-        ret = IIC_WriteBytes(DevIndex,IICIndex,0x50,byref(WriteBuffer),10,100)
+        ret = IIC_WriteBytes(DevHandles[DevIndex],IICIndex,0x50,byref(WriteBuffer),10,100)
         if ret != IIC_SUCCESS:
             print("Write iic faild!")
             exit()
@@ -87,7 +88,7 @@ if __name__ == '__main__':
     WriteBuffer[1] = 0x08
     for i in range(0,8):
         WriteBuffer[1+i] = i
-    ret = IIC_WriteReadBytes(DevIndex,IICIndex,0x50,byref(WriteBuffer),2,byref(ReadBuffer),8,100)
+    ret = IIC_WriteReadBytes(DevHandles[DevIndex],IICIndex,0x50,byref(WriteBuffer),2,byref(ReadBuffer),8,100)
     if ret != IIC_SUCCESS:
         print("WriteRead iic faild!")
         exit()
@@ -98,7 +99,7 @@ if __name__ == '__main__':
             print("%02X "%ReadBuffer[i],end='')
         print("")
     # Close device
-    ret = USB_CloseDevice(DevIndex)
+    ret = USB_CloseDevice(DevHandles[DevIndex])
     if(bool(ret)):
         print("Close device success!")
     else:
