@@ -105,6 +105,7 @@ if __name__ == '__main__':
     else:
         print("LIN ID[0x%02X] write data success!"%ID)
     sleep(0.01)
+    
     # 主机发送数据之后，可以读取从机接收到的数据
     LINSlaveDataBuffer = (SLAVE_LIN_DATA*1024)() # 为了防止缓冲区溢出，可以将接收数据缓冲区设置大一点
     ret = LIN_SlaveGetData(DevHandles[0],LINSlaveIndex,LINSlaveDataBuffer)

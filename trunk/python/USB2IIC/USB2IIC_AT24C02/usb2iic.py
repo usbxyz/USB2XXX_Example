@@ -25,14 +25,15 @@ class IIC_CONFIG(Structure):
         ("ClockSpeed", c_uint),   # IIC时钟频率:单位为Hz
         ("OwnAddr", c_ushort),    # USB2XXX为从机时自己的地址
         ("Master", c_ubyte),      # 主从选择控制:0-从机，1-主机
-        ("AddrBits",c_ubyte)      # 从机地址模式，7-7bit模式，10-10bit模式
+        ("AddrBits",c_ubyte),     # 从机地址模式，7-7bit模式，10-10bit模式
+        ("EnablePu",c_ubyte)      # 1-使能引脚芯片内部上拉电阻，0-不使能，I2C总线上必须接上拉电阻
     ]
 # 初始化I2C总线
 def IIC_Init(DevHandle,IICIndex, pConfig):
     return USB2XXXLib.IIC_Init(DevHandle,IICIndex, pConfig)
 # 获取总线上能正常应答的设备地址列表
-def IIC_GetSlaveAddr(DevHandle,IICIndex,pSlaveAddr,pSlaveAddrNum):
-    return USB2XXXLib.IIC_GetSlaveAddr(DevHandle,IICIndex,pSlaveAddr,pSlaveAddrNum)
+def IIC_GetSlaveAddr(DevHandle,IICIndex,pSlaveAddr):
+    return USB2XXXLib.IIC_GetSlaveAddr(DevHandle,IICIndex,pSlaveAddr)
 # 主机模式写数据
 def IIC_WriteBytes(DevHandle,IICIndex,SlaveAddr,pWriteData,WriteLen,TimeOutMs):
     return USB2XXXLib.IIC_WriteBytes(DevHandle,IICIndex,SlaveAddr,pWriteData,WriteLen,TimeOutMs)

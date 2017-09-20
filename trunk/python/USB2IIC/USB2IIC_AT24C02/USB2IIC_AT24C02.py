@@ -49,6 +49,7 @@ if __name__ == '__main__':
     IICConfig.ClockSpeed = 400000
     IICConfig.Master = 1
     IICConfig.AddrBits = 7
+    IICConfig.EnablePu = 1
     # 初始化IIC
     ret = IIC_Init(DevHandles[DevIndex],IICIndex,byref(IICConfig));
     if ret != IIC_SUCCESS:
@@ -58,15 +59,14 @@ if __name__ == '__main__':
         print("Initialize iic sunccess!")
     # 扫描IIC总线上能正常应答的设备
     SlaveAddr = (c_ushort * 128)()
-    SlaveAddrNum = c_int(0)
-    ret = IIC_GetSlaveAddr(DevHandles[DevIndex],IICIndex,byref(SlaveAddr),byref(SlaveAddrNum))
-    if ret != IIC_SUCCESS:
+    SlaveAddrNum = IIC_GetSlaveAddr(DevHandles[DevIndex],IICIndex,byref(SlaveAddr))
+    if SlaveAddrNum <= 0:
         print("Get iic address faild!")
         exit()
     else:
         print("Get iic address sunccess!")
         print("IIC addr:")
-        for i in range(0,SlaveAddrNum.value):
+        for i in range(0,SlaveAddrNum):
             print("%02X "%SlaveAddr[i],end='')
         print("")
     # 向0x08地址开始连续写8字节数据
