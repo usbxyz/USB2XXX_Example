@@ -16,7 +16,7 @@ namespace USB2XXX
         public const Int32 ADC_ERR_CMD_FAIL = (-4);  //命令执行失败
         public const Int32 ADC_ERR_CH_NO_INIT = (-5);  //参数传入错误
         //定义连续采集数据模式下的回调函数
-        public delegate Int32 ADC_GET_DATA_HANDLE(Int32 DevIndex, UInt16[] pData, Int32 DataNum);//接收数据回掉函数
+        public delegate Int32 ADC_GET_DATA_HANDLE(Int32 DevIndex, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]UInt16[] pData, Int32 DataNum);//接收数据回掉函数
         //USB2ADC相关函数定义
         /**
           * @brief  初始化配置ADC
