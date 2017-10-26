@@ -41,7 +41,7 @@ namespace USB2XXXIICADS1115
             }
             //获取固件信息
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
+            state = usb_device.DEV_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");

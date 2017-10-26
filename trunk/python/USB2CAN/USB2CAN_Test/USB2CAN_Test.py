@@ -52,9 +52,9 @@ if __name__ == '__main__':
     CANConfig.CAN_RFLM = 0
     CANConfig.CAN_TXFP = 1
     # 配置波特率,波特率 = 100M/(BRP*(SJW+BS1+BS2))
-    CANConfig.CAN_BRP = 25;
-    CANConfig.CAN_BS1 = 2;
-    CANConfig.CAN_BS2 = 1;
+    CANConfig.CAN_BRP_CFG3 = 25;
+    CANConfig.CAN_BS1_CFG1 = 2;
+    CANConfig.CAN_BS2_CFG2 = 1;
     CANConfig.CAN_SJW = 1;
     ret = CAN_Init(DevHandles[0],CANIndex,byref(CANConfig))
     if(ret != CAN_SUCCESS):

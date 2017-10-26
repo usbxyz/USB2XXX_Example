@@ -21,10 +21,10 @@ class CAN_MSG(Structure):
 class CAN_INIT_CONFIG(Structure):
     _fields_ = [
         # CAN波特率 = 100MHz/(CAN_BRP)/(CAN_SJW+CAN_BS1+CAN_BS2)
-        ("CAN_BRP",c_uint),    # 取值范围1~1024
+        ("CAN_BRP_CFG3",c_uint),    # 取值范围1~1024
         ("CAN_SJW",c_ubyte),    # 取值范围1~4
-        ("CAN_BS1",c_ubyte),    # 取值范围1~16
-        ("CAN_BS2",c_ubyte),    # 取值范围1~8
+        ("CAN_BS1_CFG1",c_ubyte),    # 取值范围1~16
+        ("CAN_BS2_CFG2",c_ubyte),    # 取值范围1~8
         ("CAN_Mode",c_ubyte),   # CAN工作模式，0-正常模式，1-环回模式，2-静默模式，3-静默环回模式
         ("CAN_ABOM",c_ubyte),   # 自动离线管理，0-禁止，1-使能
         ("CAN_NART",c_ubyte),   # 报文重发管理，0-使能报文重传，1-禁止报文重传
@@ -82,6 +82,79 @@ CAN_BL_ERR_CMD          = (-23) # 执行命令失败
 # 7.CAN Bootloader固件类型
 CAN_BL_BOOT     = 0x55555555
 CAN_BL_APP      = 0xAAAAAAAA
+
+# 8.MCP芯片波特率参数配置定义
+MCP_16MHz_1000kBPS_CFG1 = (0x00)
+MCP_16MHz_1000kBPS_CFG2 = (0xD0)
+MCP_16MHz_1000kBPS_CFG3 = (0x82)
+
+MCP_16MHz_500kBPS_CFG1 = (0x00)
+MCP_16MHz_500kBPS_CFG2 = (0xF0)
+MCP_16MHz_500kBPS_CFG3 = (0x86)
+
+MCP_16MHz_250kBPS_CFG1 = (0x41)
+MCP_16MHz_250kBPS_CFG2 = (0xF1)
+MCP_16MHz_250kBPS_CFG3 = (0x85)
+
+MCP_16MHz_200kBPS_CFG1 = (0x01)
+MCP_16MHz_200kBPS_CFG2 = (0xFA)
+MCP_16MHz_200kBPS_CFG3 = (0x87)
+
+MCP_16MHz_125kBPS_CFG1 = (0x03)
+MCP_16MHz_125kBPS_CFG2 = (0xF0)
+MCP_16MHz_125kBPS_CFG3 = (0x86)
+
+MCP_16MHz_100kBPS_CFG1 = (0x03)
+MCP_16MHz_100kBPS_CFG2 = (0xFA)
+MCP_16MHz_100kBPS_CFG3 = (0x87)
+
+MCP_16MHz_95kBPS_CFG1 = (0x03)
+MCP_16MHz_95kBPS_CFG2 = (0xAD)
+MCP_16MHz_95kBPS_CFG3 = (0x07)
+
+MCP_16MHz_83k3BPS_CFG1 = (0x03)
+MCP_16MHz_83k3BPS_CFG2 = (0xBE)
+MCP_16MHz_83k3BPS_CFG3 = (0x07)
+
+MCP_16MHz_80kBPS_CFG1 = (0x03)
+MCP_16MHz_80kBPS_CFG2 = (0xFF)
+MCP_16MHz_80kBPS_CFG3 = (0x87)
+
+MCP_16MHz_50kBPS_CFG1 = (0x07)
+MCP_16MHz_50kBPS_CFG2 = (0xFA)
+MCP_16MHz_50kBPS_CFG3 = (0x87)
+
+MCP_16MHz_40kBPS_CFG1 = (0x07)
+MCP_16MHz_40kBPS_CFG2 = (0xFF)
+MCP_16MHz_40kBPS_CFG3 = (0x87)
+
+MCP_16MHz_33kBPS_CFG1 = (0x09)
+MCP_16MHz_33kBPS_CFG2 = (0xBE)
+MCP_16MHz_33kBPS_CFG3 = (0x07)
+
+MCP_16MHz_31k25BPS_CFG1 = (0x0F)
+MCP_16MHz_31k25BPS_CFG2 = (0xF1)
+MCP_16MHz_31k25BPS_CFG3 = (0x85)
+
+MCP_16MHz_25kBPS_CFG1 = (0X0F)
+MCP_16MHz_25kBPS_CFG2 = (0XBA)
+MCP_16MHz_25kBPS_CFG3 = (0X07)
+
+MCP_16MHz_20kBPS_CFG1 = (0x0F)
+MCP_16MHz_20kBPS_CFG2 = (0xFF)
+MCP_16MHz_20kBPS_CFG3 = (0x87)
+
+MCP_16MHz_10kBPS_CFG1 = (0x1F)
+MCP_16MHz_10kBPS_CFG2 = (0xFF)
+MCP_16MHz_10kBPS_CFG3 = (0x87)
+
+MCP_16MHz_5kBPS_CFG1 = (0x3F)
+MCP_16MHz_5kBPS_CFG2 = (0xFF)
+MCP_16MHz_5kBPS_CFG3 = (0x87)
+
+MCP_16MHz_666kBPS_CFG1 = (0x00)
+MCP_16MHz_666kBPS_CFG2 = (0xA0)
+MCP_16MHz_666kBPS_CFG3 = (0x04)
 
 def CAN_Init(DevHandle, CANIndex, pCanConfig):
     return USB2XXXLib.CAN_Init(DevHandle, CANIndex, pCanConfig)
