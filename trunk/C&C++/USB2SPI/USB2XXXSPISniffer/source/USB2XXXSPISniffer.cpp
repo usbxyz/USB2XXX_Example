@@ -20,6 +20,16 @@
 #include "usb_device.h"
 #include "usb2spi.h"
 
+/*
+硬件连接：
+SPI1_SCK接SPI2_SCK接被监控的SPI总线时钟信号
+SPI1_NSS接SPI2_NSS接被监控的SPI总线的片选信号
+SPI1_MOSI接被监控的SPI总线的MOSI信号
+SPI2_MOSI接被监控的SPI总线的MISO信号
+总线的MOSI数据保存在MISO_Data.txt文件里面
+总线的MISO数据保存在MOSI_Data.txt文件里面
+*/
+
 FILE *pMISOFile;
 int MISOFileSize = 0;
 int __stdcall MISOGetDataCallback(int DevHandle,int SPIIndex,unsigned char *pData,int DataNum)
