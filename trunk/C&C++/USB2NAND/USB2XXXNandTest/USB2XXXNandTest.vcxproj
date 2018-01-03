@@ -77,6 +77,8 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="usb2nand.h" />
+    <ClInclude Include="usb_device.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -86,7 +88,7 @@
     <ClCompile Include="USB2XXXNandTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\USB2XXX\vs2010\Release\USB2XXX.lib" />
+    <Library Include="USB2XXX.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

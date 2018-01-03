@@ -21,15 +21,16 @@ def GetAdcDataHandle(DevIndex,pData,DataNum):
 if __name__ == '__main__': 
     DevIndex = 0
     ADCChannel = 0x01
+    DevHandles = (c_uint * 20)()
     # Scan device
-    ret = USB_ScanDevice(0)
+    ret = USB_ScanDevice(DevHandles)
     if(ret == 0):
         print("No device connected!")
         exit()
     else:
         print("Have %d device connected!"%ret)
     # Open device
-    ret = USB_OpenDevice(DevIndex)
+    ret = USB_OpenDevice(DevHandles[DevIndex])
     if(bool(ret)):
         print("Open device success!")
     else:
@@ -38,7 +39,7 @@ if __name__ == '__main__':
     # Get device infomation
     USB2XXXInfo = DEVICE_INFO()
     USB2XXXFunctionString = (c_char * 256)()
-    ret = USB_GetDeviceInfo(DevIndex,byref(USB2XXXInfo),byref(USB2XXXFunctionString))
+    ret = DEV_GetDeviceInfo(DevHandles[DevIndex],byref(USB2XXXInfo),byref(USB2XXXFunctionString))
     if(bool(ret)):
         print("USB2XXX device infomation:")
         print("--Firmware Name: %s"%bytes(USB2XXXInfo.FirmwareName).decode('ascii'))
@@ -54,7 +55,7 @@ if __name__ == '__main__':
         print("Get device infomation faild!")
         exit()
     # Initialize adc
-    ret = ADC_Init(DevIndex,ADCChannel,1000000)
+    ret = ADC_Init(DevHandles[DevIndex],ADCChannel,1000000)
     if(ret != ADC_SUCCESS):
         print("Initialize adc faild!")
         exit()
@@ -62,7 +63,7 @@ if __name__ == '__main__':
         print("Initialize adc success")
     # Read adc value
     ADCData = (c_ushort * 8)()
-    ret = ADC_Read(DevIndex,byref(ADCData),len(ADCData))
+    ret = ADC_Read(DevHandles[DevIndex],byref(ADCData),len(ADCData))
     if(ret != ADC_SUCCESS):
         print("Adc read data faild!")
         exit()
@@ -72,7 +73,7 @@ if __name__ == '__main__':
             print("ADCData[%d] = %f V"%(i,ADCData[i]*3.3/4095))
     # Continue Read
     pGetAdcDataHandle = ADC_GET_DATA_HANDLE(GetAdcDataHandle)
-    ret = ADC_StartContinueRead(DevIndex,ADCChannel,100000,1024,pGetAdcDataHandle)
+    ret = ADC_StartContinueRead(DevHandles[DevIndex],ADCChannel,100000,1024,pGetAdcDataHandle)
     if(ret != ADC_SUCCESS):
         print("Start continue read adc faild!")
         exit()
@@ -80,14 +81,14 @@ if __name__ == '__main__':
         print("Start continue read adc success")
     # Delay
     sleep(5)
-    ret = ADC_StopContinueRead(DevIndex)
+    ret = ADC_StopContinueRead(DevHandles[DevIndex])
     if(ret != ADC_SUCCESS):
         print("Stop continue read adc faild!")
         exit()
     else:
         print("Stop continue read adc success")
     # Close device
-    ret = USB_CloseDevice(DevIndex)
+    ret = USB_CloseDevice(DevHandles[DevIndex])
     if(bool(ret)):
         print("Close device success!")
     else:

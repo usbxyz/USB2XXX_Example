@@ -1,157 +1,211 @@
-// USB2XXXNandTest.cpp : Defines the entry point for the console application.
+ï»¿// USB2XXXNandTest.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
 #include <stdlib.h>
-#include "../../USB2XXX/source/usb2xxx/usb2nand.h"
-#include "../../USB2XXX/source/usb_device.h"
+#include "usb2nand.h"
+#include "usb_device.h"
 
-int NAND_GetMemoryInfo(NAND_ID* pNandId,NAND_MEMORY_INFO *pNandMemInfo)
+void NAND_Test(int devHandle)
 {
-  int i=0;
-  pNandMemInfo->BytesPerPage = 1;
-  for(i=0;i<(pNandId->FourthID&0x03);i++){
-    pNandMemInfo->BytesPerPage *= 2;
-  }
-  pNandMemInfo->BytesPerPage *= 1024;
+	uint16_t index;
+	int ret;
+	NAND_TIMING_COMFIG NandTimeConfig;
+	NAND_MEMORY_INFO NandMemInfo;
+	NAND_FLASH_CONFIG NandConfig;
+	static uint16_t i;
+	static uint32_t WriteEcc[10],ReadEcc[10];
+	static uint8_t BadBlockFlag[1024];
+	static uint8_t WriteBuffer[8192];
+	static uint8_t ReadBuffer[8192];
+	static uint32_t Status;
+	uint8_t Channel = 0;
+	//  NAND_MEMORY_INFO NandMemInfo;
+	NAND_ADDRESS WriteReadAddr;
+	//Ã‰Ã¨Ã–ÃƒÂ´Ã¦Â´Â¢Ã†Ã·ÃÃ…ÃÂ¢
+	NandMemInfo.BytesPerPage = 8192;
+	NandMemInfo.PagePerBlock = 256;
+	NandMemInfo.BlockPerPlane = 2048;
+	NandMemInfo.PlanePerLUN = 2;
+	NandMemInfo.LUNPerChip = 1;
+	NandMemInfo.SpareAreaSize = 448;
+	//Erase
+	NandConfig.CMD_EraseBlock[0] = 0x60;
+	NandConfig.CMD_EraseBlock[1] = 0xD0;
+	//Page Program
+	NandConfig.CMD_WritePage[0] = 0x80;
+	NandConfig.CMD_WritePage[1] = 0x10;
+	//Page Read
+	NandConfig.CMD_ReadPage[0] = 0x00;
+	NandConfig.CMD_ReadPage[1] = 0x30;
+	//Read Status
+	NandConfig.CMD_ReadStatus = 0x70;
+	//FSMC_NANDDeInit(FSMC_Bank2_NAND);
+	//FSMC_NAND_Init(Channel,NandMemInfo[Channel].BytesPerPage,10);
   
-  pNandMemInfo->PagePerBlock = 64;
-  for(i=0;i<((pNandId->FourthID>>4)&0x03);i++){
-    pNandMemInfo->PagePerBlock *= 2;
-  }
-  pNandMemInfo->PagePerBlock *= 1024;
-  pNandMemInfo->PagePerBlock /= pNandMemInfo->BytesPerPage;
+	NandConfig.CMD_Reset = 0xFF;
+
+	NandConfig.CMD_ReadID = 0x90;
+	NandConfig.CMD_ReadIDAddr = 0x00;
+	NandConfig.ID_Length = 6;
+
+	NandTimeConfig.FSMC_HiZSetupTime = 10;
+	NandTimeConfig.FSMC_HoldSetupTime = 10;
+	NandTimeConfig.FSMC_SetupTime = 10;
+	NandTimeConfig.FSMC_WaitSetupTime = 10;
+	ret = NAND_Init(devHandle,0,NandMemInfo.BytesPerPage,&NandTimeConfig);
+	if(ret == NAND_SUCCESS){
+		printf("nand init success!\n");
+	}else{
+		printf("nand init error!\n");
+		return;
+	}
+	ret = NAND_SetChipInfo(devHandle,0,&NandConfig,&NandMemInfo);
+	if(ret == NAND_SUCCESS){
+		printf("set nand info success!\n");
+	}else{
+		printf("set nand info error!\n");
+		return;
+	}
+	uint8_t NandID[6];
+	ret = NAND_ReadID(devHandle,0,NandID);
+	if(ret == NAND_SUCCESS){
+		printf("get nand id success!\n");
+		printf("ID : ");
+		for(int i=0;i<NandConfig.ID_Length;i++){
+			printf("0x%02X ",NandID[i]);
+		}
+		printf("\n");
+	}else{
+		printf("get nand id error!\n");
+		return;
+	}
   
-  pNandMemInfo->SpareAreaSize = (pNandMemInfo->BytesPerPage/512)*((((pNandId->FourthID>>2)&0x01)>0?16:8));
+
+//    
+//    //FSMC_NAND_WritePage(Channel,WriteReadAddr,WriteBuffer,NandMemInfo[Channel].BytesPerPage,WriteEcc);
+//    
+//    //FSMC_NAND_ReadPage (Channel, WriteReadAddr,ReadBuffer,NandMemInfo[Channel].BytesPerPage,ReadEcc);
+//    
+//    for(i=0;i<NandMemInfo[Channel].BytesPerPage;i++){
+//      if(WriteBuffer[i] != ReadBuffer[i]){
+//        while(1);
+//      }
+//    }
+//    //FSMC_NAND_WriteSpareArea(Channel,WriteReadAddr,WriteBuffer,256);
+//    //FSMC_NAND_ReadSpareArea(Channel,WriteReadAddr,ReadBuffer,256);
+//  }
+//  while(1);
+
+
+
+  /* Write data to FSMC NOR memory */
+  /* Fill the buffer to send */
+//  srand(56);
+//  for (index = 0; index < NAND_PAGE_SIZE; index++ ){
+//     TxBuffer[index] = rand();
+//  }
+
+//  FSMC_NAND_WritePage(TxBuffer, WriteReadAddr, 1,&ecc);
+//  printf("\r\nWritten to the number of:\r\n");
+//  for(j = 0; j < 128; j++){
+//    printf("%02X ",TxBuffer[j]);
+//    if((((j+1)%32)==0)){
+//      printf("\n\r");
+//    }
+//  }
+
+//  /* Read back the written data */
+//  FSMC_NAND_ReadPage (RxBuffer, WriteReadAddr, 1,&ecc);
+//  printf("\r\nRead several:\r\n");
+//  for(j = 0; j < 128; j++){
+//    printf("%02X ",RxBuffer[j]);
+//    if((((j+1)%32)==0)){
+//      printf("\n\r");
+//    }
+//  }  
+//  WriteReadAddr.Block = 2;
+//  WriteReadAddr.Page = 0;
+//  WriteReadAddr.Plane = 0;
+//  FSMC_NAND_WriteSpareArea(TxBuffer, WriteReadAddr, 2);
+//  printf("\r\nWritten To The Spare Area:\r\n");
+//  for(j = 0; j < NAND_SPARE_AREA_SIZE*2; j++){
+//    printf("%02X ",TxBuffer[j]);
+//    if((((j+1)%32)==0)){
+//      printf("\n\r");
+//    }
+//  }
+//  /* Read back the written data */
+//  FSMC_NAND_ReadSpareArea (RxBuffer, WriteReadAddr, 2);
+//  printf("\r\nRead Spare Area:\r\n");
+//  for(j = 0; j < NAND_SPARE_AREA_SIZE*2; j++){
+//    printf("%02X ",RxBuffer[j]);
+//    if((((j+1)%32)==0)){
+//      printf("\n\r");
+//    }
+//  }
+//  printf("\r\nCheck Bad Block:\r\n");
+//  FSMC_NAND_CheckBadBlock(BadBlockFlag, WriteReadAddr, 1024);
+//  printf("\r\nBad Blocks(Which block flag is 1):\r\n");
+//  for(j=0;j<1024;j++){
+//    printf("%d ",BadBlockFlag[j]);
+//    if((((j+1)%32)==0)){
+//      printf("\n\r");
+//    }
+//  }
   
-  pNandMemInfo->BlockPerPlane = 8;
-  for(i=0;i<((pNandId->FiveID>>4)&0x07);i++){
-    pNandMemInfo->BlockPerPlane *= 2;
-  }
-  pNandMemInfo->BlockPerPlane *= 1024;
-  pNandMemInfo->BlockPerPlane /= (pNandMemInfo->BytesPerPage/1024)*pNandMemInfo->PagePerBlock;
-  
-  pNandMemInfo->PlanePerChip = 1;
-  for(i=0;i<((pNandId->FiveID>>3)&0x03);i++){
-    pNandMemInfo->PlanePerChip *= 2;
-  }
-  return 0;
+//  printf("\r\nGet Bad Block:\r\n");
+//  WriteReadAddr.Block = 0;
+//  WriteReadAddr.Page = 0;
+//  FSMC_NAND_GetBadBlock(BadBlockFlag,WriteReadAddr,1024);
+//  for(j=0;j<1024;j++){
+//    printf("%d ",BadBlockFlag[j]);
+//    if((((j+1)%32)==0)){
+//      printf("\n\r");
+//    }
+//  }
+//  FSMC_NAND_WriteSpareArea(TxBuffer, WriteReadAddr, 1);
+//  printf("\r\nWritten To The Spare Area:\r\n");
+//  for(j = 0; j < NAND_SPARE_AREA_SIZE; j++){
+//    printf("%02X ",TxBuffer[j]);
+//    if((((j+1)%32)==0)){
+//      printf("\n\r");
+//    }
+//  }
+//  /* Read back the written data */
+//  FSMC_NAND_ReadSpareArea (RxBuffer, WriteReadAddr, 1);
+//  printf("\r\nRead Spare Area:\r\n");
+//  for(j = 0; j < NAND_SPARE_AREA_SIZE; j++){
+//    printf("%02X ",RxBuffer[j]);
+//    if((((j+1)%32)==0)){
+//      printf("\n\r");
+//    }
+//  }    
 }
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    DEVICE_INFO DevInfo;
-    NAND_ID NandId;
-    NAND_ADDRESS NAN_Address;
+	int DeviceHandle[20];
     int DevIndex = 0;
-    int ChipIndex = 1;
+    int ChipIndex = 0;
     bool state;
     int ret;
     unsigned char WriteBuffer[10*2*1024];
     unsigned char ReadBuffer[10*2*1024];
-    //É¨Ãè²éÕÒÉè±¸
-    ret = USB_ScanDevice(true);
+    //æ‰«ææŸ¥æ‰¾è®¾å¤‡
+    ret = USB_ScanDevice(DeviceHandle);
     if(ret <= 0){
         printf("No device connected!\n");
         return 0;
     }
-    //´ò¿ªÉè±¸
-    state = USB_OpenDevice(DevIndex);
+    //æ‰“å¼€è®¾å¤‡
+    state = USB_OpenDevice(DeviceHandle[0]);
     if(!state){
         printf("Open device error!\n");
         return 0;
     }
-    //»ñÈ¡¹Ì¼þÐÅÏ¢
-    state = USB_GetDeviceInfo(DevIndex,&DevInfo);
-    if(!state){
-        printf("Get device infomation error!\n");
-        return 0;
-    }
     Sleep(100);
-    //³õÊ¼»¯ÅäÖÃNAND¿ØÖÆÆ÷
-    ret = NAND_Init(DevIndex,ChipIndex,2048,10);
-    if(ret != SUCCESS){
-        printf("Init error!\n");
-        return 0;
-    }
-    //Sleep(1000);
-    //»ñÈ¡Éè±¸ID
-    ret = NAND_ReadID(DevIndex,ChipIndex,&NandId);
-    if(ret != SUCCESS){
-        printf("Get id error!\n");
-        return 0;
-    }else{
-        printf("Get Chip ID:\n");
-        printf("MakerID = EC = %02X\n",NandId.MakerID);
-        printf("DeviceID = F1 = %02X\n",NandId.DeviceID);
-        printf("ThirdID = 00 = %02X\n",NandId.ThirdID);
-        printf("FourthID = 95 = %02X\n",NandId.FourthID);
-        printf("FiveID = 40 = %02X\n",NandId.FiveID);
-        printf("\n");
-    }
-    /*if((NandId.MakerID != 0xEC)||(NandId.DeviceID != 0xF1)||(NandId.ThirdID != 0x00)||(NandId.FourthID != 0x95)||(NandId.FiveID != 0x40)){
-        return 0;
-    }*/
-    //Í¨¹ýID»ñÈ¡´æ´¢ÐÅÏ¢
-    NAND_MEMORY_INFO NandMemInfo;
-    NAND_GetMemoryInfo(&NandId,&NandMemInfo);
-    printf("NandMemInfo.PlanePerChip = %d\n\r",NandMemInfo.PlanePerChip);
-     printf("NandMemInfo.BlockPerPlane = %d\n\r",NandMemInfo.BlockPerPlane);
-    printf("NandMemInfo.PagePerBlock = %d\n\r",NandMemInfo.PagePerBlock);
-    printf("NandMemInfo.BytesPerPage = %d\n\r",NandMemInfo.BytesPerPage);
-    printf("NandMemInfo.SpareAreaSize = %d\n\r",NandMemInfo.SpareAreaSize);
-    //ÉèÖÃ´æ´¢ÐÅÏ¢
-    ret = NAND_SetMemoryInfo(DevIndex,ChipIndex,&NandMemInfo);
-    if(ret != SUCCESS){
-        printf("Set mem info error!\n");
-        return 0;
-    }
-    //return 0;
-    //²Á³öÐ¾Æ¬
-    NAN_Address.Block = 0;
-    NAN_Address.Page = 5;
-    NAN_Address.Plane = 0;
-    ret = NAND_EraseBlock(DevIndex,ChipIndex,&NAN_Address,1);
-    if(ret != SUCCESS){
-        printf("Erase block error!\n");
-        return 0;
-    }
-    //Ð´Êý¾Ý
-    int PageNum = 10;
-    unsigned int ecc[10];
-   for(int i = 0;i<sizeof(WriteBuffer);i++){
-        WriteBuffer[i]=i;
-    }
-    for(int i=0;i<PageNum;i+=1){
-        ret = NAND_WritePage(DevIndex,ChipIndex,&NAN_Address,WriteBuffer,1,&ecc[i]);
-        if(ret != SUCCESS){
-            printf("Write page error!\n");
-            return 0;
-        }
-        NAN_Address.Page += 1;
-        //Sleep(10);
-    }
-    printf("WRITE ECC = ");
-    for(int i=0;i<10;i++){
-        printf("%08X ",ecc[i]);
-    }
-    printf("\n");
-    //¶ÁÊý¾Ý
-    NAN_Address.Page = 5;
-    for(int i=0;i<PageNum;i+=1){
-        ret = NAND_ReadPage(DevIndex,ChipIndex,&NAN_Address,ReadBuffer,1,&ecc[i]);
-        if(ret != SUCCESS){
-            printf("Read page error!\n");
-            return 0;
-        }
-        NAN_Address.Page += 1;
-        //Sleep(10);
-    }
-    printf("READ  ECC = ");
-    for(int i=0;i<10;i++){
-        printf("%08X ",ecc[i]);
-    }
-    printf("\n");
+	NAND_Test(DeviceHandle[0]);
 	return 0;
 }
 
