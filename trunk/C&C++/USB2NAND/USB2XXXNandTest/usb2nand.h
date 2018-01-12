@@ -60,10 +60,10 @@ typedef struct _NAND_FLASH_CONFIG{
 
 //定义NAND操作时序参数
 typedef struct _NAND_TIMING_COMFIG{
-  unsigned int FSMC_SetupTime;
-  unsigned int FSMC_WaitSetupTime;
-  unsigned int FSMC_HoldSetupTime;
-  unsigned int FSMC_HiZSetupTime;
+  uint32_t FSMC_SetupTime;
+  uint32_t FSMC_WaitSetupTime;
+  uint32_t FSMC_HoldSetupTime;
+  uint32_t FSMC_HiZSetupTime;
 }NAND_TIMING_COMFIG,*PNAND_TIMING_COMFIG;
 /* NAND memory status */
 #define NAND_STATUS_VALID_ADDRESS         ((uint32_t)0x00000100)
@@ -92,7 +92,7 @@ extern "C"
   * @param  pTimeConfig 对NAND进行读写操作的时间参数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI NAND_Init(int DevHandle,int ChipIndex,int PageSize,PNAND_TIMING_COMFIG pTimeConfig);
+int WINAPI NAND_Init(int DevHandle,int ChipIndex,PNAND_TIMING_COMFIG pTimeConfig);
 
 /**
   * @brief  初始化配置NAND接口，该函数必须调用
@@ -111,7 +111,7 @@ int WINAPI NAND_SetChipInfo(int DevHandle,int ChipIndex,PNAND_FLASH_CONFIG pNand
   * @param  pNandID 芯片ID存储缓冲区首地址
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI NAND_ReadID(int DevHandle,int ChipIndex,unsigned char* pNandID);
+int WINAPI NAND_ReadID(int DevHandle,int ChipIndex,unsigned char IDAddr,unsigned char *pID,unsigned char IDLen);
 
 /**
   * @brief  向NAND Flash写入数据，建议按照整页写，然后再将该函数返回的ECC写入备用区，以便以后读取的时候将读出数据的ECC和写入ECC做对比，实现对数据的校验
@@ -124,8 +124,8 @@ int WINAPI NAND_ReadID(int DevHandle,int ChipIndex,unsigned char* pNandID);
   * @param  TimeOutMs 等待写入数据完毕的超时参数，单位为毫秒，该参数应尽量大于数据写入Flash的时间
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI NAND_WritePage(int DevHandle,int ChipIndex,PNAND_ADDRESS pStartAddr,unsigned char *pWriteData, int NumByteToWrite,unsigned int *pECC,int TimeOutMs);
-
+//int WINAPI NAND_WritePage(int DevHandle,int ChipIndex,PNAND_ADDRESS pStartAddr,unsigned char *pWriteData, int NumByteToWrite,unsigned int *pECC,int TimeOutMs);
+int WINAPI NAND_WritePage(int DevHandle,int ChipIndex,unsigned char *pCmds,unsigned char CmdsLen,unsigned char *pAddrs,unsigned char AddrLen,unsigned char *pWriteData, int NumByteToWrite,int TimeOutMs);
 /**
   * @brief  从NAND Flash读出数据，建议按照整页读，读数据的时候会返回每页的ECC值，可以和备用区的ECC值进行校验对比
   * @param  DevHandle 设备索引号
@@ -137,8 +137,8 @@ int WINAPI NAND_WritePage(int DevHandle,int ChipIndex,PNAND_ADDRESS pStartAddr,u
   * @param  TimeOutMs 等待读出数据完毕的超时参数，单位为毫秒，该参数应尽量大于数据读出Flash的时间
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI NAND_ReadPage (int DevHandle,int ChipIndex, PNAND_ADDRESS pStartAddr,unsigned char *pReadData, int NumByteToRead,unsigned int *pECC,int TimeOutMs);
-
+//int WINAPI NAND_ReadPage (int DevHandle,int ChipIndex, PNAND_ADDRESS pStartAddr,unsigned char *pReadData, int NumByteToRead,unsigned int *pECC,int TimeOutMs);
+int WINAPI NAND_ReadPage (int DevHandle,int ChipIndex, unsigned char *pCmds,unsigned char CmdsLen,unsigned char *pAddrs,unsigned char AddrLen,unsigned char *pReadData, int NumByteToRead,int TimeOutMs);
 /**
   * @brief  向NAND Flash备用区写入数据，比如写入每页的ECC值，以及坏块标志数据，该函数最多只能操作一页的备用区
   * @param  DevHandle 设备索引号
@@ -172,7 +172,15 @@ int WINAPI NAND_ReadSpareArea(int DevHandle,int ChipIndex, PNAND_ADDRESS pStartA
   * @param  TimeOutMs 擦出数据超时参数，单位为毫秒
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI NAND_EraseBlock(int DevHandle,int ChipIndex,PNAND_ADDRESS pStartAddr,int NumBlockToErase,int TimeOutMs);
+//int WINAPI NAND_EraseBlock(int DevHandle,int ChipIndex,PNAND_ADDRESS pStartAddr,int NumBlockToErase,int TimeOutMs);
+int WINAPI NAND_EraseBlock(int DevHandle,int ChipIndex,unsigned char *pCmds,unsigned char CmdsLen,unsigned char *pAddrs,unsigned char AddrLen,int TimeOutMs);
+
+
+int WINAPI NAND_SendCmd(int DevHandle,int ChipIndex,unsigned char *pCmds,unsigned char CmdsLen);
+int WINAPI NAND_SendAddr(int DevHandle,int ChipIndex,unsigned char *pAddrs,unsigned char AddrsLen);
+int WINAPI NAND_WriteData(int DevHandle,int ChipIndex,unsigned char *pWriteData,unsigned int WriteDataLen);
+int WINAPI NAND_ReadData(int DevHandle,int ChipIndex,unsigned char *pReadData,unsigned int ReadDataLen);
+int WINAPI NAND_WaitReady(int DevHandle,int ChipIndex,unsigned int WaitTimeoutUs);
 
 #ifdef __cplusplus
 }

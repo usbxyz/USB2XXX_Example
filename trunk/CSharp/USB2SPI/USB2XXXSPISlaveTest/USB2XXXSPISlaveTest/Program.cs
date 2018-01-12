@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using USB2XXX;
-
+using System.Runtime.InteropServices;
 
 namespace USB2XXXSPITest
 {
     class Program
     {
-        public static Int32 SPI_SlaveReadDataHandle(Int32 DevHandle, Int32 SPIIndex, Byte[] pData, Int32 DataNum)
+        public static Int32 SPI_SlaveReadDataHandle(Int32 DevHandle, Int32 SPIIndex, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]Byte[] pData, Int32 DataNum)
         {
-            Console.WriteLine("Slave Read Data Count: " + DataNum.ToString());
+            //Console.WriteLine("Slave Read Data Count: " + DataNum.ToString());
+            StringBuilder DataHexStr = new StringBuilder();
+            foreach (byte b in pData)
+            {
+                //{0:X2} 大写
+                DataHexStr.AppendFormat("{0:X2}", b);
+            }
+            var HexStr = DataHexStr.ToString();
+            Console.WriteLine(HexStr);
             return 0;
         }
         static void Main(string[] args)
@@ -90,11 +98,11 @@ namespace USB2XXXSPITest
                 Console.WriteLine("Initialize device error!");
                 return;
             }
+            /*
             for (int i = 0; i < WriteBuffer.Length; i++)
             {
                 WriteBuffer[i] = (Byte)i;
             }
-            /*
             while(true){
                 ret = USB2SPI.SPI_SlaveWriteBytes(DevHandle, SPIIndex, WriteBuffer, 16, 5000);
                 if (ret != USB2SPI.SPI_SUCCESS)
@@ -105,7 +113,6 @@ namespace USB2XXXSPITest
                 Console.ReadLine();
             }
             */
-            Console.WriteLine("Start receive data to file,the file name is data.txt");
             Console.WriteLine("Press any key to exit the data reception!");
             USB2SPI.SPI_SlaveContinueRead(DevHandle, SPIIndex, SPI_SlaveReadDataHandle);
             Console.ReadLine();

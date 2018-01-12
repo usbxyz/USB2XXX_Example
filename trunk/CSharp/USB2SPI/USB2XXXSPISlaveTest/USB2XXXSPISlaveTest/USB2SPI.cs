@@ -44,7 +44,7 @@ namespace USB2XXX
         public const Int32 SPI_ERR_CMD_FAIL        = (-4);  //命令执行失败
         public const Int32 SPI_ERR_PARAMETER       = (-5);  //参数错误
         //定义从机模式下连续读取数据的回调函数
-        public delegate Int32 SPI_GET_DATA_HANDLE(Int32 DevHandle, Int32 SPIIndex, Byte[] pData, Int32 DataNum);//接收数据回掉函数
+        public delegate Int32 SPI_GET_DATA_HANDLE(Int32 DevHandle, Int32 SPIIndex, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]Byte[] pData, Int32 DataNum);//接收数据回掉函数
         //定义初始化SPI的数据类型
         public struct SPI_CONFIG
         {
@@ -239,6 +239,18 @@ namespace USB2XXX
           */
         [DllImport("USB2XXX.dll")]
         public static extern Int32 SPI_SlaveReadBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pReadData,Int32 TimeOutMs);
+
+        /**
+          * @brief  SPI从机模式下同时发送接收数据
+          * @param  DevHandle 设备索引号
+          * @param  SPIIndex SPI通道号，取值0或者1
+          * @param  pWriteData 发送数据缓冲区首地址
+          * @param  pReadData 数据接收缓冲区首地址
+          * @param  pReadReadLen 从机数据收发字节数
+          * @retval 函数执行状态，小于0函数执行出错
+          */
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 SPI_SlaveWriteReadBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pWriteData,Byte[] pReadData,Int32 WriteReadLen,Int32 TimeOutMs);
 
         /**
           * @brief  SPI从机模式下连续读取数据,SPI在从机模式下接收到数据之后，通过回调函数传出数据

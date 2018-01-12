@@ -5,11 +5,16 @@
 #include <stdlib.h>
 #include "usb2nand.h"
 #include "usb_device.h"
+#include <time.h>  
+
+#define	TEST_DATA_NUM	16*1024
+#define TEST_BLOCK_ADDR	0x0
 
 void NAND_Test(int devHandle)
 {
 	uint16_t index;
 	int ret;
+	int status = 0;
 	NAND_TIMING_COMFIG NandTimeConfig;
 	NAND_MEMORY_INFO NandMemInfo;
 	NAND_FLASH_CONFIG NandConfig;
@@ -23,56 +28,437 @@ void NAND_Test(int devHandle)
 	//  NAND_MEMORY_INFO NandMemInfo;
 	NAND_ADDRESS WriteReadAddr;
 	//ÉèÖÃ´æ´¢Æ÷ÐÅÏ¢
-	NandMemInfo.BytesPerPage = 8192;
-	NandMemInfo.PagePerBlock = 256;
-	NandMemInfo.BlockPerPlane = 2048;
+	NandMemInfo.BytesPerPage = 16384;
+	NandMemInfo.PagePerBlock = 258;
+	NandMemInfo.BlockPerPlane = 2048+60;
 	NandMemInfo.PlanePerLUN = 2;
 	NandMemInfo.LUNPerChip = 1;
-	NandMemInfo.SpareAreaSize = 448;
-	//Erase
-	NandConfig.CMD_EraseBlock[0] = 0x60;
-	NandConfig.CMD_EraseBlock[1] = 0xD0;
-	//Page Program
-	NandConfig.CMD_WritePage[0] = 0x80;
-	NandConfig.CMD_WritePage[1] = 0x10;
-	//Page Read
-	NandConfig.CMD_ReadPage[0] = 0x00;
-	NandConfig.CMD_ReadPage[1] = 0x30;
-	//Read Status
-	NandConfig.CMD_ReadStatus = 0x70;
-	//FSMC_NANDDeInit(FSMC_Bank2_NAND);
-	//FSMC_NAND_Init(Channel,NandMemInfo[Channel].BytesPerPage,10);
-  
-	NandConfig.CMD_Reset = 0xFF;
+	NandMemInfo.SpareAreaSize = 2048;
 
-	NandConfig.CMD_ReadID = 0x90;
-	NandConfig.CMD_ReadIDAddr = 0x00;
-	NandConfig.ID_Length = 6;
-
-	NandTimeConfig.FSMC_HiZSetupTime = 10;
-	NandTimeConfig.FSMC_HoldSetupTime = 10;
-	NandTimeConfig.FSMC_SetupTime = 10;
-	NandTimeConfig.FSMC_WaitSetupTime = 10;
-	ret = NAND_Init(devHandle,0,NandMemInfo.BytesPerPage,&NandTimeConfig);
+	NandTimeConfig.FSMC_HiZSetupTime = 4;	//比FSMC_SetupTime大一点即可
+	NandTimeConfig.FSMC_HoldSetupTime = 4;	//ALE/CLE Hold time Min 3ns
+	NandTimeConfig.FSMC_SetupTime = 4;		//ALE/CLE setup time Min 6ns
+	NandTimeConfig.FSMC_WaitSetupTime = 32;	//WE/RE pulse width Min 8ns
+	ret = NAND_Init(devHandle,0,&NandTimeConfig);
 	if(ret == NAND_SUCCESS){
 		printf("nand init success!\n");
 	}else{
 		printf("nand init error!\n");
 		return;
 	}
-	ret = NAND_SetChipInfo(devHandle,0,&NandConfig,&NandMemInfo);
+	for(int k=0;k<1;k++){
+		//读ID
+		//AD 3A 18 A3 61 25
+		uint8_t NandID[6];
+		ret = NAND_ReadID(devHandle,0,0x00,NandID,6);
+		if(ret == NAND_SUCCESS){
+			printf("get nand id success!\n");
+			printf("ID : ");
+			for(int i=0;i<6;i++){
+				printf("0x%02X ",NandID[i]);
+			}
+			printf("\n");
+		}else{
+			printf("get nand id error!\n");
+			return;
+		}
+  
+		if((NandID[0]!=0xAD)||(NandID[1]!=0x3A)||(NandID[2]!=0x18)||(NandID[3]!=0xA3)||(NandID[4]!=0x61)||(NandID[5]!=0x25)){
+			printf("Get id error\n");
+			return;
+		}
+	}
+	//
+	uint8_t cmd[]={0x36,0x16};
+	uint8_t addr=0x70;
+	uint8_t data = 0x00;
+	//NAND_WritePage(devHandle,0,cmd,sizeof(cmd),&addr,1,&data,1,1000);
+	addr=0x71;
+	data = 0x01;
+	//NAND_WritePage(devHandle,0,cmd,sizeof(cmd),&addr,1,&data,1,1000);
+
+    //块擦除
+    uint8_t BlockEraseCmd[]={0x60,0xD0};
+    uint8_t EraseAddrs[]={0x00,TEST_BLOCK_ADDR,0x00};
+    //status = NAND_EraseBlock(devHandle,0,BlockEraseCmd,sizeof(BlockEraseCmd),EraseAddrs,sizeof(EraseAddrs),1000);
+    printf("erase status = 0x%08X\n",status);
+	
+	Sleep(100);
+    //SLC页写数据
+    uint8_t WriteTestData[3][TEST_DATA_NUM];
+	uint8_t EmptyData[TEST_DATA_NUM];
+	memset(EmptyData,0xFF,sizeof(EmptyData));
+    srand((unsigned)time(NULL));
+#if 1
+	for(int j=0;j<3;j++){
+		for(int i=0;i<sizeof(WriteTestData[j]);i++){
+			WriteTestData[j][i] = rand();//((j<<4)|i)&0xFF;
+		}
+	}
+#else
+	for(int i=0;i<sizeof(WriteTestData[0]);i++){
+		WriteTestData[1][i] = 0xFE;
+	}
+	for(int i=0;i<sizeof(WriteTestData[1]);i++){
+		WriteTestData[2][i] = 0xEF;
+	}
+	for(int i=0;i<sizeof(WriteTestData[2]);i++){
+		WriteTestData[0][i] = 0x7F;
+	}
+#endif
+#if 0
+    uint8_t PageWriteCmd[]={0xA2,0x80,0x10};
+    uint8_t PageWriteAddrs[]={0x00,0x00,0x00,TEST_BLOCK_ADDR,0x00};
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+#elif 0
+	//Order0
+    uint8_t PageWriteCmd[]={0x09,0x01,0x80,0x1A};
+    uint8_t PageWriteAddrs[]={0x00,0x00,0x00,TEST_BLOCK_ADDR,0x00};
+	PageWriteCmd[0] = 0x09;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x00;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order1
+	PageWriteCmd[0] = 0x09;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x01;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order2
+	PageWriteCmd[0] = 0x0D;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x00;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order3
+	PageWriteCmd[0] = 0x09;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x02;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order4
+	PageWriteCmd[0] = 0x0D;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x01;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order5
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x00;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order6
+	PageWriteCmd[0] = 0x09;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x03;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order7
+	PageWriteCmd[0] = 0x0D;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x02;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order8
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x01;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order9
+	PageWriteCmd[0] = 0x09;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x04;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order10
+	PageWriteCmd[0] = 0x0D;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x03;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order11
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	PageWriteAddrs[2] = 0x02;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,PageWriteAddrs,sizeof(PageWriteAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+#endif
+    Sleep(100);
+	//SLC页读数据
+    uint8_t ReadTestData[3][TEST_DATA_NUM+8];
+    uint8_t PageReadCmd[]={0x17,0x04,0x19,0xDA,0x00,0x30};
+    uint8_t PageReadAddrs[]={0x00,0x00,0x20,0x02,0x00};
+	PageReadCmd[0] = 0x01;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),PageReadAddrs,sizeof(PageReadAddrs),ReadTestData[0],sizeof(ReadTestData[0]),1000);
+    printf("page read status = 0x%08X\n",status);
+	return;
+	PageReadCmd[0] = 0x02;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),PageReadAddrs,sizeof(PageReadAddrs),ReadTestData[1],sizeof(ReadTestData[1]),1000);
+    printf("page read status = 0x%08X\n",status);
+	PageReadCmd[0] = 0x03;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),PageReadAddrs,sizeof(PageReadAddrs),ReadTestData[2],sizeof(ReadTestData[2]),1000);
+    printf("page read status = 0x%08X\n",status);
+    //对比数据
+    int ErrorDataNum = 0;
+	for(int j=0;j<3;j++){
+		ErrorDataNum = 0;
+		for(int i=0;i<sizeof(WriteTestData[j]);i++){
+			if(WriteTestData[j][i] != ReadTestData[j][i]){
+				//printf("%02X ",ReadTestData[j][i]);
+				//printf("%d ",i);
+				ErrorDataNum++;
+			}
+		}
+		//printf("\n");
+		printf("ErrorDataNum[%d] = %d\n",j,ErrorDataNum);
+	}
+	PageReadAddrs[2] = 0x01;
+	PageReadCmd[0] = 0x01;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),PageReadAddrs,sizeof(PageReadAddrs),ReadTestData[0],sizeof(ReadTestData[0]),1000);
+    printf("page read status = 0x%08X\n",status);
+	PageReadCmd[0] = 0x02;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),PageReadAddrs,sizeof(PageReadAddrs),ReadTestData[1],sizeof(ReadTestData[1]),1000);
+    printf("page read status = 0x%08X\n",status);
+	PageReadCmd[0] = 0x03;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),PageReadAddrs,sizeof(PageReadAddrs),ReadTestData[2],sizeof(ReadTestData[2]),1000);
+    printf("page read status = 0x%08X\n",status);
+	for(int j=0;j<3;j++){
+		ErrorDataNum = 0;
+		for(int i=0;i<sizeof(WriteTestData[j]);i++){
+			if(WriteTestData[j][i] != ReadTestData[j][i]){
+				//printf("%02X ",ReadTestData[j][i]);
+				ErrorDataNum++;
+			}
+		}
+		//printf("\n");
+		printf("ErrorDataNum[%d] = %d\n",j,ErrorDataNum);
+	}
+}
+
+void NAND_SLC_Test(int devHandle)
+{
+	int ret;
+	int status = 0;
+	NAND_TIMING_COMFIG NandTimeConfig;
+	uint8_t TestAddrs[]={0x00,0x00,0x00,TEST_BLOCK_ADDR,0x00};
+	//初始化配置NAND
+	NandTimeConfig.FSMC_HiZSetupTime = 4;	//比FSMC_SetupTime大一点即可
+	NandTimeConfig.FSMC_HoldSetupTime = 4;	//ALE/CLE Hold time Min 3ns
+	NandTimeConfig.FSMC_SetupTime = 4;		//ALE/CLE setup time Min 6ns
+	NandTimeConfig.FSMC_WaitSetupTime = 4;	//WE/RE pulse width Min 8ns
+	ret = NAND_Init(devHandle,0,&NandTimeConfig);
 	if(ret == NAND_SUCCESS){
-		printf("set nand info success!\n");
+		printf("nand init success!\n");
 	}else{
-		printf("set nand info error!\n");
+		printf("nand init error!\n");
 		return;
 	}
+	//读ID，读取ID的时候会自动发送复位命令，复位后会默认为TLC模式，所以需要在进行其他操作时发送进入SLC模式的命令
+	//AD 3A 18 A3 61 25
 	uint8_t NandID[6];
-	ret = NAND_ReadID(devHandle,0,NandID);
+	ret = NAND_ReadID(devHandle,0,0x00,NandID,6);
 	if(ret == NAND_SUCCESS){
 		printf("get nand id success!\n");
 		printf("ID : ");
-		for(int i=0;i<NandConfig.ID_Length;i++){
+		for(int i=0;i<6;i++){
+			printf("0x%02X ",NandID[i]);
+		}
+		printf("\n");
+	}else{
+		printf("get nand id error!\n");
+		return;
+	}
+	if((NandID[0]!=0xAD)||(NandID[1]!=0x3A)||(NandID[2]!=0x18)||(NandID[3]!=0xA3)||(NandID[4]!=0x61)||(NandID[5]!=0x25)){
+		printf("ID error\n");
+		return;
+	}
+	//发送进入SLC模式命令
+	uint8_t cmd[16];
+	cmd[0] = 0xBF;//进入SLC模式命令
+	NAND_SendCmd(devHandle,0,cmd,1);
+    //块擦除
+    uint8_t BlockEraseCmd[]={0x60,0xD0};
+    status = NAND_EraseBlock(devHandle,0,BlockEraseCmd,sizeof(BlockEraseCmd),&TestAddrs[2],3,1000);
+    printf("erase status = 0x%08X\n",status);
+	
+    //SLC页写数据
+    uint8_t WriteTestData[TEST_DATA_NUM];
+    srand((unsigned)time(NULL));
+	for(int i=0;i<sizeof(WriteTestData);i++){
+		WriteTestData[i] = rand();//((j<<4)|i)&0xFF;
+	}
+    uint8_t PageWriteCmd[]={0x80,0x10};
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData,sizeof(WriteTestData),1000);
+    printf("SLC page write status = 0x%08X\n",status);
+	//SLC页读数据
+    uint8_t ReadTestData[TEST_DATA_NUM+8];
+    uint8_t PageReadCmd[]={0x00,0x30};
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),TestAddrs,sizeof(TestAddrs),ReadTestData,sizeof(ReadTestData),1000);
+    printf("SLC page read status = 0x%08X\n",status);
+    //对比数据
+    int ErrorDataNum = 0;
+	for(int i=0;i<sizeof(WriteTestData);i++){
+		if(WriteTestData[i] != ReadTestData[i]){
+			ErrorDataNum++;
+		}
+	}
+	printf("SLC ErrorDataNum = %d\n",ErrorDataNum);
+	return;
+}
+
+void NAND_TLC_Test(int devHandle)
+{
+	int ret;
+	int status = 0;
+	uint8_t TestAddrs[]={0x00,0x00,0x00,TEST_BLOCK_ADDR,0x00};
+
+	NAND_TIMING_COMFIG NandTimeConfig;
+	NandTimeConfig.FSMC_HiZSetupTime = 4;	//比FSMC_SetupTime大一点即可
+	NandTimeConfig.FSMC_HoldSetupTime = 4;	//ALE/CLE Hold time Min 3ns
+	NandTimeConfig.FSMC_SetupTime = 4;		//ALE/CLE setup time Min 6ns
+	NandTimeConfig.FSMC_WaitSetupTime = 8;	//WE/RE pulse width Min 8ns
+	ret = NAND_Init(devHandle,0,&NandTimeConfig);
+	if(ret == NAND_SUCCESS){
+		printf("TLC nand init success!\n");
+	}else{
+		printf("TLC nand init error!\n");
+		return;
+	}
+	//读ID
+	//AD 3A 18 A3 61 25
+	uint8_t NandID[6];
+	ret = NAND_ReadID(devHandle,0,0x00,NandID,6);
+	if(ret == NAND_SUCCESS){
+		printf("get nand id success!\n");
+		printf("ID : ");
+		for(int i=0;i<6;i++){
 			printf("0x%02X ",NandID[i]);
 		}
 		printf("\n");
@@ -81,108 +467,321 @@ void NAND_Test(int devHandle)
 		return;
 	}
   
+	if((NandID[0]!=0xAD)||(NandID[1]!=0x3A)||(NandID[2]!=0x18)||(NandID[3]!=0xA3)||(NandID[4]!=0x61)||(NandID[5]!=0x25)){
+		printf("ID error\n");
+		//return;
+	}
+#if 1
+	//复位
+	uint8_t cmd[16];
+	uint8_t addr[16];
+	uint8_t write_data[16*1024];
+	uint8_t read_data[16*1024];
+	uint8_t ReadyFlag = 0;
+	/*cmd[0] = 0xFF;
+	NAND_SendCmd(devHandle,0,cmd,1);
+	ReadyFlag = NAND_WaitReady(devHandle,0,100000);
+	printf("Reset Ready Flag = %d\n",ReadyFlag);
+	//发送0x36命令，目的不详
+	cmd[0] = 0x36;
+	addr[0] = 0x71;
+	write_data[0] = 0x01;
+	NAND_SendCmd(devHandle,0,cmd,1);
+	NAND_SendAddr(devHandle,0,addr,1);
+	NAND_WriteData(devHandle,0,write_data,1);
+	cmd[0] = 0x16;
+	NAND_SendCmd(devHandle,0,cmd,1);
+	//再发送一串命令，目的不详
+	cmd[0] = 0x17;cmd[1] = 0x04;cmd[2] = 0x19;cmd[3] = 0xDA;
+	NAND_SendCmd(devHandle,0,cmd,4);
+	*/
+	//进入TLC模式
+	cmd[0] = 0xFF;
+	NAND_SendCmd(devHandle,0,cmd,1);
+#endif
 
-//    
-//    //FSMC_NAND_WritePage(Channel,WriteReadAddr,WriteBuffer,NandMemInfo[Channel].BytesPerPage,WriteEcc);
-//    
-//    //FSMC_NAND_ReadPage (Channel, WriteReadAddr,ReadBuffer,NandMemInfo[Channel].BytesPerPage,ReadEcc);
-//    
-//    for(i=0;i<NandMemInfo[Channel].BytesPerPage;i++){
-//      if(WriteBuffer[i] != ReadBuffer[i]){
-//        while(1);
-//      }
-//    }
-//    //FSMC_NAND_WriteSpareArea(Channel,WriteReadAddr,WriteBuffer,256);
-//    //FSMC_NAND_ReadSpareArea(Channel,WriteReadAddr,ReadBuffer,256);
-//  }
-//  while(1);
+    //块擦除
+    uint8_t BlockEraseCmd[]={0x60,0xD0};
+    status = NAND_EraseBlock(devHandle,0,BlockEraseCmd,sizeof(BlockEraseCmd),&TestAddrs[2],3,1000);
+    printf("TLC erase status = 0x%08X\n",status);
+	
+    //TLC页写数据
+    uint8_t WriteTestData[3][TEST_DATA_NUM];
+    srand((unsigned)time(NULL));
+#if 1
+	for(int j=0;j<3;j++){
+		for(int i=0;i<sizeof(WriteTestData[j]);i++){
+			WriteTestData[j][i] = rand();//((j<<4)|i)&0xFF;
+		}
+	}
+#else
+	for(int i=0;i<sizeof(WriteTestData[0]);i++){
+		WriteTestData[0][i] = rand();//((j<<4)|i)&0xFF;
+	}
+	for(int j=0;j<2;j++){
+		for(int i=0;i<sizeof(WriteTestData[j]);i++){
+			WriteTestData[j+1][i] = WriteTestData[0][i];//((j<<4)|i)&0xFF;
+		}
+	}
+#endif
+	//Order0
+    uint8_t PageWriteCmd[]={0x09,0x01,0x80,0x1A};
+	uint8_t StartAddr = TestAddrs[2];
+	PageWriteCmd[0] = 0x09;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order1
+	PageWriteCmd[0] = 0x09;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	StartAddr += 1;
+	TestAddrs[2] = StartAddr;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order2
+	PageWriteCmd[0] = 0x0D;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	StartAddr -= 1;
+	TestAddrs[2] = StartAddr;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order3
+	PageWriteCmd[0] = 0x09;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	StartAddr += 2;
+	TestAddrs[2] = StartAddr;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order4
+	PageWriteCmd[0] = 0x0D;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	StartAddr -= 1;
+	TestAddrs[2] = StartAddr;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order5
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	StartAddr -= 1;
+	TestAddrs[2] = StartAddr;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order6
+	PageWriteCmd[0] = 0x09;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	StartAddr += 3;
+	TestAddrs[2] = StartAddr;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order7
+	PageWriteCmd[0] = 0x0D;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	StartAddr -= 1;
+	TestAddrs[2] = StartAddr;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order8
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	StartAddr -= 1;
+	TestAddrs[2] = StartAddr;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order9
+	PageWriteCmd[0] = 0x09;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	StartAddr += 3;
+	TestAddrs[2] = StartAddr;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x09;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order10
+	PageWriteCmd[0] = 0x0D;
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	StartAddr -= 1;
+	TestAddrs[2] = StartAddr;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+	PageWriteCmd[0] = 0x0D;
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
+	//Order11
+	PageWriteCmd[1] = 0x01;
+	PageWriteCmd[3] = 0x1A;
+	StartAddr -= 1;
+	TestAddrs[2] = StartAddr;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x02;
+	PageWriteCmd[3] = 0x1A;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);
+    printf("page write status = 0x%08X\n",status);
+    PageWriteCmd[1] = 0x03;
+    PageWriteCmd[3] = 0x10;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);
+    printf("page write status = 0x%08X\n",status);
 
-
-
-  /* Write data to FSMC NOR memory */
-  /* Fill the buffer to send */
-//  srand(56);
-//  for (index = 0; index < NAND_PAGE_SIZE; index++ ){
-//     TxBuffer[index] = rand();
-//  }
-
-//  FSMC_NAND_WritePage(TxBuffer, WriteReadAddr, 1,&ecc);
-//  printf("\r\nWritten to the number of:\r\n");
-//  for(j = 0; j < 128; j++){
-//    printf("%02X ",TxBuffer[j]);
-//    if((((j+1)%32)==0)){
-//      printf("\n\r");
-//    }
-//  }
-
-//  /* Read back the written data */
-//  FSMC_NAND_ReadPage (RxBuffer, WriteReadAddr, 1,&ecc);
-//  printf("\r\nRead several:\r\n");
-//  for(j = 0; j < 128; j++){
-//    printf("%02X ",RxBuffer[j]);
-//    if((((j+1)%32)==0)){
-//      printf("\n\r");
-//    }
-//  }  
-//  WriteReadAddr.Block = 2;
-//  WriteReadAddr.Page = 0;
-//  WriteReadAddr.Plane = 0;
-//  FSMC_NAND_WriteSpareArea(TxBuffer, WriteReadAddr, 2);
-//  printf("\r\nWritten To The Spare Area:\r\n");
-//  for(j = 0; j < NAND_SPARE_AREA_SIZE*2; j++){
-//    printf("%02X ",TxBuffer[j]);
-//    if((((j+1)%32)==0)){
-//      printf("\n\r");
-//    }
-//  }
-//  /* Read back the written data */
-//  FSMC_NAND_ReadSpareArea (RxBuffer, WriteReadAddr, 2);
-//  printf("\r\nRead Spare Area:\r\n");
-//  for(j = 0; j < NAND_SPARE_AREA_SIZE*2; j++){
-//    printf("%02X ",RxBuffer[j]);
-//    if((((j+1)%32)==0)){
-//      printf("\n\r");
-//    }
-//  }
-//  printf("\r\nCheck Bad Block:\r\n");
-//  FSMC_NAND_CheckBadBlock(BadBlockFlag, WriteReadAddr, 1024);
-//  printf("\r\nBad Blocks(Which block flag is 1):\r\n");
-//  for(j=0;j<1024;j++){
-//    printf("%d ",BadBlockFlag[j]);
-//    if((((j+1)%32)==0)){
-//      printf("\n\r");
-//    }
-//  }
-  
-//  printf("\r\nGet Bad Block:\r\n");
-//  WriteReadAddr.Block = 0;
-//  WriteReadAddr.Page = 0;
-//  FSMC_NAND_GetBadBlock(BadBlockFlag,WriteReadAddr,1024);
-//  for(j=0;j<1024;j++){
-//    printf("%d ",BadBlockFlag[j]);
-//    if((((j+1)%32)==0)){
-//      printf("\n\r");
-//    }
-//  }
-//  FSMC_NAND_WriteSpareArea(TxBuffer, WriteReadAddr, 1);
-//  printf("\r\nWritten To The Spare Area:\r\n");
-//  for(j = 0; j < NAND_SPARE_AREA_SIZE; j++){
-//    printf("%02X ",TxBuffer[j]);
-//    if((((j+1)%32)==0)){
-//      printf("\n\r");
-//    }
-//  }
-//  /* Read back the written data */
-//  FSMC_NAND_ReadSpareArea (RxBuffer, WriteReadAddr, 1);
-//  printf("\r\nRead Spare Area:\r\n");
-//  for(j = 0; j < NAND_SPARE_AREA_SIZE; j++){
-//    printf("%02X ",RxBuffer[j]);
-//    if((((j+1)%32)==0)){
-//      printf("\n\r");
-//    }
-//  }    
+    Sleep(100);
+	//SLC页读数据
+    uint8_t ReadTestData[3][TEST_DATA_NUM+8];
+    uint8_t PageReadCmd[]={0x01,0x00,0x30};
+	PageReadCmd[0] = 0x01;
+	TestAddrs[2] = 0x00;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),TestAddrs,sizeof(TestAddrs),ReadTestData[0],sizeof(ReadTestData[0]),1000);
+    printf("page read status = 0x%08X\n",status);
+	PageReadCmd[0] = 0x02;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),TestAddrs,sizeof(TestAddrs),ReadTestData[1],sizeof(ReadTestData[1]),1000);
+    printf("page read status = 0x%08X\n",status);
+	PageReadCmd[0] = 0x03;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),TestAddrs,sizeof(TestAddrs),ReadTestData[2],sizeof(ReadTestData[2]),1000);
+    printf("page read status = 0x%08X\n",status);
+    //对比数据
+    int ErrorDataNum = 0;
+	for(int j=0;j<3;j++){
+		ErrorDataNum = 0;
+		for(int i=0;i<sizeof(WriteTestData[j]);i++){
+			if(WriteTestData[j][i] != ReadTestData[j][i]){
+				//printf("%02X ",ReadTestData[j][i]);
+				//printf("%d ",i);
+				ErrorDataNum++;
+			}
+		}
+		//printf("\n");
+		printf("ErrorDataNum[%d] = %d\n",j,ErrorDataNum);
+	}
+	TestAddrs[2] = 0x01;
+	PageReadCmd[0] = 0x01;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),TestAddrs,sizeof(TestAddrs),ReadTestData[0],sizeof(ReadTestData[0]),1000);
+    printf("page read status = 0x%08X\n",status);
+	PageReadCmd[0] = 0x02;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),TestAddrs,sizeof(TestAddrs),ReadTestData[1],sizeof(ReadTestData[1]),1000);
+    printf("page read status = 0x%08X\n",status);
+	PageReadCmd[0] = 0x03;
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),TestAddrs,sizeof(TestAddrs),ReadTestData[2],sizeof(ReadTestData[2]),1000);
+    printf("page read status = 0x%08X\n",status);
+	for(int j=0;j<3;j++){
+		ErrorDataNum = 0;
+		for(int i=0;i<sizeof(WriteTestData[j]);i++){
+			if(WriteTestData[j][i] != ReadTestData[j][i]){
+				//printf("%02X ",ReadTestData[j][i]);
+				ErrorDataNum++;
+			}
+		}
+		//printf("\n");
+		printf("ErrorDataNum[%d] = %d\n",j,ErrorDataNum);
+	}
 }
-
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int DeviceHandle[20];
@@ -205,7 +804,9 @@ int _tmain(int argc, _TCHAR* argv[])
         return 0;
     }
     Sleep(100);
-	NAND_Test(DeviceHandle[0]);
+	//NAND_Test2(DeviceHandle[0]);
+	//NAND_SLC_Test(DeviceHandle[0]);
+	NAND_TLC_Test(DeviceHandle[0]);
 	return 0;
 }
 
