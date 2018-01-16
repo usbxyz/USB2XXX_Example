@@ -7,8 +7,8 @@
 #include "usb_device.h"
 #include <time.h>  
 
-#define	TEST_DATA_NUM	16*1024
-#define TEST_BLOCK_ADDR	0x0
+#define	TEST_DATA_NUM	8*1024
+#define TEST_BLOCK_ADDR	0x42
 
 void NAND_Test(int devHandle)
 {
@@ -35,10 +35,10 @@ void NAND_Test(int devHandle)
 	NandMemInfo.LUNPerChip = 1;
 	NandMemInfo.SpareAreaSize = 2048;
 
-	NandTimeConfig.FSMC_HiZSetupTime = 4;	//比FSMC_SetupTime大一点即可
-	NandTimeConfig.FSMC_HoldSetupTime = 4;	//ALE/CLE Hold time Min 3ns
-	NandTimeConfig.FSMC_SetupTime = 4;		//ALE/CLE setup time Min 6ns
-	NandTimeConfig.FSMC_WaitSetupTime = 32;	//WE/RE pulse width Min 8ns
+	NandTimeConfig.FSMC_HiZSetupTime = 10;	//比FSMC_SetupTime大一点即可
+	NandTimeConfig.FSMC_HoldSetupTime = 10;	//ALE/CLE Hold time Min 3ns
+	NandTimeConfig.FSMC_SetupTime = 10;		//ALE/CLE setup time Min 6ns
+	NandTimeConfig.FSMC_WaitSetupTime = 10;	//WE/RE pulse width Min 8ns
 	ret = NAND_Init(devHandle,0,&NandTimeConfig);
 	if(ret == NAND_SUCCESS){
 		printf("nand init success!\n");
@@ -362,6 +362,75 @@ void NAND_Test(int devHandle)
 	}
 }
 
+void NAND_TF_SLC_Test(int devHandle)
+{
+	int ret;
+	int status = 0;
+	NAND_TIMING_COMFIG NandTimeConfig;
+	uint8_t TestAddrs[]={0x00,0x00,0x00,TEST_BLOCK_ADDR,0x00,0x00};
+	//初始化配置NAND
+	NandTimeConfig.FSMC_HiZSetupTime = 4;	//比FSMC_SetupTime大一点即可
+	NandTimeConfig.FSMC_HoldSetupTime = 4;	//ALE/CLE Hold time Min 3ns
+	NandTimeConfig.FSMC_SetupTime = 4;		//ALE/CLE setup time Min 6ns
+	NandTimeConfig.FSMC_WaitSetupTime = 4;	//WE/RE pulse width Min 8ns
+	ret = NAND_Init(devHandle,0,&NandTimeConfig);
+	if(ret == NAND_SUCCESS){
+		printf("nand init success!\n");
+	}else{
+		printf("nand init error!\n");
+		return;
+	}
+	//读ID，读取ID的时候会自动发送复位命令，复位后会默认为TLC模式，所以需要在进行其他操作时发送进入SLC模式的命令
+	//AD 3A 18 A3 61 25
+	uint8_t NandID[6];
+	ret = NAND_ReadID(devHandle,0,0x00,NandID,6);
+	if(ret == NAND_SUCCESS){
+		printf("get nand id success!\n");
+		printf("ID : ");
+		for(int i=0;i<6;i++){
+			printf("0x%02X ",NandID[i]);
+		}
+		printf("\n");
+	}else{
+		printf("get nand id error!\n");
+		return;
+	}
+	if((NandID[0]!=0x45)||(NandID[1]!=0x4C)||(NandID[2]!=0x98)||(NandID[3]!=0xA3)||(NandID[4]!=0x76)||(NandID[5]!=0x51)){
+		printf("ID error\n");
+		return;
+	}
+	//发送进入SLC模式命令
+	uint8_t cmd[16];
+    //块擦除
+    uint8_t BlockEraseCmd[]={0xA2,0x60,0xD0};//0xA2是进入SLC模式命令，所有操作都必须加这个命令才能正常读写
+    status = NAND_EraseBlock(devHandle,0,BlockEraseCmd,sizeof(BlockEraseCmd),&TestAddrs[2],3,1000);
+    printf("erase status = 0x%08X\n",status);
+	
+    //SLC页写数据
+    uint8_t WriteTestData[TEST_DATA_NUM];
+    srand((unsigned)time(NULL));
+	for(int i=0;i<sizeof(WriteTestData);i++){
+		WriteTestData[i] = rand();//((j<<4)|i)&0xFF;
+	}
+    uint8_t PageWriteCmd[]={0xA2,0x80,0x10};
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData,sizeof(WriteTestData),1000);
+    printf("TF SLC page write status = 0x%08X\n",status);
+	//SLC页读数据
+    uint8_t ReadTestData[TEST_DATA_NUM+8];
+    uint8_t PageReadCmd[]={0xA2,0x00,0x30};
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),TestAddrs,sizeof(TestAddrs),ReadTestData,sizeof(ReadTestData),1000);
+    printf("TF SLC page read status = 0x%08X\n",status);
+    //对比数据
+    int ErrorDataNum = 0;
+	for(int i=0;i<sizeof(WriteTestData);i++){
+		if(WriteTestData[i] != ReadTestData[i]){
+			ErrorDataNum++;
+		}
+	}
+	printf("TF SLC ErrorDataNum = %d\n",ErrorDataNum);
+	return;
+}
+
 void NAND_SLC_Test(int devHandle)
 {
 	int ret;
@@ -430,6 +499,164 @@ void NAND_SLC_Test(int devHandle)
 		}
 	}
 	printf("SLC ErrorDataNum = %d\n",ErrorDataNum);
+	return;
+}
+
+void NAND_MLC_Test(int devHandle)
+{
+	int ret;
+	int status = 0;
+	NAND_TIMING_COMFIG NandTimeConfig;
+	uint8_t TestAddrs[]={0x00,0x00,0x00,TEST_BLOCK_ADDR,0x00};
+	//初始化配置NAND
+	NandTimeConfig.FSMC_HiZSetupTime = 5;	//比FSMC_SetupTime大一点即可
+	NandTimeConfig.FSMC_HoldSetupTime = 5;	//ALE/CLE Hold time Min 3ns
+	NandTimeConfig.FSMC_SetupTime = 5;		//ALE/CLE setup time Min 6ns
+	NandTimeConfig.FSMC_WaitSetupTime = 5;	//WE/RE pulse width Min 8ns
+	ret = NAND_Init(devHandle,0,&NandTimeConfig);
+	if(ret == NAND_SUCCESS){
+		printf("nand init success!\n");
+	}else{
+		printf("nand init error!\n");
+		return;
+	}
+	//发送一些特定指令后才能正常操作
+	uint8_t cmd[16];
+	uint8_t addr[16];
+	uint8_t data[16];
+	/*
+	cmd[0] = 0xA3;
+	NAND_SendCmd(devHandle,0,cmd,1);
+	addr[0] = 0xAC;addr[1] = 0x41;addr[2] = 0xFB;addr[3] = 0x50;addr[4] = 0x7C;addr[5] = 0x54;addr[6] = 0x3B;addr[7] = 0xFE;
+	NAND_SendAddr(devHandle,0,addr,8);
+	data[0] = 0xFE;data[1] = 0xFE;data[2] = 0x60;
+	NAND_WriteData(devHandle,0,data,3);
+	cmd[0] = 0x19;
+	NAND_SendCmd(devHandle,0,cmd,1);
+	data[0] = 0x00;
+	NAND_WriteData(devHandle,0,data,1);
+	
+	cmd[0] = 0x00;
+	NAND_SendCmd(devHandle,0,cmd,1);
+	addr[0] = 0x00;addr[1] = 0x00;addr[2] = 0x00;addr[3] = 0x00;addr[4] = 0x00;
+	NAND_SendAddr(devHandle,0,addr,5);
+	cmd[0] = 0x5C;cmd[1] = 0xC5;cmd[2] = 0x55;
+	NAND_SendCmd(devHandle,0,cmd,3);
+	addr[0] = 0x00;
+	NAND_SendAddr(devHandle,0,addr,1);
+	data[0] = 0x01;
+	NAND_WriteData(devHandle,0,data,1);
+	cmd[0] = 0xFD;cmd[1] = 0x00;
+	NAND_SendCmd(devHandle,0,cmd,2);
+	addr[0] = 0x00;addr[1] = 0x00;addr[2] = 0x00;addr[3] = 0x00;addr[4] = 0x00;
+	NAND_SendAddr(devHandle,0,addr,5);
+	cmd[0] = 0x70;
+	NAND_SendCmd(devHandle,0,cmd,1);
+
+	
+	cmd[0] = 0xFF;
+	NAND_SendCmd(devHandle,0,cmd,1);
+	*/
+	uint8_t GetIDCmd[]={0xFE,0xFD,0xFB,0xF7,0xEF,0xDF,0xBF,0x7F};
+	for(int k=0;k<sizeof(GetIDCmd);k++){
+		cmd[0] = 0xA3;
+		NAND_SendCmd(devHandle,0,cmd,1);
+		addr[0] = 0xAC;addr[1] = 0x41;addr[2] = 0xFB;addr[3] = 0x50;addr[4] = 0x7C;addr[5] = 0x54;addr[6] = 0x3B;addr[7] = 0xFE;
+		NAND_SendAddr(devHandle,0,addr,8);
+		data[0] = GetIDCmd[k];data[1] = GetIDCmd[k];data[2] = 0x60;
+		ret = NAND_WriteData(devHandle,0,data,3);
+		cmd[0] = 0x19;
+		NAND_SendCmd(devHandle,0,cmd,1);
+		data[0] = 0x00;
+		NAND_WriteData(devHandle,0,data,1);
+	
+		cmd[0] = 0x00;
+		NAND_SendCmd(devHandle,0,cmd,1);
+		addr[0] = 0x00;addr[1] = 0x00;addr[2] = 0x00;addr[3] = 0x00;addr[4] = 0x00;
+		NAND_SendAddr(devHandle,0,addr,5);
+		cmd[0] = 0x5C;cmd[1] = 0xC5;cmd[2] = 0x55;
+		NAND_SendCmd(devHandle,0,cmd,3);
+		addr[0] = 0x00;
+		NAND_SendAddr(devHandle,0,addr,1);
+		data[0] = 0x01;
+		NAND_WriteData(devHandle,0,data,1);
+		cmd[0] = 0xFD;cmd[1] = 0x00;
+		NAND_SendCmd(devHandle,0,cmd,2);
+		addr[0] = 0x00;addr[1] = 0x00;addr[2] = 0x00;addr[3] = 0x00;addr[4] = 0x00;
+		NAND_SendAddr(devHandle,0,addr,5);
+		
+		cmd[0] = 0x70;
+		NAND_SendCmd(devHandle,0,cmd,1);
+		NAND_ReadData(devHandle,0,data,1);
+		printf("STATUS : 0x%02X\n",data[0]);
+	
+		cmd[0] = 0xFF;
+		NAND_SendCmd(devHandle,0,cmd,1);
+		cmd[0] = 0x90;
+		NAND_SendCmd(devHandle,0,cmd,1);
+		addr[0] = 0x00;
+		NAND_SendAddr(devHandle,0,addr,1);
+		NAND_ReadData(devHandle,0,data,14);
+		printf("ID : ");
+		for(int i=0;i<14;i++){
+			printf("0x%02X ",data[i]);
+		}
+		printf("\n");
+		if((data[0]==0x45)||(data[1]==0xDE)||(data[2]==0x94)||(data[3]==0x93)||(data[4]==0x76)||(data[5]==0x57)){
+			break;
+		}
+		//Sleep(1);
+	}
+	//NAND_WritePage(devHandle,0,cmd,sizeof(cmd),&addr,1,&data,1,1000);
+	//读ID，读取ID的时候会自动发送复位命令，复位后会默认为TLC模式，所以需要在进行其他操作时发送进入SLC模式的命令
+	//E0 45 DE 94 93 76 57 09
+	uint8_t NandID[6];
+	ret = NAND_ReadID(devHandle,0,0x00,NandID,6);
+	if(ret == NAND_SUCCESS){
+		printf("get nand id success!\n");
+		printf("ID : ");
+		for(int i=0;i<6;i++){
+			printf("0x%02X ",NandID[i]);
+		}
+		printf("\n");
+	}else{
+		printf("get nand id error!\n");
+		return;
+	}
+	if((data[0]!=0x45)||(data[1]!=0xDE)||(data[2]!=0x94)||(data[3]!=0x93)||(data[4]!=0x76)||(data[5]!=0x57)){
+		printf("ID error\n");
+		return;
+	}
+	//发送进入SLC模式命令
+	//cmd[0] = 0xBF;//进入SLC模式命令
+	//NAND_SendCmd(devHandle,0,cmd,1);
+    //块擦除
+    uint8_t BlockEraseCmd[]={0x60,0xD0};
+    status = NAND_EraseBlock(devHandle,0,BlockEraseCmd,sizeof(BlockEraseCmd),&TestAddrs[2],3,1000);
+    printf("erase status = 0x%08X\n",status);
+	
+    //SLC页写数据
+    uint8_t WriteTestData[TEST_DATA_NUM];
+    srand((unsigned)time(NULL));
+	for(int i=0;i<sizeof(WriteTestData);i++){
+		WriteTestData[i] = rand();//((j<<4)|i)&0xFF;
+	}
+    uint8_t PageWriteCmd[]={0x80,0x10};
+    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData,sizeof(WriteTestData),1000);
+    printf("MLC page write status = 0x%08X\n",status);
+	//SLC页读数据
+    uint8_t ReadTestData[TEST_DATA_NUM+8];
+    uint8_t PageReadCmd[]={0x00,0x30};
+    status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),TestAddrs,sizeof(TestAddrs),ReadTestData,sizeof(ReadTestData),1000);
+    printf("MLC page read status = 0x%08X\n",status);
+    //对比数据
+    int ErrorDataNum = 0;
+	for(int i=0;i<sizeof(WriteTestData);i++){
+		if(WriteTestData[i] != ReadTestData[i]){
+			ErrorDataNum++;
+		}
+	}
+	printf("MLC ErrorDataNum = %d\n",ErrorDataNum);
 	return;
 }
 
@@ -806,7 +1033,9 @@ int _tmain(int argc, _TCHAR* argv[])
     Sleep(100);
 	//NAND_Test2(DeviceHandle[0]);
 	//NAND_SLC_Test(DeviceHandle[0]);
-	NAND_TLC_Test(DeviceHandle[0]);
+	//NAND_TLC_Test(DeviceHandle[0]);
+	NAND_MLC_Test(DeviceHandle[0]);
+	//NAND_TF_SLC_Test(DeviceHandle[0]);
 	return 0;
 }
 
