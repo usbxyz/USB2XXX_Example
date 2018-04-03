@@ -92,6 +92,7 @@ int main(int argc, const char* argv[])
         getchar();
         return 0;
     }
+	ret = SPI_SlaveWriteReadBytes(DevHandle[0],SPIIndex,WriteBuffer,ReadBuffer,32,1000);
     //从机模式写数据，数据写入适配器内部数据缓冲区，等待主机读取
     ret = SPI_SlaveWriteBytes(DevHandle[0],SPIIndex,WriteBuffer,32,0);
     printf("ret = %d\n",ret);

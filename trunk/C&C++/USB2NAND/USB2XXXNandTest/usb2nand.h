@@ -125,7 +125,7 @@ int WINAPI NAND_ReadID(int DevHandle,int ChipIndex,unsigned char IDAddr,unsigned
   * @retval 函数执行状态，小于0函数执行出错
   */
 //int WINAPI NAND_WritePage(int DevHandle,int ChipIndex,PNAND_ADDRESS pStartAddr,unsigned char *pWriteData, int NumByteToWrite,unsigned int *pECC,int TimeOutMs);
-int WINAPI NAND_WritePage(int DevHandle,int ChipIndex,unsigned char *pCmds,unsigned char CmdsLen,unsigned char *pAddrs,unsigned char AddrLen,unsigned char *pWriteData, int NumByteToWrite,int TimeOutMs);
+int WINAPI NAND_WritePage(int DevHandle,int ChipIndex,unsigned char *pCmds,unsigned char CmdsLen,unsigned char *pAddrs,unsigned char AddrLen,unsigned char *pWriteData,int NumByteToWrite,int TimeOutMs);
 /**
   * @brief  从NAND Flash读出数据，建议按照整页读，读数据的时候会返回每页的ECC值，可以和备用区的ECC值进行校验对比
   * @param  DevHandle 设备索引号
@@ -176,10 +176,10 @@ int WINAPI NAND_ReadSpareArea(int DevHandle,int ChipIndex, PNAND_ADDRESS pStartA
 int WINAPI NAND_EraseBlock(int DevHandle,int ChipIndex,unsigned char *pCmds,unsigned char CmdsLen,unsigned char *pAddrs,unsigned char AddrLen,int TimeOutMs);
 
 
-int WINAPI NAND_SendCmd(int DevHandle,int ChipIndex,unsigned char *pCmds,unsigned char CmdsLen);
-int WINAPI NAND_SendAddr(int DevHandle,int ChipIndex,unsigned char *pAddrs,unsigned char AddrsLen);
-int WINAPI NAND_WriteData(int DevHandle,int ChipIndex,unsigned char *pWriteData,unsigned int WriteDataLen);
-int WINAPI NAND_ReadData(int DevHandle,int ChipIndex,unsigned char *pReadData,unsigned int ReadDataLen);
+int WINAPI NAND_SendCmd(int DevHandle,int ChipIndex,unsigned char *pCmds,unsigned char CmdsLen, unsigned char CEPolarity);
+int WINAPI NAND_SendAddr(int DevHandle,int ChipIndex,unsigned char *pAddrs,unsigned char AddrsLen, unsigned char CEPolarity);
+int WINAPI NAND_WriteData(int DevHandle,int ChipIndex,unsigned char *pWriteData,unsigned int WriteDataLen, unsigned char CEPolarity);
+int WINAPI NAND_ReadData(int DevHandle,int ChipIndex,unsigned char *pReadData,unsigned int ReadDataLen, unsigned char CEPolarity);
 int WINAPI NAND_WaitReady(int DevHandle,int ChipIndex,unsigned int WaitTimeoutUs);
 
 #ifdef __cplusplus

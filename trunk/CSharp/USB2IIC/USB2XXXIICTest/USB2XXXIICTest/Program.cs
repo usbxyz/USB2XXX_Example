@@ -67,6 +67,7 @@ namespace USB2XXXIICTest
             USB2IIC.IIC_CONFIG IICConfig = new USB2IIC.IIC_CONFIG();
             IICConfig.AddrBits = 7;            //7bit地址模式
             IICConfig.ClockSpeedHz = 400000;     //时钟频率400KHz
+            IICConfig.EnablePu = 1;
         #if SLAVE_WRITE_TEST||SLAVE_READ_TEST
             IICConfig.Master = 0;              //从机模式
             IICConfig.OwnAddr = 0x71;          //从机地址

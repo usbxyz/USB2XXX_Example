@@ -29,6 +29,7 @@ namespace USB2XXX
           public UInt16 OwnAddr;      //USB2XXX为从机时自己的地址
           public Byte   Master;       //主从选择控制:0-从机，1-主机
           public Byte   AddrBits;     //从机地址模式，7-7bit模式，10-10bit模式
+          public Byte   EnablePu;     //使能引脚芯片内部上拉电阻，若不使能，则I2C总线上必须接上拉电阻
         }
         //USB2IIC相关函数定义
         [DllImport("USB2XXX.dll")]

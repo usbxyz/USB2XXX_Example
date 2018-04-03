@@ -46,14 +46,14 @@ if __name__ == '__main__':
         exit()
     # 初始化CAN
     CANConfig = CAN_INIT_CONFIG()
-    CANConfig.CAN_Mode = 1      # 1-自发自收模式，0-正常模式
+    CANConfig.CAN_Mode = 0      # 1-自发自收模式，0-正常模式
     CANConfig.CAN_ABOM = 0
     CANConfig.CAN_NART = 1
     CANConfig.CAN_RFLM = 0
     CANConfig.CAN_TXFP = 1
     # 配置波特率,波特率 = 100M/(BRP*(SJW+BS1+BS2))
     CANConfig.CAN_BRP_CFG3 = 25;
-    CANConfig.CAN_BS1_CFG1 = 2;
+    CANConfig.CAN_BS1_CFG1 = 6;
     CANConfig.CAN_BS2_CFG2 = 1;
     CANConfig.CAN_SJW = 1;
     ret = CAN_Init(DevHandles[0],CANIndex,byref(CANConfig))

@@ -90,7 +90,7 @@ namespace USB2XXXSPITest
             //SPIConfig.CPHA = 0;
             //SPIConfig.CPOL = 1;
             SPIConfig.LSBFirst = USB2SPI.SPI_MSB;
-            SPIConfig.Master = USB2SPI.SPI_MASTER;
+            SPIConfig.Master = USB2SPI.SPI_SLAVE;
             SPIConfig.SelPolarity = USB2SPI.SPI_SEL_LOW;
             ret = USB2SPI.SPI_Init(DevHandle, SPIIndex, ref SPIConfig);
             if (ret != USB2SPI.SPI_SUCCESS)

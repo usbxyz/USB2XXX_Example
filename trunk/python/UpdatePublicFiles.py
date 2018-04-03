@@ -5,6 +5,12 @@ import time,  datetime
 import platform
 
 libraryFile = ''
+mac_lib_path = '../SDK/mac_os/'
+win32_lib_path = '../SDK/msvc_x86/'
+win64_lib_path = '../SDK/msvc_x64/'
+linux32_lib_path = '../SDK/Linux_x86/'
+linux64_lib_path = '../SDK/Linux_x64/'
+armv7_lib_path = '../SDK/Linux_ARMv7/'
 libusb1FilePath = '/usr/local/lib/libusb-1.0.so'
 if(platform.system()=="Linux"):
     if "64bit" in platform.architecture():

@@ -28,9 +28,12 @@ int FileSize = 0;
 #if USE_CALLBACK_RECEIVE_DATA
 int __stdcall SlaveGetData(int DevHandle,int SPIIndex,unsigned char *pData,int DataNum)
 {
-    fwrite(pData,1,DataNum,pFile);
-    FileSize += DataNum;
-    printf("Get data num = %d\n",DataNum);
+    //fwrite(pData,1,DataNum,pFile);
+	for(int i=0;i<DataNum;i++){
+		fprintf(pFile,"%02X ",pData[i]);
+	}
+	FileSize += DataNum;
+    //printf("Get data num = %d\n",DataNum);
     return 0;
 }
 #endif

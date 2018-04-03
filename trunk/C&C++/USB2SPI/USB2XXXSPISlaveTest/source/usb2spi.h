@@ -44,6 +44,7 @@
 #define SPI_MODE_HARD_HDX       1 //硬件控制（半双工模式）
 #define SPI_MODE_SOFT_HDX       2 //软件控制（半双工模式）
 #define SPI_MODE_SOFT_ONE_WIRE  3 //单总线模式，数据线输入输出都为MOSI
+#define SPI_MODE_SOFT_FDX       4 //软件控制（全双工模式）
 //定义主从机模式
 #define SPI_MASTER      1 //主机
 #define SPI_SLAVE       0 //从机
@@ -123,6 +124,7 @@ typedef struct _SPI_FLASH_CONFIG{
 #define SPI_ERR_USB_READ_FAIL   (-3)  //USB读数据失败
 #define SPI_ERR_CMD_FAIL        (-4)  //命令执行失败
 #define SPI_ERR_PARAMETER       (-5)  //参数错误
+#define SPI_ERR_EVENT_TIMEOUT   (-6)  //检测Event超时
 #ifdef __cplusplus
 extern "C"
 {
@@ -273,6 +275,17 @@ int WINAPI SPI_SlaveWriteBytes(int DevHandle,int SPIIndex,unsigned char *pWriteD
   * @retval 函数执行状态，小于0函数执行出错
   */
 int WINAPI SPI_SlaveReadBytes(int DevHandle,int SPIIndex,unsigned char *pReadData,int TimeOutMs);
+
+/**
+  * @brief  SPI从机模式下同时发送接收数据
+  * @param  DevHandle 设备索引号
+  * @param  SPIIndex SPI通道号，取值0或者1
+  * @param  pWriteData 发送数据缓冲区首地址
+  * @param  pReadData 数据接收缓冲区首地址
+  * @param  pReadReadLen 从机数据收发字节数
+  * @retval 函数执行状态，小于0函数执行出错
+  */
+int WINAPI SPI_SlaveWriteReadBytes(int DevHandle,int SPIIndex,unsigned char *pWriteData,unsigned char *pReadData,int WriteReadLen,int TimeOutMs);
 
 /**
   * @brief  SPI从机模式下连续读取数据,SPI在从机模式下接收到数据之后，通过回调函数传出数据
