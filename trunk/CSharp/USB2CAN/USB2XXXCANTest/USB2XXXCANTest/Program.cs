@@ -53,7 +53,7 @@ namespace USB2XXXCANTest
             }
             //获取固件信息
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
+            state = usb_device.DEV_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");
@@ -114,7 +114,8 @@ namespace USB2XXXCANTest
                     CanMsg[i].Data[j] = (Byte)j;
                 }
             }
-            int SendedNum = USB2CAN.CAN_SendMsg(DevHandle,CANIndex,CanMsg,(UInt32)CanMsg.Length);
+
+            int SendedNum = USB2CAN.CAN_SendMsg(DevHandle, CANIndex, CanMsg, (UInt32)CanMsg.Length);
             if(SendedNum >= 0){
                 Console.WriteLine("Success send frames:{0}",SendedNum);
             }else{
@@ -132,7 +133,7 @@ namespace USB2XXXCANTest
             }
 #endif
             //延时
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(500);
             
 #if CAN_GET_MSG
             while (true)
@@ -143,11 +144,18 @@ namespace USB2XXXCANTest
                     CanMsgBuffer[i] = new USB2CAN.CAN_MSG();
                     CanMsgBuffer[i].Data = new Byte[8];
                 }
-                int CanNum = USB2CAN.CAN_GetMsg(DevHandle, CANIndex, CanMsgBuffer);
+
+                IntPtr[] ptArray = new IntPtr[1];
+                ptArray[0] = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(USB2CAN.CAN_MSG)) * CanMsgBuffer.Length);
+                IntPtr pt = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(USB2CAN.CAN_MSG)));
+                Marshal.Copy(ptArray, 0, pt, 1);
+
+                int CanNum = USB2CAN.CAN_GetMsg(DevHandle, CANIndex, pt);
                 if (CanNum > 0)
                 {
                     for (int i = 0; i < CanNum; i++)
                     {
+                        CanMsgBuffer[i] = (USB2CAN.CAN_MSG)Marshal.PtrToStructure((IntPtr)((UInt32)pt + i * Marshal.SizeOf(typeof(USB2CAN.CAN_MSG))), typeof(USB2CAN.CAN_MSG));
                         Console.WriteLine("CanMsg[{0}].ID = {1}", i, CanMsgBuffer[i].ID);
                         Console.WriteLine("CanMsg[{0}].TimeStamp = {1}", i, CanMsgBuffer[i].TimeStamp);
                         Console.Write("CanMsg[{0}].Data = ", i);

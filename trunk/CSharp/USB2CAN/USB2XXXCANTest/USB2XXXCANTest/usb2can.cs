@@ -91,9 +91,9 @@ namespace USB2XXX
         [DllImport("USB2XXX.dll")]
         public static extern Int32 CAN_Filter_Init(Int32 DevHandle, Byte CANIndex, ref CAN_FILTER_CONFIG pFilterConfig);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 CAN_SendMsg(Int32 DevHandle, Byte CANIndex, ref CAN_MSG pCanSendMsg,UInt32 SendMsgNum);
+        public static extern Int32 CAN_SendMsg(Int32 DevHandle, Byte CANIndex, CAN_MSG[] pCanSendMsg,UInt32 SendMsgNum);
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 CAN_GetMsg(Int32 DevHandle, Byte CANIndex, ref CAN_MSG pCanGetMsg);
+        public static extern Int32 CAN_GetMsg(Int32 DevHandle, Byte CANIndex, IntPtr pCanGetMsg);
         [DllImport("USB2XXX.dll")]
         public static extern Int32 CAN_GetStatus(Int32 DevHandle, Byte CANIndex, ref CAN_STATUS pCANStatus);
 
