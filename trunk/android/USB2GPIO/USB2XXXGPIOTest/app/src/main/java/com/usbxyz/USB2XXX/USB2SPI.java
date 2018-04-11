@@ -11,64 +11,64 @@ public interface USB2SPI extends Library {
 	USB2SPI INSTANCE  = (USB2SPI)Native.loadLibrary("USB2XXX",USB2SPI.class); 
 	
     //定义SPI通道
-    public static int SPI1        = (0x00);
-    public static int SPI1_CS0    = (0x00);
-    public static int SPI1_CS1    = (0x10);
-    public static int SPI1_CS2    = (0x20);
-    public static int SPI1_CS3    = (0x30);
-    public static int SPI1_CS4    = (0x40);
+    int SPI1        = (0x00);
+    int SPI1_CS0    = (0x00);
+    int SPI1_CS1    = (0x10);
+    int SPI1_CS2    = (0x20);
+    int SPI1_CS3    = (0x30);
+    int SPI1_CS4    = (0x40);
 
-    public static int SPI2        = (0x01);
-    public static int SPI2_CS0    = (0x01);
-    public static int SPI2_CS1    = (0x11);
-    public static int SPI2_CS2    = (0x21);
-    public static int SPI2_CS3    = (0x31);
-    public static int SPI2_CS4    = (0x41);
+    int SPI2        = (0x01);
+    int SPI2_CS0    = (0x01);
+    int SPI2_CS1    = (0x11);
+    int SPI2_CS2    = (0x21);
+    int SPI2_CS3    = (0x31);
+    int SPI2_CS4    = (0x41);
     //定义工作模式
-    public static int SPI_MODE_HARD_FDX       = 0; //硬件控制（全双工模式）
-    public static int SPI_MODE_HARD_HDX       = 1; //硬件控制（半双工模式）
-    public static int SPI_MODE_SOFT_HDX       = 2; //软件控制（半双工模式）
-    public static int SPI_MODE_SOFT_ONE_WIRE  = 3; //单总线模式，数据线输入输出都为MOSI
+    int SPI_MODE_HARD_FDX       = 0; //硬件控制（全双工模式）
+    int SPI_MODE_HARD_HDX       = 1; //硬件控制（半双工模式）
+    int SPI_MODE_SOFT_HDX       = 2; //软件控制（半双工模式）
+    int SPI_MODE_SOFT_ONE_WIRE  = 3; //单总线模式，数据线输入输出都为MOSI
     //定义主从机模式
-    public static int SPI_MASTER      = 1; //主机
-    public static int SPI_SLAVE       = 0; //从机
+    int SPI_MASTER      = 1; //主机
+    int SPI_SLAVE       = 0; //从机
     //定义数据移位方式
-    public static int SPI_MSB         = 0; //高位在前
-    public static int SPI_LSB         = 1; //低位在前
+    int SPI_MSB         = 0; //高位在前
+    int SPI_LSB         = 1; //低位在前
     //定义片选输出极性
-    public static int SPI_SEL_LOW     = 0; //片选输出低电平
-    public static int SPI_SEL_HIGH    = 1; //片选输出高电平
+    int SPI_SEL_LOW     = 0; //片选输出低电平
+    int SPI_SEL_HIGH    = 1; //片选输出高电平
     //定义EVENT引脚,注意EVENT引脚不要跟SPI通信引脚冲突
-    public static int SPI_EVENT_P0    = (1<<0);
-    public static int SPI_EVENT_P1    = (1<<1);
-    public static int SPI_EVENT_P2    = (1<<2);
-    public static int SPI_EVENT_P3    = (1<<3);
-    public static int SPI_EVENT_P4    = (1<<4);
-    public static int SPI_EVENT_P5    = (1<<5);
-    public static int SPI_EVENT_P6    = (1<<6);
-    public static int SPI_EVENT_P7    = (1<<7);
-    public static int SPI_EVENT_P8    = (1<<8);
-    public static int SPI_EVENT_P9    = (1<<9);
-    public static int SPI_EVENT_P10    = (1<<10);
-    public static int SPI_EVENT_P11    = (1<<11);
-    public static int SPI_EVENT_P12    = (1<<12);
-    public static int SPI_EVENT_P13    = (1<<13);
-    public static int SPI_EVENT_P14    = (1<<14);
-    public static int SPI_EVENT_P15    = (1<<15);
+    int SPI_EVENT_P0    = (1<<0);
+    int SPI_EVENT_P1    = (1<<1);
+    int SPI_EVENT_P2    = (1<<2);
+    int SPI_EVENT_P3    = (1<<3);
+    int SPI_EVENT_P4    = (1<<4);
+    int SPI_EVENT_P5    = (1<<5);
+    int SPI_EVENT_P6    = (1<<6);
+    int SPI_EVENT_P7    = (1<<7);
+    int SPI_EVENT_P8    = (1<<8);
+    int SPI_EVENT_P9    = (1<<9);
+    int SPI_EVENT_P10    = (1<<10);
+    int SPI_EVENT_P11    = (1<<11);
+    int SPI_EVENT_P12    = (1<<12);
+    int SPI_EVENT_P13    = (1<<13);
+    int SPI_EVENT_P14    = (1<<14);
+    int SPI_EVENT_P15    = (1<<15);
 
     //定义事件类型
-    public static int EVENT_TYPE_LOW      = 0x00;
-    public static int EVENT_TYPE_HIGH     = 0x11;
-    public static int EVENT_TYPE_RISING   = 0x01;
-    public static int EVENT_TYPE_FALLING  = 0x10;
+    int EVENT_TYPE_LOW      = 0x00;
+    int EVENT_TYPE_HIGH     = 0x11;
+    int EVENT_TYPE_RISING   = 0x01;
+    int EVENT_TYPE_FALLING  = 0x10;
     
     //定义函数返回错误代码
-    public static int SPI_SUCCESS             = (0);   //函数执行成功
-    public static int SPI_ERR_NOT_SUPPORT     = (-1);  //适配器不支持该函数
-    public static int SPI_ERR_USB_WRITE_FAIL  = (-2);  //USB写数据失败
-    public static int SPI_ERR_USB_READ_FAIL   = (-3);  //USB读数据失败
-    public static int SPI_ERR_CMD_FAIL        = (-4);  //命令执行失败
-    public static int SPI_ERR_PARAMETER       = (-5);  //参数错误
+    int SPI_SUCCESS             = (0);   //函数执行成功
+    int SPI_ERR_NOT_SUPPORT     = (-1);  //适配器不支持该函数
+    int SPI_ERR_USB_WRITE_FAIL  = (-2);  //USB写数据失败
+    int SPI_ERR_USB_READ_FAIL   = (-3);  //USB读数据失败
+    int SPI_ERR_CMD_FAIL        = (-4);  //命令执行失败
+    int SPI_ERR_PARAMETER       = (-5);  //参数错误
     //定义从机模式下连续读取数据的回调函数
     public interface SPI_GET_DATA_HANDLE{
         int SPI_GetDataHandle(int DevHandle,int SPIIndex,byte[] pData,int DataNum);//接收数据回掉函数
@@ -77,8 +77,8 @@ public interface USB2SPI extends Library {
     //定义初始化SPI的数据类型
 	public class SPI_CONFIG  extends Structure{
 		
-	    public static class ByReference extends SPI_CONFIG implements Structure.ByReference {}  
-	    public static class ByValue extends SPI_CONFIG implements Structure.ByValue {}  
+	    class ByReference extends SPI_CONFIG implements Structure.ByReference {}  
+	    class ByValue extends SPI_CONFIG implements Structure.ByValue {}  
 	  
 		@Override
 		protected List getFieldOrder() {
@@ -97,8 +97,8 @@ public interface USB2SPI extends Library {
     //定义SPI Flash器件配置参数数据类型
 	public class SPI_FLASH_CONFIG  extends Structure{
 		
-	    public static class ByReference extends SPI_FLASH_CONFIG implements Structure.ByReference {}  
-	    public static class ByValue extends SPI_FLASH_CONFIG implements Structure.ByValue {}  
+	    class ByReference extends SPI_FLASH_CONFIG implements Structure.ByReference {}  
+	    class ByValue extends SPI_FLASH_CONFIG implements Structure.ByValue {}  
 	  
 		@Override
 		protected List getFieldOrder() {
@@ -177,7 +177,7 @@ public interface USB2SPI extends Library {
 	  * @param  WriteLen 发送数据字节数
 	  * @param  pReadData 数据接收缓冲区首地址
 	  * @param  ReadLen 接收数据字节数
-	  * @param  IntervalTime 半双工模式下，发送数据和接收数据之间的时间间隔，单位为微妙
+	  * @param  IntervalTimeUs 半双工模式下，发送数据和接收数据之间的时间间隔，单位为微妙
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
 	int  SPI_WriteReadBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen,byte[] pReadData,int ReadLen,int IntervalTimeUs);
@@ -217,7 +217,7 @@ public interface USB2SPI extends Library {
 	  * @param  WriteLen 发送数据字节数
 	  * @param  pReadData 数据接收缓冲区首地址
 	  * @param  ReadLen 接收数据字节数
-	  * @param  IntervalTime 半双工模式下，发送数据和接收数据之间的时间间隔，单位为微妙
+	  * @param  TimeOutOfMs 半双工模式下，发送数据和接收数据之间的时间间隔，单位为微妙
 	  * @param  EventPin 等待事件的GPIO引脚
 	  * @param  EventType 事件类型，0x00-低电平，0x11-高电平，0x10-下降沿，0x01上升沿
 	  * @param  TimeOutOfMs 等待事件超时时间，单位为毫秒
@@ -272,10 +272,10 @@ public interface USB2SPI extends Library {
 	  * @param  DevHandle 设备索引号
 	  * @param  SPIIndex SPI通道号，取值0或者1
 	  * @param  pReadData 数据接收缓冲区首地址
-	  * @param  pReadLen 接收到的数据字节数
+	  * @param  TimeOutOfMs 超时时间，若有数据立即返回，否则要等到超时时间到之后才返回
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
-	int  SPI_SlaveReadBytes(int DevHandle,int SPIIndex,byte[] pReadData,int TimeOutMs);
+	int  SPI_SlaveReadBytes(int DevHandle,int SPIIndex,byte[] pReadData,int TimeOutOfMs);
 
 	/**
 	  * @brief  SPI从机模式下连续读取数据,SPI在从机模式下接收到数据之后，通过回调函数传出数据
@@ -380,7 +380,7 @@ public interface USB2SPI extends Library {
 	  * @param  pWriteData 写数据起始地址
 	  * @param  BlockSize 每次写数据字节数
 	  * @param  BlockNum 写数据总次数
-	  * @param  IntervalTime 每次写数据之间的时间间隔，单位为微妙
+	  * @param  IntervalTimeUs 每次写数据之间的时间间隔，单位为微妙
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
 	int  SPI_BlockWriteBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int BlockSize,int BlockNum,int IntervalTimeUs);
@@ -392,7 +392,7 @@ public interface USB2SPI extends Library {
 	  * @param  pReadData 读数据缓冲区首地址
 	  * @param  BlockSize 每次读数据字节数
 	  * @param  BlockNum 读数据总次数
-	  * @param  IntervalTime 每次写数据之间的时间间隔，单位为微妙
+	  * @param  IntervalTimeUs 每次写数据之间的时间间隔，单位为微妙
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
 	int  SPI_BlockReadBytes(int DevHandle,int SPIIndex,byte[] pReadData,int BlockSize,int BlockNum,int IntervalTimeUs);
@@ -406,7 +406,7 @@ public interface USB2SPI extends Library {
 	  * @param  pReadData 读数据缓冲区首地址
 	  * @param  ReadBlockSize 每次读数据字节数
 	  * @param  BlockNum 读数据总次数
-	  * @param  IntervalTime 每次写数据之间的时间间隔，单位为微妙
+	  * @param  IntervalTimeUs 每次写数据之间的时间间隔，单位为微妙
 	  * @retval 函数执行状态，小于0函数执行出错
 	  */
 	int  SPI_BlockWriteReadBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteBlockSize,byte[] pReadData,int ReadBlockSize,int BlockNum,int IntervalTimeUs);

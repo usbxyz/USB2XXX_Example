@@ -10,30 +10,30 @@ import com.sun.jna.Structure;
 public interface USB2ADS1256 extends Library {
 	USB2ADS1256 INSTANCE  = (USB2ADS1256)Native.loadLibrary("USB2XXX",USB2ADS1256.class); 
 	//定义函数返回错误代码
-	public static int ADS1256_SUCCESS             =(0);   //函数执行成功
-	public static int ADS1256_ERR_NOT_SUPPORT     =(-1);  //适配器不支持该函数
-	public static int ADS1256_ERR_USB_WRITE_FAIL  =(-2);  //USB写数据失败
-	public static int ADS1256_ERR_USB_READ_FAIL   =(-3);  //USB读数据失败
-	public static int ADS1256_ERR_CMD_FAIL        =(-4);  //命令执行失败
-	public static int ADS1256_ERR_CH_NO_INIT      =(-5);  //该通道未初始化
+	int ADS1256_SUCCESS             =(0);   //函数执行成功
+	int ADS1256_ERR_NOT_SUPPORT     =(-1);  //适配器不支持该函数
+	int ADS1256_ERR_USB_WRITE_FAIL  =(-2);  //USB写数据失败
+	int ADS1256_ERR_USB_READ_FAIL   =(-3);  //USB读数据失败
+	int ADS1256_ERR_CMD_FAIL        =(-4);  //命令执行失败
+	int ADS1256_ERR_CH_NO_INIT      =(-5);  //该通道未初始化
 
 	//定义ADS采样率
-	public static int ADS1256_DRATE_30000SPS   =0xF0; 
-	public static int ADS1256_DRATE_15000SPS   =0xE0; 
-	public static int ADS1256_DRATE_7500SPS    =0xD0; 
-	public static int ADS1256_DRATE_3750SPS    =0xC0; 
-	public static int ADS1256_DRATE_2000SPS    =0xB0; 
-	public static int ADS1256_DRATE_1000SPS    =0xA1; 
-	public static int ADS1256_DRATE_500SPS     =0x92; 
-	public static int ADS1256_DRATE_100SPS     =0x82; 
-	public static int ADS1256_DRATE_60SPS      =0x72; 
-	public static int ADS1256_DRATE_50SPS      =0x63; 
-	public static int ADS1256_DRATE_30SPS      =0x53; 
-	public static int ADS1256_DRATE_25SPS      =0x43; 
-	public static int ADS1256_DRATE_15SPS      =0x33; 
-	public static int ADS1256_DRATE_10SPS      =0x23; 
-	public static int ADS1256_DRATE_5SPS       =0x13; 
-	public static int ADS1256_DRATE_2_5SPS     =0x03;
+	int ADS1256_DRATE_30000SPS   =0xF0;
+	int ADS1256_DRATE_15000SPS   =0xE0;
+	int ADS1256_DRATE_7500SPS    =0xD0;
+	int ADS1256_DRATE_3750SPS    =0xC0;
+	int ADS1256_DRATE_2000SPS    =0xB0;
+	int ADS1256_DRATE_1000SPS    =0xA1;
+	int ADS1256_DRATE_500SPS     =0x92;
+	int ADS1256_DRATE_100SPS     =0x82;
+	int ADS1256_DRATE_60SPS      =0x72;
+	int ADS1256_DRATE_50SPS      =0x63;
+	int ADS1256_DRATE_30SPS      =0x53;
+	int ADS1256_DRATE_25SPS      =0x43;
+	int ADS1256_DRATE_15SPS      =0x33;
+	int ADS1256_DRATE_10SPS      =0x23;
+	int ADS1256_DRATE_5SPS       =0x13;
+	int ADS1256_DRATE_2_5SPS     =0x03;
 
 	//定义初始化ADS1256的数据类型
 	public class ADS1256_CONFIG  extends Structure{

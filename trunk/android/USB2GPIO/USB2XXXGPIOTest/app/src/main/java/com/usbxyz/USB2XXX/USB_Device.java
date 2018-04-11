@@ -12,11 +12,15 @@ public interface USB_Device extends Library{
 	//定义设备的PID和VID
 	int DEV_PID = 0x7918;
 	int DEV_VID = 0x0483;
+	//定义电压输出值
+	char POWER_LEVEL_NONE = 0;	//不输出
+	char POWER_LEVEL_1V2 = 1;	//输出1.2V
+	char POWER_LEVEL_1V8 = 2;	//输出1.8V
+	char POWER_LEVEL_3V3 = 3;	//输出3.3V
+	//定义设备信息
 	public class DEVICE_INFO  extends Structure{
-		
 	    public static class ByReference extends DEVICE_INFO implements Structure.ByReference {}  
-	    public static class ByValue extends DEVICE_INFO implements Structure.ByValue {}  
-	  
+	    public static class ByValue extends DEVICE_INFO implements Structure.ByValue {}
 		@Override
 		protected List getFieldOrder() {
 			// TODO Auto-generated method stub
@@ -32,7 +36,8 @@ public interface USB_Device extends Library{
 	}
 	/**
 	  * @brief  初始化USB设备，并扫描设备连接数，必须调用
-	  * @param  pDevNum 每个设备的设备号存储地址，若不需要设备号，可以传入NULL
+	  * @param  pDevHandle 返回每个设备的设备句柄，后面对设备的所有操作都需要该句柄
+	  * @param  fd 安卓USB的设备的文件描述符
 	  * @retval 扫描到的设备数量
 	  */
 	int  USB_ScanDevice(int[] pDevHandle,int fd);

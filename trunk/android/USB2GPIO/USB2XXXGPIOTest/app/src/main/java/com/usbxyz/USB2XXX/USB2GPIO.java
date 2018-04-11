@@ -13,8 +13,8 @@ public interface USB2GPIO extends Library {
 	int GPIO_ERR_CMD_FAIL        =(-4);  //命令执行失败
     //上下拉电阻配置
     byte GPIO_PUPD_NOPULL        = 0x00;    //没有上拉下拉
-    byte GPIO_PUPD_UP            = 0x01;    //使能上拉
-    byte GPIO_PUPD_DOWN          = 0x02;    //使能下拉
+    byte GPIO_PUPD_UP            = 0x01;    //使能内部上拉
+    byte GPIO_PUPD_DOWN          = 0x02;    //使能内部下拉
 	/**
 	  * @brief  将GPIO引脚设置为输入模式
 	  * @param  DevHandle 设备索引号
