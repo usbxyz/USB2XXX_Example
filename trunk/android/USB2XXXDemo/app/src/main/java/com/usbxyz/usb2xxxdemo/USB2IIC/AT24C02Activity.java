@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.usbxyz.USB2XXX.USB2IIC;
 import com.usbxyz.USB2XXX.USB_Device;
 import com.usbxyz.usb2xxxdemo.R;
 
@@ -47,7 +48,7 @@ public class AT24C02Activity extends AppCompatActivity {
                 int ret;
                 int DevHandle = 0;
                 int[] DevHandleArry = new int[20];
-                int[] PinValue = new int[1];
+                int IICIndex = 0;
                 boolean state;
                 if(usbDevice == null){
                     textView.append("Please connect device\n");
@@ -94,7 +95,48 @@ public class AT24C02Activity extends AppCompatActivity {
                 } catch (Exception ep) {
                     ep.printStackTrace();
                 }
-
+                //配置I2C总线相关参数
+                USB2IIC.IIC_CONFIG IICConfig =  new USB2IIC.IIC_CONFIG();
+                ret = USB2IIC.INSTANCE.IIC_Init(DevHandle,IICIndex,IICConfig);
+                if(ret != USB2IIC.IIC_SUCCESS){
+                    textView.append("Initialize device error!\n");
+                    return;
+                }else{
+                    textView.append("Initialize device success!\n");
+                }
+                //写数据
+                byte[] WriteDataBuffer = new byte[9];
+                for(int i=0;i<256;i+=8){
+                    WriteDataBuffer[0] = (byte)i;//起始地址
+                    for(int j=0;j<8;j++){
+                        WriteDataBuffer[1+j] = (byte)(i+j);
+                    }
+                    ret = USB2IIC.INSTANCE.IIC_WriteBytes(DevHandle,IICIndex,(short)0x50,WriteDataBuffer,9,10);
+                    if(ret != USB2IIC.IIC_SUCCESS){
+                        textView.append("Write data error!\n");
+                        return;
+                    }
+                    try {
+                        Thread.sleep(10);
+                    }catch (Exception ep){
+                        ep.printStackTrace();
+                    }
+                }
+                //读数据
+                byte[] ReadDataBuffer = new byte[256];
+                WriteDataBuffer[0] = 0x00;//起始地址
+                ret = USB2IIC.INSTANCE.IIC_WriteReadBytes(DevHandle,IICIndex,(short)0x50,WriteDataBuffer,1,ReadDataBuffer,256,10);
+                if(ret != USB2IIC.IIC_SUCCESS){
+                    textView.append("Read data error!\n");
+                    return;
+                }else{
+                    textView.append("Read Data:\n");
+                }
+                for(int i=0;i<256;i++){
+                    textView.append(String.format("%02X ",ReadDataBuffer[i]));
+                }
+                textView.append("\n");
+                textView.append("24C02 test success!\n");
                 //关闭设备
                 USB_Device.INSTANCE.USB_CloseDevice(DevHandle);
             }

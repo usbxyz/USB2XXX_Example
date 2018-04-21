@@ -3,12 +3,13 @@ package com.usbxyz.USB2XXX;
 import java.util.Arrays;
 import java.util.List;
 
+import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Structure;
 
 public interface USB2SPI extends Library {
-	USB2SPI INSTANCE  = (USB2SPI)Native.loadLibrary("USB2XXX",USB2SPI.class); 
+	USB2SPI INSTANCE  = (USB2SPI)Native.loadLibrary("USB2XXX",USB2SPI.class);
 	
     //定义SPI通道
     int SPI1        = (0x00);
@@ -70,7 +71,7 @@ public interface USB2SPI extends Library {
     int SPI_ERR_CMD_FAIL        = (-4);  //命令执行失败
     int SPI_ERR_PARAMETER       = (-5);  //参数错误
     //定义从机模式下连续读取数据的回调函数
-    public interface SPI_GET_DATA_HANDLE{
+    interface SPI_GET_DATA_HANDLE extends Callback {
         int SPI_GetDataHandle(int DevHandle,int SPIIndex,byte[] pData,int DataNum);//接收数据回掉函数
     }
     

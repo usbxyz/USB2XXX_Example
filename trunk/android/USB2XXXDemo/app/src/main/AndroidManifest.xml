@@ -35,7 +35,8 @@
         <activity android:name=".USB2LIN.LINMasterActivity" />
         <activity android:name=".USB2PWM.PWMTestActivity" />
         <activity android:name=".USB2SPI.SPIMasterTestActivity" />
-        <activity android:name=".USB2UART.UARTTestActivity"></activity>
+        <activity android:name=".USB2UART.UARTTestActivity" />
+        <activity android:name=".USB2SPI.W25Q32Activity"></activity>
     </application>
 
 </manifest>

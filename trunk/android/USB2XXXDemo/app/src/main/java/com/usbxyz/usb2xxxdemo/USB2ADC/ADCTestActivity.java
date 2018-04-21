@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sun.jna.Pointer;
 import com.usbxyz.USB2XXX.USB2ADC;
 import com.usbxyz.USB2XXX.USB_Device;
 import com.usbxyz.usb2xxxdemo.R;
@@ -35,18 +36,26 @@ public class ADCTestActivity extends AppCompatActivity {
     private UsbDevice usbDevice=null;
     private PendingIntent pendingIntent;
     TextView textView;
-
+    boolean stopGetDataFlag = false;
     //定义回调函数接口
     USB2ADC.ADC_GET_DATA_HANDLE mGetAdcDataHandle = new USB2ADC.ADC_GET_DATA_HANDLE(){
         @Override
-        public void ReceiveCallback(int DevIndex, final short[] pData, final int DataNum) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+        public void ReceiveCallback(int DevIndex, final Pointer pData, final int DataNum) {
+            if(stopGetDataFlag){
+                return;
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
                         textView.append(String.format("Read adc data num = %d\n", DataNum));
-                        textView.append(String.format("ADC Data = %fV\n", (pData[0] * 3.3) / 4095));
+                        short[] ADCData = pData.getShortArray(0, 1);
+                        textView.append(String.format("ADC Data = %fV\n", (ADCData[0] * 3.3) / 4095));
+                    }catch (Exception ep){
+                        ep.printStackTrace();
                     }
-                });
+                }
+            });
         }
     };
     @Override
@@ -133,16 +142,18 @@ public class ADCTestActivity extends AppCompatActivity {
                 }
                 //连续读取ADC
                 try {
-                    ret = USB2ADC.INSTANCE.ADC_StartContinueRead(DevHandle, ADC_Channel, 100000, 1024, mGetAdcDataHandle);
+                    ret = USB2ADC.INSTANCE.ADC_StartContinueRead(DevHandle, ADC_Channel, 10000, 1024, mGetAdcDataHandle);
                     if (ret != USB2ADC.ADC_SUCCESS) {
                         textView.append("Start continue read adc error!\n");
                         return;
                     } else {
                         textView.append("Start continue read adc success!\n");
                     }
+
                 }catch (Exception ep){
                     ep.printStackTrace();
                 }
+                //延时一段时间，等待连续采集一段时间的数据后再停止
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
@@ -152,6 +163,7 @@ public class ADCTestActivity extends AppCompatActivity {
                             public void run() {
                                 int ret;
                                 //1秒后停止连续接收数据
+                                stopGetDataFlag = true;
                                 ret = USB2ADC.INSTANCE.ADC_StopContinueRead(DevHandle);
                                 if(ret != USB2ADC.ADC_SUCCESS){
                                     textView.append("Stop continue read adc error!\n");
@@ -164,7 +176,7 @@ public class ADCTestActivity extends AppCompatActivity {
                     }
                 },1000);
                 //关闭设备
-                USB_Device.INSTANCE.USB_CloseDevice(DevHandle);
+                //USB_Device.INSTANCE.USB_CloseDevice(DevHandle);
             }
         });
     }

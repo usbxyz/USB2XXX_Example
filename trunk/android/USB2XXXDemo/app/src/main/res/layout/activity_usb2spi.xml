@@ -29,5 +29,25 @@
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btW25Q32"
+                android:text="W25Q32"
+                android:textAllCaps="false"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/btMasterSpeedTest"
+                android:text="SpeedTest"
+                android:textAllCaps="false"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

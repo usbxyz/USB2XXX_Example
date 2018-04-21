@@ -34,17 +34,9 @@ FILE *pMISOFile;
 int MISOFileSize = 0;
 int __stdcall MISOGetDataCallback(int DevHandle,int SPIIndex,unsigned char *pData,int DataNum)
 {
-    for(int i=0;i<(DataNum/16);i++){
-        for(int j=0;j<16;j++,MISOFileSize++){
-            fprintf(pMISOFile,"%02X ",*pData++);
-        }
-        if((MISOFileSize%16)==0){
-            fprintf(pMISOFile,"\n");
-        }
-    }
-    for(int j=0;j<(DataNum%16);j++,MISOFileSize++){
+    for(int i=0;i<DataNum;i++,MISOFileSize++){
         fprintf(pMISOFile,"%02X ",*pData++);
-        if((MISOFileSize%16)==0){
+        if(((MISOFileSize+1)%16)==0){
             fprintf(pMISOFile,"\n");
         }
     }
@@ -57,17 +49,9 @@ FILE *pMOSIFile;
 int MOSIFileSize = 0;
 int __stdcall MOSIGetDataCallback(int DevHandle,int SPIIndex,unsigned char *pData,int DataNum)
 {
-    for(int i=0;i<(DataNum/16);i++){
-        for(int j=0;j<16;j++,MOSIFileSize++){
-            fprintf(pMOSIFile,"%02X ",*pData++);
-        }
-        if((MISOFileSize%16)==0){
-            fprintf(pMOSIFile,"\n");
-        }
-    }
-    for(int j=0;j<(DataNum%16);j++,MOSIFileSize++){
+    for(int i=0;i<DataNum;i++,MOSIFileSize++){
         fprintf(pMOSIFile,"%02X ",*pData++);
-        if((MISOFileSize%16)==0){
+        if(((MOSIFileSize+1)%16)==0){
             fprintf(pMOSIFile,"\n");
         }
     }
@@ -130,8 +114,8 @@ int main(int argc, const char* argv[])
     //配置SPI总线相关参数(配置为从机模式)
     SPIConfig.Mode = SPI_MODE_HARD_FDX;
     SPIConfig.ClockSpeedHz = 50000000;
-    SPIConfig.CPHA = 0;
-    SPIConfig.CPOL = 0;
+    //SPIConfig.CPHA = 0;
+    //SPIConfig.CPOL = 0;
     SPIConfig.LSBFirst = SPI_MSB;
     SPIConfig.Master = SPI_SLAVE;
     SPIConfig.SelPolarity = SPI_SEL_LOW;

@@ -585,7 +585,7 @@ void NAND_TLC_Test2(int devHandle)
 	}
 	if((NandID[0]!=0x98)||(NandID[1]!=0x3c)||(NandID[2]!=0x98)||(NandID[3]!=0xb3)||(NandID[4]!=0x76)||(NandID[5]!=0x71)){
 		printf("ID error\n");
-		return;
+		//return;
 	}
     //块擦除
     uint8_t BlockEraseCmd[]={0x60,0xD0};
@@ -598,15 +598,16 @@ void NAND_TLC_Test2(int devHandle)
 	for(int i=0;i<sizeof(WriteTestData);i++){
 		WriteTestData[i] = rand();//((j<<4)|i)&0xFF;
 	}
-    uint8_t PageWriteCmd[]={0x01,0x80,0x1A};
+    uint8_t PageWriteCmd[]={0x09,0x01,0x80,0x11};
     status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData,TEST_DATA_NUM,1000);
     printf("SLC page write status = 0x%08X\n",status);
-	PageWriteCmd[0] = 0X02;
+	PageWriteCmd[0] = 0X0D;
+	PageWriteCmd[1] = 0X02;
     status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),&WriteTestData[TEST_DATA_NUM],TEST_DATA_NUM,1000);
     printf("SLC page write status = 0x%08X\n",status);
-	PageWriteCmd[0] = 0X03;
-	PageWriteCmd[2] = 0X10;
-    status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),&WriteTestData[TEST_DATA_NUM*2],TEST_DATA_NUM,1000);
+	PageWriteCmd[1] = 0X03;
+	PageWriteCmd[3] = 0X10;
+    status = NAND_WritePage(devHandle,0,&PageWriteCmd[1],sizeof(PageWriteCmd)-1,TestAddrs,sizeof(TestAddrs),&WriteTestData[TEST_DATA_NUM*2],TEST_DATA_NUM,1000);
     printf("SLC page write status = 0x%08X\n",status);
 	//TestAddrs[2]++;
     //status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),&WriteTestData[TEST_DATA_NUM],sizeof(WriteTestData)/2,1000);

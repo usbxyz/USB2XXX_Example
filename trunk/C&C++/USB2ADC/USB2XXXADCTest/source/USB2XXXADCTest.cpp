@@ -120,16 +120,18 @@ int main(int argc, const char* argv[])
     }
     //延时
 #ifndef OS_UNIX
-    Sleep(3000);
+    Sleep(1000);
 #else
-    usleep(3000*1000);
+    usleep(1000*1000);
 #endif
     //停止连续读取数据
     ret = ADC_StopContinueRead(DevHandle[0]);
     if(ret != ADC_SUCCESS){
         printf("Stop Continue Read adc error!\n");
         return 0;
-    }
+    }else{
+		printf("Stop Continue Read adc success!\n");
+	}
 #endif
     //关闭设备
     USB_CloseDevice(DevHandle[0]);
