@@ -25,7 +25,7 @@
 #define WINAPI
 #endif
 #endif
-
+//定义设备信息
 typedef struct _DEVICE_INFO
 {
     char    FirmwareName[32];   //固件名称字符串
@@ -36,6 +36,12 @@ typedef struct _DEVICE_INFO
     int     Functions;          //适配器当前具备的功能
 }DEVICE_INFO,*PDEVICE_INFO;
 
+//定义电压输出值
+#define POWER_LEVEL_NONE	0	//不输出
+#define POWER_LEVEL_1V2		1	//输出1.2V
+#define POWER_LEVEL_1V8		2	//输出1.8V
+#define POWER_LEVEL_3V3		3	//输出3.3V
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -43,11 +49,14 @@ extern "C"
 
 /**
   * @brief  初始化USB设备，并扫描设备连接数，必须调用
-  * @param  pDevNum 每个设备的设备号存储地址，若不需要设备号，可以传入NULL
+  * @param  pDevHandle 每个设备的设备号存储地址
   * @retval 扫描到的设备数量
   */
+#ifdef OS_ANDROID
+int  WINAPI USB_ScanDevice(int *pDevHandle,int fd);
+#else
 int  WINAPI USB_ScanDevice(int *pDevHandle);
-
+#endif
 /**
   * @brief  打开设备，必须调用
   * @param  DevHandle 设备索引号
@@ -101,7 +110,7 @@ bool WINAPI DEV_ReadUserData(int DevHandle,int OffsetAddr,unsigned char *pReadDa
 /**
   * @brief  设置可变电压输出引脚输出电压值
   * @param  DevHandle 设备索引号
-  * @param  PowerLevel 输出电压值，0-1.8V，1-3.3V
+  * @param  PowerLevel 输出电压值，0-1.8V，1-3.3V，2-不输出
   * @retval 设置输出电压状态
   */
 bool WINAPI DEV_SetPowerLevel(int DevHandle,char PowerLevel);
