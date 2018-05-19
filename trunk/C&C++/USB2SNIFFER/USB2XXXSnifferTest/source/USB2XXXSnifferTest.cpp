@@ -20,8 +20,8 @@
 #include "usb_device.h"
 #include "usb2sniffer.h"
 
-#define SNIFFER_WRITE_TEST  0
-#define SNIFFER_READ_TEST   1
+#define SNIFFER_WRITE_TEST  1
+#define SNIFFER_READ_TEST   0
 
 #if SNIFFER_READ_TEST
 //此处为接收数据回调函数，在这里处理接收到的数据
@@ -127,7 +127,15 @@ int main(int argc, const char* argv[])
     //并口写数据
     ret = SNIFFER_WriteData(DevHandles[0],WriteBuffer,sizeof(WriteBuffer));
 	if(ret != SNIFFER_SUCCESS){
-		printf("Sniffer write error!\n");
+		printf("Sniffer write error! %d\n",ret);
+		return 0;
+	}else{
+        printf("Sniffer write SNIFFER_SUCCESS!\n");
+    }
+    //并口写数据
+    ret = SNIFFER_WriteData(DevHandles[0],WriteBuffer,sizeof(WriteBuffer));
+	if(ret != SNIFFER_SUCCESS){
+		printf("Sniffer write error! %d\n",ret);
 		return 0;
 	}else{
         printf("Sniffer write SNIFFER_SUCCESS!\n");
@@ -140,6 +148,16 @@ int main(int argc, const char* argv[])
 		return 0;
 	}else{
         printf("Sniffer continue write SNIFFER_SUCCESS!\n");
+    }
+	for(int i=0;i<sizeof(WriteBuffer);i++){
+		WriteBuffer[i] = (i<<4)|i;
+    }
+    ret = SNIFFER_ChangeWriteData(DevHandles[0],WriteBuffer,sizeof(WriteBuffer));
+	if(ret != SNIFFER_SUCCESS){
+		printf("Sniffer Change write error!\n");
+		return 0;
+	}else{
+        printf("Sniffer Change write SNIFFER_SUCCESS!\n");
     }
     //写5秒钟的数据
 #ifndef OS_UNIX

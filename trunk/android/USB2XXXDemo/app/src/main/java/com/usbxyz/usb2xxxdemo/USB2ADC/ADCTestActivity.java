@@ -58,6 +58,7 @@ public class ADCTestActivity extends AppCompatActivity {
             });
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +74,6 @@ public class ADCTestActivity extends AppCompatActivity {
                 int ret;
                 final int DevHandle;
                 int[] DevHandleArry = new int[20];
-                int[] PinValue = new int[1];
                 boolean state;
                 if(usbDevice == null){
                     textView.append("Please connect device\n");
@@ -171,12 +171,12 @@ public class ADCTestActivity extends AppCompatActivity {
                                 }else{
                                     textView.append("Stop continue read adc success!\n");
                                 }
+                                //关闭设备
+                                USB_Device.INSTANCE.USB_CloseDevice(DevHandle);
                             }
                         });
                     }
                 },1000);
-                //关闭设备
-                //USB_Device.INSTANCE.USB_CloseDevice(DevHandle);
             }
         });
     }

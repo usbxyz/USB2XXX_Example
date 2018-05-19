@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h> 
 #include "usb_device.h"
 #include "usb2spi.h"
 
@@ -96,9 +97,14 @@ int main(int argc, const char* argv[])
     //printf("ret = %d\n",ret);
     //通过主动调用从机接收数据函数获取数据
     //ret = SPI_SlaveReadBytes(DevHandle[0],SPIIndex)
+	time_t timep;
+	struct tm *tp;
+	time(&timep);
+	tp =localtime(&timep);
     //通过回调函数方式接收数据，并将数据写入文件中
     //输入文件名
-    char *BinFileName="SPIData.bin";
+    char BinFileName[256];
+	sprintf(BinFileName,"SPIData_%02d%02d%02d%02d.bin",tp->tm_mday,tp->tm_hour,tp->tm_min,tp->tm_sec);
     printf("Press any key to exit the data reception!\n");
     pBinFile=fopen(BinFileName,"wb"); //获取文件的指针
     if(pBinFile == NULL){
@@ -108,12 +114,14 @@ int main(int argc, const char* argv[])
     }
     SPI_SlaveContinueRead(DevHandle[0],SPIIndex,SlaveGetData);
     getchar();
+	getchar();
     SPI_SlaveContinueReadStop(DevHandle[0],SPIIndex);
     fclose(pBinFile);
 
     printf("start convert file...\n");
     FILE *pTxtFile;
-    char *TextFileName="SPIData.txt";
+    char TextFileName[256];
+	sprintf(TextFileName,"SPIData_%02d%02d%02d%02d.txt",tp->tm_mday,tp->tm_hour,tp->tm_min,tp->tm_sec);
     pTxtFile=fopen(TextFileName,"wb"); //获取文件的指针
     if(pTxtFile == NULL){
         printf("Open file faild\n");
@@ -147,7 +155,9 @@ int main(int argc, const char* argv[])
     USB_CloseDevice(DevHandle[0]);
     
     printf("FileSize = %d Byte\n",FileSize);
-    printf("Test SPI_SUCCESS!\n");
+	printf("Output bin file:%s\n",BinFileName);
+	printf("Output txt file:%s\n",TextFileName);
+    printf("SPI Slave Test Success!\n");
     getchar();
     return 0;
 }

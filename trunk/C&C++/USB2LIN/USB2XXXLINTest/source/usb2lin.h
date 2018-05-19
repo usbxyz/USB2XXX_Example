@@ -37,6 +37,7 @@
 //LIN和校验模式
 #define LIN_CHECK_MODE_STD     0
 #define LIN_CHECK_MODE_EXT     1
+#define LIN_CHECK_MODE_NONE    2
 //BREAK位数定义
 #define LIN_BREAK_BITS_10    0x00
 #define LIN_BREAK_BITS_11    0x20
@@ -54,23 +55,24 @@ typedef struct _LIN_CONFIG{
   unsigned char MasterMode;   //主从模式，0-从模式，1-主模式
   unsigned char BreakBits;    //Break长度，0x00-10bit,0x20-11bit
 }LIN_CONFIG,*PLIN_CONFIG;
-//设置从模式下ID操作模式
-typedef struct _SLAVE_LIN_DATA{
-  unsigned char DataLen;  //从模式下发送数据的长度或者从模式接收数据的长度，不含校验字节
-  unsigned char WorkMode; //0-从模式发送数据，1-从模式接收数据
-  unsigned char Data[9];  //从模式下接收到的数据字节或者待发送的数据字节
-}SLAVE_LIN_DATA,*PSLAVE_LIN_DATA;
+
+//LIN数据收发帧格式定义
+typedef struct _LIN_MSG{
+	unsigned char ID;		//ID，取值范围0~0x3F
+	unsigned char DataLen;	//发送数据时，代表发送数据的长度，不含校验数据，接收数据时，数据的长度，包含校验数据
+	unsigned char Data[9];	//数据存储区
+}LIN_MSG,*PLIN_MSG;
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-int LIN_Init(int DevHandle,unsigned char Channel,LIN_CONFIG *pConfig);
-int LIN_WriteData(int DevHandle,unsigned char Channel,unsigned char ID,unsigned char *pWriteData,unsigned char WriteLen);
-int LIN_ReadData(int DevHandle,unsigned char Channel,unsigned char ID,unsigned char *pReadData);
-int LIN_SlaveSetIDOperation(int DevHandle,unsigned char Channel,unsigned char ID,SLAVE_LIN_DATA SlaveOperationData);
-int LIN_SlaveGetData(int DevHandle,unsigned char Channel,SLAVE_LIN_DATA *pSlaveData);
+int WINAPI LIN_Init(int DevHandle,unsigned char LINIndex,LIN_CONFIG *pConfig);
+int WINAPI LIN_Write(int DevHandle,unsigned char LINIndex,LIN_MSG *pLINMsg,unsigned int Len);
+int WINAPI LIN_Read(int DevHandle,unsigned char LINIndex,LIN_MSG *pLINMsg,unsigned int Len);
+int WINAPI LIN_SlaveSetIDMode(int DevHandle,unsigned char LINIndex,unsigned char IDMode,LIN_MSG *pLINMsg,unsigned int Len);
+int WINAPI LIN_SlaveGetData(int DevHandle,unsigned char LINIndex,LIN_MSG *pLINMsg);
 
 #ifdef __cplusplus
 }

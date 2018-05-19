@@ -55,6 +55,7 @@ extern "C"
     int WINAPI SNIFFER_WriteData(int DevHandle,unsigned char *pWriteData,int WriteLen);
     int WINAPI SNIFFER_ReadData(int DevHandle,unsigned char *pReadData,int ReadLen);
     int WINAPI SNIFFER_ContinueWriteData(int DevHandle,unsigned char *pWriteData,int WriteLen);
+	int WINAPI SNIFFER_ChangeWriteData(int DevHandle,unsigned char *pWriteData,int WriteLen);
     int WINAPI SNIFFER_StopContinueWrite(int DevHandle);
 #ifdef __cplusplus
 }
