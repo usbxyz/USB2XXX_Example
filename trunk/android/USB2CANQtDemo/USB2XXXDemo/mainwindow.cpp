@@ -124,7 +124,7 @@ bool MainWindow::initDevice()
         CANConfig.CAN_BS2 = CANBaudRateTab[BRIndex].BS2;
     }
     //其他参数
-    CANConfig.CAN_Mode = pDialogCANSetting->CANWorkMode;//正常模式
+    CANConfig.CAN_Mode = pDialogCANSetting->CANWorkMode|(pDialogCANSetting->CANENRegister?0x80:0x00);//正常模式
     CANConfig.CAN_ABOM = 0;//禁止自动离线
     CANConfig.CAN_NART = 1;//禁止报文重传
     CANConfig.CAN_RFLM = 0;//FIFO满之后覆盖旧报文
@@ -183,7 +183,10 @@ void MainWindow::on_pushButtonSendData_clicked()
     CANMsg.RemoteFlag = ui->comboBoxFrameFormat->currentIndex();
     int ret = CAN_SendMsg(DeviceHandle,pDialogCANSetting->CANIndex,&CANMsg,1);
     if(ret <= 0){
-        QMessageBox::warning(this,"警告","发送数据失败！");
+        killTimer(ReceiveDataTimer);
+        QMessageBox::warning(this,"警告","发送数据失败！",QMessageBox::Ok);
+        ReceiveDataTimer = startTimer(10);
+        return;
     }else{
         QString str;
         str.sprintf("TX:[%08X]",CANMsg.ID);
