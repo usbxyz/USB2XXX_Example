@@ -45,6 +45,8 @@ if __name__ == '__main__':
     else:
         print("Get device infomation faild!")
         exit()
+    # 设置GPIO输入输出电压，只针对带可变电压输出版本的适配器有用，其他适配器默认是3.3V
+    DEV_SetPowerLevel(DevHandle,POWER_LEVEL_3V3)
     # 输出测试没——上下拉
     GPIO_SetOutput(DevHandle,0xFFFF,0)
     for i in range(0,10):
