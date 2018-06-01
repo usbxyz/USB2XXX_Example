@@ -10,6 +10,9 @@
 #include <QtAndroid>
 #endif
 
+//CAN函数说明文档：http://www.usbxyz.com/archives/262
+//USB2CAN淘宝链接：https://item.taobao.com/item.htm?spm=a1z10.1-c.w4004-15987418095.3.c2b35a68EJ9f9p&id=569249781751
+
 #define USB2CAN (((uint64_t)'U'<<56)|((uint64_t)'S'<<48)|((uint64_t)'B'<<40)|((uint64_t)'2'<<32)|((uint64_t)'C'<<24)|((uint64_t)'A'<<16)|((uint64_t)'N'<<8)|((uint64_t)'B'<<0))
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -42,9 +45,9 @@ void MainWindow::keyPressEvent (QKeyEvent* event)
 
 void MainWindow::timerEvent(QTimerEvent *event)
 {
+    QMutexLocker locker(&mutex);
     if(event->timerId() == ReceiveDataTimer){
         CAN_MSG CanMsgBuffer[1024];
-        QMutexLocker locker(&mutex);
         int CanNum = CAN_GetMsg(DeviceHandle,pDialogCANSetting->CANIndex,CanMsgBuffer);
         for(int i=0;i<CanNum;i++){
             QString str;
@@ -52,8 +55,19 @@ void MainWindow::timerEvent(QTimerEvent *event)
             for(int j=0;j<CanMsgBuffer[i].DataLen;j++){
                 str.append(QString().sprintf("%02X ",CanMsgBuffer[i].Data[j]));
             }
-            ui->textBrowser->moveCursor(QTextCursor::End);
-            ui->textBrowser->append(str);
+            if(CANDataQueue.length() > 50){
+                CANDataQueue.dequeue();
+            }else{
+                CANDataQueue.enqueue(str);
+            }
+            //ui->textBrowser->moveCursor(QTextCursor::End);
+            //ui->textBrowser->append(str);
+        }
+    }else if(event->timerId() == DisplayDataTimer){
+        ui->textBrowser->clear();
+        ui->textBrowser->moveCursor(QTextCursor::End);
+        for(int i=0;i<CANDataQueue.length();i++){
+            ui->textBrowser->append(CANDataQueue.at(i));
         }
     }
 }
@@ -117,11 +131,13 @@ bool MainWindow::initDevice()
         CANConfig.CAN_SJW = CANBaudRateTab42M[BRIndex].SJW;
         CANConfig.CAN_BS1 = CANBaudRateTab42M[BRIndex].BS1;
         CANConfig.CAN_BS2 = CANBaudRateTab42M[BRIndex].BS2;
+        //QMessageBox::information(this,"固件信息","42M");
     }else{
         CANConfig.CAN_BRP = CANBaudRateTab[BRIndex].PreScale;
         CANConfig.CAN_SJW = CANBaudRateTab[BRIndex].SJW;
         CANConfig.CAN_BS1 = CANBaudRateTab[BRIndex].BS1;
         CANConfig.CAN_BS2 = CANBaudRateTab[BRIndex].BS2;
+        //QMessageBox::information(this,"固件信息","100M");
     }
     //其他参数
     CANConfig.CAN_Mode = pDialogCANSetting->CANWorkMode|(pDialogCANSetting->CANENRegister?0x80:0x00);//正常模式
@@ -158,11 +174,13 @@ void MainWindow::on_pushButtonStartReceive_clicked()
         if(initDevice()){
             ui->pushButtonStartReceive->setText("停止CAN");
             ReceiveDataTimer = startTimer(10);
+            DisplayDataTimer = startTimer(50);
             ui->pushButtonSendData->setEnabled(true);
         }
     }else{
         ui->pushButtonStartReceive->setText("启动CAN");
         killTimer(ReceiveDataTimer);
+        killTimer(DisplayDataTimer);
         ui->pushButtonSendData->setEnabled(false);
     }
 }
@@ -193,8 +211,13 @@ void MainWindow::on_pushButtonSendData_clicked()
         for(int j=0;j<CANMsg.DataLen;j++){
             str.append(QString().sprintf("%02X ",CANMsg.Data[j]));
         }
-        ui->textBrowser->moveCursor(QTextCursor::End);
-        ui->textBrowser->append(str);
+        //ui->textBrowser->moveCursor(QTextCursor::End);
+        //ui->textBrowser->append(str);
+        if(CANDataQueue.length() > 50){
+            CANDataQueue.dequeue();
+        }else{
+            CANDataQueue.enqueue(str);
+        }
     }
 }
 

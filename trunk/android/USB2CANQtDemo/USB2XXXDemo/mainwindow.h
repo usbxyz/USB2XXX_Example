@@ -9,6 +9,7 @@
 #include "dialogcansetting.h"
 #include "usb2can.h"
 #include <QMutex>
+#include <QQueue>
 namespace Ui {
 class MainWindow;
 }
@@ -113,9 +114,10 @@ private:
     QAndroidJniObject *javaClass;
 #endif
     DialogCANSetting *pDialogCANSetting;
-    int ReceiveDataTimer;
+    int ReceiveDataTimer,DisplayDataTimer;
     int DeviceHandle;
     QMutex mutex;
+    QQueue<QString> CANDataQueue;
 };
 
 #endif // MAINWINDOW_H
