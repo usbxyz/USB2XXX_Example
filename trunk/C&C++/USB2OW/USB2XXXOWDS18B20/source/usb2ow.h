@@ -52,16 +52,20 @@
 #define OW_CH13            (0x01<<13)
 #define OW_CH14             (0x01<<14)
 #define OW_CH15             (0x01<<15)
+//内部上拉电阻定义
+#define OW_INTERNAL_NOPULL        0x00    //没有上拉下拉
+#define OW_INTERNAL_PULL          0x01    //使能上拉,芯片内部上拉很弱，可能会无法正常工作，建议使用外部上拉
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-int WINAPI OW_Init(int DevHandle, unsigned int ChannelMask, unsigned int ResetTimeUs);
-int WINAPI OW_WriteBytes(int DevHandle, unsigned int ChannelMask,unsigned char *pWriteData,unsigned char WriteDataLen);
-int WINAPI OW_ReadBytes(int DevHandle, unsigned int ChannelMask,unsigned char *pReadData,unsigned char ReadDataLen);
-int WINAPI OW_WriteReadBytes(int DevHandle, unsigned int ChannelMask,unsigned char *pWriteData,unsigned char WriteDataLen,unsigned char *pReadData,unsigned char ReadDataLen);
+int WINAPI OW_Init(int DevHandle, unsigned int ChannelMask, unsigned int ResetTimeUs,unsigned char EnInternalPull);
+int WINAPI OW_Reset(int DevHandle, unsigned int ChannelMask);
+int WINAPI OW_WriteBytes(int DevHandle, unsigned int ChannelMask,unsigned char *pWriteData,unsigned int WriteDataLen);
+int WINAPI OW_ReadBytes(int DevHandle, unsigned int ChannelMask,unsigned char *pReadData,unsigned int ReadDataLen);
+int WINAPI OW_WriteReadBytes(int DevHandle, unsigned int ChannelMask,unsigned char *pWriteData,unsigned int WriteDataLen,unsigned char *pReadData,unsigned int ReadDataLen,unsigned int IntervalTimeUs);
 
 
 #ifdef __cplusplus
