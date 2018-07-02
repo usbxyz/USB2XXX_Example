@@ -7,7 +7,7 @@
 #include "usb_device.h"
 #include <time.h>  
 
-#define	TEST_DATA_NUM	16*1024
+#define	TEST_DATA_NUM	512
 #define TEST_BLOCK_ADDR	0x0
 
 void NAND_Test(int devHandle)
@@ -1240,6 +1240,228 @@ void NAND_TLC_Test(int devHandle)
 		printf("ErrorDataNum[%d] = %d\n",j,ErrorDataNum);
 	}
 }
+/*
+
+*/
+void SANSUN_TLC_Test(int devHandle)
+{
+	int ret;
+	int status = 0;
+	uint8_t TestAddrs[]={0x00,0x00,0x00,0x00,0x00};
+
+	NAND_TIMING_COMFIG NandTimeConfig;
+	NandTimeConfig.FSMC_HiZSetupTime = 4;	//比FSMC_SetupTime大一点即可
+	NandTimeConfig.FSMC_HoldSetupTime = 4;	//ALE/CLE Hold time Min 3ns
+	NandTimeConfig.FSMC_SetupTime = 4;		//ALE/CLE setup time Min 6ns
+	NandTimeConfig.FSMC_WaitSetupTime = 8;	//WE/RE pulse width Min 8ns
+	ret = NAND_Init(devHandle,0,&NandTimeConfig);
+	if(ret == NAND_SUCCESS){
+		printf("TLC nand init success!\n");
+	}else{
+		printf("TLC nand init error!\n");
+		return;
+	}
+#if 1
+	//复位
+	uint8_t cmd[16];
+	uint8_t addr[16];
+	uint8_t write_data[16*1024];
+	uint8_t read_data[16*1024];
+	uint8_t ReadyFlag = 0;
+	//进入TLC模式
+	cmd[0] = 0xFF;
+	NAND_SendCmd(devHandle,0,cmd,1,0);
+#endif
+	//读ID
+	//AD 3A 18 A3 61 25
+	uint8_t NandID[6];
+	ret = NAND_ReadID(devHandle,0,0x00,NandID,6);
+	if(ret == NAND_SUCCESS){
+		printf("get nand id success!\n");
+		printf("ID : ");
+		for(int i=0;i<6;i++){
+			printf("0x%02X ",NandID[i]);
+		}
+		printf("\n");
+	}else{
+		printf("get nand id error!\n");
+		return;
+	}
+  
+	if((NandID[0]!=0xEC)||(NandID[1]!=0x3A)||(NandID[2]!=0x98)||(NandID[3]!=0xBF)||(NandID[4]!=0x94)||(NandID[5]!=0xC6)){
+		printf("ID error\n");
+		//return;
+	}
+
+    //块擦除
+    uint8_t BlockEraseCmd[]={0x60,0xD0};
+    status = NAND_EraseBlock(devHandle,0,BlockEraseCmd,sizeof(BlockEraseCmd),&TestAddrs[2],3,1000);
+    printf("TLC erase status = 0x%08X\n",status);
+	
+    //TLC页写数据
+    uint8_t WriteTestData[16][TEST_DATA_NUM];
+    srand((unsigned)time(NULL));
+#if 1
+	for(int j=0;j<16;j++){
+		for(int i=0;i<sizeof(WriteTestData[j]);i++){
+			WriteTestData[j][i] = rand();//((j<<4)|i)&0xFF;
+		}
+	}
+#else
+	for(int i=0;i<sizeof(WriteTestData[0]);i++){
+		WriteTestData[0][i] = rand();//((j<<4)|i)&0xFF;
+	}
+	for(int j=0;j<2;j++){
+		for(int i=0;i<sizeof(WriteTestData[j]);i++){
+			WriteTestData[j+1][i] = WriteTestData[0][i];//((j<<4)|i)&0xFF;
+		}
+	}
+#endif
+	uint8_t PageWriteCmd[]={0x80,0xC0};
+	uint8_t PageWriteCmd1[]={0x8B,0x10};
+	uint8_t OrderAddr = 0x11;
+	status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);OrderAddr = 0x11;NAND_SendAddr(devHandle,0,&OrderAddr,1,0);
+	printf("status = 0x%08X\n",status);
+	status = NAND_WritePage(devHandle,0,PageWriteCmd1,sizeof(PageWriteCmd1),TestAddrs,sizeof(TestAddrs),NULL,0,1000);
+	printf("status = 0x%08X\n",status);
+	/*
+	TestAddrs[2] = 0X01;
+	NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);OrderAddr = 0x11;NAND_SendAddr(devHandle,0,&OrderAddr,1,0);
+	TestAddrs[2] = 0X02;
+	NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[3],sizeof(WriteTestData[3]),1000);OrderAddr = 0x11;NAND_SendAddr(devHandle,0,&OrderAddr,1,0);
+	TestAddrs[2] = 0X01;
+	NAND_WritePage(devHandle,0,PageWriteCmd1,sizeof(PageWriteCmd1),TestAddrs,sizeof(TestAddrs),NULL,0,1000);
+
+	TestAddrs[2] = 0X01;
+	NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);OrderAddr = 0x13;NAND_SendAddr(devHandle,0,&OrderAddr,1,0);
+	TestAddrs[2] = 0X03;
+	NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[5],sizeof(WriteTestData[5]),1000);OrderAddr = 0x11;NAND_SendAddr(devHandle,0,&OrderAddr,1,0);
+	TestAddrs[2] = 0X02;
+	NAND_WritePage(devHandle,0,PageWriteCmd1,sizeof(PageWriteCmd1),TestAddrs,sizeof(TestAddrs),NULL,0,1000);
+	*/
+	//读数据
+    uint8_t ReadTestData[16][TEST_DATA_NUM];
+    uint8_t PageReadCmd[]={0x00,0x30};
+	TestAddrs[2] = 0X00;
+	status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),TestAddrs,sizeof(TestAddrs),ReadTestData[0],sizeof(ReadTestData[0]),1000);
+	int error_data_num = 0;
+	for(int i=0;i<sizeof(ReadTestData[0]);i++){
+		if(WriteTestData[0][i] != ReadTestData[0][i]){
+			error_data_num++;
+		}
+	}
+	printf("error_data_num = %d\n",error_data_num);
+}
+
+void SANSUN_SLC_Test(int devHandle)
+{
+	int ret;
+	int status = 0;
+	uint8_t TestAddrs[]={0x00,0x00,0x00,0x00,0x00};
+
+	NAND_TIMING_COMFIG NandTimeConfig;
+	NandTimeConfig.FSMC_HiZSetupTime = 4;	//比FSMC_SetupTime大一点即可
+	NandTimeConfig.FSMC_HoldSetupTime = 4;	//ALE/CLE Hold time Min 3ns
+	NandTimeConfig.FSMC_SetupTime = 4;		//ALE/CLE setup time Min 6ns
+	NandTimeConfig.FSMC_WaitSetupTime = 8;	//WE/RE pulse width Min 8ns
+	ret = NAND_Init(devHandle,0,&NandTimeConfig);
+	if(ret == NAND_SUCCESS){
+		printf("TLC nand init success!\n");
+	}else{
+		printf("TLC nand init error!\n");
+		return;
+	}
+#if 1
+	//复位
+	uint8_t cmd[16];
+	uint8_t addr[16];
+	uint8_t write_data[16*1024];
+	uint8_t read_data[16*1024];
+	uint8_t ReadyFlag = 0;
+	//复位
+	cmd[0] = 0xFF;
+	//NAND_SendCmd(devHandle,0,cmd,1,0);
+	//进入SLC模式
+	//cmd[0] = 0xDA;
+	//NAND_SendCmd(devHandle,0,cmd,1,0);
+#endif
+	//读ID
+	//K9ACGD8U0B(Tog)：EC 3A 94 43 A4 CA
+	uint8_t NandID[6];
+	ret = NAND_ReadID(devHandle,0,0x00,NandID,6);
+	if(ret == NAND_SUCCESS){
+		printf("get nand id success!\n");
+		printf("ID : ");
+		for(int i=0;i<6;i++){
+			printf("0x%02X ",NandID[i]);
+		}
+		printf("\n");
+	}else{
+		printf("get nand id error!\n");
+		return;
+	}
+  
+	if((NandID[0]!=0xEC)||(NandID[1]!=0x3A)||(NandID[2]!=0x98)||(NandID[3]!=0xBF)||(NandID[4]!=0x94)||(NandID[5]!=0xC6)){
+		printf("ID error\n");
+		//return;
+	}
+
+    //块擦除
+    uint8_t BlockEraseCmd[]={0x60,0xD0};
+    status = NAND_EraseBlock(devHandle,0,BlockEraseCmd,sizeof(BlockEraseCmd),&TestAddrs[2],3,1000);
+    printf("TLC erase status = 0x%08X\n",status);
+	
+    //TLC页写数据
+    uint8_t WriteTestData[16][TEST_DATA_NUM];
+    srand((unsigned)time(NULL));
+#if 1
+	for(int j=0;j<16;j++){
+		for(int i=0;i<sizeof(WriteTestData[j]);i++){
+			WriteTestData[j][i] = rand();//((j<<4)|i)&0xFF;
+		}
+	}
+#else
+	for(int i=0;i<sizeof(WriteTestData[0]);i++){
+		WriteTestData[0][i] = rand();//((j<<4)|i)&0xFF;
+	}
+	for(int j=0;j<2;j++){
+		for(int i=0;i<sizeof(WriteTestData[j]);i++){
+			WriteTestData[j+1][i] = WriteTestData[0][i];//((j<<4)|i)&0xFF;
+		}
+	}
+#endif
+	uint8_t PageWriteCmd[]={0x80,0x10};
+	status = NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[0],sizeof(WriteTestData[0]),1000);
+	printf("status = 0x%08X\n",status);
+
+	/*
+	TestAddrs[2] = 0X01;
+	NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[1],sizeof(WriteTestData[1]),1000);OrderAddr = 0x11;NAND_SendAddr(devHandle,0,&OrderAddr,1,0);
+	TestAddrs[2] = 0X02;
+	NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[3],sizeof(WriteTestData[3]),1000);OrderAddr = 0x11;NAND_SendAddr(devHandle,0,&OrderAddr,1,0);
+	TestAddrs[2] = 0X01;
+	NAND_WritePage(devHandle,0,PageWriteCmd1,sizeof(PageWriteCmd1),TestAddrs,sizeof(TestAddrs),NULL,0,1000);
+
+	TestAddrs[2] = 0X01;
+	NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[2],sizeof(WriteTestData[2]),1000);OrderAddr = 0x13;NAND_SendAddr(devHandle,0,&OrderAddr,1,0);
+	TestAddrs[2] = 0X03;
+	NAND_WritePage(devHandle,0,PageWriteCmd,sizeof(PageWriteCmd),TestAddrs,sizeof(TestAddrs),WriteTestData[5],sizeof(WriteTestData[5]),1000);OrderAddr = 0x11;NAND_SendAddr(devHandle,0,&OrderAddr,1,0);
+	TestAddrs[2] = 0X02;
+	NAND_WritePage(devHandle,0,PageWriteCmd1,sizeof(PageWriteCmd1),TestAddrs,sizeof(TestAddrs),NULL,0,1000);
+	*/
+	//读数据
+    uint8_t ReadTestData[16][TEST_DATA_NUM];
+    uint8_t PageReadCmd[]={0xDA,0x00,0x30};
+	status = NAND_ReadPage(devHandle,0,PageReadCmd,sizeof(PageReadCmd),TestAddrs,sizeof(TestAddrs),ReadTestData[0],sizeof(ReadTestData[0]),1000);
+	int error_data_num = 0;
+	for(int i=0;i<sizeof(ReadTestData[0]);i++){
+		if(WriteTestData[0][i] != ReadTestData[0][i]){
+			error_data_num++;
+		}
+	}
+	printf("error_data_num = %d\n",error_data_num);
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int DeviceHandle[20];
@@ -1267,7 +1489,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	//NAND_TLC_Test(DeviceHandle[0]);
 	//NAND_MLC_Test(DeviceHandle[0]);
 	//NAND_TF_SLC_Test(DeviceHandle[0]);
-	NAND_TLC_Test2(DeviceHandle[0]);
+	//NAND_TLC_Test2(DeviceHandle[0]);
+	SANSUN_SLC_Test(DeviceHandle[0]);
 	return 0;
 }
 

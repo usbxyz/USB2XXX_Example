@@ -145,7 +145,7 @@ namespace USB2XXXCANTest
                     CanMsgBuffer[i].Data = new Byte[8];
                 }
 
-                IntPtr[] ptArray = new IntPtr[1];
+                IntPtr[] ptArray = new IntPtr[2];
                 ptArray[0] = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(USB2CAN.CAN_MSG)) * CanMsgBuffer.Length);
                 IntPtr pt = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(USB2CAN.CAN_MSG)));
                 Marshal.Copy(ptArray, 0, pt, 1);

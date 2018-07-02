@@ -56,8 +56,10 @@ int main(int argc, const char* argv[])
         printf("    Functions:%s\n",FuncStr);
         printf("%08X",DevInfo.FirmwareVersion);
     }
+	//设置GPIO电平（需要适配器支持）
+	DEV_SetPowerLevel(DevHandle[0],POWER_LEVEL_3V3);
     //输出测试——没上下拉
-    GPIO_SetOutput(DevIndex,0xFFFF,0);
+    GPIO_SetOutput(DevHandle[0],0xFFFF,0);
     for(int i=0;i<10;i++){
         GPIO_Write(DevHandle[0],0xFFFF,0xAAAA);
         GPIO_Write(DevHandle[0],0xFFFF,0x5555);

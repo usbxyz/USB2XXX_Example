@@ -111,7 +111,7 @@ bool WINAPI DEV_ReadUserData(int DevHandle,int OffsetAddr,unsigned char *pReadDa
 /**
   * @brief  设置可变电压输出引脚输出电压值
   * @param  DevHandle 设备索引号
-  * @param  PowerLevel 输出电压值
+  * @param  PowerLevel 输出电压值，0-1.8V，1-3.3V，2-不输出
   * @retval 设置输出电压状态
   */
 bool WINAPI DEV_SetPowerLevel(int DevHandle,char PowerLevel);

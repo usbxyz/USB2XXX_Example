@@ -1,0 +1,10 @@
+.svn
+build*
+*.pro.user
+
+#vs
+ipch
+Release
+Debug
+*.sdf
+*.user
