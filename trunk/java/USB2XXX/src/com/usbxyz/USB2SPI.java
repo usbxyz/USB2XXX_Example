@@ -10,7 +10,7 @@ import com.sun.jna.Structure;
 public interface USB2SPI extends Library {
 	USB2SPI INSTANCE  = (USB2SPI)Native.loadLibrary("USB2XXX",USB2SPI.class); 
 	
-    //¶¨ÒåSPIÍ¨µÀ
+    //å®šä¹‰SPIé€šé“
     public static int SPI1        = (0x00);
     public static int SPI1_CS0    = (0x00);
     public static int SPI1_CS1    = (0x10);
@@ -24,21 +24,21 @@ public interface USB2SPI extends Library {
     public static int SPI2_CS2    = (0x21);
     public static int SPI2_CS3    = (0x31);
     public static int SPI2_CS4    = (0x41);
-    //¶¨Òå¹¤×÷Ä£Ê½
-    public static int SPI_MODE_HARD_FDX       = 0; //Ó²¼ş¿ØÖÆ£¨È«Ë«¹¤Ä£Ê½£©
-    public static int SPI_MODE_HARD_HDX       = 1; //Ó²¼ş¿ØÖÆ£¨°ëË«¹¤Ä£Ê½£©
-    public static int SPI_MODE_SOFT_HDX       = 2; //Èí¼ş¿ØÖÆ£¨°ëË«¹¤Ä£Ê½£©
-    public static int SPI_MODE_SOFT_ONE_WIRE  = 3; //µ¥×ÜÏßÄ£Ê½£¬Êı¾İÏßÊäÈëÊä³ö¶¼ÎªMOSI
-    //¶¨ÒåÖ÷´Ó»úÄ£Ê½
-    public static int SPI_MASTER      = 1; //Ö÷»ú
-    public static int SPI_SLAVE       = 0; //´Ó»ú
-    //¶¨ÒåÊı¾İÒÆÎ»·½Ê½
-    public static int SPI_MSB         = 0; //¸ßÎ»ÔÚÇ°
-    public static int SPI_LSB         = 1; //µÍÎ»ÔÚÇ°
-    //¶¨ÒåÆ¬Ñ¡Êä³ö¼«ĞÔ
-    public static int SPI_SEL_LOW     = 0; //Æ¬Ñ¡Êä³öµÍµçÆ½
-    public static int SPI_SEL_HIGH    = 1; //Æ¬Ñ¡Êä³ö¸ßµçÆ½
-    //¶¨ÒåEVENTÒı½Å,×¢ÒâEVENTÒı½Å²»Òª¸úSPIÍ¨ĞÅÒı½Å³åÍ»
+    //å®šä¹‰å·¥ä½œæ¨¡å¼
+    public static int SPI_MODE_HARD_FDX       = 0; //ç¡¬ä»¶æ§åˆ¶ï¼ˆå…¨åŒå·¥æ¨¡å¼ï¼‰
+    public static int SPI_MODE_HARD_HDX       = 1; //ç¡¬ä»¶æ§åˆ¶ï¼ˆåŠåŒå·¥æ¨¡å¼ï¼‰
+    public static int SPI_MODE_SOFT_HDX       = 2; //è½¯ä»¶æ§åˆ¶ï¼ˆåŠåŒå·¥æ¨¡å¼ï¼‰
+    public static int SPI_MODE_SOFT_ONE_WIRE  = 3; //å•æ€»çº¿æ¨¡å¼ï¼Œæ•°æ®çº¿è¾“å…¥è¾“å‡ºéƒ½ä¸ºMOSI
+    //å®šä¹‰ä¸»ä»æœºæ¨¡å¼
+    public static int SPI_MASTER      = 1; //ä¸»æœº
+    public static int SPI_SLAVE       = 0; //ä»æœº
+    //å®šä¹‰æ•°æ®ç§»ä½æ–¹å¼
+    public static int SPI_MSB         = 0; //é«˜ä½åœ¨å‰
+    public static int SPI_LSB         = 1; //ä½ä½åœ¨å‰
+    //å®šä¹‰ç‰‡é€‰è¾“å‡ºææ€§
+    public static int SPI_SEL_LOW     = 0; //ç‰‡é€‰è¾“å‡ºä½ç”µå¹³
+    public static int SPI_SEL_HIGH    = 1; //ç‰‡é€‰è¾“å‡ºé«˜ç”µå¹³
+    //å®šä¹‰EVENTå¼•è„š,æ³¨æ„EVENTå¼•è„šä¸è¦è·ŸSPIé€šä¿¡å¼•è„šå†²çª
     public static int SPI_EVENT_P0    = (1<<0);
     public static int SPI_EVENT_P1    = (1<<1);
     public static int SPI_EVENT_P2    = (1<<2);
@@ -56,25 +56,25 @@ public interface USB2SPI extends Library {
     public static int SPI_EVENT_P14    = (1<<14);
     public static int SPI_EVENT_P15    = (1<<15);
 
-    //¶¨ÒåÊÂ¼şÀàĞÍ
+    //å®šä¹‰äº‹ä»¶ç±»å‹
     public static int EVENT_TYPE_LOW      = 0x00;
     public static int EVENT_TYPE_HIGH     = 0x11;
     public static int EVENT_TYPE_RISING   = 0x01;
     public static int EVENT_TYPE_FALLING  = 0x10;
     
-    //¶¨Òåº¯Êı·µ»Ø´íÎó´úÂë
-    public static int SPI_SUCCESS             = (0);   //º¯ÊıÖ´ĞĞ³É¹¦
-    public static int SPI_ERR_NOT_SUPPORT     = (-1);  //ÊÊÅäÆ÷²»Ö§³Ö¸Ãº¯Êı
-    public static int SPI_ERR_USB_WRITE_FAIL  = (-2);  //USBĞ´Êı¾İÊ§°Ü
-    public static int SPI_ERR_USB_READ_FAIL   = (-3);  //USB¶ÁÊı¾İÊ§°Ü
-    public static int SPI_ERR_CMD_FAIL        = (-4);  //ÃüÁîÖ´ĞĞÊ§°Ü
-    public static int SPI_ERR_PARAMETER       = (-5);  //²ÎÊı´íÎó
-    //¶¨Òå´Ó»úÄ£Ê½ÏÂÁ¬Ğø¶ÁÈ¡Êı¾İµÄ»Øµ÷º¯Êı
+    //å®šä¹‰å‡½æ•°è¿”å›é”™è¯¯ä»£ç 
+    public static int SPI_SUCCESS             = (0);   //å‡½æ•°æ‰§è¡ŒæˆåŠŸ
+    public static int SPI_ERR_NOT_SUPPORT     = (-1);  //é€‚é…å™¨ä¸æ”¯æŒè¯¥å‡½æ•°
+    public static int SPI_ERR_USB_WRITE_FAIL  = (-2);  //USBå†™æ•°æ®å¤±è´¥
+    public static int SPI_ERR_USB_READ_FAIL   = (-3);  //USBè¯»æ•°æ®å¤±è´¥
+    public static int SPI_ERR_CMD_FAIL        = (-4);  //å‘½ä»¤æ‰§è¡Œå¤±è´¥
+    public static int SPI_ERR_PARAMETER       = (-5);  //å‚æ•°é”™è¯¯
+    //å®šä¹‰ä»æœºæ¨¡å¼ä¸‹è¿ç»­è¯»å–æ•°æ®çš„å›è°ƒå‡½æ•°
     public interface SPI_GET_DATA_HANDLE{
-        int SPI_GetDataHandle(int DevHandle,int SPIIndex,byte[] pData,int DataNum);//½ÓÊÕÊı¾İ»Øµôº¯Êı
+        int SPI_GetDataHandle(int DevHandle,int SPIIndex,byte[] pData,int DataNum);//æ¥æ”¶æ•°æ®å›æ‰å‡½æ•°
     }
     
-    //¶¨Òå³õÊ¼»¯SPIµÄÊı¾İÀàĞÍ
+    //å®šä¹‰åˆå§‹åŒ–SPIçš„æ•°æ®ç±»å‹
 	public class SPI_CONFIG  extends Structure{
 		
 	    public static class ByReference extends SPI_CONFIG implements Structure.ByReference {}  
@@ -85,16 +85,16 @@ public interface USB2SPI extends Library {
 			// TODO Auto-generated method stub
 			return Arrays.asList(new String[]{"Mode","Master","CPOL","CPHA","LSBFirst","SelPolarity","ClockSpeedHz"});
 		}
-        public byte   Mode;            //SPI¿ØÖÆ·½Ê½:0-Ó²¼ş¿ØÖÆ£¨È«Ë«¹¤Ä£Ê½£©,1-Ó²¼ş¿ØÖÆ£¨°ëË«¹¤Ä£Ê½£©£¬2-Èí¼ş¿ØÖÆ£¨°ëË«¹¤Ä£Ê½£©,3-µ¥×ÜÏßÄ£Ê½£¬Êı¾İÏßÊäÈëÊä³ö¶¼ÎªMOSI
-        public byte   Master;          //Ö÷´ÓÑ¡Ôñ¿ØÖÆ:0-´Ó»ú£¬1-Ö÷»ú
-        public byte   CPOL;            //Ê±ÖÓ¼«ĞÔ¿ØÖÆ:0-SCK¿ÕÏĞÊ±ÎªµÍµçÆ½£¬1-SCK¿ÕÏĞÊ±Îª¸ßµçÆ½
-        public byte   CPHA;            //Ê±ÖÓÏàÎ»¿ØÖÆ:0-µÚÒ»¸öSCKÊ±ÖÓ²ÉÑù£¬1-µÚ¶ş¸öSCKÊ±ÖÓ²ÉÑù
-        public byte   LSBFirst;        //Êı¾İÒÆÎ»·½Ê½:0-MSBÔÚÇ°£¬1-LSBÔÚÇ°
-        public byte   SelPolarity;     //Æ¬Ñ¡ĞÅºÅ¼«ĞÔ:0-µÍµçÆ½Ñ¡ÖĞ£¬1-¸ßµçÆ½Ñ¡ÖĞ
-        public int ClockSpeedHz;       //SPIÊ±ÖÓÆµÂÊ:µ¥Î»ÎªHZ£¬Ó²¼şÄ£Ê½ÏÂ×î´ó50000000£¬×îĞ¡390625£¬ÆµÂÊ°´2µÄ±¶Êı¸Ä±ä
+        public byte   Mode;            //SPIæ§åˆ¶æ–¹å¼:0-ç¡¬ä»¶æ§åˆ¶ï¼ˆå…¨åŒå·¥æ¨¡å¼ï¼‰,1-ç¡¬ä»¶æ§åˆ¶ï¼ˆåŠåŒå·¥æ¨¡å¼ï¼‰ï¼Œ2-è½¯ä»¶æ§åˆ¶ï¼ˆåŠåŒå·¥æ¨¡å¼ï¼‰,3-å•æ€»çº¿æ¨¡å¼ï¼Œæ•°æ®çº¿è¾“å…¥è¾“å‡ºéƒ½ä¸ºMOSI
+        public byte   Master;          //ä¸»ä»é€‰æ‹©æ§åˆ¶:0-ä»æœºï¼Œ1-ä¸»æœº
+        public byte   CPOL;            //æ—¶é’Ÿææ€§æ§åˆ¶:0-SCKç©ºé—²æ—¶ä¸ºä½ç”µå¹³ï¼Œ1-SCKç©ºé—²æ—¶ä¸ºé«˜ç”µå¹³
+        public byte   CPHA;            //æ—¶é’Ÿç›¸ä½æ§åˆ¶:0-ç¬¬ä¸€ä¸ªSCKæ—¶é’Ÿé‡‡æ ·ï¼Œ1-ç¬¬äºŒä¸ªSCKæ—¶é’Ÿé‡‡æ ·
+        public byte   LSBFirst;        //æ•°æ®ç§»ä½æ–¹å¼:0-MSBåœ¨å‰ï¼Œ1-LSBåœ¨å‰
+        public byte   SelPolarity;     //ç‰‡é€‰ä¿¡å·ææ€§:0-ä½ç”µå¹³é€‰ä¸­ï¼Œ1-é«˜ç”µå¹³é€‰ä¸­
+        public int ClockSpeedHz;       //SPIæ—¶é’Ÿé¢‘ç‡:å•ä½ä¸ºHZï¼Œç¡¬ä»¶æ¨¡å¼ä¸‹æœ€å¤§50000000ï¼Œæœ€å°390625ï¼Œé¢‘ç‡æŒ‰2çš„å€æ•°æ”¹å˜
     }
 
-    //¶¨ÒåSPI FlashÆ÷¼şÅäÖÃ²ÎÊıÊı¾İÀàĞÍ
+    //å®šä¹‰SPI Flashå™¨ä»¶é…ç½®å‚æ•°æ•°æ®ç±»å‹
 	public class SPI_FLASH_CONFIG  extends Structure{
 		
 	    public static class ByReference extends SPI_FLASH_CONFIG implements Structure.ByReference {}  
@@ -108,350 +108,350 @@ public interface USB2SPI extends Library {
 							"EraseSectorAddressBytes","CMD_EraseBulk","CMD_EraseChip","CMD_ReadID","CMD_ReadData","ReadDataAddressBytes",
 							"CMD_ReadFast","ReadFastAddressBytes","CMD_ReadStatus","CMD_WriteStatus","ID","ID_Length","PageSize","NumPages","SectorSize"});
 		}
-        public byte CMD_WriteEnable;          //Ê¹ÄÜĞ´ÃüÁî
-        public byte CMD_WriteDisable;         //½ûÖ¹Ğ´ÃüÁî
-        public byte CMD_WritePage;            //Ğ´Êı¾İÃüÁî
-        public byte WritePageAddressBytes;    //Ğ´Êı¾İÊ±µÄµØÖ·¿í¶È£¬µ¥Î»Îª×Ö½Ú
-        public byte CMD_EraseSector;          //ÉÈÇø²Á³öÃüÁî
-        public byte EraseSectorAddressBytes;  //ÉÈÇø²Á³öµÄµØÖ·¿í¶È£¬µ¥Î»Îª×Ö½Ú
-        public byte CMD_EraseBulk;            //¿é²Á³öÃüÁî
-        public byte CMD_EraseChip;            //ÕûÆ¬²Á³öÃüÁî
-        public byte CMD_ReadID;               //¶ÁĞ¾Æ¬IDÃüÁî
-        public byte CMD_ReadData;             //¶ÁÊı¾İÃüÁî
-        public byte ReadDataAddressBytes;     //¶ÁÊı¾İÊ±µÄµØÖ·¿í¶È£¬µ¥Î»Îª×Ö½Ú
-        public byte CMD_ReadFast;             //¿ìËÙÄ£Ê½¶ÁÊı¾İÃüÁî
-        public byte ReadFastAddressBytes;     //¿ìËÙ¶ÁÊı¾İÊ±µÄµØÖ·¿í¶È£¬µ¥Î»Îª×Ö½Ú
-        public byte CMD_ReadStatus;           //¶ÁÈ¡×´Ì¬¼Ä´æÆ÷ÃüÁî
-        public byte CMD_WriteStatus;          //Ğ´×´Ì¬¼Ä´æÆ÷ÃüÁî
-        public byte[] ID = new byte[16];      //Ğ¾Æ¬ID´æ´¢Êı×é
-        public byte ID_Length;                //ID³¤¶È£¬µ¥Î»Îª×Ö½Ú
-        public int PageSize;                  //Ò³´óĞ¡£¬µ¥Î»Îª×Ö½Ú
-        public int NumPages;                  //Ğ¾Æ¬×ÜµÄÒ³Êı
-        public int SectorSize;                //ÉÈÇø´óĞ¡£¬µ¥Î»Îª×Ö½Ú
+        public byte CMD_WriteEnable;          //ä½¿èƒ½å†™å‘½ä»¤
+        public byte CMD_WriteDisable;         //ç¦æ­¢å†™å‘½ä»¤
+        public byte CMD_WritePage;            //å†™æ•°æ®å‘½ä»¤
+        public byte WritePageAddressBytes;    //å†™æ•°æ®æ—¶çš„åœ°å€å®½åº¦ï¼Œå•ä½ä¸ºå­—èŠ‚
+        public byte CMD_EraseSector;          //æ‰‡åŒºæ“¦å‡ºå‘½ä»¤
+        public byte EraseSectorAddressBytes;  //æ‰‡åŒºæ“¦å‡ºçš„åœ°å€å®½åº¦ï¼Œå•ä½ä¸ºå­—èŠ‚
+        public byte CMD_EraseBulk;            //å—æ“¦å‡ºå‘½ä»¤
+        public byte CMD_EraseChip;            //æ•´ç‰‡æ“¦å‡ºå‘½ä»¤
+        public byte CMD_ReadID;               //è¯»èŠ¯ç‰‡IDå‘½ä»¤
+        public byte CMD_ReadData;             //è¯»æ•°æ®å‘½ä»¤
+        public byte ReadDataAddressBytes;     //è¯»æ•°æ®æ—¶çš„åœ°å€å®½åº¦ï¼Œå•ä½ä¸ºå­—èŠ‚
+        public byte CMD_ReadFast;             //å¿«é€Ÿæ¨¡å¼è¯»æ•°æ®å‘½ä»¤
+        public byte ReadFastAddressBytes;     //å¿«é€Ÿè¯»æ•°æ®æ—¶çš„åœ°å€å®½åº¦ï¼Œå•ä½ä¸ºå­—èŠ‚
+        public byte CMD_ReadStatus;           //è¯»å–çŠ¶æ€å¯„å­˜å™¨å‘½ä»¤
+        public byte CMD_WriteStatus;          //å†™çŠ¶æ€å¯„å­˜å™¨å‘½ä»¤
+        public byte[] ID = new byte[16];      //èŠ¯ç‰‡IDå­˜å‚¨æ•°ç»„
+        public byte ID_Length;                //IDé•¿åº¦ï¼Œå•ä½ä¸ºå­—èŠ‚
+        public int PageSize;                  //é¡µå¤§å°ï¼Œå•ä½ä¸ºå­—èŠ‚
+        public int NumPages;                  //èŠ¯ç‰‡æ€»çš„é¡µæ•°
+        public int SectorSize;                //æ‰‡åŒºå¤§å°ï¼Œå•ä½ä¸ºå­—èŠ‚
     }
-	//USB2SPIÏà¹Øº¯Êı
+	//USB2SPIç›¸å…³å‡½æ•°
 	/**
-	  * @brief  SPI³õÊ¼»¯ÅäÖÃº¯Êı
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pConfig SPI³õÊ¼»¯ÅäÖÃ½á¹¹ÌåÖ¸Õë
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  SPIåˆå§‹åŒ–é…ç½®å‡½æ•°
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pConfig SPIåˆå§‹åŒ–é…ç½®ç»“æ„ä½“æŒ‡é’ˆ
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_Init(int DevHandle,int SPIIndex, SPI_CONFIG pConfig);
 
 	/**
-	  * @brief  SPI·¢ËÍÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteData Êı¾İ·¢ËÍ»º³åÇøÊ×µØÖ·
-	  * @param  WriteLen Êı¾İ·¢ËÍ×Ö½ÚÊı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  SPIå‘é€æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteData æ•°æ®å‘é€ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  WriteLen æ•°æ®å‘é€å­—èŠ‚æ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_WriteBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen);
 
 	/**
-	  * @brief  SPIÒì²½·½Ê½·¢ËÍÊı¾İ£¬º¯Êıµ÷ÓÃÖ®ºó²»»áµÈ´ıÊı¾İ·¢ËÍÍê±Ï£¬¸Ã·½Ê½¿ÉÒÔ¼Ó´óÊı¾İ·¢ËÍËÙÂÊ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteData Êı¾İ·¢ËÍ»º³åÇøÊ×µØÖ·
-	  * @param  WriteLen Êı¾İ·¢ËÍ×Ö½ÚÊı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  SPIå¼‚æ­¥æ–¹å¼å‘é€æ•°æ®ï¼Œå‡½æ•°è°ƒç”¨ä¹‹åä¸ä¼šç­‰å¾…æ•°æ®å‘é€å®Œæ¯•ï¼Œè¯¥æ–¹å¼å¯ä»¥åŠ å¤§æ•°æ®å‘é€é€Ÿç‡
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteData æ•°æ®å‘é€ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  WriteLen æ•°æ®å‘é€å­—èŠ‚æ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_WriteBytesAsync(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen);
 
 	/**
-	  * @brief  SPI½ÓÊÕÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pReadData Êı¾İ½ÓÊÕ»º³åÇøÊ×µØÖ·
-	  * @param  ReadLen ½ÓÊÕÊı¾İ×Ö½ÚÊı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  SPIæ¥æ”¶æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pReadData æ•°æ®æ¥æ”¶ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  ReadLen æ¥æ”¶æ•°æ®å­—èŠ‚æ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_ReadBytes(int DevHandle,int SPIIndex,byte[] pReadData,int ReadLen);
 
 	/**
-	  * @brief  SPI·¢ËÍ½ÓÊÕÊı¾İ£¬È«Ë«¹¤Ä£Ê½ÏÂ·¢ËÍºÍ½ÓÊÕÍ¬Ê±½øĞĞ£¬°ëË«¹¤Ä£Ê½ÏÂ·¢ËÍºÍ½ÓÊÕ·Ö¿ª½øĞĞ£¬Õû¸ö²Ù×÷¹ı³ÌÆ¬Ñ¡Ò»Ö±ÓĞĞ§
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteData ·¢ËÍÊı¾İ»º³åÇøÊ×µØÖ·
-	  * @param  WriteLen ·¢ËÍÊı¾İ×Ö½ÚÊı
-	  * @param  pReadData Êı¾İ½ÓÊÕ»º³åÇøÊ×µØÖ·
-	  * @param  ReadLen ½ÓÊÕÊı¾İ×Ö½ÚÊı
-	  * @param  IntervalTime °ëË«¹¤Ä£Ê½ÏÂ£¬·¢ËÍÊı¾İºÍ½ÓÊÕÊı¾İÖ®¼äµÄÊ±¼ä¼ä¸ô£¬µ¥Î»ÎªÎ¢Ãî
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  SPIå‘é€æ¥æ”¶æ•°æ®ï¼Œå…¨åŒå·¥æ¨¡å¼ä¸‹å‘é€å’Œæ¥æ”¶åŒæ—¶è¿›è¡Œï¼ŒåŠåŒå·¥æ¨¡å¼ä¸‹å‘é€å’Œæ¥æ”¶åˆ†å¼€è¿›è¡Œï¼Œæ•´ä¸ªæ“ä½œè¿‡ç¨‹ç‰‡é€‰ä¸€ç›´æœ‰æ•ˆ
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteData å‘é€æ•°æ®ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  WriteLen å‘é€æ•°æ®å­—èŠ‚æ•°
+	  * @param  pReadData æ•°æ®æ¥æ”¶ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  ReadLen æ¥æ”¶æ•°æ®å­—èŠ‚æ•°
+	  * @param  IntervalTime åŠåŒå·¥æ¨¡å¼ä¸‹ï¼Œå‘é€æ•°æ®å’Œæ¥æ”¶æ•°æ®ä¹‹é—´çš„æ—¶é—´é—´éš”ï¼Œå•ä½ä¸ºå¾®å¦™
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_WriteReadBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen,byte[] pReadData,int ReadLen,int IntervalTimeUs);
 
 	/**
-	  * @brief  µÈµ½ÓĞĞ§ÊÂ¼şºóSPI·¢ËÍÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteData Êı¾İ·¢ËÍ»º³åÇøÊ×µØÖ·
-	  * @param  WriteLen Êı¾İ·¢ËÍ×Ö½ÚÊı
-	  * @param  EventPin µÈ´ıÊÂ¼şµÄGPIOÒı½Å
-	  * @param  EventType ÊÂ¼şÀàĞÍ£¬0x00-µÍµçÆ½£¬0x11-¸ßµçÆ½£¬0x10-ÏÂ½µÑØ£¬0x01ÉÏÉıÑØ
-	  * @param  TimeOutOfMs µÈ´ıÊÂ¼ş³¬Ê±Ê±¼ä£¬µ¥Î»ÎªºÁÃë
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  ç­‰åˆ°æœ‰æ•ˆäº‹ä»¶åSPIå‘é€æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteData æ•°æ®å‘é€ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  WriteLen æ•°æ®å‘é€å­—èŠ‚æ•°
+	  * @param  EventPin ç­‰å¾…äº‹ä»¶çš„GPIOå¼•è„š
+	  * @param  EventType äº‹ä»¶ç±»å‹ï¼Œ0x00-ä½ç”µå¹³ï¼Œ0x11-é«˜ç”µå¹³ï¼Œ0x10-ä¸‹é™æ²¿ï¼Œ0x01ä¸Šå‡æ²¿
+	  * @param  TimeOutOfMs ç­‰å¾…äº‹ä»¶è¶…æ—¶æ—¶é—´ï¼Œå•ä½ä¸ºæ¯«ç§’
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_WriteBytesOfEvent(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen,int EventPin,byte EventType,int TimeOutOfMs);
 
 
 	/**
-	  * @brief  µÈµ½ÓĞĞ§ÊÂ¼şºóSPI½ÓÊÕÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pReadData Êı¾İ½ÓÊÕ»º³åÇøÊ×µØÖ·
-	  * @param  ReadLen ½ÓÊÕÊı¾İ×Ö½ÚÊı
-	  * @param  EventPin µÈ´ıÊÂ¼şµÄGPIOÒı½Å
-	  * @param  EventType ÊÂ¼şÀàĞÍ£¬0x00-µÍµçÆ½£¬0x11-¸ßµçÆ½£¬0x10-ÏÂ½µÑØ£¬0x01ÉÏÉıÑØ
-	  * @param  TimeOutOfMs µÈ´ıÊÂ¼ş³¬Ê±Ê±¼ä£¬µ¥Î»ÎªºÁÃë
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  ç­‰åˆ°æœ‰æ•ˆäº‹ä»¶åSPIæ¥æ”¶æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pReadData æ•°æ®æ¥æ”¶ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  ReadLen æ¥æ”¶æ•°æ®å­—èŠ‚æ•°
+	  * @param  EventPin ç­‰å¾…äº‹ä»¶çš„GPIOå¼•è„š
+	  * @param  EventType äº‹ä»¶ç±»å‹ï¼Œ0x00-ä½ç”µå¹³ï¼Œ0x11-é«˜ç”µå¹³ï¼Œ0x10-ä¸‹é™æ²¿ï¼Œ0x01ä¸Šå‡æ²¿
+	  * @param  TimeOutOfMs ç­‰å¾…äº‹ä»¶è¶…æ—¶æ—¶é—´ï¼Œå•ä½ä¸ºæ¯«ç§’
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_ReadBytesOfEvent(int DevHandle,int SPIIndex,byte[] pReadData,int ReadLen,int EventPin,byte EventType,int TimeOutOfMs);
 
 	/**
-	  * @brief  µÈµ½ÓĞĞ§ÊÂ¼şºóSPI·¢ËÍ½ÓÊÕÊı¾İ£¬È«Ë«¹¤Ä£Ê½ÏÂ·¢ËÍºÍ½ÓÊÕÍ¬Ê±½øĞĞ£¬°ëË«¹¤Ä£Ê½ÏÂ·¢ËÍºÍ½ÓÊÕ·Ö¿ª½øĞĞ£¬Õû¸ö²Ù×÷¹ı³ÌÆ¬Ñ¡Ò»Ö±ÓĞĞ§
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteData ·¢ËÍÊı¾İ»º³åÇøÊ×µØÖ·
-	  * @param  WriteLen ·¢ËÍÊı¾İ×Ö½ÚÊı
-	  * @param  pReadData Êı¾İ½ÓÊÕ»º³åÇøÊ×µØÖ·
-	  * @param  ReadLen ½ÓÊÕÊı¾İ×Ö½ÚÊı
-	  * @param  IntervalTime °ëË«¹¤Ä£Ê½ÏÂ£¬·¢ËÍÊı¾İºÍ½ÓÊÕÊı¾İÖ®¼äµÄÊ±¼ä¼ä¸ô£¬µ¥Î»ÎªÎ¢Ãî
-	  * @param  EventPin µÈ´ıÊÂ¼şµÄGPIOÒı½Å
-	  * @param  EventType ÊÂ¼şÀàĞÍ£¬0x00-µÍµçÆ½£¬0x11-¸ßµçÆ½£¬0x10-ÏÂ½µÑØ£¬0x01ÉÏÉıÑØ
-	  * @param  TimeOutOfMs µÈ´ıÊÂ¼ş³¬Ê±Ê±¼ä£¬µ¥Î»ÎªºÁÃë
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  ç­‰åˆ°æœ‰æ•ˆäº‹ä»¶åSPIå‘é€æ¥æ”¶æ•°æ®ï¼Œå…¨åŒå·¥æ¨¡å¼ä¸‹å‘é€å’Œæ¥æ”¶åŒæ—¶è¿›è¡Œï¼ŒåŠåŒå·¥æ¨¡å¼ä¸‹å‘é€å’Œæ¥æ”¶åˆ†å¼€è¿›è¡Œï¼Œæ•´ä¸ªæ“ä½œè¿‡ç¨‹ç‰‡é€‰ä¸€ç›´æœ‰æ•ˆ
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteData å‘é€æ•°æ®ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  WriteLen å‘é€æ•°æ®å­—èŠ‚æ•°
+	  * @param  pReadData æ•°æ®æ¥æ”¶ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  ReadLen æ¥æ”¶æ•°æ®å­—èŠ‚æ•°
+	  * @param  IntervalTime åŠåŒå·¥æ¨¡å¼ä¸‹ï¼Œå‘é€æ•°æ®å’Œæ¥æ”¶æ•°æ®ä¹‹é—´çš„æ—¶é—´é—´éš”ï¼Œå•ä½ä¸ºå¾®å¦™
+	  * @param  EventPin ç­‰å¾…äº‹ä»¶çš„GPIOå¼•è„š
+	  * @param  EventType äº‹ä»¶ç±»å‹ï¼Œ0x00-ä½ç”µå¹³ï¼Œ0x11-é«˜ç”µå¹³ï¼Œ0x10-ä¸‹é™æ²¿ï¼Œ0x01ä¸Šå‡æ²¿
+	  * @param  TimeOutOfMs ç­‰å¾…äº‹ä»¶è¶…æ—¶æ—¶é—´ï¼Œå•ä½ä¸ºæ¯«ç§’
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_WriteReadBytesOfEvent(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen,byte[] pReadData,int ReadLen,int IntervalTimeUs,int EventPin,byte EventType,int TimeOutOfMs);
 
 
 	/**
-	  * @brief  ¶ş½øÖÆÄ£Ê½Ğ´Êı¾İ£¬¸Ãº¯Êı¿ÉÒÔ·¢ËÍÈÎÒâbitÊıÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteBitStr ¶ş½øÖÆÊı¾İ×Ö·û´®£¬Èç£º"100110011"
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  äºŒè¿›åˆ¶æ¨¡å¼å†™æ•°æ®ï¼Œè¯¥å‡½æ•°å¯ä»¥å‘é€ä»»æ„bitæ•°æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteBitStr äºŒè¿›åˆ¶æ•°æ®å­—ç¬¦ä¸²ï¼Œå¦‚ï¼š"100110011"
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_WriteBits(int DevHandle,int SPIIndex,byte[] pWriteBitStr);
 
 	/**
-	  * @brief  ¶ş½øÖÆÄ£Ê½¶ÁÊı¾İ£¬¸Ãº¯Êı¿ÉÒÔ¶ÁÈ¡ÈÎÒâbitÊıÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pReadBitStr ¶ÁÈ¡µ½µÄ¶ş½øÖÆÊı¾İ×Ö·û´®£¬Èç£º"100110011"
-	  * @param  ReadBitsNum ¶ÁÈ¡Êı¾İµÄ¶ş½øÖÆbitÊı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  äºŒè¿›åˆ¶æ¨¡å¼è¯»æ•°æ®ï¼Œè¯¥å‡½æ•°å¯ä»¥è¯»å–ä»»æ„bitæ•°æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pReadBitStr è¯»å–åˆ°çš„äºŒè¿›åˆ¶æ•°æ®å­—ç¬¦ä¸²ï¼Œå¦‚ï¼š"100110011"
+	  * @param  ReadBitsNum è¯»å–æ•°æ®çš„äºŒè¿›åˆ¶bitæ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_ReadBits(int DevHandle,int SPIIndex,byte[] pReadBitStr,int ReadBitsNum);
 
 	/**
-	  * @brief  ¶ş½øÖÆÄ£Ê½Ğ´¶ÁÊı¾İ£¬¸Ãº¯Êı¿ÉÒÔĞ´¶ÁÈ¡ÈÎÒâbitÊıÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteBitStr Ğ´¶ş½øÖÆÊı¾İ×Ö·û´®£¬Èç£º"100110011"
-	  * @param  pReadBitStr ¶ÁÈ¡µ½µÄ¶ş½øÖÆÊı¾İ×Ö·û´®£¬Èç£º"100110011"
-	  * @param  ReadBitsNum ¶ÁÈ¡Êı¾İµÄ¶ş½øÖÆbitÊı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  äºŒè¿›åˆ¶æ¨¡å¼å†™è¯»æ•°æ®ï¼Œè¯¥å‡½æ•°å¯ä»¥å†™è¯»å–ä»»æ„bitæ•°æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteBitStr å†™äºŒè¿›åˆ¶æ•°æ®å­—ç¬¦ä¸²ï¼Œå¦‚ï¼š"100110011"
+	  * @param  pReadBitStr è¯»å–åˆ°çš„äºŒè¿›åˆ¶æ•°æ®å­—ç¬¦ä¸²ï¼Œå¦‚ï¼š"100110011"
+	  * @param  ReadBitsNum è¯»å–æ•°æ®çš„äºŒè¿›åˆ¶bitæ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_WriteReadBits(int DevHandle,int SPIIndex,byte[] pWriteBitStr,byte[] pReadBitStr,int ReadBitsNum);
 
 	/**
-	  * @brief  SPI´Ó»úÄ£Ê½ÏÂ½«Êı¾İĞ´ÈëÊı¾İ·¢ËÍ»º³åÇø£¬µÈ´ıÖ÷»úµÄÊ±ÖÓĞÅºÅÔÙ½«Êı¾İ·¢ËÍ³öÈ¥
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteData ·¢ËÍÊı¾İ»º³åÇøÊ×µØÖ·
-	  * @param  WriteLen ·¢ËÍÊı¾İ×Ö½ÚÊı
-	  * @param  TimeOutMs µÈ´ıÊı¾İ·¢ËÍÍê±Ï³¬Ê±Ê±¼ä£¬ÈôĞ¡ÓÚ»òÕßµÈÓÚ0Ôò²»»áµÈ´ıÊı¾İ·¢ËÍÍê±Ï£¬º¯ÊıÁ¢¼´·µ»Ø
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  SPIä»æœºæ¨¡å¼ä¸‹å°†æ•°æ®å†™å…¥æ•°æ®å‘é€ç¼“å†²åŒºï¼Œç­‰å¾…ä¸»æœºçš„æ—¶é’Ÿä¿¡å·å†å°†æ•°æ®å‘é€å‡ºå»
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteData å‘é€æ•°æ®ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  WriteLen å‘é€æ•°æ®å­—èŠ‚æ•°
+	  * @param  TimeOutMs ç­‰å¾…æ•°æ®å‘é€å®Œæ¯•è¶…æ—¶æ—¶é—´ï¼Œè‹¥å°äºæˆ–è€…ç­‰äº0åˆ™ä¸ä¼šç­‰å¾…æ•°æ®å‘é€å®Œæ¯•ï¼Œå‡½æ•°ç«‹å³è¿”å›
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_SlaveWriteBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteLen,int TimeOutMs);
 
 	/**
-	  * @brief  SPI´Ó»úÄ£Ê½ÏÂ»ñÈ¡½ÓÊÕÊı¾İ»º³åÇøµÄÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pReadData Êı¾İ½ÓÊÕ»º³åÇøÊ×µØÖ·
-	  * @param  pReadLen ½ÓÊÕµ½µÄÊı¾İ×Ö½ÚÊı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  SPIä»æœºæ¨¡å¼ä¸‹è·å–æ¥æ”¶æ•°æ®ç¼“å†²åŒºçš„æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pReadData æ•°æ®æ¥æ”¶ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  pReadLen æ¥æ”¶åˆ°çš„æ•°æ®å­—èŠ‚æ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_SlaveReadBytes(int DevHandle,int SPIIndex,byte[] pReadData,int TimeOutMs);
 
 	/**
-	  * @brief  SPI´Ó»úÄ£Ê½ÏÂÁ¬Ğø¶ÁÈ¡Êı¾İ,SPIÔÚ´Ó»úÄ£Ê½ÏÂ½ÓÊÕµ½Êı¾İÖ®ºó£¬Í¨¹ı»Øµ÷º¯Êı´«³öÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pSlaveReadDataHandle ´Ó»úÄ£Ê½ÏÂ½ÓÊÕµ½Êı¾İºóµÄ»Øµ÷º¯Êı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  SPIä»æœºæ¨¡å¼ä¸‹è¿ç»­è¯»å–æ•°æ®,SPIåœ¨ä»æœºæ¨¡å¼ä¸‹æ¥æ”¶åˆ°æ•°æ®ä¹‹åï¼Œé€šè¿‡å›è°ƒå‡½æ•°ä¼ å‡ºæ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pSlaveReadDataHandle ä»æœºæ¨¡å¼ä¸‹æ¥æ”¶åˆ°æ•°æ®åçš„å›è°ƒå‡½æ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_SlaveContinueRead(int DevHandle,int SPIIndex,SPI_GET_DATA_HANDLE pSlaveReadDataHandle);
 
 	/**
-	  * @brief  SPI´Ó»úÄ£Ê½ÏÂ»ñÈ¡½ÓÊÕÊı¾İ»º³åÇøµÄÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pReadData Êı¾İ½ÓÊÕ»º³åÇøÊ×µØÖ·
-	  * @param  BufferSize Êı¾İ»º³åÇø´óĞ¡
-	  * @retval »ñÈ¡µ½µÄÊı¾İ×Ö½ÚÊı
+	  * @brief  SPIä»æœºæ¨¡å¼ä¸‹è·å–æ¥æ”¶æ•°æ®ç¼“å†²åŒºçš„æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pReadData æ•°æ®æ¥æ”¶ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  BufferSize æ•°æ®ç¼“å†²åŒºå¤§å°
+	  * @retval è·å–åˆ°çš„æ•°æ®å­—èŠ‚æ•°
 	  */
 	int  SPI_SlaveGetBytes(int DevHandle,int SPIIndex,byte[] pReadData,int BufferSize);
 	/**
-	  * @brief  Í£Ö¹SPI´Ó»úÄ£Ê½ÏÂÁ¬Ğø¶ÁÈ¡Êı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  åœæ­¢SPIä»æœºæ¨¡å¼ä¸‹è¿ç»­è¯»å–æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_SlaveContinueReadStop(int DevHandle,int SPIIndex);
 	/**
-	  * @brief  ¶ÁĞ´SPI-Flash³õÊ¼»¯ÅäÖÃ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  ClockSpeed SPIÊ±ÖÓĞÅºÅÆµÂÊ£¬µ¥Î»ÎªHz,×î´óÎª50MHz£¬ÒÀ´Î³É±¶µİ¼õ
-	  * @param  pConfig SPI-FlashÏà¹Ø²ÎÊı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  è¯»å†™SPI-Flashåˆå§‹åŒ–é…ç½®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  ClockSpeed SPIæ—¶é’Ÿä¿¡å·é¢‘ç‡ï¼Œå•ä½ä¸ºHz,æœ€å¤§ä¸º50MHzï¼Œä¾æ¬¡æˆå€é€’å‡
+	  * @param  pConfig SPI-Flashç›¸å…³å‚æ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_FlashInit(int DevHandle,int SPIIndex,int ClockSpeed, SPI_FLASH_CONFIG pConfig);
 
 	/**
-	  * @brief  ¶ÁÈ¡SPI-FlashĞ¾Æ¬µÄIDºÅ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pID Ğ¾Æ¬IDºÅ´æ´¢Ê×µØÖ·£¬Æä³¤¶ÈÓÉSPI_FLASH_CONFIGÖĞµÄID_Length¾ö¶¨
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  è¯»å–SPI-FlashèŠ¯ç‰‡çš„IDå·
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pID èŠ¯ç‰‡IDå·å­˜å‚¨é¦–åœ°å€ï¼Œå…¶é•¿åº¦ç”±SPI_FLASH_CONFIGä¸­çš„ID_Lengthå†³å®š
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_FlashReadID(int DevHandle,int SPIIndex,byte[] pID);
 
 	/**
-	  * @brief  ²Á³ıSPI-FlashµÄÉÈÇøÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  StartSector ÆğÊ¼ÉÈÇøºÅ£¬×¢ÒâÊÇÉÈÇøºÅ£¬²»ÊÇ¾ßÌåµÄÉÈÇøµØÖ·
-	  * @param  NumSector ĞèÒª²Á³ıµÄÉÈÇøÊı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  æ“¦é™¤SPI-Flashçš„æ‰‡åŒºæ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  StartSector èµ·å§‹æ‰‡åŒºå·ï¼Œæ³¨æ„æ˜¯æ‰‡åŒºå·ï¼Œä¸æ˜¯å…·ä½“çš„æ‰‡åŒºåœ°å€
+	  * @param  NumSector éœ€è¦æ“¦é™¤çš„æ‰‡åŒºæ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_FlashEraseSector(int DevHandle,int SPIIndex,int StartSector,int NumSector);
 
 	/**
-	  * @brief  ²Á³ıSPI-FlashÕû¸öĞ¾Æ¬µÄÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  æ“¦é™¤SPI-Flashæ•´ä¸ªèŠ¯ç‰‡çš„æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_FlashEraseChip(int DevHandle,int SPIIndex);
 
 
 	/**
-	  * @brief  ÏòSPI-FlashĞ´Êı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  StartAddr Ğ´Êı¾İÆğÊ¼µØÖ·
-	  * @param  pWriteData Ğ´Êı¾İ»º³åÇøÊ×µØÖ·
-	  * @param  WriteLen Ğ´Êı¾İ×Ö½ÚÊı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  å‘SPI-Flashå†™æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  StartAddr å†™æ•°æ®èµ·å§‹åœ°å€
+	  * @param  pWriteData å†™æ•°æ®ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  WriteLen å†™æ•°æ®å­—èŠ‚æ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_FlashWrite(int DevHandle,int SPIIndex,int StartAddr,byte[] pWriteData,int WriteLen);
 
 	/**
-	  * @brief  ´ÓSPI-Flash¶ÁÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  StartAddr Ğ´Êı¾İÆğÊ¼µØÖ·
-	  * @param  pReadData ¶ÁÊı¾İ»º³åÇøÊ×µØÖ·
-	  * @param  ReadLen ¶ÁÊı¾İ×Ö½ÚÊı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  ä»SPI-Flashè¯»æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  StartAddr å†™æ•°æ®èµ·å§‹åœ°å€
+	  * @param  pReadData è¯»æ•°æ®ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  ReadLen è¯»æ•°æ®å­—èŠ‚æ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_FlashRead(int DevHandle,int SPIIndex,int StartAddr,byte[] pReadData,int ReadLen);
 
 	/**
-	  * @brief  ´ÓSPI-Flash¶ÁÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  StartAddr Ğ´Êı¾İÆğÊ¼µØÖ·
-	  * @param  pReadData ¶ÁÊı¾İ»º³åÇøÊ×µØÖ·
-	  * @param  ReadLen ¶ÁÊı¾İ×Ö½ÚÊı
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  ä»SPI-Flashè¯»æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  StartAddr å†™æ•°æ®èµ·å§‹åœ°å€
+	  * @param  pReadData è¯»æ•°æ®ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  ReadLen è¯»æ•°æ®å­—èŠ‚æ•°
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_FlashReadFast(int DevHandle,int SPIIndex,int StartAddr,byte[] pReadData,int ReadLen);
 
 	/**
-	  * @brief  BlockÄ£Ê½Ğ´Êı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteData Ğ´Êı¾İÆğÊ¼µØÖ·
-	  * @param  BlockSize Ã¿´ÎĞ´Êı¾İ×Ö½ÚÊı
-	  * @param  BlockNum Ğ´Êı¾İ×Ü´ÎÊı
-	  * @param  IntervalTime Ã¿´ÎĞ´Êı¾İÖ®¼äµÄÊ±¼ä¼ä¸ô£¬µ¥Î»ÎªÎ¢Ãî
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  Blockæ¨¡å¼å†™æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteData å†™æ•°æ®èµ·å§‹åœ°å€
+	  * @param  BlockSize æ¯æ¬¡å†™æ•°æ®å­—èŠ‚æ•°
+	  * @param  BlockNum å†™æ•°æ®æ€»æ¬¡æ•°
+	  * @param  IntervalTime æ¯æ¬¡å†™æ•°æ®ä¹‹é—´çš„æ—¶é—´é—´éš”ï¼Œå•ä½ä¸ºå¾®å¦™
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_BlockWriteBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int BlockSize,int BlockNum,int IntervalTimeUs);
 
 	/**
-	  * @brief  BlockÄ£Ê½¶ÁÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pReadData ¶ÁÊı¾İ»º³åÇøÊ×µØÖ·
-	  * @param  BlockSize Ã¿´Î¶ÁÊı¾İ×Ö½ÚÊı
-	  * @param  BlockNum ¶ÁÊı¾İ×Ü´ÎÊı
-	  * @param  IntervalTime Ã¿´ÎĞ´Êı¾İÖ®¼äµÄÊ±¼ä¼ä¸ô£¬µ¥Î»ÎªÎ¢Ãî
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  Blockæ¨¡å¼è¯»æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pReadData è¯»æ•°æ®ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  BlockSize æ¯æ¬¡è¯»æ•°æ®å­—èŠ‚æ•°
+	  * @param  BlockNum è¯»æ•°æ®æ€»æ¬¡æ•°
+	  * @param  IntervalTime æ¯æ¬¡å†™æ•°æ®ä¹‹é—´çš„æ—¶é—´é—´éš”ï¼Œå•ä½ä¸ºå¾®å¦™
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_BlockReadBytes(int DevHandle,int SPIIndex,byte[] pReadData,int BlockSize,int BlockNum,int IntervalTimeUs);
 
 	/**
-	  * @brief  BlockÄ£Ê½Ğ´¶ÁÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteData Ğ´Êı¾İÆğÊ¼µØÖ·
-	  * @param  WriteBlockSize Ã¿´Î¶ÁÊı¾İ×Ö½ÚÊı
-	  * @param  pReadData ¶ÁÊı¾İ»º³åÇøÊ×µØÖ·
-	  * @param  ReadBlockSize Ã¿´Î¶ÁÊı¾İ×Ö½ÚÊı
-	  * @param  BlockNum ¶ÁÊı¾İ×Ü´ÎÊı
-	  * @param  IntervalTime Ã¿´ÎĞ´Êı¾İÖ®¼äµÄÊ±¼ä¼ä¸ô£¬µ¥Î»ÎªÎ¢Ãî
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  Blockæ¨¡å¼å†™è¯»æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteData å†™æ•°æ®èµ·å§‹åœ°å€
+	  * @param  WriteBlockSize æ¯æ¬¡è¯»æ•°æ®å­—èŠ‚æ•°
+	  * @param  pReadData è¯»æ•°æ®ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  ReadBlockSize æ¯æ¬¡è¯»æ•°æ®å­—èŠ‚æ•°
+	  * @param  BlockNum è¯»æ•°æ®æ€»æ¬¡æ•°
+	  * @param  IntervalTime æ¯æ¬¡å†™æ•°æ®ä¹‹é—´çš„æ—¶é—´é—´éš”ï¼Œå•ä½ä¸ºå¾®å¦™
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_BlockWriteReadBytes(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteBlockSize,byte[] pReadData,int ReadBlockSize,int BlockNum,int IntervalTimeUs);
 
 	/**
-	  * @brief  BlockÄ£Ê½Ğ´Êı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteData Ğ´Êı¾İÆğÊ¼µØÖ·
-	  * @param  BlockSize Ã¿´ÎĞ´Êı¾İ×Ö½ÚÊı
-	  * @param  BlockNum Ğ´Êı¾İ×Ü´ÎÊı
-	  * @param  EventPin µÈ´ıÊÂ¼şµÄGPIOÒı½Å
-	  * @param  EventType ÊÂ¼şÀàĞÍ£¬0x00-µÍµçÆ½£¬0x11-¸ßµçÆ½£¬0x10-ÏÂ½µÑØ£¬0x01ÉÏÉıÑØ
-	  * @param  TimeOutOfMs µÈ´ıÊÂ¼ş³¬Ê±Ê±¼ä£¬µ¥Î»ÎªºÁÃë
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  Blockæ¨¡å¼å†™æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteData å†™æ•°æ®èµ·å§‹åœ°å€
+	  * @param  BlockSize æ¯æ¬¡å†™æ•°æ®å­—èŠ‚æ•°
+	  * @param  BlockNum å†™æ•°æ®æ€»æ¬¡æ•°
+	  * @param  EventPin ç­‰å¾…äº‹ä»¶çš„GPIOå¼•è„š
+	  * @param  EventType äº‹ä»¶ç±»å‹ï¼Œ0x00-ä½ç”µå¹³ï¼Œ0x11-é«˜ç”µå¹³ï¼Œ0x10-ä¸‹é™æ²¿ï¼Œ0x01ä¸Šå‡æ²¿
+	  * @param  TimeOutOfMs ç­‰å¾…äº‹ä»¶è¶…æ—¶æ—¶é—´ï¼Œå•ä½ä¸ºæ¯«ç§’
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_BlockWriteBytesOfEvent(int DevHandle,int SPIIndex,byte[] pWriteData,int BlockSize,int BlockNum,int EventPin,byte EventType,int TimeOutOfMs);
 
 	/**
-	  * @brief  BlockÄ£Ê½¶ÁÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pReadData ¶ÁÊı¾İ»º³åÇøÊ×µØÖ·
-	  * @param  BlockSize Ã¿´Î¶ÁÊı¾İ×Ö½ÚÊı
-	  * @param  BlockNum ¶ÁÊı¾İ×Ü´ÎÊı
-	  * @param  EventPin µÈ´ıÊÂ¼şµÄGPIOÒı½Å
-	  * @param  EventType ÊÂ¼şÀàĞÍ£¬0x00-µÍµçÆ½£¬0x11-¸ßµçÆ½£¬0x10-ÏÂ½µÑØ£¬0x01ÉÏÉıÑØ
-	  * @param  TimeOutOfMs µÈ´ıÊÂ¼ş³¬Ê±Ê±¼ä£¬µ¥Î»ÎªºÁÃë
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  Blockæ¨¡å¼è¯»æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pReadData è¯»æ•°æ®ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  BlockSize æ¯æ¬¡è¯»æ•°æ®å­—èŠ‚æ•°
+	  * @param  BlockNum è¯»æ•°æ®æ€»æ¬¡æ•°
+	  * @param  EventPin ç­‰å¾…äº‹ä»¶çš„GPIOå¼•è„š
+	  * @param  EventType äº‹ä»¶ç±»å‹ï¼Œ0x00-ä½ç”µå¹³ï¼Œ0x11-é«˜ç”µå¹³ï¼Œ0x10-ä¸‹é™æ²¿ï¼Œ0x01ä¸Šå‡æ²¿
+	  * @param  TimeOutOfMs ç­‰å¾…äº‹ä»¶è¶…æ—¶æ—¶é—´ï¼Œå•ä½ä¸ºæ¯«ç§’
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_BlockReadBytesOfEvent(int DevHandle,int SPIIndex,byte[] pReadData,int BlockSize,int BlockNum,int EventPin,byte EventType,int TimeOutOfMs);
 
 	/**
-	  * @brief  BlockÄ£Ê½Ğ´¶ÁÊı¾İ
-	  * @param  DevHandle Éè±¸Ë÷ÒıºÅ
-	  * @param  SPIIndex SPIÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pWriteData Ğ´Êı¾İÆğÊ¼µØÖ·
-	  * @param  WriteBlockSize Ã¿´Î¶ÁÊı¾İ×Ö½ÚÊı
-	  * @param  pReadData ¶ÁÊı¾İ»º³åÇøÊ×µØÖ·
-	  * @param  ReadBlockSize Ã¿´Î¶ÁÊı¾İ×Ö½ÚÊı
-	  * @param  BlockNum ¶ÁÊı¾İ×Ü´ÎÊı
-	  * @param  EventPin µÈ´ıÊÂ¼şµÄGPIOÒı½Å
-	  * @param  EventType ÊÂ¼şÀàĞÍ£¬0x00-µÍµçÆ½£¬0x11-¸ßµçÆ½£¬0x10-ÏÂ½µÑØ£¬0x01ÉÏÉıÑØ
-	  * @param  TimeOutOfMs µÈ´ıÊÂ¼ş³¬Ê±Ê±¼ä£¬µ¥Î»ÎªºÁÃë
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  Blockæ¨¡å¼å†™è¯»æ•°æ®
+	  * @param  DevHandle è®¾å¤‡ç´¢å¼•å·
+	  * @param  SPIIndex SPIé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pWriteData å†™æ•°æ®èµ·å§‹åœ°å€
+	  * @param  WriteBlockSize æ¯æ¬¡è¯»æ•°æ®å­—èŠ‚æ•°
+	  * @param  pReadData è¯»æ•°æ®ç¼“å†²åŒºé¦–åœ°å€
+	  * @param  ReadBlockSize æ¯æ¬¡è¯»æ•°æ®å­—èŠ‚æ•°
+	  * @param  BlockNum è¯»æ•°æ®æ€»æ¬¡æ•°
+	  * @param  EventPin ç­‰å¾…äº‹ä»¶çš„GPIOå¼•è„š
+	  * @param  EventType äº‹ä»¶ç±»å‹ï¼Œ0x00-ä½ç”µå¹³ï¼Œ0x11-é«˜ç”µå¹³ï¼Œ0x10-ä¸‹é™æ²¿ï¼Œ0x01ä¸Šå‡æ²¿
+	  * @param  TimeOutOfMs ç­‰å¾…äº‹ä»¶è¶…æ—¶æ—¶é—´ï¼Œå•ä½ä¸ºæ¯«ç§’
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  SPI_BlockWriteReadBytesOfEvent(int DevHandle,int SPIIndex,byte[] pWriteData,int WriteBlockSize,byte[] pReadData,int ReadBlockSize,int BlockNum,int EventPin,byte EventType,int TimeOutOfMs);
 

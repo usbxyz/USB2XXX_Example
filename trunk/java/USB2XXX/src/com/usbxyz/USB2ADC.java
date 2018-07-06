@@ -6,55 +6,55 @@ import com.sun.jna.Native;
 public interface USB2ADC extends Library {
 	USB2ADC INSTANCE  = (USB2ADC)Native.loadLibrary("USB2XXX",USB2ADC.class); 
 	
-    //¶¨Òåº¯Êı·µ»Ø´íÎó´úÂë
-    public static int ADC_SUCCESS             = (0);   //º¯ÊıÖ´ĞĞ³É¹¦
-    public static int ADC_ERR_NOT_SUPPORT     = (-1);  //ÊÊÅäÆ÷²»Ö§³Ö¸Ãº¯Êı
-    public static int ADC_ERR_USB_WRITE_FAIL  = (-2);  //USBĞ´Êı¾İÊ§°Ü
-    public static int ADC_ERR_USB_READ_FAIL   = (-3);  //USB¶ÁÊı¾İÊ§°Ü
-    public static int ADC_ERR_CMD_FAIL        = (-4);  //ÃüÁîÖ´ĞĞÊ§°Ü
-    public static int ADC_ERR_CH_NO_INIT      = (-5);  //¸ÃÍ¨µÀÎ´³õÊ¼»¯
-    //¶¨ÒåÁ¬Ğø²É¼¯Êı¾İÄ£Ê½ÏÂµÄ»Øµ÷º¯Êı
+    //å®šä¹‰å‡½æ•°è¿”å›é”™è¯¯ä»£ç 
+    public static int ADC_SUCCESS             = (0);   //å‡½æ•°æ‰§è¡ŒæˆåŠŸ
+    public static int ADC_ERR_NOT_SUPPORT     = (-1);  //é€‚é…å™¨ä¸æ”¯æŒè¯¥å‡½æ•°
+    public static int ADC_ERR_USB_WRITE_FAIL  = (-2);  //USBå†™æ•°æ®å¤±è´¥
+    public static int ADC_ERR_USB_READ_FAIL   = (-3);  //USBè¯»æ•°æ®å¤±è´¥
+    public static int ADC_ERR_CMD_FAIL        = (-4);  //å‘½ä»¤æ‰§è¡Œå¤±è´¥
+    public static int ADC_ERR_CH_NO_INIT      = (-5);  //è¯¥é€šé“æœªåˆå§‹åŒ–
+    //å®šä¹‰è¿ç»­é‡‡é›†æ•°æ®æ¨¡å¼ä¸‹çš„å›è°ƒå‡½æ•°
     public interface ADC_GET_DATA_HANDLE {
         void ReceiveCallback(int DevHandle,short[] pData,int DataNum);
     }
     
     /**
-     * @brief  ³õÊ¼»¯ÅäÖÃADC
-     * @param  DevHandle Éè±¸¾ä±ú
-     * @param  Channel ĞèÒªÅäÖÃµÄADCÍ¨µÀ£¬Ã¿¸öbitÎª¶ÔÓ¦Ò»¸öÍ¨µÀ£¬Îª1Ê±ÔòĞèÒªÅäÖÃ¸ÃÍ¨µÀ£¬×îµÍÎ»´ú±íÍ¨µÀ0
-     * @param  SampleRateHz ADC²ÉÑùÂÊ£¬µ¥Í¨µÀ×î´ó2.5MHz£¬µ¥Î»ÎªHz
-     * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+     * @brief  åˆå§‹åŒ–é…ç½®ADC
+     * @param  DevHandle è®¾å¤‡å¥æŸ„
+     * @param  Channel éœ€è¦é…ç½®çš„ADCé€šé“ï¼Œæ¯ä¸ªbitä¸ºå¯¹åº”ä¸€ä¸ªé€šé“ï¼Œä¸º1æ—¶åˆ™éœ€è¦é…ç½®è¯¥é€šé“ï¼Œæœ€ä½ä½ä»£è¡¨é€šé“0
+     * @param  SampleRateHz ADCé‡‡æ ·ç‡ï¼Œå•é€šé“æœ€å¤§2.5MHzï¼Œå•ä½ä¸ºHz
+     * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
      */
    int  ADC_Init(int DevHandle,char Channel,int SampleRateHz);
    /**
-     * @brief  Æô¶¯²¢Çı¶¯ADC×ª»»Öµ
-     * @param  DevHandle Éè±¸¾ä±ú
-     * @param  pData Êı¾İ´æ´¢»º³åÇøÊ×µØÖ·
-     * @param  DataNum »ñÈ¡×ª»»µÄÊı¾İÊı£¬Ã¿¸öÊı¾İÖ®¼äµÄÊ±¼ä¼ä¸ôÎª³õÊ¼»¯ÅäÖÃÊ±ºòµÄ²ÉÑùÆµÂÊ¾ö¶¨
-     * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+     * @brief  å¯åŠ¨å¹¶é©±åŠ¨ADCè½¬æ¢å€¼
+     * @param  DevHandle è®¾å¤‡å¥æŸ„
+     * @param  pData æ•°æ®å­˜å‚¨ç¼“å†²åŒºé¦–åœ°å€
+     * @param  DataNum è·å–è½¬æ¢çš„æ•°æ®æ•°ï¼Œæ¯ä¸ªæ•°æ®ä¹‹é—´çš„æ—¶é—´é—´éš”ä¸ºåˆå§‹åŒ–é…ç½®æ—¶å€™çš„é‡‡æ ·é¢‘ç‡å†³å®š
+     * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
      */
    int  ADC_Read(int DevHandle,short[] pData,int DataNum);
    /**
-     * @brief  Æô¶¯ADCÁ¬Ğø×ª»»Ä£Ê½
-     * @param  DevHandle Éè±¸¾ä±ú
-     * @param  Channel ĞèÒªÅäÖÃµÄADCÍ¨µÀ£¬Ã¿¸öbitÎª¶ÔÓ¦Ò»¸öÍ¨µÀ£¬Îª1Ê±ÔòĞèÒªÅäÖÃ¸ÃÍ¨µÀ£¬×îµÍÎ»´ú±íÍ¨µÀ0
-     * @param  SampleRateHz ADC²ÉÑùÂÊ£¬µ¥Í¨µÀ×î´ó2.5MHz£¬µ¥Î»ÎªHz
-     * @param  FrameSize Á¬Ğø²ÉÑùÊ±Ã¿´Î´«ÊäÊı¾İ¸öÊıSampleRateHz*1000/FrameSize×îºÃ´óÓÚ»òÕßµÈÓÚ20
-     * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+     * @brief  å¯åŠ¨ADCè¿ç»­è½¬æ¢æ¨¡å¼
+     * @param  DevHandle è®¾å¤‡å¥æŸ„
+     * @param  Channel éœ€è¦é…ç½®çš„ADCé€šé“ï¼Œæ¯ä¸ªbitä¸ºå¯¹åº”ä¸€ä¸ªé€šé“ï¼Œä¸º1æ—¶åˆ™éœ€è¦é…ç½®è¯¥é€šé“ï¼Œæœ€ä½ä½ä»£è¡¨é€šé“0
+     * @param  SampleRateHz ADCé‡‡æ ·ç‡ï¼Œå•é€šé“æœ€å¤§2.5MHzï¼Œå•ä½ä¸ºHz
+     * @param  FrameSize è¿ç»­é‡‡æ ·æ—¶æ¯æ¬¡ä¼ è¾“æ•°æ®ä¸ªæ•°SampleRateHz*1000/FrameSizeæœ€å¥½å¤§äºæˆ–è€…ç­‰äº20
+     * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
      */
    int  ADC_StartContinueRead(int DevHandle,char Channel,int SampleRateHz,int FrameSize,ADC_GET_DATA_HANDLE pGetDataHandle);
    /**
-     * @brief  Í£Ö¹ADCÁ¬Ğø×ª»»Ä£Ê½
-     * @param  DevHandle Éè±¸¾ä±ú
-     * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+     * @brief  åœæ­¢ADCè¿ç»­è½¬æ¢æ¨¡å¼
+     * @param  DevHandle è®¾å¤‡å¥æŸ„
+     * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
      */
    int  ADC_StopContinueRead(int DevHandle);
    /**
-     * @brief  »ñÈ¡ADCÁ¬Ğø×ª»»Ä£Ê½ÏÂ´æ´¢ÔÚÊı¾İ»º³åÇøÖĞµÄÊı¾İÖµ
-     * @param  DevHandle Éè±¸¾ä±ú
-     * @param  pDataBuffer Êı¾İ´æ´¢»º³åÇøÊ×µØÖ·
-     * @param  BufferSize Êı¾İ´æ´¢»º³åÇø´óÏÂ£¬×¢Òâµ¥Î»Îª¶ÌÕûĞÍ£¬²»ÊÇ×Ö½Ú£¬»º³åÇø×îĞ¡Îª10240£¬·ñÔò»ñÈ¡²»µ½Êı¾İ
-     * @retval ³É¹¦»ñÈ¡µ½µÄÊı¾İÊı£¨µ¥Î»Îª¶ÌÕûĞÍ£©
+     * @brief  è·å–ADCè¿ç»­è½¬æ¢æ¨¡å¼ä¸‹å­˜å‚¨åœ¨æ•°æ®ç¼“å†²åŒºä¸­çš„æ•°æ®å€¼
+     * @param  DevHandle è®¾å¤‡å¥æŸ„
+     * @param  pDataBuffer æ•°æ®å­˜å‚¨ç¼“å†²åŒºé¦–åœ°å€
+     * @param  BufferSize æ•°æ®å­˜å‚¨ç¼“å†²åŒºå¤§ä¸‹ï¼Œæ³¨æ„å•ä½ä¸ºçŸ­æ•´å‹ï¼Œä¸æ˜¯å­—èŠ‚ï¼Œç¼“å†²åŒºæœ€å°ä¸º10240ï¼Œå¦åˆ™è·å–ä¸åˆ°æ•°æ®
+     * @retval æˆåŠŸè·å–åˆ°çš„æ•°æ®æ•°ï¼ˆå•ä½ä¸ºçŸ­æ•´å‹ï¼‰
      */
    int  ADC_GetData(int DevHandle,short[] pDataBuffer,int BufferSize);
 

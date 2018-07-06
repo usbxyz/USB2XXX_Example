@@ -10,20 +10,20 @@ import com.sun.jna.Structure;
 public interface USB2CAN extends Library {
 	USB2CAN INSTANCE  = (USB2CAN)Native.loadLibrary("USB2XXX",USB2CAN.class); 
 	
-    //0.º¯Êı·µ»Ø´íÎó´úÂë¶¨Òå
-    public static int   CAN_SUCCESS             =(0);   //º¯ÊıÖ´ĞĞ³É¹¦
-    public static int   CAN_ERR_NOT_SUPPORT     =(-1);  //ÊÊÅäÆ÷²»Ö§³Ö¸Ãº¯Êı
-    public static int   CAN_ERR_USB_WRITE_FAIL  =(-2);  //USBĞ´Êı¾İÊ§°Ü
-    public static int   CAN_ERR_USB_READ_FAIL   =(-3);  //USB¶ÁÊı¾İÊ§°Ü
-    public static int   CAN_ERR_CMD_FAIL        =(-4);  //ÃüÁîÖ´ĞĞÊ§°Ü
-    public static int   CAN_BL_ERR_CONFIG		=(-20); //ÅäÖÃÉè±¸´íÎó
-    public static int	CAN_BL_ERR_SEND			=(-21); //·¢ËÍÊı¾İ³ö´í
-    public static int	CAN_BL_ERR_TIME_OUT		=(-22); //³¬Ê±´íÎó
-    public static int	CAN_BL_ERR_CMD			=(-23); //Ö´ĞĞÃüÁîÊ§°Ü
+    //0.å‡½æ•°è¿”å›é”™è¯¯ä»£ç å®šä¹‰
+    public static int   CAN_SUCCESS             =(0);   //å‡½æ•°æ‰§è¡ŒæˆåŠŸ
+    public static int   CAN_ERR_NOT_SUPPORT     =(-1);  //é€‚é…å™¨ä¸æ”¯æŒè¯¥å‡½æ•°
+    public static int   CAN_ERR_USB_WRITE_FAIL  =(-2);  //USBå†™æ•°æ®å¤±è´¥
+    public static int   CAN_ERR_USB_READ_FAIL   =(-3);  //USBè¯»æ•°æ®å¤±è´¥
+    public static int   CAN_ERR_CMD_FAIL        =(-4);  //å‘½ä»¤æ‰§è¡Œå¤±è´¥
+    public static int   CAN_BL_ERR_CONFIG		=(-20); //é…ç½®è®¾å¤‡é”™è¯¯
+    public static int	CAN_BL_ERR_SEND			=(-21); //å‘é€æ•°æ®å‡ºé”™
+    public static int	CAN_BL_ERR_TIME_OUT		=(-22); //è¶…æ—¶é”™è¯¯
+    public static int	CAN_BL_ERR_CMD			=(-23); //æ‰§è¡Œå‘½ä»¤å¤±è´¥
 
     public static int   CAN_BL_BOOT   =  0x55555555;
     public static int   CAN_BL_APP    =  0xAAAAAAAA;
-    //1.CANĞÅÏ¢Ö¡µÄÊı¾İÀàĞÍ¶¨Òå
+    //1.CANä¿¡æ¯å¸§çš„æ•°æ®ç±»å‹å®šä¹‰
 	public class CAN_MSG  extends Structure{
 		
 	    public static class ByReference extends CAN_MSG implements Structure.ByReference {}  
@@ -35,15 +35,15 @@ public interface USB2CAN extends Library {
 			return Arrays.asList(new String[]{"ID","TimeStamp","RemoteFlag","ExternFlag","DataLen","Data"});
 		}
 
-        public int  ID;			//±¨ÎÄID¡£
-        public int  TimeStamp;	//½ÓÊÕµ½ĞÅÏ¢Ö¡Ê±µÄÊ±¼ä±êÊ¶£¬´ÓCAN ¿ØÖÆÆ÷³õÊ¼»¯¿ªÊ¼¼ÆÊ±¡£
-        public byte RemoteFlag;	//ÊÇ·ñÊÇÔ¶³ÌÖ¡
-        public byte	ExternFlag;	//ÊÇ·ñÊÇÀ©Õ¹Ö¡
-        public byte	DataLen;	//Êı¾İ³¤¶È(<=8)£¬¼´Data µÄ³¤¶È¡£
-        public byte[]	Data = new byte[8];	//±¨ÎÄµÄÊı¾İ¡£
+        public int  ID;			//æŠ¥æ–‡IDã€‚
+        public int  TimeStamp;	//æ¥æ”¶åˆ°ä¿¡æ¯å¸§æ—¶çš„æ—¶é—´æ ‡è¯†ï¼Œä»CAN æ§åˆ¶å™¨åˆå§‹åŒ–å¼€å§‹è®¡æ—¶ã€‚
+        public byte RemoteFlag;	//æ˜¯å¦æ˜¯è¿œç¨‹å¸§
+        public byte	ExternFlag;	//æ˜¯å¦æ˜¯æ‰©å±•å¸§
+        public byte	DataLen;	//æ•°æ®é•¿åº¦(<=8)ï¼Œå³Data çš„é•¿åº¦ã€‚
+        public byte[]	Data = new byte[8];	//æŠ¥æ–‡çš„æ•°æ®ã€‚
     }
 
-    //2.³õÊ¼»¯CANµÄÊı¾İÀàĞÍ¶¨Òå
+    //2.åˆå§‹åŒ–CANçš„æ•°æ®ç±»å‹å®šä¹‰
 	public class CAN_INIT_CONFIG  extends Structure{
 		
 	    public static class ByReference extends CAN_INIT_CONFIG implements Structure.ByReference {}  
@@ -54,20 +54,20 @@ public interface USB2CAN extends Library {
 			// TODO Auto-generated method stub
 			return Arrays.asList(new String[]{"CAN_BRP","CAN_SJW","CAN_BS1","CAN_BS2","CAN_Mode","CAN_ABOM","CAN_NART","CAN_RFLM","CAN_TXFP"});
 		}
-        //CAN²¨ÌØÂÊ = 100MHz/(CAN_BRP)/(CAN_SJW+CAN_BS1+CAN_BS2)
-        public int	CAN_BRP;	//È¡Öµ·¶Î§1~1024
-        public byte	CAN_SJW;	//È¡Öµ·¶Î§1~4
-        public byte	CAN_BS1;	//È¡Öµ·¶Î§1~16
-        public byte	CAN_BS2;	//È¡Öµ·¶Î§1~8
-        public byte	CAN_Mode;	//CAN¹¤×÷Ä£Ê½£¬0-Õı³£Ä£Ê½£¬1-»·»ØÄ£Ê½£¬2-¾²Ä¬Ä£Ê½£¬3-¾²Ä¬»·»ØÄ£Ê½
-        public byte	CAN_ABOM;	//×Ô¶¯ÀëÏß¹ÜÀí£¬0-½ûÖ¹£¬1-Ê¹ÄÜ
-        public byte	CAN_NART;	//±¨ÎÄÖØ·¢¹ÜÀí£¬0-Ê¹ÄÜ±¨ÎÄÖØ´«£¬1-½ûÖ¹±¨ÎÄÖØ´«
-        public byte	CAN_RFLM;	//FIFOËø¶¨¹ÜÀí£¬0-ĞÂ±¨ÎÄ¸²¸Ç¾É±¨ÎÄ£¬1-¶ªÆúĞÂ±¨ÎÄ
-        public byte	CAN_TXFP;	//·¢ËÍÓÅÏÈ¼¶¹ÜÀí£¬0-±êÊ¶·û¾ö¶¨£¬1-·¢ËÍÇëÇóË³Ğò¾ö¶¨
+        //CANæ³¢ç‰¹ç‡ = 100MHz/(CAN_BRP)/(CAN_SJW+CAN_BS1+CAN_BS2)
+        public int	CAN_BRP;	//å–å€¼èŒƒå›´1~1024
+        public byte	CAN_SJW;	//å–å€¼èŒƒå›´1~4
+        public byte	CAN_BS1;	//å–å€¼èŒƒå›´1~16
+        public byte	CAN_BS2;	//å–å€¼èŒƒå›´1~8
+        public byte	CAN_Mode;	//CANå·¥ä½œæ¨¡å¼ï¼Œ0-æ­£å¸¸æ¨¡å¼ï¼Œ1-ç¯å›æ¨¡å¼ï¼Œ2-é™é»˜æ¨¡å¼ï¼Œ3-é™é»˜ç¯å›æ¨¡å¼
+        public byte	CAN_ABOM;	//è‡ªåŠ¨ç¦»çº¿ç®¡ç†ï¼Œ0-ç¦æ­¢ï¼Œ1-ä½¿èƒ½
+        public byte	CAN_NART;	//æŠ¥æ–‡é‡å‘ç®¡ç†ï¼Œ0-ä½¿èƒ½æŠ¥æ–‡é‡ä¼ ï¼Œ1-ç¦æ­¢æŠ¥æ–‡é‡ä¼ 
+        public byte	CAN_RFLM;	//FIFOé”å®šç®¡ç†ï¼Œ0-æ–°æŠ¥æ–‡è¦†ç›–æ—§æŠ¥æ–‡ï¼Œ1-ä¸¢å¼ƒæ–°æŠ¥æ–‡
+        public byte	CAN_TXFP;	//å‘é€ä¼˜å…ˆçº§ç®¡ç†ï¼Œ0-æ ‡è¯†ç¬¦å†³å®šï¼Œ1-å‘é€è¯·æ±‚é¡ºåºå†³å®š
     }
 
 
-    //3.CAN ÂË²¨Æ÷ÉèÖÃÊı¾İÀàĞÍ¶¨Òå
+    //3.CAN æ»¤æ³¢å™¨è®¾ç½®æ•°æ®ç±»å‹å®šä¹‰
 	public class CAN_FILTER_CONFIG  extends Structure{
 		
 	    public static class ByReference extends CAN_FILTER_CONFIG implements Structure.ByReference {}  
@@ -78,18 +78,18 @@ public interface USB2CAN extends Library {
 			// TODO Auto-generated method stub
 			return Arrays.asList(new String[]{"Enable","FilterIndex","FilterMode","ExtFrame","ID_Std_Ext","ID_IDE","ID_RTR","MASK_Std_Ext","MASK_IDE","MASK_RTR"});
 		}
-        public byte	Enable;			//Ê¹ÄÜ¸Ã¹ıÂËÆ÷£¬1-Ê¹ÄÜ£¬0-½ûÖ¹
-        public byte	FilterIndex;	//¹ıÂËÆ÷Ë÷ÒıºÅ£¬È¡Öµ·¶Î§Îª0µ½13
-        public byte	FilterMode;		//¹ıÂËÆ÷Ä£Ê½£¬0-ÆÁ±ÎÎ»Ä£Ê½£¬1-±êÊ¶·ûÁĞ±íÄ£Ê½
-        public byte	ExtFrame;		//¹ıÂËµÄÖ¡ÀàĞÍ±êÖ¾£¬Îª1 ´ú±íÒª¹ıÂËµÄÎªÀ©Õ¹Ö¡£¬Îª0 ´ú±íÒª¹ıÂËµÄÎª±ê×¼Ö¡¡£
-        public int	ID_Std_Ext;		//ÑéÊÕÂëID
-        public int	ID_IDE;			//ÑéÊÕÂëIDE
-        public int	ID_RTR;			//ÑéÊÕÂëRTR
-        public int	MASK_Std_Ext;	//ÆÁ±ÎÂëID£¬¸ÃÏîÖ»ÓĞÔÚ¹ıÂËÆ÷Ä£Ê½ÎªÆÁ±ÎÎ»Ä£Ê½Ê±ÓĞÓÃ
-        public int	MASK_IDE;		//ÆÁ±ÎÂëIDE£¬¸ÃÏîÖ»ÓĞÔÚ¹ıÂËÆ÷Ä£Ê½ÎªÆÁ±ÎÎ»Ä£Ê½Ê±ÓĞÓÃ
-        public int	MASK_RTR;		//ÆÁ±ÎÂëRTR£¬¸ÃÏîÖ»ÓĞÔÚ¹ıÂËÆ÷Ä£Ê½ÎªÆÁ±ÎÎ»Ä£Ê½Ê±ÓĞÓÃ
+        public byte	Enable;			//ä½¿èƒ½è¯¥è¿‡æ»¤å™¨ï¼Œ1-ä½¿èƒ½ï¼Œ0-ç¦æ­¢
+        public byte	FilterIndex;	//è¿‡æ»¤å™¨ç´¢å¼•å·ï¼Œå–å€¼èŒƒå›´ä¸º0åˆ°13
+        public byte	FilterMode;		//è¿‡æ»¤å™¨æ¨¡å¼ï¼Œ0-å±è”½ä½æ¨¡å¼ï¼Œ1-æ ‡è¯†ç¬¦åˆ—è¡¨æ¨¡å¼
+        public byte	ExtFrame;		//è¿‡æ»¤çš„å¸§ç±»å‹æ ‡å¿—ï¼Œä¸º1 ä»£è¡¨è¦è¿‡æ»¤çš„ä¸ºæ‰©å±•å¸§ï¼Œä¸º0 ä»£è¡¨è¦è¿‡æ»¤çš„ä¸ºæ ‡å‡†å¸§ã€‚
+        public int	ID_Std_Ext;		//éªŒæ”¶ç ID
+        public int	ID_IDE;			//éªŒæ”¶ç IDE
+        public int	ID_RTR;			//éªŒæ”¶ç RTR
+        public int	MASK_Std_Ext;	//å±è”½ç IDï¼Œè¯¥é¡¹åªæœ‰åœ¨è¿‡æ»¤å™¨æ¨¡å¼ä¸ºå±è”½ä½æ¨¡å¼æ—¶æœ‰ç”¨
+        public int	MASK_IDE;		//å±è”½ç IDEï¼Œè¯¥é¡¹åªæœ‰åœ¨è¿‡æ»¤å™¨æ¨¡å¼ä¸ºå±è”½ä½æ¨¡å¼æ—¶æœ‰ç”¨
+        public int	MASK_RTR;		//å±è”½ç RTRï¼Œè¯¥é¡¹åªæœ‰åœ¨è¿‡æ»¤å™¨æ¨¡å¼ä¸ºå±è”½ä½æ¨¡å¼æ—¶æœ‰ç”¨
     }
-    //4.CAN×ÜÏß×´Ì¬Êı¾İÀàĞÍ¶¨Òå
+    //4.CANæ€»çº¿çŠ¶æ€æ•°æ®ç±»å‹å®šä¹‰
 	public class CAN_STATUS  extends Structure{
 	    public static class ByReference extends CAN_STATUS implements Structure.ByReference {}  
 	    public static class ByValue extends CAN_STATUS implements Structure.ByValue {}  
@@ -101,11 +101,11 @@ public interface USB2CAN extends Library {
 		}
         public int     TSR;
         public int     ESR;
-        public byte    RECounter;	//CAN ¿ØÖÆÆ÷½ÓÊÕ´íÎó¼Ä´æÆ÷¡£
-        public byte    TECounter;	//CAN ¿ØÖÆÆ÷·¢ËÍ´íÎó¼Ä´æÆ÷¡£
-        public byte    LECode;     //×îºóµÄ´íÎó´úÂë
+        public byte    RECounter;	//CAN æ§åˆ¶å™¨æ¥æ”¶é”™è¯¯å¯„å­˜å™¨ã€‚
+        public byte    TECounter;	//CAN æ§åˆ¶å™¨å‘é€é”™è¯¯å¯„å­˜å™¨ã€‚
+        public byte    LECode;     //æœ€åçš„é”™è¯¯ä»£ç 
     }
-    //5.¶¨ÒåCAN BootloaderÃüÁîÁĞ±í
+    //5.å®šä¹‰CAN Bootloaderå‘½ä»¤åˆ—è¡¨
 	public class CBL_CMD_LIST  extends Structure{
 	    public static class ByReference extends CBL_CMD_LIST implements Structure.ByReference {}  
 	    public static class ByValue extends CBL_CMD_LIST implements Structure.ByValue {}  
@@ -115,60 +115,60 @@ public interface USB2CAN extends Library {
 			// TODO Auto-generated method stub
 			return Arrays.asList(new String[]{"Erase","WriteInfo","Write","Check","SetBaudRate","Excute","CmdSuccess","CmdFaild"});
 		}
-        //BootloaderÏà¹ØÃüÁî
-        public byte   Erase;            //²Á³öAPP´¢´æÉÈÇøÊı¾İ
-        public byte   WriteInfo;        //ÉèÖÃ¶à×Ö½ÚĞ´Êı¾İÏà¹Ø²ÎÊı£¨Ğ´ÆğÊ¼µØÖ·£¬Êı¾İÁ¿£©
-        public byte   Write;            //ÒÔ¶à×Ö½ÚĞÎÊ½Ğ´Êı¾İ
-        public byte   Check;            //¼ì²â½ÚµãÊÇ·ñÔÚÏß£¬Í¬Ê±·µ»Ø¹Ì¼şĞÅÏ¢
-        public byte   SetBaudRate;    //ÉèÖÃ½Úµã²¨ÌØÂÊ
-        public byte   Excute;            //Ö´ĞĞ¹Ì¼ş
-        //½Úµã·µ»Ø×´Ì¬
-        public byte   CmdSuccess;        //ÃüÁîÖ´ĞĞ³É¹¦
-        public byte   CmdFaild;        //ÃüÁîÖ´ĞĞÊ§°Ü
+        //Bootloaderç›¸å…³å‘½ä»¤
+        public byte   Erase;            //æ“¦å‡ºAPPå‚¨å­˜æ‰‡åŒºæ•°æ®
+        public byte   WriteInfo;        //è®¾ç½®å¤šå­—èŠ‚å†™æ•°æ®ç›¸å…³å‚æ•°ï¼ˆå†™èµ·å§‹åœ°å€ï¼Œæ•°æ®é‡ï¼‰
+        public byte   Write;            //ä»¥å¤šå­—èŠ‚å½¢å¼å†™æ•°æ®
+        public byte   Check;            //æ£€æµ‹èŠ‚ç‚¹æ˜¯å¦åœ¨çº¿ï¼ŒåŒæ—¶è¿”å›å›ºä»¶ä¿¡æ¯
+        public byte   SetBaudRate;    //è®¾ç½®èŠ‚ç‚¹æ³¢ç‰¹ç‡
+        public byte   Excute;            //æ‰§è¡Œå›ºä»¶
+        //èŠ‚ç‚¹è¿”å›çŠ¶æ€
+        public byte   CmdSuccess;        //å‘½ä»¤æ‰§è¡ŒæˆåŠŸ
+        public byte   CmdFaild;        //å‘½ä»¤æ‰§è¡Œå¤±è´¥
     }
-	//USB2CANº¯Êı¶¨Òå
+	//USB2CANå‡½æ•°å®šä¹‰
 	/**
-	 * ³õÊ¼»¯ÅäÖÃUSB2CAN
-	 * @param DevHandle Éè±¸¾ä±ú
-	 * @param CANIndex CANÍ¨µÀºÅ
-	 * @param pCanConfig CANÍ¨ĞÅÅäÖÃ²ÎÊı½á¹¹Ìå
+	 * åˆå§‹åŒ–é…ç½®USB2CAN
+	 * @param DevHandle è®¾å¤‡å¥æŸ„
+	 * @param CANIndex CANé€šé“å·
+	 * @param pCanConfig CANé€šä¿¡é…ç½®å‚æ•°ç»“æ„ä½“
 	 * @return
 	 */
 	int  CAN_Init(int DevHandle, byte CANIndex, CAN_INIT_CONFIG pCanConfig);
 	
 	/**
-	 * ³õÊ¼»¯ÅäÖÃCAN¹ıÂËÆ÷
-	 * @param DevHandle Éè±¸¾ä±ú
-	 * @param CANIndex CANÍ¨µÀºÅ
-	 * @param pFilterConfig ¹ıÂËÆ÷ÅäÖÃ²ÎÊı½á¹¹Ìå
+	 * åˆå§‹åŒ–é…ç½®CANè¿‡æ»¤å™¨
+	 * @param DevHandle è®¾å¤‡å¥æŸ„
+	 * @param CANIndex CANé€šé“å·
+	 * @param pFilterConfig è¿‡æ»¤å™¨é…ç½®å‚æ•°ç»“æ„ä½“
 	 * @return
 	 */
 	int  CAN_Filter_Init(int DevHandle, byte CANIndex, CAN_FILTER_CONFIG pFilterConfig);
 	
 	/**
-	 * ·¢ËÍCAN×ÜÏßÊı¾İÖ¡
-	 * @param DevHandle Éè±¸¾ä±ú
-	 * @param CANIndex CANÍ¨µÀºÅ
-	 * @param pCanSendMsg ´ı·¢ËÍµÄCANÊı¾İÊı×é
-	 * @param SendMsgNum ´ı·¢ËÍµÄCANÊı¾İÖ¡Êı
+	 * å‘é€CANæ€»çº¿æ•°æ®å¸§
+	 * @param DevHandle è®¾å¤‡å¥æŸ„
+	 * @param CANIndex CANé€šé“å·
+	 * @param pCanSendMsg å¾…å‘é€çš„CANæ•°æ®æ•°ç»„
+	 * @param SendMsgNum å¾…å‘é€çš„CANæ•°æ®å¸§æ•°
 	 * @return
 	 */
 	int  CAN_SendMsg(int DevHandle, byte CANIndex, CAN_MSG[] pCanSendMsg,int SendMsgNum);
 	
 	/**
-	 * ´ÓUSB2CANÊÊÅäÆ÷¶ÁÈ¡½ÓÊÕµ½µÄCANÊı¾İÖ¡
-	 * @param DevHandle Éè±¸¾ä±ú
-	 * @param CANIndex CANÍ¨µÀºÅ
-	 * @param pCanGetMsg ´æ´¢CANÊı¾İÖ¡Êı×é
+	 * ä»USB2CANé€‚é…å™¨è¯»å–æ¥æ”¶åˆ°çš„CANæ•°æ®å¸§
+	 * @param DevHandle è®¾å¤‡å¥æŸ„
+	 * @param CANIndex CANé€šé“å·
+	 * @param pCanGetMsg å­˜å‚¨CANæ•°æ®å¸§æ•°ç»„
 	 * @return
 	 */
 	int  CAN_GetMsg(int DevHandle, byte CANIndex, CAN_MSG[] pCanGetMsg);
 	
 	/**
-	 * »ñÈ¡USB2CANÊÊÅäÆ÷ÄÚ²¿×´Ì¬
-	 * @param DevHandle Éè±¸¾ä±ú
-	 * @param CANIndex CANÍ¨µÀºÅ
-	 * @param pCANStatus CAN×´Ì¬½á¹¹Ìå
+	 * è·å–USB2CANé€‚é…å™¨å†…éƒ¨çŠ¶æ€
+	 * @param DevHandle è®¾å¤‡å¥æŸ„
+	 * @param CANIndex CANé€šé“å·
+	 * @param pCANStatus CANçŠ¶æ€ç»“æ„ä½“
 	 * @return
 	 */
 	int  CAN_GetStatus(int DevHandle, byte CANIndex, CAN_STATUS pCANStatus);

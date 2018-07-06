@@ -9,15 +9,15 @@ import com.sun.jna.Structure;
 
 public interface USB2ADS1256 extends Library {
 	USB2ADS1256 INSTANCE  = (USB2ADS1256)Native.loadLibrary("USB2XXX",USB2ADS1256.class); 
-	//¶¨Òåº¯Êı·µ»Ø´íÎó´úÂë
-	public static int ADS1256_SUCCESS             =(0);   //º¯ÊıÖ´ĞĞ³É¹¦
-	public static int ADS1256_ERR_NOT_SUPPORT     =(-1);  //ÊÊÅäÆ÷²»Ö§³Ö¸Ãº¯Êı
-	public static int ADS1256_ERR_USB_WRITE_FAIL  =(-2);  //USBĞ´Êı¾İÊ§°Ü
-	public static int ADS1256_ERR_USB_READ_FAIL   =(-3);  //USB¶ÁÊı¾İÊ§°Ü
-	public static int ADS1256_ERR_CMD_FAIL        =(-4);  //ÃüÁîÖ´ĞĞÊ§°Ü
-	public static int ADS1256_ERR_CH_NO_INIT      =(-5);  //¸ÃÍ¨µÀÎ´³õÊ¼»¯
+	//å®šä¹‰å‡½æ•°è¿”å›é”™è¯¯ä»£ç 
+	public static int ADS1256_SUCCESS             =(0);   //å‡½æ•°æ‰§è¡ŒæˆåŠŸ
+	public static int ADS1256_ERR_NOT_SUPPORT     =(-1);  //é€‚é…å™¨ä¸æ”¯æŒè¯¥å‡½æ•°
+	public static int ADS1256_ERR_USB_WRITE_FAIL  =(-2);  //USBå†™æ•°æ®å¤±è´¥
+	public static int ADS1256_ERR_USB_READ_FAIL   =(-3);  //USBè¯»æ•°æ®å¤±è´¥
+	public static int ADS1256_ERR_CMD_FAIL        =(-4);  //å‘½ä»¤æ‰§è¡Œå¤±è´¥
+	public static int ADS1256_ERR_CH_NO_INIT      =(-5);  //è¯¥é€šé“æœªåˆå§‹åŒ–
 
-	//¶¨ÒåADS²ÉÑùÂÊ
+	//å®šä¹‰ADSé‡‡æ ·ç‡
 	public static int ADS1256_DRATE_30000SPS   =0xF0; 
 	public static int ADS1256_DRATE_15000SPS   =0xE0; 
 	public static int ADS1256_DRATE_7500SPS    =0xD0; 
@@ -35,7 +35,7 @@ public interface USB2ADS1256 extends Library {
 	public static int ADS1256_DRATE_5SPS       =0x13; 
 	public static int ADS1256_DRATE_2_5SPS     =0x03;
 
-	//¶¨Òå³õÊ¼»¯ADS1256µÄÊı¾İÀàĞÍ
+	//å®šä¹‰åˆå§‹åŒ–ADS1256çš„æ•°æ®ç±»å‹
 	public class ADS1256_CONFIG  extends Structure{
 		
 	    public static class ByReference extends ADS1256_CONFIG implements Structure.ByReference {}  
@@ -47,39 +47,39 @@ public interface USB2ADS1256 extends Library {
 			return Arrays.asList(new String[]{"SampleRate","PGA","BufferEn","SampleMode"});
 		}
 
-		short  SampleRate;   //²ÉÑùÂÊ
-		byte   PGA;          //ÄÚ²¿ÔöÒæ£¬2^n
-		byte   BufferEn;     //1£ºÊ¹ÄÜBuffer,0£º½ûÖ¹Buffer
-		int    SampleMode;   //Á½¸öbit¿ØÖÆÒ»¸öÍ¨µÀ£¬00£º²»Ê¹ÓÃ¸ÃÍ¨µÀ£¬01£º¸ÃÍ¨µÀÎªµ¥¶ËÄ£Ê½£¬10£º¸ÃÍ¨µÀÎª²î·Ö¸º¼«£¬11£º¸ÃÍ¨µÀÎª²î·ÖÕı¼«
+		short  SampleRate;   //é‡‡æ ·ç‡
+		byte   PGA;          //å†…éƒ¨å¢ç›Šï¼Œ2^n
+		byte   BufferEn;     //1ï¼šä½¿èƒ½Buffer,0ï¼šç¦æ­¢Buffer
+		int    SampleMode;   //ä¸¤ä¸ªbitæ§åˆ¶ä¸€ä¸ªé€šé“ï¼Œ00ï¼šä¸ä½¿ç”¨è¯¥é€šé“ï¼Œ01ï¼šè¯¥é€šé“ä¸ºå•ç«¯æ¨¡å¼ï¼Œ10ï¼šè¯¥é€šé“ä¸ºå·®åˆ†è´Ÿæï¼Œ11ï¼šè¯¥é€šé“ä¸ºå·®åˆ†æ­£æ
 	};
 	/**
-	  * @brief  ³õÊ¼»¯ÅäÖÃADS1256
-	  * @param  DevHandle Éè±¸¾ä±ú
-	  * @param  Channel ĞèÒªÅäÖÃµÄADSÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pConfig ADS1256ÅäÖÃ²ÎÊıÖ¸Õë
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  åˆå§‹åŒ–é…ç½®ADS1256
+	  * @param  DevHandle è®¾å¤‡å¥æŸ„
+	  * @param  Channel éœ€è¦é…ç½®çš„ADSé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pConfig ADS1256é…ç½®å‚æ•°æŒ‡é’ˆ
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  ADS1256_Init(int DevHandle,char Channel,ADS1256_CONFIG pConfig);
 	/**
-	  * @brief  Æô¶¯ADS×ª»»£¬µ÷ÓÃ¸Ãº¯Êıºó£¬ÊÊÅäÆ÷»á×Ô¶¯¶ÁÈ¡ADS×ª»»Êı¾İ
-	  * @param  DevHandle Éè±¸¾ä±ú
-	  * @param  Channel ĞèÒªÆô¶¯µÄADSÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  å¯åŠ¨ADSè½¬æ¢ï¼Œè°ƒç”¨è¯¥å‡½æ•°åï¼Œé€‚é…å™¨ä¼šè‡ªåŠ¨è¯»å–ADSè½¬æ¢æ•°æ®
+	  * @param  DevHandle è®¾å¤‡å¥æŸ„
+	  * @param  Channel éœ€è¦å¯åŠ¨çš„ADSé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  ADS1256_Start(int DevHandle,char Channel);
 	/**
-	  * @brief  Æô¶¯ADCÁ¬Ğø×ª»»Ä£Ê½
-	  * @param  DevHandle Éè±¸¾ä±ú
-	  * @param  Channel ĞèÒª¶ÁÈ¡Êı¾İµÄADSÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @param  pData Êı¾İ´æ´¢»º³åÇøÊ×µØÖ·
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í£¬´óÓÚ0ÎªÊµ¼Ê²É¼¯µ½µÄADCÊı¾İ
+	  * @brief  å¯åŠ¨ADCè¿ç»­è½¬æ¢æ¨¡å¼
+	  * @param  DevHandle è®¾å¤‡å¥æŸ„
+	  * @param  Channel éœ€è¦è¯»å–æ•°æ®çš„ADSé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @param  pData æ•°æ®å­˜å‚¨ç¼“å†²åŒºé¦–åœ°å€
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™ï¼Œå¤§äº0ä¸ºå®é™…é‡‡é›†åˆ°çš„ADCæ•°æ®
 	  */
 	int  ADS1256_Read(int DevHandle,char Channel,int[] pData);
 	/**
-	  * @brief  Í£Ö¹ADS×ª»»£¬µ÷ÓÃ¸Ãº¯Êıºó£¬ÊÊÅäÆ÷»á×Ô¶¯Í£Ö¹ADS×ª»»Êı¾İ
-	  * @param  DevHandle Éè±¸¾ä±ú
-	  * @param  Channel ĞèÒªÆô¶¯µÄADSÍ¨µÀºÅ£¬È¡Öµ0»òÕß1
-	  * @retval º¯ÊıÖ´ĞĞ×´Ì¬£¬Ğ¡ÓÚ0º¯ÊıÖ´ĞĞ³ö´í
+	  * @brief  åœæ­¢ADSè½¬æ¢ï¼Œè°ƒç”¨è¯¥å‡½æ•°åï¼Œé€‚é…å™¨ä¼šè‡ªåŠ¨åœæ­¢ADSè½¬æ¢æ•°æ®
+	  * @param  DevHandle è®¾å¤‡å¥æŸ„
+	  * @param  Channel éœ€è¦å¯åŠ¨çš„ADSé€šé“å·ï¼Œå–å€¼0æˆ–è€…1
+	  * @retval å‡½æ•°æ‰§è¡ŒçŠ¶æ€ï¼Œå°äº0å‡½æ•°æ‰§è¡Œå‡ºé”™
 	  */
 	int  ADS1256_Stop(int DevHandle,char Channel);
 

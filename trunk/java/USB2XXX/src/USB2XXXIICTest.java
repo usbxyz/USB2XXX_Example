@@ -13,7 +13,7 @@ public class USB2XXXIICTest {
         int IICIndex = 0;
         byte[] WriteDataBuffer = new byte[1024];
         byte[] ReadDataBuffer = new byte[1024];
-        //É¨ÃèÉè±¸
+        //æ‰«æè®¾å¤‡
         ret = USB_Device.INSTANCE.USB_ScanDevice(DevHandleArry);
         if(ret > 0){
         	System.out.println("Device Num = "+ret);
@@ -22,13 +22,13 @@ public class USB2XXXIICTest {
         	System.out.println("No device");
         	return;
         }
-        //´ò¿ªÉè±¸
+        //æ‰“å¼€è®¾å¤‡
         state = USB_Device.INSTANCE.USB_OpenDevice(DevHandle);
         if(!state){
         	System.out.println("open device error");
         	return;
         }
-        //»ñÈ¡Éè±¸ĞÅÏ¢
+        //è·å–è®¾å¤‡ä¿¡æ¯
         USB_Device.DEVICE_INFO DevInfo = new USB_Device.DEVICE_INFO();
         byte[] funcStr = new byte[128];
         state = USB_Device.INSTANCE.USB_GetDeviceInfo(DevHandle,DevInfo,funcStr);
@@ -47,7 +47,7 @@ public class USB2XXXIICTest {
                 ep.printStackTrace();
             }
         }
-        //ÅäÖÃI2C×ÜÏßÏà¹Ø²ÎÊı
+        //é…ç½®I2Cæ€»çº¿ç›¸å…³å‚æ•°
         USB2IIC.IIC_CONFIG IICConfig = new USB2IIC.IIC_CONFIG();
         IICConfig.AddrBits = 7;
         IICConfig.ClockSpeedHz = 100000;
@@ -60,9 +60,9 @@ public class USB2XXXIICTest {
         }else{
             System.out.println("Initialize device success!\n");
         }
-        //Ğ´Êı¾İ
+        //å†™æ•°æ®
         for(int i=0;i<256;i+=8){
-            WriteDataBuffer[0] = (byte)i;//ÆğÊ¼µØÖ·
+            WriteDataBuffer[0] = (byte)i;//èµ·å§‹åœ°å€
             for(int j=0;j<8;j++){
                 WriteDataBuffer[1+j] = (byte)(i+j);
             }
@@ -77,8 +77,8 @@ public class USB2XXXIICTest {
                 ep.printStackTrace();
             }
         }
-        //¶ÁÊı¾İ
-        WriteDataBuffer[0] = 0x00;//ÆğÊ¼µØÖ·
+        //è¯»æ•°æ®
+        WriteDataBuffer[0] = 0x00;//èµ·å§‹åœ°å€
         ret = USB2IIC.INSTANCE.IIC_WriteReadBytes(DevHandle,IICIndex,(short)0x50,WriteDataBuffer,1,ReadDataBuffer,256,10);
         if(ret != USB2IIC.IIC_SUCCESS){
             System.out.println("Read data error!");
@@ -94,7 +94,7 @@ public class USB2XXXIICTest {
         }
         System.out.println("");
         System.out.println("24C02 test success!");
-        //¹Ø±ÕÉè±¸
+        //å…³é—­è®¾å¤‡
         USB_Device.INSTANCE.USB_CloseDevice(DevHandle);
     }  
 }

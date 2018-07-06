@@ -9,12 +9,12 @@ import com.sun.jna.Structure;
 
 public interface USB2PWM extends Library {
 	USB2PWM INSTANCE  = (USB2PWM)Native.loadLibrary("USB2XXX",USB2PWM.class); 
-	//¶¨Òåº¯Êı·µ»Ø´íÎó´úÂë
-	public static int PWM_SUCCESS             =(0);   //º¯ÊıÖ´ĞĞ³É¹¦
-	public static int PWM_ERR_NOT_SUPPORT     =(-1);  //ÊÊÅäÆ÷²»Ö§³Ö¸Ãº¯Êı
-	public static int PWM_ERR_USB_WRITE_FAIL  =(-2);  //USBĞ´Êı¾İÊ§°Ü
-	public static int PWM_ERR_USB_READ_FAIL   =(-3);  //USB¶ÁÊı¾İÊ§°Ü
-	public static int PWM_ERR_CMD_FAIL        =(-4);  //ÃüÁîÖ´ĞĞÊ§°Ü
+	//å®šä¹‰å‡½æ•°è¿”å›é”™è¯¯ä»£ç 
+	public static int PWM_SUCCESS             =(0);   //å‡½æ•°æ‰§è¡ŒæˆåŠŸ
+	public static int PWM_ERR_NOT_SUPPORT     =(-1);  //é€‚é…å™¨ä¸æ”¯æŒè¯¥å‡½æ•°
+	public static int PWM_ERR_USB_WRITE_FAIL  =(-2);  //USBå†™æ•°æ®å¤±è´¥
+	public static int PWM_ERR_USB_READ_FAIL   =(-3);  //USBè¯»æ•°æ®å¤±è´¥
+	public static int PWM_ERR_CMD_FAIL        =(-4);  //å‘½ä»¤æ‰§è¡Œå¤±è´¥
 	
 	public class PWM_CONFIG  extends Structure{
 		
@@ -27,11 +27,11 @@ public interface USB2PWM extends Library {
 			return Arrays.asList(new String[]{"Prescaler","Precision","Pulse","Polarity","ChannelMask"});
 		}
 
-		short[] Prescaler = new short[8];  //Ô¤·ÖÆµÆ÷
-		short[] Precision = new short[8];  //Õ¼¿Õ±Èµ÷½Ú¾«¶È
-		short[] Pulse = new short[8];      //Õ¼¿Õ±È£¬Êµ¼ÊÕ¼¿Õ±È=(Pulse/Precision)*100%
-		byte[]  Polarity = new byte[8];    //²¨ĞÎ¼«ĞÔ£¬È¡Öµ0»òÕß1
-		byte  	ChannelMask;    //Í¨µÀºÅ£¬ÈôÒªÊ¹ÄÜÄ³¸öÍ¨µÀ£¬Ôò¶ÔÓ¦Î»Îª1£¬×îµÍÎ»¶ÔÓ¦Í¨µÀ0
+		short[] Prescaler = new short[8];  //é¢„åˆ†é¢‘å™¨
+		short[] Precision = new short[8];  //å ç©ºæ¯”è°ƒèŠ‚ç²¾åº¦
+		short[] Pulse = new short[8];      //å ç©ºæ¯”ï¼Œå®é™…å ç©ºæ¯”=(Pulse/Precision)*100%
+		byte[]  Polarity = new byte[8];    //æ³¢å½¢ææ€§ï¼Œå–å€¼0æˆ–è€…1
+		byte  	ChannelMask;    //é€šé“å·ï¼Œè‹¥è¦ä½¿èƒ½æŸä¸ªé€šé“ï¼Œåˆ™å¯¹åº”ä½ä¸º1ï¼Œæœ€ä½ä½å¯¹åº”é€šé“0
 	};
 	
 	int  PWM_Init(int DevHandle, PWM_CONFIG pConfig);

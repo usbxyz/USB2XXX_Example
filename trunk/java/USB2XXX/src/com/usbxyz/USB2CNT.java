@@ -9,33 +9,33 @@ import com.sun.jna.Structure;
 
 public interface USB2CNT extends Library {
 	USB2CNT INSTANCE  = (USB2CNT)Native.loadLibrary("USB2XXX",USB2CNT.class); 
-	//¶¨Òåº¯Êı·µ»Ø´íÎó´úÂë
-	public static int CNT_SUCCESS             =(0);   //º¯ÊıÖ´ĞĞ³É¹¦
-	public static int CNT_ERR_NOT_SUPPORT     =(-1);  //ÊÊÅäÆ÷²»Ö§³Ö¸Ãº¯Êı
-	public static int CNT_ERR_USB_WRITE_FAIL  =(-2);  //USBĞ´Êı¾İÊ§°Ü
-	public static int CNT_ERR_USB_READ_FAIL   =(-3);  //USB¶ÁÊı¾İÊ§°Ü
-	public static int CNT_ERR_CMD_FAIL        =(-4);  //ÃüÁîÖ´ĞĞÊ§°Ü
-	//¼ÆÊıÆ÷Ä£Ê½
+	//å®šä¹‰å‡½æ•°è¿”å›é”™è¯¯ä»£ç 
+	public static int CNT_SUCCESS             =(0);   //å‡½æ•°æ‰§è¡ŒæˆåŠŸ
+	public static int CNT_ERR_NOT_SUPPORT     =(-1);  //é€‚é…å™¨ä¸æ”¯æŒè¯¥å‡½æ•°
+	public static int CNT_ERR_USB_WRITE_FAIL  =(-2);  //USBå†™æ•°æ®å¤±è´¥
+	public static int CNT_ERR_USB_READ_FAIL   =(-3);  //USBè¯»æ•°æ®å¤±è´¥
+	public static int CNT_ERR_CMD_FAIL        =(-4);  //å‘½ä»¤æ‰§è¡Œå¤±è´¥
+	//è®¡æ•°å™¨æ¨¡å¼
 	public static byte COUNTER_MODE_UP     =0;
 	public static byte COUNTER_MODE_DOWN   =1;
-	//¼ÆÊıÆ÷´¥·¢Ìõ¼ş
+	//è®¡æ•°å™¨è§¦å‘æ¡ä»¶
 	public static byte COUNTER_POL_RISING     =0;
 	public static byte COUNTER_POL_FALLING    =1;
 	public static byte COUNTER_POL_BOTHEDGE   =2;
-	//¼ÆÊıÆ÷¿í¶È
+	//è®¡æ•°å™¨å®½åº¦
 	public static byte COUNTER_BITS16        =16;
 	public static byte COUNTER_BITS32        =32;
-	//¼ÆÊıÆ÷ÊäÈëÒı½ÅÄ£Ê½
+	//è®¡æ•°å™¨è¾“å…¥å¼•è„šæ¨¡å¼
 	public static byte  COUNTER_PIN_NOPULL     =0x00;
 	public static byte  COUNTER_PIN_UP         =0x01;
 	public static byte  COUNTER_PIN_DOWN       =0x02;
-	//¼ÆÊıÆ÷Í¨µÀ¶¨Òå
+	//è®¡æ•°å™¨é€šé“å®šä¹‰
 	public static byte COUNTER_CH0             =0x01;
 	public static byte COUNTER_CH1             =0x02;
 	public static byte COUNTER_CH2             =0x04;
 	public static byte COUNTER_CH3             =0x08;
 	
-	//¶¨Òå³õÊ¼»¯¼ÆÊıÆ÷µÄÊı¾İÀàĞÍ
+	//å®šä¹‰åˆå§‹åŒ–è®¡æ•°å™¨çš„æ•°æ®ç±»å‹
 	public class CNT_CONFIG  extends Structure{
 		
 	    public static class ByReference extends CNT_CONFIG implements Structure.ByReference {}  
@@ -47,10 +47,10 @@ public interface USB2CNT extends Library {
 			return Arrays.asList(new String[]{"CounterMode","CounterPolarity","CounterBitWide","CounterPinMode"});
 		}
 
-		byte   CounterMode;      //¼ÆÊıÄ£Ê½£¬0-Up,1-Down
-		byte   CounterPolarity;  //¼ÆÊı¼«ĞÔ£¬0-Rising£¬1-Falling£¬2-BothEdge
-		byte   CounterBitWide;   //¼ÆÊıÎ»¿í£¬16-16bitÎ»¿í£¬32-32bitÎ»¿í
-		byte   CounterPinMode;   //¼ÆÊıÆ÷ÊäÈëÒı½ÅÄ£Ê½£¬0-¸¡¿ÕÊäÈë£¬1-ÉÏÀ­ÊäÈë£¬2-ÏÂÀ­ÊäÈë
+		byte   CounterMode;      //è®¡æ•°æ¨¡å¼ï¼Œ0-Up,1-Down
+		byte   CounterPolarity;  //è®¡æ•°ææ€§ï¼Œ0-Risingï¼Œ1-Fallingï¼Œ2-BothEdge
+		byte   CounterBitWide;   //è®¡æ•°ä½å®½ï¼Œ16-16bitä½å®½ï¼Œ32-32bitä½å®½
+		byte   CounterPinMode;   //è®¡æ•°å™¨è¾“å…¥å¼•è„šæ¨¡å¼ï¼Œ0-æµ®ç©ºè¾“å…¥ï¼Œ1-ä¸Šæ‹‰è¾“å…¥ï¼Œ2-ä¸‹æ‹‰è¾“å…¥
 	};
 	
 	int  CNT_Init(int DevHandle, byte ChannelMask, CNT_CONFIG pConfig);

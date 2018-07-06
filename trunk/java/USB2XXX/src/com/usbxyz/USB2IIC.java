@@ -21,27 +21,27 @@ public interface USB2IIC extends Library {
 			return Arrays.asList(new String[]{"ClockSpeedHz", "OwnAddr", "Master", "AddrBits", "EnablePu"});
 		}
 	    
-		public int    ClockSpeedHz; //IICÊ±ÖÓÆµÂÊ:µ¥Î»ÎªHz
-		public short  OwnAddr;      //USB2XXXÎª´Ó»úÊ±×Ô¼ºµÄµØÖ·
-		public byte   Master;       //Ö÷´ÓÑ¡Ôñ¿ØÖÆ:0-´Ó»ú£¬1-Ö÷»ú
-		public byte   AddrBits;     //´Ó»úµØÖ·Ä£Ê½£¬7-7bitÄ£Ê½£¬10-10bitÄ£Ê½
-		public byte   EnablePu;     //Ê¹ÄÜÒı½ÅĞ¾Æ¬ÄÚ²¿ÉÏÀ­µç×è£¬Èô²»Ê¹ÄÜ£¬ÔòI2C×ÜÏßÉÏ±ØĞë½ÓÉÏÀ­µç×è
+		public int    ClockSpeedHz; //IICæ—¶é’Ÿé¢‘ç‡:å•ä½ä¸ºHz
+		public short  OwnAddr;      //USB2XXXä¸ºä»æœºæ—¶è‡ªå·±çš„åœ°å€
+		public byte   Master;       //ä¸»ä»é€‰æ‹©æ§åˆ¶:0-ä»æœºï¼Œ1-ä¸»æœº
+		public byte   AddrBits;     //ä»æœºåœ°å€æ¨¡å¼ï¼Œ7-7bitæ¨¡å¼ï¼Œ10-10bitæ¨¡å¼
+		public byte   EnablePu;     //ä½¿èƒ½å¼•è„šèŠ¯ç‰‡å†…éƒ¨ä¸Šæ‹‰ç”µé˜»ï¼Œè‹¥ä¸ä½¿èƒ½ï¼Œåˆ™I2Cæ€»çº¿ä¸Šå¿…é¡»æ¥ä¸Šæ‹‰ç”µé˜»
 	}
-    //¶¨Òåº¯Êı·µ»Ø´íÎó´úÂë
-    public static int IIC_SUCCESS             = (0);   //º¯ÊıÖ´ĞĞ³É¹¦
-    public static int IIC_ERR_NOT_SUPPORT     = (-1) ; //ÊÊÅäÆ÷²»Ö§³Ö¸Ãº¯Êı
-    public static int IIC_ERR_USB_WRITE_FAIL  = (-2);  //USBĞ´Êı¾İÊ§°Ü
-    public static int IIC_ERR_USB_READ_FAIL   = (-3);  //USB¶ÁÊı¾İÊ§°Ü
-    public static int IIC_ERR_CMD_FAIL        = (-4);  //ÃüÁîÖ´ĞĞÊ§°Ü
-    public static int IIC_ERR_PARA_ERROR      = (-5);  //²ÎÊı´«Èë´íÎó
-    //¶¨ÒåIICº¯Êı·µ»Ø´íÎó´úÂë
-    public static int IIC_ERROR_SUCCESS     = 0;  //²Ù×÷³É¹¦
-    public static int IIC_ERROR_CHANNEL     = 1;   //¸ÃÍ¨µÀ²»Ö§³Ö¸Ãº¯Êı
-    public static int IIC_ERROR_BUSY        = 2;   //×ÜÏßÃ¦
-    public static int IIC_ERROR_START_FAILD = 3;   //Æô¶¯×ÜÏßÊ§°Ü
-    public static int IIC_ERROR_TIMEOUT     = 4;   //³¬Ê±
-    public static int IIC_ERROR_NACK        = 5;   //´Ó»úÎŞÓ¦´ğ
-    //USB2IICÏà¹Øº¯Êı¶¨Òå
+    //å®šä¹‰å‡½æ•°è¿”å›é”™è¯¯ä»£ç 
+    public static int IIC_SUCCESS             = (0);   //å‡½æ•°æ‰§è¡ŒæˆåŠŸ
+    public static int IIC_ERR_NOT_SUPPORT     = (-1) ; //é€‚é…å™¨ä¸æ”¯æŒè¯¥å‡½æ•°
+    public static int IIC_ERR_USB_WRITE_FAIL  = (-2);  //USBå†™æ•°æ®å¤±è´¥
+    public static int IIC_ERR_USB_READ_FAIL   = (-3);  //USBè¯»æ•°æ®å¤±è´¥
+    public static int IIC_ERR_CMD_FAIL        = (-4);  //å‘½ä»¤æ‰§è¡Œå¤±è´¥
+    public static int IIC_ERR_PARA_ERROR      = (-5);  //å‚æ•°ä¼ å…¥é”™è¯¯
+    //å®šä¹‰IICå‡½æ•°è¿”å›é”™è¯¯ä»£ç 
+    public static int IIC_ERROR_SUCCESS     = 0;  //æ“ä½œæˆåŠŸ
+    public static int IIC_ERROR_CHANNEL     = 1;   //è¯¥é€šé“ä¸æ”¯æŒè¯¥å‡½æ•°
+    public static int IIC_ERROR_BUSY        = 2;   //æ€»çº¿å¿™
+    public static int IIC_ERROR_START_FAILD = 3;   //å¯åŠ¨æ€»çº¿å¤±è´¥
+    public static int IIC_ERROR_TIMEOUT     = 4;   //è¶…æ—¶
+    public static int IIC_ERROR_NACK        = 5;   //ä»æœºæ— åº”ç­”
+    //USB2IICç›¸å…³å‡½æ•°å®šä¹‰
     int IIC_Init(int DevHandle,int IICIndex, IIC_CONFIG pConfig);
     int IIC_GetSlaveAddr(int DevHandle,int IICIndex,short[] pSlaveAddr);
     int IIC_WriteBytes(int DevHandle,int IICIndex,short SlaveAddr,byte[] pWriteData,int WriteLen,int TimeOutMs);

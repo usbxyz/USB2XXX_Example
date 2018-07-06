@@ -9,25 +9,25 @@ import com.sun.jna.Structure;
 
 public interface USB2UART extends Library {
 	USB2UART INSTANCE  = (USB2UART)Native.loadLibrary("USB2XXX",USB2UART.class); 
-	//¶¨Òåº¯Êı·µ»Ø´íÎó´úÂë
-	public static int UART_SUCCESS             =(0);   //º¯ÊıÖ´ĞĞ³É¹¦
-	public static int UART_ERR_NOT_SUPPORT     =(-1);  //ÊÊÅäÆ÷²»Ö§³Ö¸Ãº¯Êı
-	public static int UART_ERR_USB_WRITE_FAIL  =(-2);  //USBĞ´Êı¾İÊ§°Ü
-	public static int UART_ERR_USB_READ_FAIL   =(-3);  //USB¶ÁÊı¾İÊ§°Ü
-	public static int UART_ERR_CMD_FAIL        =(-4);  //ÃüÁîÖ´ĞĞÊ§°Ü
-	//Êı¾İÎ»¿í
+	//å®šä¹‰å‡½æ•°è¿”å›é”™è¯¯ä»£ç 
+	public static int UART_SUCCESS             =(0);   //å‡½æ•°æ‰§è¡ŒæˆåŠŸ
+	public static int UART_ERR_NOT_SUPPORT     =(-1);  //é€‚é…å™¨ä¸æ”¯æŒè¯¥å‡½æ•°
+	public static int UART_ERR_USB_WRITE_FAIL  =(-2);  //USBå†™æ•°æ®å¤±è´¥
+	public static int UART_ERR_USB_READ_FAIL   =(-3);  //USBè¯»æ•°æ®å¤±è´¥
+	public static int UART_ERR_CMD_FAIL        =(-4);  //å‘½ä»¤æ‰§è¡Œå¤±è´¥
+	//æ•°æ®ä½å®½
 	public static byte UART_WORD_LENGTH_8BIT     =0;
 	public static byte UART_WORD_LENGTH_9BIT     =1;
-	//Í£Ö¹Î»
+	//åœæ­¢ä½
 	public static byte UART_STOP_BITS_1          =0;
 	public static byte UART_STOP_BITS_05         =1;
 	public static byte UART_STOP_BITS_2          =2;
 	public static byte UART_STOP_BITS_15         =3;
-	//ÆæÅ¼Ğ£ÑéÎ»
+	//å¥‡å¶æ ¡éªŒä½
 	public static byte UART_PARITY_NO            =0;
 	public static byte UART_PARITY_EVEN          =4;
 	public static byte UART_PARITY_ODD           =6;
-	//TE¿ØÖÆĞÅºÅÊä³ö
+	//TEæ§åˆ¶ä¿¡å·è¾“å‡º
 	public static byte UART_TE_DISEN             =0x00;
 	public static byte UART_TE_EN_LOW            =(byte)0x80;
 	public static byte UART_TE_EN_HIGH           =(byte)0x81;
@@ -43,11 +43,11 @@ public interface USB2UART extends Library {
 			return Arrays.asList(new String[]{"BaudRate","WordLength","StopBits","Parity","TEPolarity"});
 		}
 
-		int  BaudRate;     //²¨ÌØÂÊ
-		byte WordLength;   //Êı¾İÎ»¿í£¬0-8bit,1-9bit
-		byte StopBits;     //Í£Ö¹Î»¿í£¬0-1bit,1-0.5bit,2-2bit,3-1.5bit
-		byte Parity;       //ÆæÅ¼Ğ£Ñé£¬0-No,4-Even,6-Odd
-		byte TEPolarity;   //TEÊä³ö¿ØÖÆ£¬0x80-Êä³öTEĞÅºÅ£¬ÇÒµÍµçÆ½ÓĞĞ§£¬0x81-Êä³öTEĞÅºÅ£¬ÇÒ¸ßµçÆ½ÓĞĞ§£¬0x00²»Êä³öTEĞÅºÅ
+		int  BaudRate;     //æ³¢ç‰¹ç‡
+		byte WordLength;   //æ•°æ®ä½å®½ï¼Œ0-8bit,1-9bit
+		byte StopBits;     //åœæ­¢ä½å®½ï¼Œ0-1bit,1-0.5bit,2-2bit,3-1.5bit
+		byte Parity;       //å¥‡å¶æ ¡éªŒï¼Œ0-No,4-Even,6-Odd
+		byte TEPolarity;   //TEè¾“å‡ºæ§åˆ¶ï¼Œ0x80-è¾“å‡ºTEä¿¡å·ï¼Œä¸”ä½ç”µå¹³æœ‰æ•ˆï¼Œ0x81-è¾“å‡ºTEä¿¡å·ï¼Œä¸”é«˜ç”µå¹³æœ‰æ•ˆï¼Œ0x00ä¸è¾“å‡ºTEä¿¡å·
 	};
 	
 	int  UART_Init(int DevHandle, byte Channel, UART_CONFIG pConfig);
