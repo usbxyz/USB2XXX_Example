@@ -43,7 +43,7 @@ namespace USB2XXXPWMTest
             }
             //获取固件信息
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
+            state = usb_device.DEV_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");
@@ -60,52 +60,56 @@ namespace USB2XXXPWMTest
                 Console.WriteLine("    Functions String:" + FuncStr);
                 Console.WriteLine("    Serial Number:" + DevInfo.SerialNumber[0].ToString("X8") + DevInfo.SerialNumber[1].ToString("X8") + DevInfo.SerialNumber[2].ToString("X8"));
             }
-        PWMConfig.ChannelMask = 0xFF;//初始化所有通道
-        for(int i=0;i<8;i++){
-            PWMConfig.Polarity[i] = 1;//将所有PWM通道都设置为正极性
-        }
-        for(int i=0;i<8;i++){
-            PWMConfig.Precision[i] = 100;//将所有通道的占空比调节精度都设置为1%
-        }
-        for(int i=0;i<8;i++){
-            PWMConfig.Prescaler[i] = 10;//将所有通道的预分频器都设置为10，则PWM输出频率为200MHz/(PWMConfig.Precision*PWMConfig.Prescaler)
-        }
-        for(int i=0;i<8;i++){
-            PWMConfig.Pulse[i] = (UInt16)(PWMConfig.Precision[i]*30/100);//将所有通道的占空比都设置为30%
-        }
-        //初始化PWM
-        ret = USB2PWM.PWM_Init(DevHandle,ref PWMConfig);
-        if(ret != USB2PWM.PWM_SUCCESS){
-            Console.WriteLine("Initialize pwm faild!\n");
-            Console.ReadLine();
-            return;
-        }else{
-            Console.WriteLine("Initialize pwm sunccess!\n");
-        }
-        //启动PWM,RunTimeOfUs之后自动停止，利用该特性可以控制输出脉冲个数，脉冲个数=RunTimeOfUs*200/(PWMConfig.Precision*PWMConfig.Prescaler)
-        Int32 RunTimeOfUs = 10000;
-        ret = USB2PWM.PWM_Start(DevHandle,PWMConfig.ChannelMask,RunTimeOfUs);
-        if(ret != USB2PWM.PWM_SUCCESS){
-            Console.WriteLine("Start pwm faild!\n");
-            Console.ReadLine();
-            return;
-        }else{
-            Console.WriteLine("Start pwm sunccess!\n");
-        }
-        //停止PWM
-        /*
-        ret = USB2PWM.PWM_Stop(DevHandle,PWMConfig.ChannelMask);
-        if (ret != USB2PWM.PWM_SUCCESS)
-        {
-            Console.WriteLine("Stop pwm faild!\n");
-            Console.ReadLine();
-            return;
-        }else{
-            Console.WriteLine("Stop pwm sunccess!\n");
-        }
-        */
-        //关闭设备
-        usb_device.USB_CloseDevice(DevHandle);
+            PWMConfig.ChannelMask = 0xFF;//初始化所有通道
+            PWMConfig.Polarity = new byte[8];
+            for(int i=0;i<8;i++){
+                PWMConfig.Polarity[i] = 1;//将所有PWM通道都设置为正极性
+            }
+            PWMConfig.Precision = new ushort[8];
+            for(int i=0;i<8;i++){
+                PWMConfig.Precision[i] = 100;//将所有通道的占空比调节精度都设置为1%
+            }
+            PWMConfig.Prescaler = new ushort[8];
+            for(int i=0;i<8;i++){
+                PWMConfig.Prescaler[i] = 10;//将所有通道的预分频器都设置为10，则PWM输出频率为200MHz/(PWMConfig.Precision*PWMConfig.Prescaler)
+            }
+            PWMConfig.Pulse = new ushort[8];
+            for(int i=0;i<8;i++){
+                PWMConfig.Pulse[i] = (UInt16)(PWMConfig.Precision[i]*30/100);//将所有通道的占空比都设置为30%
+            }
+            //初始化PWM
+            ret = USB2PWM.PWM_Init(DevHandle,ref PWMConfig);
+            if(ret != USB2PWM.PWM_SUCCESS){
+                Console.WriteLine("Initialize pwm faild!\n");
+                Console.ReadLine();
+                return;
+            }else{
+                Console.WriteLine("Initialize pwm sunccess!\n");
+            }
+            //启动PWM,RunTimeOfUs之后自动停止，利用该特性可以控制输出脉冲个数，脉冲个数=RunTimeOfUs*200/(PWMConfig.Precision*PWMConfig.Prescaler)
+            Int32 RunTimeOfUs = 10000;
+            ret = USB2PWM.PWM_Start(DevHandle,PWMConfig.ChannelMask,RunTimeOfUs);
+            if(ret != USB2PWM.PWM_SUCCESS){
+                Console.WriteLine("Start pwm faild!\n");
+                Console.ReadLine();
+                return;
+            }else{
+                Console.WriteLine("Start pwm sunccess!\n");
+            }
+            //停止PWM
+            /*
+            ret = USB2PWM.PWM_Stop(DevHandle,PWMConfig.ChannelMask);
+            if (ret != USB2PWM.PWM_SUCCESS)
+            {
+                Console.WriteLine("Stop pwm faild!\n");
+                Console.ReadLine();
+                return;
+            }else{
+                Console.WriteLine("Stop pwm sunccess!\n");
+            }
+            */
+            //关闭设备
+            usb_device.USB_CloseDevice(DevHandle);
         }
     }
 }
