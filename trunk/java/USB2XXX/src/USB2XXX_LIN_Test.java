@@ -106,7 +106,7 @@ public class USB2XXX_LIN_Test {
             System.out.println("Config LIN Success!");
         }
         //设置从机模式下所有ID都为从接收数据模式，这样就可以获取到主机发送过来的所有数据
-        USB2LIN.LIN_MSG[] LINSlaveData = new USB2LIN.LIN_MSG[64];
+        USB2LIN.LIN_MSG[] LINSlaveData = new USB2LIN.LIN_MSG().toArray(64);
         for(int i=0;i<64;i++){
             LINSlaveData[i].DataLen = 9;//最大8Byte数据+1Byte和校验
             LINSlaveData[i].ID = i;		//ID值

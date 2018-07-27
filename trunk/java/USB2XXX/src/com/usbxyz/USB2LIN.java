@@ -7,8 +7,8 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Structure;
 
-public interface USB2IIC extends Library {
-	USB2IIC INSTANCE  = (USB2IIC)Native.loadLibrary("USB2XXX",USB2IIC.class); 
+public interface USB2LIN extends Library {
+	USB2LIN INSTANCE  = (USB2LIN)Native.loadLibrary("USB2XXX",USB2LIN.class); 
 	//初始化配置结构体
 	public class LIN_CONFIG  extends Structure{
 		
