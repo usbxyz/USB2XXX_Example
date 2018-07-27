@@ -1,3 +1,4 @@
+#coding:utf-8
 """
 文件说明：USB2XXX ADC相关函数测试程序
 更多帮助：www.usbxyz.com

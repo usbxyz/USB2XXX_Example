@@ -9,7 +9,13 @@ import com.sun.jna.Structure;
 
 public interface USB_Device extends Library{
 	USB_Device INSTANCE  = (USB_Device)Native.loadLibrary("USB2XXX",USB_Device.class); 
-	
+	//定义电压输出值
+	char POWER_LEVEL_NONE = 0;	//不输出
+	char POWER_LEVEL_1V8 = 1;	//输出1.8V
+	char POWER_LEVEL_2V5 = 2;	//输出2.5V
+	char POWER_LEVEL_3V3 = 3;	//输出3.3V
+    char POWER_LEVEL_5V0 = 4;	//输出5.0V
+
 	public class DEVICE_INFO  extends Structure{
 		
 	    public static class ByReference extends DEVICE_INFO implements Structure.ByReference {}  
@@ -83,4 +89,12 @@ public interface USB_Device extends Library{
 	  * @retval 读出用户自定义数据的状态
 	  */
 	boolean DEV_ReadUserData(int DevHandle,int OffsetAddr,byte[] pReadData,int DataLen);
+
+	/**
+	 * @brief  设置可变电压输出引脚输出电压值
+	 * @param  DevHandle 设备索引号
+	 * @param  PowerLevel 输出电压值，0-不输出，1-1.8V，2-2.5V，3-3.3V，4-5V
+	 * @retval 设置输出电压状态
+	 */
+	boolean DEV_SetPowerLevel(int DevHandle,char PowerLevel);
 }

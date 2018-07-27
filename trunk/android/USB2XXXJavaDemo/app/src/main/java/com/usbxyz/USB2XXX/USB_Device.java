@@ -14,9 +14,10 @@ public interface USB_Device extends Library{
 	int DEV_VID = 0x0483;
 	//定义电压输出值
 	char POWER_LEVEL_NONE = 0;	//不输出
-	char POWER_LEVEL_1V2 = 1;	//输出1.2V
-	char POWER_LEVEL_1V8 = 2;	//输出1.8V
+	char POWER_LEVEL_1V8 = 1;	//输出1.8V
+	char POWER_LEVEL_2V5 = 2;	//输出2.5V
 	char POWER_LEVEL_3V3 = 3;	//输出3.3V
+    char POWER_LEVEL_5V0 = 4;	//输出5.0V
 	//定义设备信息
 	public class DEVICE_INFO  extends Structure{
 	    public static class ByReference extends DEVICE_INFO implements Structure.ByReference {}  
