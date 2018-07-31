@@ -33,7 +33,13 @@ int main(int argc, const char* argv[])
     if(ret <= 0){
         printf("No device connected!\n");
         return 0;
-    }
+    }else{
+		printf("Found Devices:");
+		for(int i=0;i<ret;i++){
+			printf("%08X ",DevHandle[i]);
+		}
+		printf("\n");
+	}
     //打开设备
     state = USB_OpenDevice(DevHandle[0]);
     if(!state){
