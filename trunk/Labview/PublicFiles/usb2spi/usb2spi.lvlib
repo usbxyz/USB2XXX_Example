@@ -23,7 +23,9 @@
 	<Item Name="SPI Slave Continue Read.vi" Type="VI" URL="../VIs/SPI Slave Continue Read.vi"/>
 	<Item Name="SPI Slave Get Bytes.vi" Type="VI" URL="../VIs/SPI Slave Get Bytes.vi"/>
 	<Item Name="SPI Slave Read Bytes.vi" Type="VI" URL="../VIs/SPI Slave Read Bytes.vi"/>
+	<Item Name="SPI Slave Read Write Bytes.vi" Type="VI" URL="../VIs/SPI Slave Read Write Bytes.vi"/>
 	<Item Name="SPI Slave Write Bytes.vi" Type="VI" URL="../VIs/SPI Slave Write Bytes.vi"/>
+	<Item Name="SPI Slave Write Read Bytes.vi" Type="VI" URL="../VIs/SPI Slave Write Read Bytes.vi"/>
 	<Item Name="SPI Write Bits.vi" Type="VI" URL="../VIs/SPI Write Bits.vi"/>
 	<Item Name="SPI Write Bytes Async.vi" Type="VI" URL="../VIs/SPI Write Bytes Async.vi"/>
 	<Item Name="SPI Write Bytes Of Event.vi" Type="VI" URL="../VIs/SPI Write Bytes Of Event.vi"/>
@@ -31,5 +33,5 @@
 	<Item Name="SPI Write Read Bits.vi" Type="VI" URL="../VIs/SPI Write Read Bits.vi"/>
 	<Item Name="SPI Write Read Bytes Of Event.vi" Type="VI" URL="../VIs/SPI Write Read Bytes Of Event.vi"/>
 	<Item Name="SPI Write Read Bytes.vi" Type="VI" URL="../VIs/SPI Write Read Bytes.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../../../../../USB2XXX/trunk/USB2XXX/USB2XXX/vs2010/Release/USB2XXX.dll"/>
 </Library>
