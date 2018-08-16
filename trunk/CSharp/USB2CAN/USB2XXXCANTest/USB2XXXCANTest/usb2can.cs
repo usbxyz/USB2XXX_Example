@@ -9,6 +9,7 @@ namespace USB2XXX
     class USB2CAN
     {
         //1.CAN信息帧的数据类型定义
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]  
         public struct CAN_MSG
         {
             public UInt32  ID;          //报文ID。
@@ -16,11 +17,12 @@ namespace USB2XXX
             public Byte    RemoteFlag;  //是否是远程帧
             public Byte    ExternFlag;  //是否是扩展帧
             public Byte    DataLen;     //数据长度(<=8)，即Data 的长度。
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.I1)]
             public Byte[]  Data;        //报文的数据。
         };
 
         //2.初始化CAN的数据类型定义
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]  
         public struct CAN_INIT_CONFIG
         {
             //CAN波特率 = 100MHz/(CAN_BRP)/(CAN_SJW+CAN_BS1+CAN_BS2)
@@ -36,6 +38,7 @@ namespace USB2XXX
         };
 
         //3.CAN 滤波器设置数据类型定义
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]  
         public struct CAN_FILTER_CONFIG{
             public Byte     Enable;         //使能该过滤器，1-使能，0-禁止
             public Byte     FilterIndex;    //过滤器索引号，取值范围为0到13
@@ -50,6 +53,7 @@ namespace USB2XXX
         };
 
         //4.CAN总线状态数据类型定义
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]  
         public struct CAN_STATUS{
             public UInt32   TSR;        //发送状态寄存器
             public UInt32   ESR;        //错误状态寄存器
@@ -59,6 +63,7 @@ namespace USB2XXX
         };
 
         //5.定义CAN Bootloader命令列表
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]  
         public struct CBL_CMD_LIST{
             //Bootloader相关命令
             public Byte Erase;          //擦出APP储存扇区数据

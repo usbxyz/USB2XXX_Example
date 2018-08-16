@@ -105,6 +105,7 @@ namespace USB2XXXCANTest
 #if CAN_SEND_MSG//发送CAN帧
             USB2CAN.CAN_MSG[] CanMsg = new USB2CAN.CAN_MSG[5];
             for(int i=0;i<5;i++){
+                CanMsg[i] = new USB2CAN.CAN_MSG();
                 CanMsg[i].ExternFlag = 0;
                 CanMsg[i].RemoteFlag = 0;
                 CanMsg[i].ID = (UInt32)i;
