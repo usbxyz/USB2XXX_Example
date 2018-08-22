@@ -27,7 +27,7 @@ if(platform.system()=="Windows"):
         USB2XXXLib = windll.LoadLibrary( "./lib/windows/x86_32/USB2XXX.dll" )
 elif(platform.system()=="Darwin"):
     cdll.LoadLibrary( "./lib/macos/libusb-1.0.dylib" )
-    USB2XXXLib = cdll.LoadLibrary( "./lib/macos/libUSB2XXX.dylib" )
+    USB2XXXLib = cdll.LoadLibrary( "./lib/mac_os/USB2XXX.dylib" )
 elif(platform.system()=="Linux"):
     if 'arm' in platform.machine():
         cdll.LoadLibrary( "./lib/linux/ARMv7/libusb-1.0.so" )
