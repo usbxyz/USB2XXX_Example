@@ -35,6 +35,8 @@ namespace USB2XXX
         [DllImport("USB2XXX.dll")]
         public static extern Int32 PWM_SetPulse(Int32 DevHandle,Byte ChannelMask,UInt16[] pPulse);
         [DllImport("USB2XXX.dll")]
+        public static extern Int32 PWM_SetFrequency(Int32 DevHandle,Byte ChannelMask,UInt16[] pPrescaler,UInt16[] pPrecision);
+        [DllImport("USB2XXX.dll")]
         public static extern Int32 PWM_Stop(Int32 DevHandle,Byte ChannelMask);
     }
 }

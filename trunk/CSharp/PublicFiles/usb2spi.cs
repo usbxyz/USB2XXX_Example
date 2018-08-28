@@ -238,7 +238,7 @@ namespace USB2XXX
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_SlaveReadBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pReadData,Int32 TimeOutMs);
+        public static extern Int32 SPI_SlaveReadBytes(Int32 DevHandle,Int32 SPIIndex,Byte[] pReadData,Int32 ReadLen,Int32 TimeOutMs);
 
         /**
           * @brief  SPI从机模式下同时发送接收数据

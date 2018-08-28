@@ -21,7 +21,7 @@
 #include "usb2can.h"
 
 #define GET_FIRMWARE_INFO   1
-#define CAN_MODE_LOOPBACK   0
+#define CAN_MODE_LOOPBACK   1
 #define CAN_SEND_MSG        1
 #define CAN_GET_MSG         1
 #define CAN_GET_STATUS      1
