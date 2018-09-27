@@ -8,6 +8,13 @@ namespace USB2XXX
 {
     class usb_device
     {
+        //定义电压输出值
+        public const char POWER_LEVEL_NONE	= 0;	//不输出
+        public const char POWER_LEVEL_1V8	= 1;	//输出1.8V
+        public const char POWER_LEVEL_2V5	= 2;	//输出2.5V
+        public const char POWER_LEVEL_3V3	= 3;	//输出3.3V
+        public const char POWER_LEVEL_5V0	= 4;	//输出5.0V
+        //设备信息定义
         public struct DEVICE_INFO
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
@@ -84,10 +91,10 @@ namespace USB2XXX
         /**
           * @brief  设置可变电压输出引脚输出电压值
           * @param  DevHandle 设备索引号
-          * @param  PowerLevel 输出电压值，0-1.8V，1-3.3V
+          * @param  PowerLevel 输出电压值
           * @retval 设置输出电压状态
           */
         [DllImport("USB2XXX.dll")]
-        public static extern bool DEV_SetPowerLevel(int DevHandle,char PowerLevel);
+        public static extern bool DEV_SetPowerLevel(int DevHandle,byte PowerLevel);
     }
 }
