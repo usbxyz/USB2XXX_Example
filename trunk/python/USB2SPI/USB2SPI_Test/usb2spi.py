@@ -129,8 +129,14 @@ def SPI_BlockWriteReadBytes(DevHandle,SPIIndex,pWriteData,WriteBlockSize,pReadDa
 def SPI_SlaveWriteBytes(DevHandle,SPIIndex,pWriteData,WriteLen,TimeOutMs):
     return USB2XXXLib.SPI_SlaveWriteBytes(DevHandle,SPIIndex,pWriteData,WriteLen,TimeOutMs)
 # 从机模式读数据
-def SPI_SlaveReadBytes(DevHandle,SPIIndex,pReadData,TimeOutMs):
-    return USB2XXXLib.SPI_SlaveReadBytes(DevHandle,SPIIndex,pReadData,TimeOutMs)
+def SPI_SlaveReadBytes(DevHandle,SPIIndex,pReadData,ReadLen,TimeOutMs):
+    return USB2XXXLib.SPI_SlaveReadBytes(DevHandle,SPIIndex,pReadData,ReadLen,TimeOutMs)
+# SPI从机模式下读写数据
+def SPI_SlaveReadWriteBytes(DevHandle,SPIIndex,pReadData,ReadDataLen,pWriteData,WriteDataLen,TimeOutMs):
+    return USB2XXXLib.SPI_SlaveReadWriteBytes(DevHandle,SPIIndex,pReadData,ReadDataLen,pWriteData,WriteDataLen,TimeOutMs)
+# SPI从机模式下写读数据
+def SPI_SlaveWriteReadBytes(DevHandle,SPIIndex,pWriteData,WriteDataLen,pReadData,ReadDataLen,TimeOutMs):
+    return USB2XXXLib.SPI_SlaveWriteReadBytes(DevHandle,SPIIndex,pWriteData,WriteDataLen,pReadData,ReadDataLen,TimeOutMs)
 # 从机模式连续读数据，该函数会启动一个线程读取数据
 def SPI_SlaveContinueRead(DevHandle,SPIIndex,pSlaveReadDataHandle):
     return USB2XXXLib.SPI_SlaveContinueRead(DevHandle,SPIIndex,pSlaveReadDataHandle)

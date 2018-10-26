@@ -19,8 +19,8 @@ class PWM_CONFIG(Structure):
         ("Prescaler", c_ushort*8),   # 预分频器
         ("Precision", c_ushort*8),   # 占空比调节精度
         ("Pulse", c_ushort*8),       # 占空比，实际占空比=(Pulse/Precision)*100%
-        ("Polarity",c_byte*8),       # 波形极性
-        ("ChannelMask",c_byte)       # 使能的通道号，每个通道对应一个bit位，bit0对应PWM_CH1
+        ("Polarity",c_ubyte*8),      # 波形极性
+        ("ChannelMask",c_ubyte)      # 使能的通道号，每个通道对应一个bit位，bit0对应PWM_CH1
     ]
 
 

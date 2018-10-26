@@ -17,6 +17,13 @@ class DEVICE_INFO(Structure):
         ("Functions",c_uint)           # USB2XXX functions
     ]
 
+# 定义电压输出值
+POWER_LEVEL_NONE    = 0 # 不输出
+POWER_LEVEL_1V8     = 1 # 输出1.8V
+POWER_LEVEL_2V5     = 2 # 输出2.5V
+POWER_LEVEL_3V3     = 3 # 输出3.3V
+POWER_LEVEL_5V0     = 4 # 输出5.0V
+
 # Import library
 if(platform.system()=="Windows"):
     if "64bit" in platform.architecture():
@@ -27,7 +34,7 @@ if(platform.system()=="Windows"):
         USB2XXXLib = windll.LoadLibrary( "./lib/windows/x86_32/USB2XXX.dll" )
 elif(platform.system()=="Darwin"):
     cdll.LoadLibrary( "./lib/macos/libusb-1.0.dylib" )
-    USB2XXXLib = cdll.LoadLibrary( "./lib/mac_os/USB2XXX.dylib" )
+    USB2XXXLib = cdll.LoadLibrary( "./lib/macos/libUSB2XXX.dylib" )
 elif(platform.system()=="Linux"):
     if 'arm' in platform.machine():
         cdll.LoadLibrary( "./lib/linux/ARMv7/libusb-1.0.so" )

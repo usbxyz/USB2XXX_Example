@@ -37,23 +37,26 @@ class LIN_CONFIG(Structure):
         ("BreakBits",c_ubyte),     # Break长度，0x00-10bit,0x20-11bit
     ]
 # 设置从模式下ID操作模式
-class SLAVE_LIN_DATA(Structure):
+class LIN_MSG(Structure):
     _fields_ = [
-        ("DataLen",c_ubyte),   # 从模式下发送数据的长度或者从模式接收数据的长度，不含校验字节
-        ("WorkMode",c_ubyte),  # 0-从模式发送数据，1-从模式接收数据
-        ("Data",c_ubyte*9),    # 从模式下接收到的数据字节或者待发送的数据字节
+        ("ID",c_ubyte),         #ID，取值范围0~0x3F
+        ("DataLen",c_ubyte),    #发送数据时，代表发送数据的长度，不含校验数据，接收数据时，数据的长度，包含校验数据
+        ("Data",c_ubyte*9),     # 数据存储区
     ]
 def LIN_Init(DevHandle,Channel,pConfig):
     return USB2XXXLib.LIN_Init(DevHandle,Channel,pConfig)
 
-def LIN_WriteData(DevHandle,Channel,ID,pWriteData,WriteLen):
-    return USB2XXXLib.LIN_WriteData(DevHandle,Channel,ID,pWriteData,WriteLen)
+def LIN_SendBreak(DevHandle,LINIndex):
+    return USB2XXXLib.LIN_SendBreak(DevHandle,LINIndex)
 
-def LIN_ReadData(DevHandle,Channel,ID,pReadData):
-    return USB2XXXLib.LIN_ReadData(DevHandle,Channel,ID,pReadData)
+def LIN_Write(DevHandle,Channel,pLINMsg,Len):
+    return USB2XXXLib.LIN_Write(DevHandle,Channel,pLINMsg,Len)
 
-def LIN_SlaveSetIDOperation(DevHandle,Channel,ID,SlaveOperationData):
-    return USB2XXXLib.LIN_SlaveSetIDOperation(DevHandle,Channel,ID,SlaveOperationData)
+def LIN_Read(DevHandle,Channel,pLINMsg,Len):
+    return USB2XXXLib.LIN_Read(DevHandle,Channel,pLINMsg,Len)
 
-def LIN_SlaveGetData(DevHandle, Channel, pSlaveData):
-    return USB2XXXLib.LIN_SlaveGetData(DevHandle, Channel, pSlaveData)
+def LIN_SlaveSetIDMode(DevHandle,LINIndex,IDMode,pLINMsg,Len):
+    return USB2XXXLib.LIN_SlaveSetIDMode(DevHandle,LINIndex,IDMode,pLINMsg,Len)
+
+def LIN_SlaveGetData(DevHandle,LINIndex,pLINMsg):
+    return USB2XXXLib.LIN_SlaveGetData(DevHandle,LINIndex,pLINMsg)

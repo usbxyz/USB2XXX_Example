@@ -18,8 +18,8 @@ if(platform.system()=="Linux"):
     else:
         libraryFile = '/home/wdluo/USB2XXX/trunk/USB2XXX/USB2XXX/ubuntu-32bit/USB2XXX/bin/Release/libUSB2XXX.so'
 elif(platform.system()=="Windows"):
-    USB2XXXDllFile = 'F:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\vs2010\\Release\\USB2XXX.dll'
-    libusbDllFile = 'F:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\libusb-1.0.20\\Win32\\Release\\dll\\libusb-1.0.dll'
+    USB2XXXDllFile = 'E:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\vs2010\\Release\\USB2XXX.dll'
+    libusbDllFile = 'E:\\OtherWork\\STM32\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\libusb-1.0.20\\Win32\\Release\\dll\\libusb-1.0.dll'
 else:
     print("system error")
     exit()
