@@ -19,8 +19,9 @@
 	<Item Name="SPI Read Bits.vi" Type="VI" URL="../VIs/SPI Read Bits.vi"/>
 	<Item Name="SPI Read Bytes Of Event.vi" Type="VI" URL="../VIs/SPI Read Bytes Of Event.vi"/>
 	<Item Name="SPI Read Bytes.vi" Type="VI" URL="../VIs/SPI Read Bytes.vi"/>
-	<Item Name="SPI Slave Continue Read Stop.vi" Type="VI" URL="../VIs/SPI Slave Continue Read Stop.vi"/>
 	<Item Name="SPI Slave Continue Read.vi" Type="VI" URL="../VIs/SPI Slave Continue Read.vi"/>
+	<Item Name="SPI Slave Continue Write Read Stop.vi" Type="VI" URL="../VIs/SPI Slave Continue Write Read Stop.vi"/>
+	<Item Name="SPI Slave Continue Write.vi" Type="VI" URL="../VIs/SPI Slave Continue Write.vi"/>
 	<Item Name="SPI Slave Get Bytes.vi" Type="VI" URL="../VIs/SPI Slave Get Bytes.vi"/>
 	<Item Name="SPI Slave Read Bytes.vi" Type="VI" URL="../VIs/SPI Slave Read Bytes.vi"/>
 	<Item Name="SPI Slave Read Write Bytes.vi" Type="VI" URL="../VIs/SPI Slave Read Write Bytes.vi"/>
