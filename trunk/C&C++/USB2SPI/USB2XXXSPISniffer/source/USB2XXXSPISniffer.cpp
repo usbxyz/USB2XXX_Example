@@ -159,8 +159,8 @@ int main(int argc, const char* argv[])
             break;
         }
     }
-    SPI_SlaveContinueReadStop(DevHandle,MOSISPIIndex);
-    SPI_SlaveContinueReadStop(DevHandle,MISOSPIIndex);
+    SPI_SlaveContinueWriteReadStop(DevHandle,MOSISPIIndex);
+    SPI_SlaveContinueWriteReadStop(DevHandle,MISOSPIIndex);
     USB_CloseDevice(DevHandle);
     fclose(pMISOFile);
     fclose(pMOSIFile);
