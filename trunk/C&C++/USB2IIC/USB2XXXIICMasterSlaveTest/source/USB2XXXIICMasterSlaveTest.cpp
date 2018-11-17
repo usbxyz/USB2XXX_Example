@@ -41,12 +41,14 @@ int main(int argc, const char* argv[])
     ret = USB_ScanDevice(DevHandle);
     if(ret <= 0){
         printf("No device connected!\n");
+        getchar();
         return 0;
     }
     //打开设备
     state = USB_OpenDevice(DevHandle[0]);
     if(!state){
         printf("Open device error!\n");
+        getchar();
         return 0;
     }
 #if GET_FIRMWARE_INFO
@@ -55,6 +57,7 @@ int main(int argc, const char* argv[])
     state = DEV_GetDeviceInfo(DevHandle[0],&DevInfo,FunctionStr);
     if(!state){
         printf("Get device infomation error!\n");
+        getchar();
         return 0;
     }else{
         printf("Firmware Info:\n");
@@ -74,6 +77,7 @@ int main(int argc, const char* argv[])
     ret = IIC_Init(DevHandle[0],MasterIICIndex,&IIC_Config);
     if(ret != IIC_SUCCESS){
         printf("Config Master IIC Failed!\n");
+        getchar();
         return 0;
     }else{
         printf("Config Master IIC Success!\n");
@@ -88,6 +92,7 @@ int main(int argc, const char* argv[])
     ret = IIC_Init(DevHandle[0],SlaveIICIndex,&IIC_Config);
     if(ret != IIC_SUCCESS){
         printf("Config Slave IIC Failed!\n");
+        getchar();
         return 0;
     }else{
         printf("Config Slave IIC Success!\n");
@@ -106,6 +111,7 @@ int main(int argc, const char* argv[])
         printf("\n");
     }else{
         printf("Get slave address error!\n");
+        getchar();
         return 0;
     }
 #endif
@@ -118,6 +124,7 @@ int main(int argc, const char* argv[])
     if(ret < 0){
         printf("Slave write data error!\n");
         printf("Error Code:%d\n",ret);
+        getchar();
         return 0;
     }else if(ret == 0){
         printf("Slave write data success!\n");
@@ -130,6 +137,7 @@ int main(int argc, const char* argv[])
     if(ret != IIC_SUCCESS){
         printf("Master Read IIC failed!\n");
         printf("Error Code:%d\n",ret);
+        getchar();
         return 0;
     }else{
         printf("Master Read IIC success!\n");
@@ -148,6 +156,7 @@ int main(int argc, const char* argv[])
     if(ret != IIC_SUCCESS){
         printf("Master Write IIC failed!\n");
         printf("Error Code:%d\n",ret);
+        getchar();
         return 0;
     }else{
         printf("Master Write IIC success!\n");
@@ -158,6 +167,7 @@ int main(int argc, const char* argv[])
     if(ret < 0){
         printf("Slave read data error!\n");
         printf("Error Code:%d\n",ret);
+        getchar();
         return 0;
     }else if(ret == 0){
         printf("Slave read data IIC_SUCCESS! but no data\n");
@@ -174,6 +184,7 @@ int main(int argc, const char* argv[])
     //关闭设备
     USB_CloseDevice(DevHandle[0]);
     printf("Test end\n");
+    getchar();
 	return 0;
 }
 
