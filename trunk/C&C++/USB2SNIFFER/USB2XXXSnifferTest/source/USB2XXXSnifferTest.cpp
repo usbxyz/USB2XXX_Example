@@ -20,14 +20,16 @@
 #include "usb_device.h"
 #include "usb2sniffer.h"
 
-#define SNIFFER_WRITE_TEST  1
-#define SNIFFER_READ_TEST   0
+#define SNIFFER_WRITE_TEST  0
+#define SNIFFER_READ_TEST   1
 
 #if SNIFFER_READ_TEST
+int dataIndex=0;
 //此处为接收数据回调函数，在这里处理接收到的数据
 int WINAPI SnifferGetData(int DeviceHandle,unsigned char *pData,int DataNum)
 {
-    printf("Get %d Byte Data\n",DataNum);
+    printf("[%d]Get %d Byte Data\n",dataIndex++,DataNum);
+    Sleep(100);
 	return 0;
 }
 #endif
@@ -67,12 +69,12 @@ int main(int argc, const char* argv[])
     }
 #if SNIFFER_READ_TEST
 	//配置sniffer
-	ret = SNIFFER_Init(DevHandles[0],0,5000000,SNIFFER_SAMPLE_MODE_8CH);
+	ret = SNIFFER_Init(DevHandles[0],0,25000000,SNIFFER_SAMPLE_MODE_8CH);
 	if(ret != SNIFFER_SUCCESS){
 		printf("Init sniffer error!\n");
 		return 0;
 	}
-	getchar();
+	//getchar();
 	//单次读取数据
 	ret = SNIFFER_ReadData(DevHandles[0],ReadDataBuffer,sizeof(ReadDataBuffer));
 	if(ret != SNIFFER_SUCCESS){
@@ -88,7 +90,7 @@ int main(int argc, const char* argv[])
 		}
 		printf("\n");
 	}
-	getchar();
+	//getchar();
 	//启动sniffer并注册回调函数
 	ret = SNIFFER_StartRead(DevHandles[0],SnifferGetData);
 	if(ret != SNIFFER_SUCCESS){
@@ -103,6 +105,7 @@ int main(int argc, const char* argv[])
 #else
     usleep(3000*1000);
 #endif
+    getchar();
     //停止sniffer
     ret = SNIFFER_StopRead(DevHandles[0]);
     if(ret != SNIFFER_SUCCESS){
