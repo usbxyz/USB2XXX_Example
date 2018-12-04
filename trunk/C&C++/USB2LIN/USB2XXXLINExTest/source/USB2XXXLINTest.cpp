@@ -80,12 +80,14 @@ int main(int argc, const char* argv[])
     LIN_EX_MSG LINOutMsg[10];
     unsigned int MsgLen = 5;
     LINMsg[0].MsgType = LIN_EX_MSG_TYPE_BK;
+    LINMsg[0].Timestamp = 10;//发送该帧数据之后的延时时间，最小建议设置为1
     for(int f=1;f<MsgLen;f++){
         LINMsg[f].MsgType = LIN_EX_MSG_TYPE_MW;
         LINMsg[f].DataLen = 8;
         for(int i=0;i<LINMsg[1].DataLen;i++){
             LINMsg[f].Data[i] = (f<<4)|i;
         }
+        LINMsg[f].Timestamp = 10;//发送该帧数据之后的延时时间，最小建议设置为1
         LINMsg[f].CheckType = LIN_EX_CHECK_EXT;
         LINMsg[f].PID = f+1;
     }

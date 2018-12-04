@@ -25,7 +25,7 @@
 #define WINAPI
 #endif
 #endif
-
+//注意：使用这些函数需要1.5.30及以上的固件才支持
 //定义函数返回错误代码
 #define LIN_EX_SUCCESS             (0)   //函数执行成功
 #define LIN_EX_ERR_NOT_SUPPORT     (-1)  //适配器不支持该函数
@@ -41,8 +41,8 @@
 #define LIN_EX_CHECK_NONE    3  //接收数据校验错误
 #define LIN_EX_CHECK_ERROR   4  //接收数据校验错误
 
-#define LIN_EX_MASTER              1
-#define LIN_EX_SLAVE               0
+#define LIN_EX_MASTER              1//主机
+#define LIN_EX_SLAVE               0//从机
 
 #define	LIN_EX_MSG_TYPE_UN      0   //未知类型
 #define	LIN_EX_MSG_TYPE_MW		1	//主机向从机发送数据
@@ -57,12 +57,12 @@
 
 typedef struct _LIN_EX_MSG{
     unsigned int  Timestamp;    //时间戳
-	unsigned char MsgType;	//帧类型
-    unsigned char CheckType;//校验类型
-	unsigned char DataLen;	//LIN数据段有效数据字节数
+	unsigned char MsgType;	    //帧类型
+    unsigned char CheckType;    //校验类型
+	unsigned char DataLen;	    //LIN数据段有效数据字节数
 	unsigned char Sync;			//固定值，0x55
 	unsigned char PID;			//帧ID		
-	unsigned char Data[8];	//数据
+	unsigned char Data[8];	    //数据
 	unsigned char Check;		//校验,只有校验数据类型为LIN_EX_CHECK_USER的时候才需要用户传入数据
 }LIN_EX_MSG,*PLIN_EX_MSG;
 
@@ -72,7 +72,7 @@ extern "C"
 #endif
 
 int WINAPI  LIN_EX_Init(int DevHandle,unsigned char LINIndex,unsigned int BaudRate,unsigned char MasterMode);
-int WINAPI  LIN_EX_MasterSync(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pInMsg,LIN_EX_MSG *pOutMsg,unsigned int pMsgLen,int TimeInterMs);
+int WINAPI  LIN_EX_MasterSync(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pInMsg,LIN_EX_MSG *pOutMsg,unsigned int MsgLen);
 int WINAPI  LIN_EX_SlaveSetIDMode(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg,unsigned int MsgLen);
 int WINAPI  LIN_EX_SlaveGetData(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg);
 
