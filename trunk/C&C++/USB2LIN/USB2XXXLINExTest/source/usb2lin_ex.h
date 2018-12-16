@@ -64,6 +64,8 @@ typedef struct _LIN_EX_MSG{
 	unsigned char PID;			//帧ID		
 	unsigned char Data[8];	    //数据
 	unsigned char Check;		//校验,只有校验数据类型为LIN_EX_CHECK_USER的时候才需要用户传入数据
+    unsigned char Reserve0;
+    unsigned char Reserve1;
 }LIN_EX_MSG,*PLIN_EX_MSG;
 
 #ifdef __cplusplus

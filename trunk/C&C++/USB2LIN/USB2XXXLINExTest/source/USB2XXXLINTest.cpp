@@ -92,7 +92,7 @@ int main(int argc, const char* argv[])
         LINMsg[f].PID = f+1;
     }
 
-    ret = LIN_EX_MasterSync(DevHandle[DevIndex],LINMasterIndex,LINMsg,LINOutMsg,MsgLen,0);
+    ret = LIN_EX_MasterSync(DevHandle[DevIndex],LINMasterIndex,LINMsg,LINOutMsg,MsgLen);
     if(ret < LIN_EX_SUCCESS){
         printf("MasterSync LIN failed!\n");
         return 0;

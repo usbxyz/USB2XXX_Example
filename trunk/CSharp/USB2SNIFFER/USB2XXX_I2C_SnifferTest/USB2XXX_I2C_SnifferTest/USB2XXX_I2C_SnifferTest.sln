@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USB2XXX_I2C_SnifferTest", "USB2XXX_I2C_SnifferTest\USB2XXX_I2C_SnifferTest.csproj", "{4A7F3666-6F6F-43BF-87BF-51FD0B6CE3EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A7F3666-6F6F-43BF-87BF-51FD0B6CE3EE}.Debug|x86.ActiveCfg = Debug|x86
+		{4A7F3666-6F6F-43BF-87BF-51FD0B6CE3EE}.Debug|x86.Build.0 = Debug|x86
+		{4A7F3666-6F6F-43BF-87BF-51FD0B6CE3EE}.Release|x86.ActiveCfg = Release|x86
+		{4A7F3666-6F6F-43BF-87BF-51FD0B6CE3EE}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
