@@ -42,6 +42,7 @@ namespace USB2XXX_I2C_SnifferTest
             }
             return 0;
         }
+        static I2C_SNIFFER.I2C_GET_DATA_HANDLE get_data_callback = GetI2CDataHandle;
         static void Main(string[] args)
         {
             USB_DEVICE.DEVICE_INFO DevInfo = new USB_DEVICE.DEVICE_INFO();
@@ -91,7 +92,8 @@ namespace USB2XXX_I2C_SnifferTest
                 Console.WriteLine("    Functions String:" + FuncStr);
             }
             //启动I2C Sniffer
-            ret = I2C_SNIFFER.I2C_SnifferStart(DevHandles[0], 0, 5000000, GetI2CDataHandle);
+            GC.KeepAlive(get_data_callback);
+            ret = I2C_SNIFFER.I2C_SnifferStart(DevHandles[0], 0, 5000000, get_data_callback);
             if (ret != I2C_SNIFFER.SUCCESS)
             {
                 Console.WriteLine("Start i2c sniffer faild!");

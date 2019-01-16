@@ -22,6 +22,7 @@ namespace USB2XXXSPITest
             Console.WriteLine(HexStr);
             return 0;
         }
+        static USB2SPI.SPI_GET_DATA_HANDLE spi_get_data_callback = SPI_SlaveReadDataHandle; 
         static void Main(string[] args)
         {
             usb_device.DEVICE_INFO DevInfo = new usb_device.DEVICE_INFO();
@@ -114,7 +115,8 @@ namespace USB2XXXSPITest
             }
             */
             Console.WriteLine("Press any key to exit the data reception!");
-            USB2SPI.SPI_SlaveContinueRead(DevHandle, SPIIndex, SPI_SlaveReadDataHandle);
+            GC.KeepAlive(spi_get_data_callback);
+            USB2SPI.SPI_SlaveContinueRead(DevHandle, SPIIndex, spi_get_data_callback);
             Console.ReadLine();
             USB2SPI.SPI_SlaveContinueReadStop(DevHandle, SPIIndex);
             Console.WriteLine("Test SPI_SUCCESS!");

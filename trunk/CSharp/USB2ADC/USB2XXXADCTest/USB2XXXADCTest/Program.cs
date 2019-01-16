@@ -26,6 +26,7 @@ namespace USB2XXXADCTest
             Console.WriteLine("ADC Data = %fV", (pData[0] * 3.3) / 4095);
             return 0;
         }
+        static USB2ADC.ADC_GET_DATA_HANDLE adc_get_data_callback = GetAdcDataHandle; 
         static void Main(string[] args)
         {
             usb_device.DEVICE_INFO DevInfo = new usb_device.DEVICE_INFO();
@@ -64,7 +65,7 @@ namespace USB2XXXADCTest
             //获取固件信息
 #if GET_FIRMWARE_INFO
             StringBuilder FuncStr = new StringBuilder(256);
-            state = usb_device.USB_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
+            state = usb_device.DEV_GetDeviceInfo(DevHandle, ref DevInfo, FuncStr);
             if (!state)
             {
                 Console.WriteLine("Get device infomation error!");
@@ -106,7 +107,8 @@ namespace USB2XXXADCTest
                 }
             }
             //启动连续读数据函数
-            ret = USB2ADC.ADC_StartContinueRead(DevHandle, ADC_Channel, 1000000, 10240, GetAdcDataHandle);
+            GC.KeepAlive(adc_get_data_callback);
+            ret = USB2ADC.ADC_StartContinueRead(DevHandle, ADC_Channel, 1000000, 10240, adc_get_data_callback);
             if (ret != USB2ADC.ADC_SUCCESS)
             {
                 Console.WriteLine("Start Continue Read adc error!\n");
