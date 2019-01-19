@@ -9,7 +9,9 @@ using System.Linq;
 using System.Diagnostics;
 using System.Text;
 using USB2XXX;
-
+/**
+ * 注意：若运行程序提示找不到USB2XXX.dll文件，可以将工程目录下的USB2XXX.dll和libusb-1.0.dll文件拷贝到exe程序输出目录下即可（一般是./bin/Release或者./bin/Debug目录）
+ */
 namespace USB2XXX_LIN_Test
 {
     class Program
@@ -86,18 +88,18 @@ namespace USB2XXX_LIN_Test
             USB2LIN_EX.LIN_EX_MSG[] LINOutMsg = new USB2LIN_EX.LIN_EX_MSG[10];
             int MsgLen = 5;
             LINMsg[0] = new USB2LIN_EX.LIN_EX_MSG();
-            LINMsg[0].MsgType = USB2LIN_EX.LIN_EX_MSG_TYPE_BK;
+            LINMsg[0].MsgType = USB2LIN_EX.LIN_EX_MSG_TYPE_BK;//只发送BREAK信号，一般用于唤醒休眠中的从设备
             LINMsg[0].Timestamp = 10;//发送该帧数据之后的延时时间，最小建议设置为1
             for(int f=1;f<MsgLen;f++){
                 LINMsg[f] = new USB2LIN_EX.LIN_EX_MSG();
-                LINMsg[f].MsgType = USB2LIN_EX.LIN_EX_MSG_TYPE_MW;
+                LINMsg[f].MsgType = USB2LIN_EX.LIN_EX_MSG_TYPE_MW;//主机发送数据
                 LINMsg[f].DataLen = 8;
                 LINMsg[f].Data = new Byte[8];
                 for(int i=0;i<LINMsg[1].DataLen;i++){
                     LINMsg[f].Data[i] = (Byte)((f<<4)|i);
                 }
                 LINMsg[f].Timestamp = 10;//发送该帧数据之后的延时时间
-                LINMsg[f].CheckType = USB2LIN_EX.LIN_EX_CHECK_EXT;
+                LINMsg[f].CheckType = USB2LIN_EX.LIN_EX_CHECK_EXT;//增强校验
                 LINMsg[f].PID = (Byte)(f + 1);
             }
             //将数组转换成指针
@@ -109,6 +111,7 @@ namespace USB2XXX_LIN_Test
                 Console.WriteLine("MasterSync LIN failed!");
                 return;
             }else{
+                //主机发送数据成功后，也会接收到发送出去的数据，通过接收回来的数据跟发送出去的数据对比，可以判断发送数据的时候，数据是否被冲突
                 Console.WriteLine("MsgLen = {0}", ret);
                 for(int i=0;i<ret;i++){
                     LINOutMsg[i] = (USB2LIN_EX.LIN_EX_MSG)Marshal.PtrToStructure((IntPtr)((UInt32)pt + i * Marshal.SizeOf(typeof(USB2LIN_EX.LIN_EX_MSG))), typeof(USB2LIN_EX.LIN_EX_MSG));
