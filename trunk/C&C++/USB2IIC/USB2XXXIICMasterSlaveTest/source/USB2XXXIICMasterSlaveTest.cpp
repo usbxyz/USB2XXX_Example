@@ -74,6 +74,7 @@ int main(int argc, const char* argv[])
     IIC_Config.AddrBits = 7;            //7bit地址模式
     IIC_Config.ClockSpeedHz = 100000;     //时钟频率400KHz
     IIC_Config.Master = 1;              //主机模式
+    IIC_Config.OwnAddr = 0x51;          //从机地址
     ret = IIC_Init(DevHandle[0],MasterIICIndex,&IIC_Config);
     if(ret != IIC_SUCCESS){
         printf("Config Master IIC Failed!\n");
