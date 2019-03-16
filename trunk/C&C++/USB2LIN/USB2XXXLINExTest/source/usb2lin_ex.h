@@ -34,11 +34,12 @@
 #define LIN_EX_ERR_CMD_FAIL        (-4)  //命令执行失败
 #define LIN_EX_ERR_CH_NO_INIT      (-5)  //该通道未初始化
 #define LIN_EX_ERR_READ_DATA       (-6)  //LIN读数据失败
+#define LIN_EX_ERR_PARAMETER       (-7)  //函数参数传入有误
 
 #define LIN_EX_CHECK_STD     0	//标准校验，不含PID
 #define LIN_EX_CHECK_EXT     1	//增强校验，包含PID
 #define LIN_EX_CHECK_USER    2	//自定义校验类型，需要用户自己计算并传入Check，不进行自动校验
-#define LIN_EX_CHECK_NONE    3  //接收数据校验错误
+#define LIN_EX_CHECK_NONE    3  //不计算校验数据
 #define LIN_EX_CHECK_ERROR   4  //接收数据校验错误
 
 #define LIN_EX_MASTER              1//主机
@@ -77,6 +78,12 @@ int WINAPI  LIN_EX_Init(int DevHandle,unsigned char LINIndex,unsigned int BaudRa
 int WINAPI  LIN_EX_MasterSync(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pInMsg,LIN_EX_MSG *pOutMsg,unsigned int MsgLen);
 int WINAPI  LIN_EX_SlaveSetIDMode(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg,unsigned int MsgLen);
 int WINAPI  LIN_EX_SlaveGetData(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg);
+int WINAPI  LIN_EX_CtrlPowerOut(int DevHandle,unsigned char State);
+int WINAPI  LIN_EX_GetVbatValue(int DevHandle,unsigned short *pBatValue);
+
+int WINAPI  LIN_EX_MasterStartSch(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg,unsigned int MsgLen);
+int WINAPI  LIN_EX_MasterStopSch(int DevHandle,unsigned char LINIndex);
+int WINAPI  LIN_EX_MasterGetSch(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg);
 
 #ifdef __cplusplus
 }
