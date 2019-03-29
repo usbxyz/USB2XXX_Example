@@ -28,10 +28,10 @@ int FileSize = 0;
 #if USE_CALLBACK_RECEIVE_DATA
 int __stdcall SlaveGetData(int DevHandle,int SPIIndex,unsigned char *pData,int DataNum)
 {
-    //fwrite(pData,1,DataNum,pFile);
-	for(int i=0;i<DataNum;i++){
+    fwrite(pData,1,DataNum,pFile);
+	/*for(int i=0;i<DataNum;i++){
 		fprintf(pFile,"%02X ",pData[i]);
-	}
+	}*/
 	FileSize += DataNum;
     //printf("Get data num = %d\n",DataNum);
     return 0;
@@ -87,7 +87,7 @@ int main(int argc, const char* argv[])
     printf("SPIConfig.CPHA = %d\n",SPIConfig.CPHA);
     printf("SPIConfig.CPOL = %d\n",SPIConfig.CPOL);
     //配置SPI总线相关参数(配置为从机模式)
-    SPIConfig.Mode = SPI_MODE_HARD_FDX;
+    SPIConfig.Mode = SPI_MODE_HARD_HDX;
     SPIConfig.ClockSpeedHz = 50000000;
     //SPIConfig.CPHA = 0;
     //SPIConfig.CPOL = 0;
@@ -116,12 +116,13 @@ int main(int argc, const char* argv[])
     SPI_SlaveContinueRead(DevHandle[0],SPIIndex,SlaveGetData);
     getchar();
     getchar();
-    SPI_SlaveContinueReadStop(DevHandle[0],SPIIndex);
+    SPI_SlaveContinueWriteReadStop(DevHandle[0],SPIIndex);
 #else
+    SPI_SlaveContinueRead(DevHandle[0],SPIIndex,NULL);
     while(true)
     {
         unsigned char DataBuffer[40960];
-        int DataNum = SPI_SlaveReadBytes(DevHandle[0],SPIIndex,DataBuffer,0);
+        int DataNum = SPI_SlaveGetBytes(DevHandle[0],SPIIndex,DataBuffer,0);
         if(DataNum > 0){
             fwrite(DataBuffer,1,DataNum,pFile);
             FileSize += DataNum;

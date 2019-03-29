@@ -58,10 +58,10 @@ int main(int argc, const char* argv[])
     }
     //配置SPI总线相关参数
     SPI_CONFIG SPIConfig;
-    SPIConfig.Mode = 1;
-    SPIConfig.ClockSpeedHz = 25000000>>2;
-    SPIConfig.CPHA = 0;
-    SPIConfig.CPOL = 0;
+    SPIConfig.Mode = SPI_MODE_HARD_HDX;
+    SPIConfig.ClockSpeedHz = 50000000>>1;
+    SPIConfig.CPHA = 1;
+    SPIConfig.CPOL = 1;
     SPIConfig.LSBFirst = 0;
     SPIConfig.Master = 1;
     SPIConfig.SelPolarity = 0;
