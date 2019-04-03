@@ -45,13 +45,13 @@ Module usb2lin_ex
 	Public Const LIN_EX_MSG_TYPE_DT		=8	'表明检测到了BREAK，SYNC，PID,DATA信号
 	Public Const LIN_EX_MSG_TYPE_CK		=9	'表明检测到了BREAK，SYNC，PID,DATA,CHECK信号
 
-	Declare Function  LIN_EX_Init Lib "USB2XXX.dll" (ByVal DevHandle As UInt32,ByVal LINIndex As Byte,ByVal BaudRate As UInt32,ByVal MasterMode As Byte) As Int32
-	Declare Function  LIN_EX_MasterSync Lib "USB2XXX.dll" (ByVal DevHandle As UInt32,ByVal LINIndex As Byte,<[In]()> ByVal pInMsg As LIN_EX_MSG(),<Out()> ByVal pOutMsg As LIN_EX_MSG(),ByVal MsgLen UInt32) As Int32
-	Declare Function  LIN_EX_SlaveSetIDMode Lib "USB2XXX.dll" (ByVal DevHandle As UInt32,ByVal LINIndex As Byte,<[In]()> ByVal pLINMsg As LIN_EX_MSG(),ByVal MsgLen UInt32) As Int32
-	Declare Function  LIN_EX_SlaveGetData Lib "USB2XXX.dll" (ByVal DevHandle As UInt32,ByVal LINIndex As Byte,<Out()> ByVal pLINMsg As LIN_EX_MSG()) As Int32
-	Declare Function  LIN_EX_CtrlPowerOut Lib "USB2XXX.dll" (ByVal DevHandle As UInt32,ByVal State As Byte) As Int32
-	Declare Function  LIN_EX_GetVbatValue Lib "USB2XXX.dll" (ByVal DevHandle As UInt32,ByVal pBatValue As Int16) As Int32
-	Declare Function  LIN_EX_MasterStartSch Lib "USB2XXX.dll" (ByVal DevHandle As UInt32,ByVal LINIndex As Byte,<[In]()> ByVal pLINMsg As LIN_EX_MSG(),ByVal MsgLen UInt32) As Int32
-	Declare Function  LIN_EX_MasterStopSch Lib "USB2XXX.dll" (ByVal DevHandle As UInt32,ByVal LINIndex As Byte) As Int32
-	Declare Function  LIN_EX_MasterGetSch Lib "USB2XXX.dll" (ByVal DevHandle As UInt32,ByVal LINIndex As Byte,<Out()> ByVal pLINMsg As LIN_EX_MSG()) As Int32
+    Declare Function LIN_EX_Init Lib "USB2XXX.dll" (ByVal DevHandle As UInt32, ByVal LINIndex As Byte, ByVal BaudRate As UInt32, ByVal MasterMode As Byte) As Int32
+    Declare Function LIN_EX_MasterSync Lib "USB2XXX.dll" (ByVal DevHandle As UInt32, ByVal LINIndex As Byte, <[In]()> ByVal pInMsg As LIN_EX_MSG(), <Out()> ByVal pOutMsg As LIN_EX_MSG(), ByVal MsgLen As UInt32) As Int32
+    Declare Function LIN_EX_SlaveSetIDMode Lib "USB2XXX.dll" (ByVal DevHandle As UInt32, ByVal LINIndex As Byte, <[In]()> ByVal pLINMsg As LIN_EX_MSG(), ByVal MsgLen As UInt32) As Int32
+    Declare Function LIN_EX_SlaveGetData Lib "USB2XXX.dll" (ByVal DevHandle As UInt32, ByVal LINIndex As Byte, <Out()> ByVal pLINMsg As LIN_EX_MSG()) As Int32
+    Declare Function LIN_EX_CtrlPowerOut Lib "USB2XXX.dll" (ByVal DevHandle As UInt32, ByVal State As Byte) As Int32
+    Declare Function LIN_EX_GetVbatValue Lib "USB2XXX.dll" (ByVal DevHandle As UInt32, ByVal pBatValue As Int16) As Int32
+    Declare Function LIN_EX_MasterStartSch Lib "USB2XXX.dll" (ByVal DevHandle As UInt32, ByVal LINIndex As Byte, <[In]()> ByVal pLINMsg As LIN_EX_MSG(), ByVal MsgLen As UInt32) As Int32
+    Declare Function LIN_EX_MasterStopSch Lib "USB2XXX.dll" (ByVal DevHandle As UInt32, ByVal LINIndex As Byte) As Int32
+    Declare Function LIN_EX_MasterGetSch Lib "USB2XXX.dll" (ByVal DevHandle As UInt32, ByVal LINIndex As Byte, <Out()> ByVal pLINMsg As LIN_EX_MSG()) As Int32
 End Module
