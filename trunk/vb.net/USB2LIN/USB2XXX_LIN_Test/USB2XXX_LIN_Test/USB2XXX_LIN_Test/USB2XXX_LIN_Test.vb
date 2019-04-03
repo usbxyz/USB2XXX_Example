@@ -2,7 +2,7 @@
 #Const LIN_MASTER = True
 
 Module USB2XXX_LIN_Test
-
+	 '若运行程序提示找不到USB2XXX.dll文件，请将USB2XXX.dll文件和libusb-1.0.dll文件拷贝到exe程序输出目录下，比如bin/Debug目录下
     Sub Main()
         Dim ret As Int32
         Dim State As Boolean
