@@ -1,0 +1,606 @@
+LIN_description_file;
+LIN_protocol_version = "J2602_1_1.0";
+LIN_language_version = "J2602_3_1.0";
+LIN_speed = 10.417 kbps;
+Nodes {
+Master: BCM, 10.000 ms, 0.100 ms;
+Slaves: PWL1, PWL2;
+}
+Signals {
+BaseModel_B0: 8, 0, PWL1, BCM;
+BaseModel_B1: 8, 0, PWL1, BCM;
+BaseModel_B2: 8, 0, PWL1, BCM;
+BaseModel_B3: 8, 0, PWL1, BCM;
+Calibration_B0: 8, 0, PWL1, BCM;
+Calibration_B1: 8, 0, PWL1, BCM;
+Calibration_B2: 8, 0, PWL1, BCM;
+Calibration_B3: 8, 0, PWL1, BCM;
+ChassisConf: 3, 0, BCM, PWL1, PWL2;
+ClrNormReq: 1, 0, BCM, PWL1, PWL2;
+ConfCompErrFlag: 1, 0, PWL1, BCM;
+DoorAjarActv: 1, 0, PWL1, BCM;
+ElapsedSleepTime: 8, 0, BCM, PWL1, PWL2;
+EngRunning: 1, 0, BCM, PWL1, PWL2;
+J2602_StatusInfo: 5, 0, PWL1, BCM;
+LocExprDwnMovmtAct: 1, 0, PWL1, BCM;
+LocExprUpMovmtActv: 1, 0, PWL1, BCM;
+MotRelayFault: 1, 0, PWL1, BCM;
+MotThermProtActv: 1, 0, PWL1, BCM;
+IndexingUp: 1, 0, BCM, PWL1, PWL2;
+FTPosLimitEn: 1, 0, BCM, PWL1, PWL2;
+MoveToPosC: 1, 0, BCM, PWL1, PWL2;
+OutAirTemp: 8, 0, BCM, PWL1, PWL2;
+PWECfgDataBuffer: 64, {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}, BCM,
+PWL1, PWL2;
+PWELowVoltDet: 1, 0, PWL1, BCM;
+PWENotNormActv: 1, 0, PWL1, BCM;
+SAE_ApplConfStatus: 1, 0, PWL1, BCM;
+SAE_ApplStatus: 1, 0, PWL1, BCM;
+SAE_ComConReq: 1, 0, PWL1, BCM;
+SAE_J2602_Err_Resp: 1, 0, PWL1, BCM;
+SAE_J2602_Err_Type: 2, 0, PWL1, BCM;
+SAE_PollDiagReq: 1, 0, PWL1, BCM;
+SAE_ResetStatus: 1, 0, PWL1, BCM;
+SensSysFault: 1, 0, PWL1, BCM;
+VehSpeedAvgLow: 8, 0, BCM, PWL1, PWL2;
+WndwDwn: 1, 0, BCM, PWL1, PWL2;
+WndwDwnActv: 1, 0, PWL1, BCM;
+WndwExpr: 1, 0, BCM, PWL1, PWL2;
+WndwExprActv: 1, 0, PWL1, BCM;
+WndwLocSwtEn: 1, 0, BCM, PWL1, PWL2;
+WndwMotRevActv: 1, 0, PWL1, BCM;
+WndNormDisabled: 1, 1, BCM, PWL1, PWL2;
+WndwObstDetEn: 1, 0, BCM, PWL1, PWL2;
+WndwOpDis: 1, 0, BCM, PWL1, PWL2;
+WndwOpDis_LHD: 1, 0, BCM, PWL1, PWL2;
+WndwOpDis_RHD: 1, 0, BCM, PWL1, PWL2;
+WndwPosStatus: 3, 0, PWL1, BCM;
+WndwUp: 1, 0, BCM, PWL1, PWL2;
+WndwUpActv: 1, 0, PWL1, BCM;
+WndwUpPosEn: 1, 0, BCM, PWL1, PWL2;
+}
+Diagnostic_signals {
+MasterReqB0:8,0;
+MasterReqB1:8,0;
+MasterReqB2:8,0;
+MasterReqB3:8,0;
+MasterReqB4:8,0;
+MasterReqB5:8,0;
+MasterReqB6:8,0;
+MasterReqB7:8,0;
+SlaveRespB0:8,0;
+SlaveRespB1:8,0;
+SlaveRespB2:8,0;
+SlaveRespB3:8,0;
+SlaveRespB4:8,0;
+SlaveRespB5:8,0;
+SlaveRespB6:8,0;
+SlaveRespB7:8,0;
+}
+Frames {
+BaseModel_Left : 53, PWL1, 5 {
+J2602_StatusInfo, 0;
+SAE_J2602_Err_Resp, 5;
+BaseModel_B0, 8;
+BaseModel_B1, 16;
+BaseModel_B2, 24;
+BaseModel_B3, 32;
+}
+Calibration_Left : 52, PWL1, 5 {
+J2602_StatusInfo, 0;
+SAE_J2602_Err_Resp, 5;
+Calibration_B0, 8;
+Calibration_B1, 16;
+Calibration_B2, 24;
+Calibration_B3, 32;
+}
+BaseModel_Right : 49, PWL2, 5 {
+J2602_StatusInfo, 0;
+SAE_J2602_Err_Resp, 5;
+BaseModel_B0, 8;
+BaseModel_B1, 16;
+BaseModel_B2, 24;
+BaseModel_B3, 32;
+}
+Calibration_Right : 48, PWL2, 5 {
+J2602_StatusInfo, 0;
+SAE_J2602_Err_Resp, 5;
+Calibration_B0, 8;
+Calibration_B1, 16;
+Calibration_B2, 24;
+Calibration_B3, 32;
+}
+Command_Broadcast : 56, BCM, 8 {
+ElapsedSleepTime, 0;
+WndwOpDis, 8;
+}
+Command_Left_LHD : 34, BCM, 4 {
+WndwOpDis_LHD, 0;
+WndwLocSwtEn, 1;
+WndwUpPosEn, 2;
+ClrNormReq, 3;
+EngRunning, 4;
+ChassisConf, 5;
+IndexingUp, 8;
+FTPosLimitEn, 9;
+MoveToPosC, 10;
+WndNormDisabled, 11;
+WndwDwn, 12;
+WndwUp, 13;
+WndwExpr, 14;
+WndwObstDetEn, 15;
+VehSpeedAvgLow, 16;
+OutAirTemp, 24;
+}
+Command_Left_RHD : 38, BCM, 4 {
+WndwOpDis_RHD, 0;
+WndwLocSwtEn, 1;
+WndwUpPosEn, 2;
+ClrNormReq, 3;
+EngRunning, 4;
+ChassisConf, 5;
+IndexingUp, 8;
+FTPosLimitEn, 9;
+MoveToPosC, 10;
+WndNormDisabled, 11;
+WndwDwn, 12;
+WndwUp, 13;
+WndwExpr, 14;
+WndwObstDetEn, 15;
+VehSpeedAvgLow, 16;
+OutAirTemp, 24;
+}
+Command_Right_LHD : 42, BCM, 4 {
+WndwOpDis_LHD, 0;
+WndwLocSwtEn, 1;
+WndwUpPosEn, 2;
+ClrNormReq, 3;
+EngRunning, 4;
+ChassisConf, 5;
+IndexingUp, 8;
+FTPosLimitEn, 9;
+MoveToPosC, 10;
+WndNormDisabled, 11;
+WndwDwn, 12;
+WndwUp, 13;
+WndwExpr, 14;
+WndwObstDetEn, 15;
+VehSpeedAvgLow, 16;
+OutAirTemp, 24;
+}
+Command_Right_RHD : 46, BCM, 4 {
+WndwOpDis_RHD, 0;
+WndwLocSwtEn, 1;
+WndwUpPosEn, 2;
+ClrNormReq, 3;
+EngRunning, 4;
+ChassisConf, 5;
+IndexingUp, 8;
+FTPosLimitEn, 9;
+MoveToPosC, 10;
+WndNormDisabled, 11;
+WndwDwn, 12;
+WndwUp, 13;
+WndwExpr, 14;
+WndwObstDetEn, 15;
+VehSpeedAvgLow, 16;
+OutAirTemp, 24;
+}
+Data_Buffer_0_Right : 0, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_1_Right : 1, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_2_Right : 2, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_3_Right : 3, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_4_Right : 4, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_5_Right : 5, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_6_Right : 6, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_7_Right : 7, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_8_Right : 8, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_9_Right : 9, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_10_Right : 10, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_11_Right : 11, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_12_Right : 12, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_13_Right : 13, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_14_Right : 14, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_15_Right : 15, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_16_Right : 50, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_17_Right : 51, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_0_Left : 16, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_1_Left : 17, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_2_Left : 18, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_3_Left : 19, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_4_Left : 20, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_5_Left : 21, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_6_Left : 22, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_7_Left : 23, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_8_Left : 24, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_9_Left : 25, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_10_Left : 26, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_11_Left : 27, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_12_Left : 28, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_13_Left : 29, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_14_Left : 30, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_15_Left : 31, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_16_Left : 54, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Data_Buffer_17_Left : 55, BCM, 8 {
+PWECfgDataBuffer, 0;
+}
+Feedback_Left_LHD : 35, PWL1, 3 {
+SAE_ComConReq, 0;
+SAE_PollDiagReq, 1;
+SAE_ResetStatus, 2;
+SAE_ApplConfStatus, 3;
+SAE_ApplStatus, 4;
+SAE_J2602_Err_Type, 5;
+SAE_J2602_Err_Resp, 7;
+WndwDwnActv, 8;
+WndwUpActv, 9;
+WndwExprActv, 10;
+DoorAjarActv, 11;
+PWENotNormActv, 12;
+WndwPosStatus, 13;
+MotRelayFault, 16;
+SensSysFault, 17;
+MotThermProtActv, 18;
+LocExprUpMovmtActv, 19;
+PWELowVoltDet, 20;
+WndwMotRevActv, 21;
+ConfCompErrFlag, 22;
+LocExprDwnMovmtAct, 23;
+}
+Feedback_Left_RHD : 39, PWL1, 3 {
+SAE_ComConReq, 0;
+SAE_PollDiagReq, 1;
+SAE_ResetStatus, 2;
+SAE_ApplConfStatus, 3;
+SAE_ApplStatus, 4;
+SAE_J2602_Err_Type, 5;
+SAE_J2602_Err_Resp, 7;
+WndwDwnActv, 8;
+WndwUpActv, 9;
+WndwExprActv, 10;
+DoorAjarActv, 11;
+PWENotNormActv, 12;
+WndwPosStatus, 13;
+MotRelayFault, 16;
+SensSysFault, 17;
+MotThermProtActv, 18;
+LocExprUpMovmtActv, 19;
+PWELowVoltDet, 20;
+WndwMotRevActv, 21;
+ConfCompErrFlag, 22;
+LocExprDwnMovmtAct, 23;
+}
+Feedback_Right_LHD : 43, PWL2, 3 {
+SAE_ComConReq, 0;
+SAE_PollDiagReq, 1;
+SAE_ResetStatus, 2;
+SAE_ApplConfStatus, 3;
+SAE_ApplStatus, 4;
+SAE_J2602_Err_Type, 5;
+SAE_J2602_Err_Resp, 7;
+WndwDwnActv, 8;
+WndwUpActv, 9;
+WndwExprActv, 10;
+DoorAjarActv, 11;
+PWENotNormActv, 12;
+WndwPosStatus, 13;
+MotRelayFault, 16;
+SensSysFault, 17;
+MotThermProtActv, 18;
+LocExprUpMovmtActv, 19;
+PWELowVoltDet, 20;
+WndwMotRevActv, 21;
+ConfCompErrFlag, 22;
+LocExprDwnMovmtAct, 23;
+}
+Feedback_Right_RHD : 47, PWL2, 3 {
+SAE_ComConReq, 0;
+SAE_PollDiagReq, 1;
+SAE_ResetStatus, 2;
+SAE_ApplConfStatus, 3;
+SAE_ApplStatus, 4;
+SAE_J2602_Err_Type, 5;
+SAE_J2602_Err_Resp, 7;
+WndwDwnActv, 8;
+WndwUpActv, 9;
+WndwExprActv, 10;
+DoorAjarActv, 11;
+PWENotNormActv, 12;
+WndwPosStatus, 13;
+MotRelayFault, 16;
+SensSysFault, 17;
+MotThermProtActv, 18;
+LocExprUpMovmtActv, 19;
+PWELowVoltDet, 20;
+WndwMotRevActv, 21;
+ConfCompErrFlag, 22;
+LocExprDwnMovmtAct, 23;
+}
+}
+Diagnostic_frames {
+MasterReq: 60 { //pub: Master
+MasterReqB0, 0;
+MasterReqB1, 8;
+MasterReqB2, 16;
+MasterReqB3, 24;
+MasterReqB4, 32;
+MasterReqB5, 40;
+MasterReqB6, 48;
+MasterReqB7, 56;
+}
+SlaveResp: 61 { //pub: any slave
+SlaveRespB0, 0;
+SlaveRespB1, 8;
+SlaveRespB2, 16;
+SlaveRespB3, 24;
+SlaveRespB4, 32;
+SlaveRespB5, 40;
+SlaveRespB6, 48;
+SlaveRespB7, 56;
+}
+}
+Node_attributes{
+PWL1 {
+LIN_protocol = 2.0;
+configured_NAD = 0x64; //init: 0x7E;
+product_id = 0x0037, 0x1970, 0xC0;
+response_error = SAE_J2602_Err_Resp;
+P2_min = 0.000 ms;
+ST_min = 0.000 ms;
+configurable_frames {
+//TxFrames
+BaseModel_Left = 0x35;
+Calibration_Left = 0x34;
+Feedback_Left_LHD = 0x23;
+Feedback_Left_RHD = 0x27;
+//RxFrames
+Command_Left_LHD = 0x22;
+Command_Left_RHD = 0x26;
+Command_Broadcast = 0x38;
+Data_Buffer_0_Left = 0x10;
+Data_Buffer_1_Left = 0x11;
+Data_Buffer_2_Left = 0x12;
+Data_Buffer_3_Left = 0x13;
+Data_Buffer_4_Left = 0x14;
+Data_Buffer_5_Left = 0x15;
+Data_Buffer_6_Left = 0x16;
+Data_Buffer_7_Left = 0x17;
+Data_Buffer_8_Left = 0x18;
+Data_Buffer_9_Left = 0x19;
+Data_Buffer_10_Left = 0x1A;
+Data_Buffer_11_Left = 0x1B;
+Data_Buffer_12_Left = 0x1C;
+Data_Buffer_13_Left = 0x1D;
+Data_Buffer_14_Left = 0x1E;
+Data_Buffer_15_Left = 0x1F;
+Data_Buffer_16_Left = 0x36;
+Data_Buffer_17_Left = 0x37;
+}
+}
+PWL2 {
+LIN_protocol = 2.0;
+configured_NAD = 0x60; //init: 0x7E;
+product_id = 0x0037, 0x1971, 0xC0;
+response_error = SAE_J2602_Err_Resp;
+P2_min = 0.000 ms;
+ST_min = 0.000 ms;
+configurable_frames {
+//TxFrames
+BaseModel_Right = 0x31;
+Calibration_Right = 0x30;
+Feedback_Right_LHD = 0x2B;
+Feedback_Right_RHD = 0x2F;
+//RxFrames
+Command_Right_LHD = 0x2A;
+Command_Right_RHD = 0x2E;
+Command_Broadcast = 0x38;
+Data_Buffer_0_Right = 0x0;
+Data_Buffer_1_Right = 0x1;
+Data_Buffer_2_Right = 0x2;
+Data_Buffer_3_Right = 0x3;
+Data_Buffer_4_Right = 0x4;
+Data_Buffer_5_Right = 0x5;
+Data_Buffer_6_Right = 0x6;
+Data_Buffer_7_Right = 0x7;
+Data_Buffer_8_Right = 0x8;
+Data_Buffer_9_Right = 0x9;
+Data_Buffer_10_Right = 0xA;
+Data_Buffer_11_Right = 0xB;
+Data_Buffer_12_Right = 0xC;
+Data_Buffer_13_Right = 0xD;
+Data_Buffer_14_Right = 0xE;
+Data_Buffer_15_Right = 0xF;
+Data_Buffer_16_Right = 0x32;
+Data_Buffer_17_Right = 0x33;
+}
+}
+}
+Schedule_tables {
+broadcast {
+Command_Broadcast delay 15.000 ms;
+}
+main_lhd {
+Command_Left_LHD delay 15.000 ms;
+Feedback_Left_LHD delay 15.000 ms;
+Command_Right_LHD delay 15.000 ms;
+Feedback_Right_LHD delay 15.000 ms;
+}
+main_rhd {
+Command_Left_RHD delay 15.000 ms;
+Feedback_Left_RHD delay 15.000 ms;
+Command_Right_RHD delay 15.000 ms;
+Feedback_Right_RHD delay 15.000 ms;
+}
+numbers {
+BaseModel_Left delay 15.000 ms;
+Calibration_Left delay 15.000 ms;
+BaseModel_Right delay 15.000 ms;
+Calibration_Right delay 15.000 ms;
+}
+mrf {
+MasterReq delay 20.000 ms;
+}
+srf {
+SlaveResp delay 20.000 ms;
+}
+}
+Signal_encoding_types {
+T_APINFO0 {
+logical_value, 0, "No Request";
+logical_value, 1, "Request";
+}
+T_APINFO1 {
+logical_value, 0, "No Request";
+logical_value, 1, "Request";
+}
+T_APINFO2 {
+logical_value, 0, "No Reset";
+logical_value, 1, "Reset";
+}
+T_APINFO3 {
+logical_value, 0, "OK";
+logical_value, 1, "NOK";
+}
+T_APINFO4 {
+logical_value, 0, "OK";
+logical_value, 1, "NOK";
+}
+T_Boolean {
+logical_value, 0, "FALSE";
+logical_value, 1, "TRUE";
+}
+T_5Bit {
+physical_value, 0, 31, 1, 0, "5 Bit Value";
+}
+T_Byte {
+physical_value, 0, 255, 1, 0, "Byte Value";
+}
+T_ChassisConf {
+logical_value, 0, "Conf 0";
+logical_value, 1, "Conf 1";
+logical_value, 2, "Conf 2";
+logical_value, 3, "Conf 3";
+logical_value, 4, "Conf 4";
+logical_value, 5, "Conf 5";
+logical_value, 6, "Conf 6";
+logical_value, 7, "Conf 7";
+}
+T_ElapsedSleepTime {
+physical_value, 0, 255, 1, 0, "min";
+}
+T_J2602_Err_Type {
+logical_value, 0, "DataErr";
+logical_value, 1, "ChecksumErr";
+logical_value, 2, "ByteFldFrmErr";
+logical_value, 3, "IDParityErr";
+}
+T_OutAirTemp {
+physical_value, 0, 255, 0.5, -40, "deg C";
+}
+T_VehSpeedAvgLow {
+physical_value, 0, 255, 2, 0, "km/h";
+}
+T_WndwPosStatus {
+logical_value, 0, "Wndw fully closed";
+logical_value, 1, "Wndw open less than A";
+logical_value, 2, "Wndw @ position A";
+logical_value, 3, "Wndw @ position B";
+logical_value, 4, "Wndw @ position C";
+logical_value, 5, "Wndw open more than C";
+logical_value, 6, "Wndw fully opened";
+logical_value, 7, "Not used";
+}
+}
+Signal_representation {
+T_APINFO0: SAE_ComConReq;
+T_APINFO1: SAE_PollDiagReq;
+T_APINFO2: SAE_ResetStatus;
+T_APINFO3: SAE_ApplConfStatus;
+T_APINFO4: SAE_ApplStatus;
+T_Boolean: WndwOpDis, ClrNormReq, EngRunning, IndexingUp, FTPosLimitEn,
+MoveToPosC, WndwDwn, WndwExpr, WndwLocSwtEn, WndwObstDetEn,
+WndwOpDis_LHD, WndwUp, WndwUpPosEn, ConfCompErrFlag,
+DoorAjarActv, LocExprDwnMovmtAct, LocExprUpMovmtActv,
+MotRelayFault, MotThermProtActv, PWELowVoltDet, PWENotNormActv,
+SAE_J2602_Err_Resp, SensSysFault, WndwDwnActv, WndwExprActv,
+WndwMotRevActv, WndwUpActv;
+T_Byte: Calibration_B0, Calibration_B1, Calibration_B2, Calibration_B3,
+BaseModel_B0, BaseModel_B1, BaseModel_B2, BaseModel_B3;
+T_5Bit: J2602_StatusInfo;
+T_ChassisConf: ChassisConf;
+T_ElapsedSleepTime: ElapsedSleepTime;
+T_J2602_Err_Type: SAE_J2602_Err_Type;
+T_OutAirTemp: OutAirTemp;
+T_VehSpeedAvgLow: VehSpeedAvgLow;
+T_WndwPosStatus: WndwPosStatus;
+}

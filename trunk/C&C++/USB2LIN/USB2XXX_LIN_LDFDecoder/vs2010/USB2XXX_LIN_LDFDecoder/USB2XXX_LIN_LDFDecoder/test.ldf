@@ -1,0 +1,1231 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                        Mentor Graphics Corporation                         */
+/*                            All rights reserved                             */
+/*                                                                            */
+/* ************************************************************************** */
+/*                                                                            */
+/*  Description:   LIN Description file                                       */
+/*  System:        SDB2810_SDB2810_Final8                                     */
+/*  Variant:       ConfigurationsCMAGeely                                     */
+/*  Cluster:       LIN3                                                       */
+/*  Master:        CEMmasterLIN3                                              */
+/*  Generated at:  2018-02-14 14:18:08                                        */
+/*                                                                            */
+/* ************************************************************************** */
+/*                                                                            */
+/*                THIS CONFIGURATION MIGHT CONTAIN SOME ERRORS                */
+/*                 IF THE INPUT MODEL WAS NOT PROPERLY FORMED!                */
+/*                       Do Not Use this File directly!                       */
+/*                                                                            */
+/* ************************************************************************** */
+
+LIN_description_file;
+LIN_protocol_version = "2.1";
+LIN_language_version = "2.1";
+LIN_speed = 19.2 kbps;
+
+Channel_name = "";
+
+Nodes {
+	Master: CEM, 5.000 ms, 1.000 ms;
+	Slaves: IDR, OHC, OHCR, OHRL, OHRR, OHTR, SRM;
+}
+
+Signals {
+	ActvnOfRoofLiGroupIntrLiCmd: 1, 0, CEM, OHC;
+	ActvnOfRoofLiGroupIntrLiDim: 1, 0, CEM, OHC;
+	ActvnOfRoofLiGroupIntrLiReq: 1, 0, CEM, OHC;
+	ActvnOfRoofSwtIllmn: 1, 0, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	AmbTRawQly: 2, 0, CEM, OHC, SRM;
+	AmbTRawVal: 11, 2047, CEM, OHC, SRM;
+	BltRmnTelltl: 1, 0, CEM, OHC;
+	BtnStsOHCIntrLiSwtAllOnSts: 1, 0, OHC, CEM;
+	BtnStsOHCIntrLiSwtAutOnSts: 1, 0, OHC, CEM;
+	BtnStsOHCLiBtnReadingLe: 1, 0, OHC, CEM;
+	BtnStsOHCLiBtnReadingRi: 1, 0, OHC, CEM;
+	BtnStsOHCRLiBtnReadingLe: 1, 0, OHCR, CEM;
+	BtnStsOHCRLiBtnReadingRi: 1, 0, OHCR, CEM;
+	BtnStsOHRL: 1, 0, OHRL, CEM;
+	BtnStsOHRR: 1, 0, OHRR, CEM;
+	BtnStsOHTRLiBtnReadingLe: 1, 0, OHTR, CEM;
+	BtnStsOHTRLiBtnReadingRi: 1, 0, OHTR, CEM;
+	DataSpclOHCDataIdn: 8, 0, OHC, CEM;
+	DataSpclOHCDataNrSpcl1: 8, 0, OHC, CEM;
+	DataSpclOHCDataNrSpcl2: 8, 0, OHC, CEM;
+	DataSpclOHCDataNrSpcl3: 8, 0, OHC, CEM;
+	DataSpclOHCRDataIdn: 8, 0, OHCR, CEM;
+	DataSpclOHCRDataNrSpcl1: 8, 0, OHCR, CEM;
+	DataSpclOHCRDataNrSpcl2: 8, 0, OHCR, CEM;
+	DataSpclOHCRDataNrSpcl3: 8, 0, OHCR, CEM;
+	DataSpclOHRLDataIdn: 8, 0, OHRL, CEM;
+	DataSpclOHRLDataNrSpcl1: 8, 0, OHRL, CEM;
+	DataSpclOHRLDataNrSpcl2: 8, 0, OHRL, CEM;
+	DataSpclOHRLDataNrSpcl3: 8, 0, OHRL, CEM;
+	DataSpclOHRRDataIdn: 8, 0, OHRR, CEM;
+	DataSpclOHRRDataNrSpcl1: 8, 0, OHRR, CEM;
+	DataSpclOHRRDataNrSpcl2: 8, 0, OHRR, CEM;
+	DataSpclOHRRDataNrSpcl3: 8, 0, OHRR, CEM;
+	DataSpclOHTRDataIdn: 8, 0, OHTR, CEM;
+	DataSpclOHTRDataNrSpcl1: 8, 0, OHTR, CEM;
+	DataSpclOHTRDataNrSpcl2: 8, 0, OHTR, CEM;
+	DataSpclOHTRDataNrSpcl3: 8, 0, OHTR, CEM;
+	DiagcSigOHC: 2, 0, OHC, CEM;
+	EmblemActivation: 1, 0, CEM;
+	EndOfLineSigCtrlrByte0: 8, 0, CEM, OHC;
+	EndOfLineSigCtrlrByte1: 8, 0, CEM, OHC;
+	EndOfLineSigCtrlrByte2: 8, 0, CEM, OHC;
+	EndOfLineSigCtrlrByte3: 8, 0, CEM, OHC;
+	EndOfLineSigCtrlrByte4: 8, 0, CEM, OHC;
+	EndOfLineSigCtrlrByte5: 8, 0, CEM, OHC;
+	EndOfLineSigCtrlrByte6: 8, 0, CEM, OHC;
+	EndOfLineSigCtrlrByte7: 8, 0, CEM, OHC;
+	EndOfLineSigOverByte0: 8, 0, OHC, CEM;
+	EndOfLineSigOverByte1: 8, 0, OHC, CEM;
+	EndOfLineSigOverByte2: 8, 0, OHC, CEM;
+	EndOfLineSigOverByte3: 8, 0, OHC, CEM;
+	EndOfLineSigOverByte4: 8, 0, OHC, CEM;
+	EndOfLineSigOverByte5: 8, 0, OHC, CEM;
+	EndOfLineSigOverByte6: 8, 0, OHC, CEM;
+	EndOfLineSigOverByte7: 8, 0, OHC, CEM;
+	HwPartNoOHCEndSgn1: 8, 0, OHC, CEM;
+	HwPartNoOHCEndSgn2: 8, 0, OHC, CEM;
+	HwPartNoOHCEndSgn3: 8, 0, OHC, CEM;
+	HwPartNoOHCNr1: 8, 0, OHC, CEM;
+	HwPartNoOHCNr2: 8, 0, OHC, CEM;
+	HwPartNoOHCNr3: 8, 0, OHC, CEM;
+	HwPartNoOHCNr4: 8, 0, OHC, CEM;
+	IntrBriSts: 4, 0, CEM, IDR, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiActvn1: 1, 0, OHC, CEM, OHCR, OHRL, OHRR, OHTR;
+	IntrLiActvnThrd: 1, 0, CEM, OHTR;
+	IntrLiCarTyp: 2, 0, CEM, OHC;
+	IntrLiCarTypeHRE: 1, 0, CEM, OHC;
+	IntrLiDmdOff: 1, 0, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofDimSpeed: 1, 1, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofParametersIntrLiAmbienceLvl: 7, 20, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofParametersIntrLiCourtesyLvl: 7, 70, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofParametersIntrLiForceOnLvl: 7, 100, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofParametersIntrLiPoliteLvl: 7, 100, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofParametersIntrLiWelcomeLvl: 7, 70, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon1: 3, 3, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon2: 3, 3, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon3: 3, 3, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon4: 3, 3, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon5: 3, 3, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon6: 3, 3, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofResetMemory: 1, 0, CEM, OHC, OHCR, OHRL, OHRR, OHTR;
+	IntrLiGen2RoofSwtAllOn: 1, 0, OHC, CEM;
+	IntrLiGen2RoofSwtAUTO: 1, 0, OHC, CEM;
+	IntrLiRearReq: 1, 0, CEM, OHC;
+	IntrLiRoofAUTOIndication: 1, 1, CEM, OHC;
+	IntrLiRoofDim: 1, 0, OHC, CEM, OHCR, OHRL, OHRR, OHTR;
+	IntrLiRoofDmdOff: 1, 0, OHC, CEM, OHCR, OHRL, OHRR, OHTR;
+	IntrLiRoofLampStsOHCLeft: 1, 0, OHC, CEM;
+	IntrLiRoofLampStsOHCRight: 1, 0, OHC, CEM;
+	MmedTvmPwerMod: 3, 0, CEM;
+	ModOnLiCmd: 1, 0, CEM, IDR, OHC, OHCR, OHRL, OHRR, OHTR;
+	ModOnLiInten: 2, 1, CEM, IDR, OHC, OHCR, OHRL, OHRR, OHTR;
+	ModOnLiTCmd: 5, 0, CEM, IDR, OHC, OHCR, OHRL, OHRR, OHTR;
+	ModOnLiTintgCmd: 4, 0, CEM, IDR, OHC, OHCR, OHRL, OHRR, OHTR;
+	PartNo10OHCEndSgn1: 8, 0, OHC, CEM;
+	PartNo10OHCEndSgn2: 8, 0, OHC, CEM;
+	PartNo10OHCEndSgn3: 8, 0, OHC, CEM;
+	PartNo10OHCNr1: 8, 0, OHC, CEM;
+	PartNo10OHCNr2: 8, 0, OHC, CEM;
+	PartNo10OHCNr3: 8, 0, OHC, CEM;
+	PartNo10OHCNr4: 8, 0, OHC, CEM;
+	PartNo10OHCNr5: 8, 0, OHC, CEM;
+	PartNo10SRMEndSgn1: 8, 0, SRM, CEM;
+	PartNo10SRMEndSgn2: 8, 0, SRM, CEM;
+	PartNo10SRMEndSgn3: 8, 0, SRM, CEM;
+	PartNo10SRMNr1: 8, 0, SRM, CEM;
+	PartNo10SRMNr2: 8, 0, SRM, CEM;
+	PartNo10SRMNr3: 8, 0, SRM, CEM;
+	PartNo10SRMNr4: 8, 0, SRM, CEM;
+	PartNo10SRMNr5: 8, 0, SRM, CEM;
+	PartNoApplDiagOHCEndSgn1: 8, 0, OHC, CEM;
+	PartNoApplDiagOHCEndSgn2: 8, 0, OHC, CEM;
+	PartNoApplDiagOHCEndSgn3: 8, 0, OHC, CEM;
+	PartNoApplDiagOHCNr1: 8, 0, OHC, CEM;
+	PartNoApplDiagOHCNr2: 8, 0, OHC, CEM;
+	PartNoApplDiagOHCNr3: 8, 0, OHC, CEM;
+	PartNoApplDiagOHCNr4: 8, 0, OHC, CEM;
+	PartNoApplOHCEndSgn1: 8, 0, OHC, CEM;
+	PartNoApplOHCEndSgn2: 8, 0, OHC, CEM;
+	PartNoApplOHCEndSgn3: 8, 0, OHC, CEM;
+	PartNoApplOHCNr1: 8, 0, OHC, CEM;
+	PartNoApplOHCNr2: 8, 0, OHC, CEM;
+	PartNoApplOHCNr3: 8, 0, OHC, CEM;
+	PartNoApplOHCNr4: 8, 0, OHC, CEM;
+	PartNoIDREndSgn1: 8, 0, IDR, CEM;
+	PartNoIDREndSgn2: 8, 0, IDR, CEM;
+	PartNoIDREndSgn3: 8, 0, IDR, CEM;
+	PartNoIDRNr1: 8, 0, IDR, CEM;
+	PartNoIDRNr2: 8, 0, IDR, CEM;
+	PartNoIDRNr3: 8, 0, IDR, CEM;
+	PartNoIDRNr4: 8, 0, IDR, CEM;
+	PartNoOHCEndSgn1: 8, 0, OHC, CEM;
+	PartNoOHCEndSgn2: 8, 0, OHC, CEM;
+	PartNoOHCEndSgn3: 8, 0, OHC, CEM;
+	PartNoOHCNr1: 8, 0, OHC, CEM;
+	PartNoOHCNr2: 8, 0, OHC, CEM;
+	PartNoOHCNr3: 8, 0, OHC, CEM;
+	PartNoOHCNr4: 8, 0, OHC, CEM;
+	PartNoOHCREndSgn1: 8, 0, OHCR, CEM;
+	PartNoOHCREndSgn2: 8, 0, OHCR, CEM;
+	PartNoOHCREndSgn3: 8, 0, OHCR, CEM;
+	PartNoOHCRNr1: 8, 0, OHCR, CEM;
+	PartNoOHCRNr2: 8, 0, OHCR, CEM;
+	PartNoOHCRNr3: 8, 0, OHCR, CEM;
+	PartNoOHCRNr4: 8, 0, OHCR, CEM;
+	PartNoOHRLEndSgn1: 8, 0, OHRL, CEM;
+	PartNoOHRLEndSgn2: 8, 0, OHRL, CEM;
+	PartNoOHRLEndSgn3: 8, 0, OHRL, CEM;
+	PartNoOHRLNr1: 8, 0, OHRL, CEM;
+	PartNoOHRLNr2: 8, 0, OHRL, CEM;
+	PartNoOHRLNr3: 8, 0, OHRL, CEM;
+	PartNoOHRLNr4: 8, 0, OHRL, CEM;
+	PartNoOHRREndSgn1: 8, 0, OHRR, CEM;
+	PartNoOHRREndSgn2: 8, 0, OHRR, CEM;
+	PartNoOHRREndSgn3: 8, 0, OHRR, CEM;
+	PartNoOHRRNr1: 8, 0, OHRR, CEM;
+	PartNoOHRRNr2: 8, 0, OHRR, CEM;
+	PartNoOHRRNr3: 8, 0, OHRR, CEM;
+	PartNoOHRRNr4: 8, 0, OHRR, CEM;
+	PartNoOHTREndSgn1: 8, 0, OHTR, CEM;
+	PartNoOHTREndSgn2: 8, 0, OHTR, CEM;
+	PartNoOHTREndSgn3: 8, 0, OHTR, CEM;
+	PartNoOHTRNr1: 8, 0, OHTR, CEM;
+	PartNoOHTRNr2: 8, 0, OHTR, CEM;
+	PartNoOHTRNr3: 8, 0, OHTR, CEM;
+	PartNoOHTRNr4: 8, 0, OHTR, CEM;
+	PartNoPrm1OHCEndSgn1: 8, 0, OHC, CEM;
+	PartNoPrm1OHCEndSgn2: 8, 0, OHC, CEM;
+	PartNoPrm1OHCEndSgn3: 8, 0, OHC, CEM;
+	PartNoPrm1OHCNr1: 8, 0, OHC, CEM;
+	PartNoPrm1OHCNr2: 8, 0, OHC, CEM;
+	PartNoPrm1OHCNr3: 8, 0, OHC, CEM;
+	PartNoPrm1OHCNr4: 8, 0, OHC, CEM;
+	PartNoPrm2OHCEndSgn1: 8, 0, OHC, CEM;
+	PartNoPrm2OHCEndSgn2: 8, 0, OHC, CEM;
+	PartNoPrm2OHCEndSgn3: 8, 0, OHC, CEM;
+	PartNoPrm2OHCNr1: 8, 0, OHC, CEM;
+	PartNoPrm2OHCNr2: 8, 0, OHC, CEM;
+	PartNoPrm2OHCNr3: 8, 0, OHC, CEM;
+	PartNoPrm2OHCNr4: 8, 0, OHC, CEM;
+	PartNoSRMEndSgn1: 8, 0, SRM, CEM;
+	PartNoSRMEndSgn2: 8, 0, SRM, CEM;
+	PartNoSRMEndSgn3: 8, 0, SRM, CEM;
+	PartNoSRMNr1: 8, 0, SRM, CEM;
+	PartNoSRMNr2: 8, 0, SRM, CEM;
+	PartNoSRMNr3: 8, 0, SRM, CEM;
+	PartNoSRMNr4: 8, 0, SRM, CEM;
+	PassAirbLampDiReq: 2, 2, CEM, OHC;
+	PassAirbLampEnaReq: 2, 2, CEM, OHC;
+	PassAirbLampReqChgOfPassAirbSts: 1, 0, CEM, OHC;
+	PassAirbLampReqChks: 8, 255, CEM, OHC;
+	PassAirbLampReqCntr: 4, 0, CEM, OHC;
+	PassAirbLampSts: 2, 0, OHC, CEM;
+	PassAirbLampStsChks: 8, 0, OHC, CEM;
+	PassAirbLampStsCntr: 4, 0, OHC, CEM;
+	PrmFailrOHC: 2, 0, OHC, CEM;
+	PrmFailrOHCR: 2, 0, OHCR, CEM;
+	PrmFailrOHRL: 2, 0, OHRL, CEM;
+	PrmFailrOHRR: 2, 0, OHRR, CEM;
+	PrmFailrOHTR: 2, 0, OHTR, CEM;
+	PrmTrfOHxNrPrm: 8, 0, OHC, OHCR, OHRL, OHRR, OHTR;
+	PrmTrfOHxPrmTrf1: 8, 0, OHC, OHCR, OHRL, OHRR, OHTR;
+	PrmTrfOHxPrmtrf2: 8, 0, OHC, OHCR, OHRL, OHRR, OHTR;
+	PrmTrfOHxPrmTrf3: 8, 0, OHC, OHCR, OHRL, OHRR, OHTR;
+	PrmTrfOHxPrmTrf4: 8, 0, OHC, OHCR, OHRL, OHRR, OHTR;
+	PrmTrfOHxPrmTrf5: 8, 0, OHC, OHCR, OHRL, OHRR, OHTR;
+	PrmTrfOHxPrmTrf6: 8, 0, OHC, OHCR, OHRL, OHRR, OHTR;
+	PrmTrfOHxPrmTrf7: 8, 0, OHC, OHCR, OHRL, OHRR, OHTR;
+	RednInVehAlarmSts: 1, 0, CEM;
+	RlyPwrDistbnCmd1WdIgnRlyCmd: 1, 0, CEM, OHC;
+	RlyPwrDistbnCmd1WdIgnRlyExtCmd: 1, 0, CEM, OHC;
+	RoofAndLiCtrl: 1, 0, OHC, CEM;
+	RoofLampSts2: 1, 0, OHCR, CEM, OHC;
+	RoofLampSts3: 1, 0, OHTR, CEM, OHC;
+	RoofLampSts4: 1, 0, OHRL, CEM, OHC;
+	RoofLampSts5: 1, 0, OHRR, CEM, OHC;
+	RoofLampSts6: 1, 0, OHCR, CEM, OHC;
+	RoofLampSts7: 1, 0, OHTR, CEM, OHC;
+	SerNoIDRNr1: 8, 0, IDR, CEM;
+	SerNoIDRNr2: 8, 0, IDR, CEM;
+	SerNoIDRNr3: 8, 0, IDR, CEM;
+	SerNoIDRNr4: 8, 0, IDR, CEM;
+	SerNoOHCNr1: 8, 0, OHC, CEM;
+	SerNoOHCNr2: 8, 0, OHC, CEM;
+	SerNoOHCNr3: 8, 0, OHC, CEM;
+	SerNoOHCNr4: 8, 0, OHC, CEM;
+	SerNoOHCRNr1: 8, 0, OHCR, CEM;
+	SerNoOHCRNr2: 8, 0, OHCR, CEM;
+	SerNoOHCRNr3: 8, 0, OHCR, CEM;
+	SerNoOHCRNr4: 8, 0, OHCR, CEM;
+	SerNoOHRLNr1: 8, 0, OHRL, CEM;
+	SerNoOHRLNr2: 8, 0, OHRL, CEM;
+	SerNoOHRLNr3: 8, 0, OHRL, CEM;
+	SerNoOHRLNr4: 8, 0, OHRL, CEM;
+	SerNoOHRRNr1: 8, 0, OHRR, CEM;
+	SerNoOHRRNr2: 8, 0, OHRR, CEM;
+	SerNoOHRRNr3: 8, 0, OHRR, CEM;
+	SerNoOHRRNr4: 8, 0, OHRR, CEM;
+	SerNoOHTRNr1: 8, 0, OHTR, CEM;
+	SerNoOHTRNr2: 8, 0, OHTR, CEM;
+	SerNoOHTRNr3: 8, 0, OHTR, CEM;
+	SerNoOHTRNr4: 8, 0, OHTR, CEM;
+	SerNoSRMNr1: 8, 0, SRM, CEM;
+	SerNoSRMNr2: 8, 0, SRM, CEM;
+	SerNoSRMNr3: 8, 0, SRM, CEM;
+	SerNoSRMNr4: 8, 0, SRM, CEM;
+	SftyBltTelltlFlt: 1, 0, OHC, CEM;
+	StrtDiagcReadOut: 1, 0, CEM, OHC, SRM;
+	SunCurtEna: 2, 0, CEM, OHC, SRM;
+	SunCurtImpctDetnSts: 3, 0, OHC, CEM;
+	SunCurtImpctDetnSts2: 3, 0, SRM, CEM;
+	SunCurtPosnSts1: 5, 0, OHC, CEM;
+	SunCurtPosnSts2: 5, 0, SRM, CEM;
+	SunRoofAndCurtBtnSts: 3, 0, OHC, CEM;
+	SunRoofAndCurtBtnSts2: 3, 0, SRM, CEM;
+	SunRoofAndCurtExtCmd: 4, 0, CEM, OHC, SRM;
+	SunRoofAndCurtFailr: 3, 0, OHC, CEM;
+	SunRoofAndCurtFailr2: 3, 0, SRM, CEM;
+	SunRoofAndCurtReqFromReSunCurtRoofReqFromRe: 3, 0, CEM, OHC;
+	SunRoofAndCurtReqFromReSunRoofReqFromRe: 3, 0, CEM, OHC;
+	SunRoofEna: 2, 0, CEM, OHC, SRM;
+	SunRoofImpctDetnSts: 3, 0, OHC, CEM;
+	SunRoofImpctDetnSts2: 3, 0, SRM, CEM;
+	SunRoofPosnSts1: 5, 0, OHC, CEM;
+	SunRoofPosnSts2: 5, 0, SRM, CEM;
+	TwliBriSts: 1, 0, CEM, IDR, OHC, OHCR, OHRL, OHRR, OHTR;
+	VehAlrmSts: 2, 0, CEM;
+	VehSpdLgtSafe: 15, 0, CEM, OHC, SRM;
+	VehSpdLgtSafeChks: 8, 0, CEM, OHC, SRM;
+	VehSpdLgtSafeCntr: 4, 0, CEM, OHC, SRM;
+	VehSpdLgtSafeQf: 2, 1, CEM, OHC, SRM;
+	ErrRespIDR: 1, 0, IDR, CEM;
+	ErrRespOHC: 1, 0, OHC, CEM;
+	ErrRespOHCR: 1, 0, OHCR, CEM;
+	ErrRespOHRL: 1, 0, OHRL, CEM;
+	ErrRespOHRR: 1, 0, OHRR, CEM;
+	ErrRespOHTR: 1, 0, OHTR, CEM;
+	ErrRespSRM: 1, 0, SRM, CEM;
+}
+
+Diagnostic_signals {
+	MasterReqB0: 8, 0;
+	MasterReqB1: 8, 0;
+	MasterReqB2: 8, 0;
+	MasterReqB3: 8, 0;
+	MasterReqB4: 8, 0;
+	MasterReqB5: 8, 0;
+	MasterReqB6: 8, 0;
+	MasterReqB7: 8, 0;
+	SlaveRespB0: 8, 0;
+	SlaveRespB1: 8, 0;
+	SlaveRespB2: 8, 0;
+	SlaveRespB3: 8, 0;
+	SlaveRespB4: 8, 0;
+	SlaveRespB5: 8, 0;
+	SlaveRespB6: 8, 0;
+	SlaveRespB7: 8, 0;
+}
+
+Frames {
+	CEMLin3DevFr01: 0x3A, CEM, 8 {
+		EndOfLineSigCtrlrByte0, 0;
+		EndOfLineSigCtrlrByte1, 8;
+		EndOfLineSigCtrlrByte2, 16;
+		EndOfLineSigCtrlrByte3, 24;
+		EndOfLineSigCtrlrByte4, 32;
+		EndOfLineSigCtrlrByte5, 40;
+		EndOfLineSigCtrlrByte6, 48;
+		EndOfLineSigCtrlrByte7, 56;
+	}
+	CEMLIN3Fr01: 0x00, CEM, 7 {
+		PassAirbLampDiReq, 46;
+		PassAirbLampEnaReq, 44;
+		PassAirbLampReqChgOfPassAirbSts, 48;
+		PassAirbLampReqChks, 32;
+		PassAirbLampReqCntr, 40;
+		SunCurtEna, 30;
+		SunRoofAndCurtExtCmd, 51;
+		VehSpdLgtSafe, 8;
+		VehSpdLgtSafeChks, 0;
+		VehSpdLgtSafeCntr, 24;
+		VehSpdLgtSafeQf, 28;
+	}
+	CEMLIN3Fr02: 0x08, CEM, 1 {
+		ActvnOfRoofLiGroupIntrLiCmd, 2;
+		ActvnOfRoofLiGroupIntrLiDim, 3;
+		ActvnOfRoofLiGroupIntrLiReq, 4;
+		BltRmnTelltl, 1;
+		IntrLiActvnThrd, 5;
+		IntrLiDmdOff, 0;
+		IntrLiRearReq, 6;
+	}
+	CEMLIN3Fr03: 0x15, CEM, 5 {
+		ActvnOfRoofSwtIllmn, 0;
+		AmbTRawQly, 35;
+		AmbTRawVal, 24;
+		IntrBriSts, 19;
+		IntrLiCarTyp, 37;
+		IntrLiCarTypeHRE, 39;
+		ModOnLiCmd, 1;
+		ModOnLiInten, 2;
+		ModOnLiTCmd, 8;
+		ModOnLiTintgCmd, 4;
+		RlyPwrDistbnCmd1WdIgnRlyCmd, 13;
+		RlyPwrDistbnCmd1WdIgnRlyExtCmd, 14;
+		StrtDiagcReadOut, 15;
+		SunRoofEna, 16;
+		TwliBriSts, 18;
+	}
+	CEMLIN3Fr04: 0x06, CEM, 1 {
+		EmblemActivation, 6;
+		SunRoofAndCurtReqFromReSunCurtRoofReqFromRe, 0;
+		SunRoofAndCurtReqFromReSunRoofReqFromRe, 3;
+	}
+	CEMLIN3Fr05: 0x05, CEM, 7 {
+		IntrLiGen2RoofDimSpeed, 1;
+		IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon1, 2;
+		IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon2, 5;
+		IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon3, 8;
+		IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon4, 11;
+		IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon5, 16;
+		IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon6, 19;
+		IntrLiGen2RoofResetMemory, 22;
+		IntrLiRoofAUTOIndication, 0;
+	}
+	CEMLIN3Fr06: 0x07, CEM, 7 {
+		IntrLiGen2RoofParametersIntrLiAmbienceLvl, 0;
+		IntrLiGen2RoofParametersIntrLiCourtesyLvl, 8;
+		IntrLiGen2RoofParametersIntrLiForceOnLvl, 16;
+		IntrLiGen2RoofParametersIntrLiPoliteLvl, 24;
+		IntrLiGen2RoofParametersIntrLiWelcomeLvl, 32;
+	}
+	CEMLIN3Fr07: 0x03, CEM, 4 {
+		MmedTvmPwerMod, 3;
+		RednInVehAlarmSts, 0;
+		VehAlrmSts, 1;
+	}
+	IDRLin3Fr02: 0x09, IDR, 5 {
+		SerNoIDRNr1, 0;
+		SerNoIDRNr2, 8;
+		SerNoIDRNr3, 16;
+		SerNoIDRNr4, 24;
+		ErrRespIDR, 39; 
+	}
+	IDRLin3Fr03: 0x21, IDR, 7 {
+		PartNoIDREndSgn1, 0;
+		PartNoIDREndSgn2, 8;
+		PartNoIDREndSgn3, 16;
+		PartNoIDRNr1, 24;
+		PartNoIDRNr2, 32;
+		PartNoIDRNr3, 40;
+		PartNoIDRNr4, 48;
+	}
+	OHCLin3DevFr01: 0x3B, OHC, 8 {
+		EndOfLineSigOverByte0, 0;
+		EndOfLineSigOverByte1, 8;
+		EndOfLineSigOverByte2, 16;
+		EndOfLineSigOverByte3, 24;
+		EndOfLineSigOverByte4, 32;
+		EndOfLineSigOverByte5, 40;
+		EndOfLineSigOverByte6, 48;
+		EndOfLineSigOverByte7, 56;
+	}
+	OHCLIN3Fr01: 0x20, OHC, 8 {
+		DiagcSigOHC, 38;
+		IntrLiActvn1, 45;
+		IntrLiRoofDim, 43;
+		IntrLiRoofDmdOff, 44;
+		PassAirbLampSts, 36;
+		PassAirbLampStsChks, 24;
+		PassAirbLampStsCntr, 32;
+		PrmFailrOHC, 41;
+		RoofAndLiCtrl, 22;
+		SftyBltTelltlFlt, 23;
+		SunCurtImpctDetnSts, 5;
+		SunCurtPosnSts1, 8;
+		SunRoofAndCurtBtnSts, 13;
+		SunRoofAndCurtFailr, 19;
+		SunRoofImpctDetnSts, 16;
+		SunRoofPosnSts1, 0;
+		ErrRespOHC, 40; 
+	}
+	OHCLIN3Fr02: 0x18, OHC, 8 {
+		DataSpclOHCDataIdn, 32;
+		DataSpclOHCDataNrSpcl1, 40;
+		DataSpclOHCDataNrSpcl2, 48;
+		DataSpclOHCDataNrSpcl3, 56;
+		SerNoOHCNr1, 0;
+		SerNoOHCNr2, 8;
+		SerNoOHCNr3, 16;
+		SerNoOHCNr4, 24;
+	}
+	OHCLIN3Fr03: 0x19, OHC, 7 {
+		PartNoOHCEndSgn1, 32;
+		PartNoOHCEndSgn2, 40;
+		PartNoOHCEndSgn3, 48;
+		PartNoOHCNr1, 0;
+		PartNoOHCNr2, 8;
+		PartNoOHCNr3, 16;
+		PartNoOHCNr4, 24;
+	}
+	OHCLIN3Fr04: 0x14, OHC, 1 {
+		BtnStsOHCIntrLiSwtAllOnSts, 0;
+		BtnStsOHCIntrLiSwtAutOnSts, 1;
+		BtnStsOHCLiBtnReadingLe, 2;
+		BtnStsOHCLiBtnReadingRi, 3;
+		IntrLiGen2RoofSwtAllOn, 4;
+		IntrLiGen2RoofSwtAUTO, 5;
+		IntrLiRoofLampStsOHCLeft, 6;
+		IntrLiRoofLampStsOHCRight, 7;
+	}
+	OHCLIN3Fr05: 0x04, OHC, 8 {
+		PrmTrfOHxNrPrm, 0;
+		PrmTrfOHxPrmTrf1, 8;
+		PrmTrfOHxPrmtrf2, 16;
+		PrmTrfOHxPrmTrf3, 24;
+		PrmTrfOHxPrmTrf4, 32;
+		PrmTrfOHxPrmTrf5, 40;
+		PrmTrfOHxPrmTrf6, 48;
+		PrmTrfOHxPrmTrf7, 56;
+	}
+	OHCLIN3Fr06: 0x0F, OHC, 7 {
+		HwPartNoOHCEndSgn1, 32;
+		HwPartNoOHCEndSgn2, 40;
+		HwPartNoOHCEndSgn3, 48;
+		HwPartNoOHCNr1, 0;
+		HwPartNoOHCNr2, 8;
+		HwPartNoOHCNr3, 16;
+		HwPartNoOHCNr4, 24;
+	}
+	OHCLIN3Fr07: 0x2A, OHC, 7 {
+		PartNoApplOHCEndSgn1, 32;
+		PartNoApplOHCEndSgn2, 40;
+		PartNoApplOHCEndSgn3, 48;
+		PartNoApplOHCNr1, 0;
+		PartNoApplOHCNr2, 8;
+		PartNoApplOHCNr3, 16;
+		PartNoApplOHCNr4, 24;
+	}
+	OHCLIN3Fr08: 0x27, OHC, 7 {
+		PartNoApplDiagOHCEndSgn1, 32;
+		PartNoApplDiagOHCEndSgn2, 40;
+		PartNoApplDiagOHCEndSgn3, 48;
+		PartNoApplDiagOHCNr1, 0;
+		PartNoApplDiagOHCNr2, 8;
+		PartNoApplDiagOHCNr3, 16;
+		PartNoApplDiagOHCNr4, 24;
+	}
+	OHCLIN3Fr09: 0x10, OHC, 7 {
+		PartNoPrm1OHCEndSgn1, 32;
+		PartNoPrm1OHCEndSgn2, 40;
+		PartNoPrm1OHCEndSgn3, 48;
+		PartNoPrm1OHCNr1, 0;
+		PartNoPrm1OHCNr2, 8;
+		PartNoPrm1OHCNr3, 16;
+		PartNoPrm1OHCNr4, 24;
+	}
+	OHCLIN3Fr10: 0x16, OHC, 7 {
+		PartNoPrm2OHCEndSgn1, 32;
+		PartNoPrm2OHCEndSgn2, 40;
+		PartNoPrm2OHCEndSgn3, 48;
+		PartNoPrm2OHCNr1, 0;
+		PartNoPrm2OHCNr2, 8;
+		PartNoPrm2OHCNr3, 16;
+		PartNoPrm2OHCNr4, 24;
+	}
+	OHCLIN3Fr11: 0x17, OHC, 8 {
+		PartNo10OHCEndSgn1, 40;
+		PartNo10OHCEndSgn2, 48;
+		PartNo10OHCEndSgn3, 56;
+		PartNo10OHCNr1, 0;
+		PartNo10OHCNr2, 8;
+		PartNo10OHCNr3, 16;
+		PartNo10OHCNr4, 24;
+		PartNo10OHCNr5, 32;
+	}
+	OHCRLIN3Fr01: 0x24, OHCR, 1 {
+		BtnStsOHCRLiBtnReadingLe, 0;
+		BtnStsOHCRLiBtnReadingRi, 1;
+		PrmFailrOHCR, 2;
+		RoofLampSts2, 4;
+		RoofLampSts6, 5;
+		ErrRespOHCR, 7; 
+	}
+	OHCRLIN3Fr02: 0x0A, OHCR, 8 {
+		DataSpclOHCRDataIdn, 32;
+		DataSpclOHCRDataNrSpcl1, 40;
+		DataSpclOHCRDataNrSpcl2, 48;
+		DataSpclOHCRDataNrSpcl3, 56;
+		SerNoOHCRNr1, 0;
+		SerNoOHCRNr2, 8;
+		SerNoOHCRNr3, 16;
+		SerNoOHCRNr4, 24;
+	}
+	OHCRLIN3Fr03: 0x0B, OHCR, 7 {
+		PartNoOHCREndSgn1, 32;
+		PartNoOHCREndSgn2, 40;
+		PartNoOHCREndSgn3, 48;
+		PartNoOHCRNr1, 0;
+		PartNoOHCRNr2, 8;
+		PartNoOHCRNr3, 16;
+		PartNoOHCRNr4, 24;
+	}
+	OHRLLin3Fr01: 0x0C, OHRL, 1 {
+		BtnStsOHRL, 0;
+		PrmFailrOHRL, 2;
+		RoofLampSts4, 4;
+		ErrRespOHRL, 7; 
+	}
+	OHRLLin3Fr02: 0x0E, OHRL, 8 {
+		DataSpclOHRLDataIdn, 32;
+		DataSpclOHRLDataNrSpcl1, 40;
+		DataSpclOHRLDataNrSpcl2, 48;
+		DataSpclOHRLDataNrSpcl3, 56;
+		SerNoOHRLNr1, 0;
+		SerNoOHRLNr2, 8;
+		SerNoOHRLNr3, 16;
+		SerNoOHRLNr4, 24;
+	}
+	OHRLLin3Fr03: 0x0D, OHRL, 7 {
+		PartNoOHRLEndSgn1, 32;
+		PartNoOHRLEndSgn2, 40;
+		PartNoOHRLEndSgn3, 48;
+		PartNoOHRLNr1, 0;
+		PartNoOHRLNr2, 8;
+		PartNoOHRLNr3, 16;
+		PartNoOHRLNr4, 24;
+	}
+	OHRRLin3Fr01: 0x1A, OHRR, 1 {
+		BtnStsOHRR, 1;
+		PrmFailrOHRR, 2;
+		RoofLampSts5, 4;
+		ErrRespOHRR, 7; 
+	}
+	OHRRLin3Fr02: 0x1B, OHRR, 8 {
+		DataSpclOHRRDataIdn, 32;
+		DataSpclOHRRDataNrSpcl1, 40;
+		DataSpclOHRRDataNrSpcl2, 48;
+		DataSpclOHRRDataNrSpcl3, 56;
+		SerNoOHRRNr1, 0;
+		SerNoOHRRNr2, 8;
+		SerNoOHRRNr3, 16;
+		SerNoOHRRNr4, 24;
+	}
+	OHRRLin3Fr03: 0x1C, OHRR, 7 {
+		PartNoOHRREndSgn1, 32;
+		PartNoOHRREndSgn2, 40;
+		PartNoOHRREndSgn3, 48;
+		PartNoOHRRNr1, 0;
+		PartNoOHRRNr2, 8;
+		PartNoOHRRNr3, 16;
+		PartNoOHRRNr4, 24;
+	}
+	OHTRLin3Fr01: 0x1D, OHTR, 1 {
+		BtnStsOHTRLiBtnReadingLe, 0;
+		BtnStsOHTRLiBtnReadingRi, 1;
+		PrmFailrOHTR, 2;
+		RoofLampSts3, 4;
+		RoofLampSts7, 5;
+		ErrRespOHTR, 7; 
+	}
+	OHTRLin3Fr02: 0x1F, OHTR, 8 {
+		DataSpclOHTRDataIdn, 32;
+		DataSpclOHTRDataNrSpcl1, 40;
+		DataSpclOHTRDataNrSpcl2, 48;
+		DataSpclOHTRDataNrSpcl3, 56;
+		SerNoOHTRNr1, 0;
+		SerNoOHTRNr2, 8;
+		SerNoOHTRNr3, 16;
+		SerNoOHTRNr4, 24;
+	}
+	OHTRLin3Fr03: 0x1E, OHTR, 7 {
+		PartNoOHTREndSgn1, 32;
+		PartNoOHTREndSgn2, 40;
+		PartNoOHTREndSgn3, 48;
+		PartNoOHTRNr1, 0;
+		PartNoOHTRNr2, 8;
+		PartNoOHTRNr3, 16;
+		PartNoOHTRNr4, 24;
+	}
+	SRMLin3Fr01: 0x11, SRM, 7 {
+		SunCurtImpctDetnSts2, 5;
+		SunCurtPosnSts2, 0;
+		SunRoofAndCurtBtnSts2, 19;
+		SunRoofAndCurtFailr2, 16;
+		SunRoofImpctDetnSts2, 13;
+		SunRoofPosnSts2, 8;
+		ErrRespSRM, 23; 
+	}
+	SRMLin3Fr02: 0x12, SRM, 7 {
+		PartNoSRMEndSgn1, 32;
+		PartNoSRMEndSgn2, 40;
+		PartNoSRMEndSgn3, 48;
+		PartNoSRMNr1, 0;
+		PartNoSRMNr2, 8;
+		PartNoSRMNr3, 16;
+		PartNoSRMNr4, 24;
+	}
+	SRMLin3Fr03: 0x13, SRM, 8 {
+		PartNo10SRMEndSgn1, 40;
+		PartNo10SRMEndSgn2, 48;
+		PartNo10SRMEndSgn3, 56;
+		PartNo10SRMNr1, 0;
+		PartNo10SRMNr2, 8;
+		PartNo10SRMNr3, 16;
+		PartNo10SRMNr4, 24;
+		PartNo10SRMNr5, 32;
+	}
+	SRMLin3Fr04: 0x22, SRM, 7 {
+		SerNoSRMNr1, 0;
+		SerNoSRMNr2, 8;
+		SerNoSRMNr3, 16;
+		SerNoSRMNr4, 24;
+	}
+}
+
+Diagnostic_frames {
+	MasterReq: 60 {
+		MasterReqB0, 0;
+		MasterReqB1, 8;
+		MasterReqB2, 16;
+		MasterReqB3, 24;
+		MasterReqB4, 32;
+		MasterReqB5, 40;
+		MasterReqB6, 48;
+		MasterReqB7, 56;
+	}
+	SlaveResp: 61 {
+		SlaveRespB0, 0;
+		SlaveRespB1, 8;
+		SlaveRespB2, 16;
+		SlaveRespB3, 24;
+		SlaveRespB4, 32;
+		SlaveRespB5, 40;
+		SlaveRespB6, 48;
+		SlaveRespB7, 56;
+	}
+}
+
+Node_attributes {
+	IDR {
+		LIN_protocol = "2.1";
+		configured_NAD = 0x21;
+		initial_NAD = 0x21;
+		product_id = 0x07, 0xFFFE, 0;
+		response_error = ErrRespIDR;
+		configurable_frames {
+			IDRLin3Fr02;
+			IDRLin3Fr03;
+			CEMLIN3Fr03;
+		}
+	}
+	OHC {
+		LIN_protocol = "2.1";
+		configured_NAD = 0x22;
+		initial_NAD = 0x22;
+		product_id = 0x07, 0xFFFE, 0;
+		response_error = ErrRespOHC;
+		configurable_frames {
+			CEMLin3DevFr01;
+			CEMLIN3Fr01;
+			CEMLIN3Fr02;
+			CEMLIN3Fr03;
+			CEMLIN3Fr05;
+			CEMLIN3Fr06;
+			OHCLin3DevFr01;
+			OHCLIN3Fr01;
+			OHCLIN3Fr02;
+			OHCLIN3Fr03;
+			OHCLIN3Fr04;
+			OHCLIN3Fr05;
+			OHCLIN3Fr06;
+			OHCLIN3Fr07;
+			OHCLIN3Fr08;
+			OHCLIN3Fr09;
+			OHCLIN3Fr10;
+			OHCRLIN3Fr01;
+			OHRLLin3Fr01;
+			OHRRLin3Fr01;
+			OHTRLin3Fr01;
+			OHCLIN3Fr11;
+		}
+	}
+	OHCR {
+		LIN_protocol = "2.1";
+		configured_NAD = 0x23;
+		initial_NAD = 0x23;
+		product_id = 0x07, 0xFFFE, 0;
+		response_error = ErrRespOHCR;
+		configurable_frames {
+			CEMLIN3Fr03;
+			CEMLIN3Fr05;
+			CEMLIN3Fr06;
+			OHCLIN3Fr05;
+			OHCRLIN3Fr01;
+			OHCRLIN3Fr02;
+			OHCRLIN3Fr03;
+		}
+	}
+	OHRL {
+		LIN_protocol = "2.1";
+		configured_NAD = 0x25;
+		initial_NAD = 0x25;
+		product_id = 0x07, 0xFFFE, 0;
+		response_error = ErrRespOHRL;
+		configurable_frames {
+			CEMLIN3Fr03;
+			CEMLIN3Fr05;
+			CEMLIN3Fr06;
+			OHCLIN3Fr05;
+			OHRLLin3Fr01;
+			OHRLLin3Fr02;
+			OHRLLin3Fr03;
+		}
+	}
+	OHRR {
+		LIN_protocol = "2.1";
+		configured_NAD = 0x24;
+		initial_NAD = 0x24;
+		product_id = 0x07, 0xFFFE, 0;
+		response_error = ErrRespOHRR;
+		configurable_frames {
+			CEMLIN3Fr02;
+			CEMLIN3Fr03;
+			OHCLIN3Fr01;
+			OHCLIN3Fr05;
+			OHRRLin3Fr01;
+			OHRRLin3Fr02;
+			OHRRLin3Fr03;
+		}
+	}
+	OHTR {
+		LIN_protocol = "2.1";
+		configured_NAD = 0x26;
+		initial_NAD = 0x26;
+		product_id = 0x07, 0xFFFE, 0;
+		response_error = ErrRespOHTR;
+		configurable_frames {
+			CEMLIN3Fr03;
+			CEMLIN3Fr05;
+			CEMLIN3Fr06;
+			OHCLIN3Fr05;
+			OHTRLin3Fr01;
+			OHTRLin3Fr02;
+			OHTRLin3Fr03;
+		}
+	}
+	SRM {
+		LIN_protocol = "2.1";
+		configured_NAD = 0x7E;
+		initial_NAD = 0x7E;
+		product_id = 0x07, 0xFFFE, 0;
+		response_error = ErrRespSRM;
+		configurable_frames {
+			CEMLIN3Fr01;
+			CEMLIN3Fr03;
+			SRMLin3Fr01;
+			SRMLin3Fr02;
+			SRMLin3Fr03;
+			SRMLin3Fr04;
+		}
+	}
+}
+
+Schedule_tables {
+	CEMLIN3DiagRequestSchedule {
+		MasterReq delay 15.000 ms;
+	}
+	CEMLIN3DiagResponseSchedule {
+		SlaveResp delay 15.000 ms;
+	}
+	CEMLIN3Schedule01 {
+		SRMLin3Fr01 delay 10.000 ms;
+	//      ERMLIN3Fr01 delay 10.000 ms;
+		CEMLIN3Fr02 delay 5.000 ms;
+		OHRLLin3Fr01 delay 5.000 ms;
+		OHCLIN3Fr04 delay 5.000 ms;
+		OHTRLin3Fr01 delay 5.000 ms;
+		OHCRLIN3Fr01 delay 5.000 ms;
+		OHRRLin3Fr01 delay 5.000 ms;
+		OHCLIN3Fr01 delay 15.000 ms;
+		CEMLIN3Fr02 delay 5.000 ms;
+		OHRLLin3Fr01 delay 5.000 ms;
+		OHCLIN3Fr04 delay 5.000 ms;
+		OHTRLin3Fr01 delay 5.000 ms;
+		OHCRLIN3Fr01 delay 5.000 ms;
+		OHRRLin3Fr01 delay 5.000 ms;
+		OHCLIN3Fr01 delay 15.000 ms;
+		CEMLIN3Fr03 delay 10.000 ms;
+		CEMLIN3Fr01 delay 10.000 ms;
+		CEMLIN3Fr04 delay 5.000 ms;
+	//	EAMLIN3Fr01 delay 5.000 ms;
+		CEMLIN3Fr07 delay 10.000 ms;
+	}
+	CEMLIN3Schedule03 {
+		CEMLIN3Fr01 delay 10.000 ms;
+		CEMLIN3Fr03 delay 10.000 ms;
+		CEMLIN3Fr04 delay 5.000 ms;
+		CEMLIN3Fr05 delay 10.000 ms;
+		OHRLLin3Fr01 delay 5.000 ms;
+		OHRRLin3Fr01 delay 5.000 ms;
+		OHTRLin3Fr01 delay 5.000 ms;
+		OHCRLIN3Fr01 delay 5.000 ms;
+		OHCLIN3Fr01 delay 15.000 ms;
+		OHCLIN3Fr04 delay 5.000 ms;
+	}
+	CEMLIN3Schedule04 {
+		CEMLIN3Fr06 delay 10.000 ms;
+		OHCLIN3Fr05 delay 15.000 ms;
+	}
+	CEMLIN3SchedulePrmTrfOHx {
+		OHCLIN3Fr05 delay 15.000 ms;
+	}
+	CEMLIN3ScheduleSerNrPartNr {
+		OHTRLin3Fr02 delay 15.000 ms;
+		OHTRLin3Fr03 delay 10.000 ms;
+		OHRRLin3Fr02 delay 15.000 ms;
+		OHRRLin3Fr03 delay 10.000 ms;
+		OHRLLin3Fr02 delay 15.000 ms;
+		OHRLLin3Fr03 delay 10.000 ms;
+		OHCRLIN3Fr02 delay 15.000 ms;
+		OHCRLIN3Fr03 delay 10.000 ms;
+		OHCLIN3Fr02 delay 15.000 ms;
+		OHCLIN3Fr03 delay 10.000 ms;
+		OHCLIN3Fr06 delay 10.000 ms;
+		OHCLIN3Fr07 delay 10.000 ms;
+		OHCLIN3Fr08 delay 10.000 ms;
+		OHCLIN3Fr09 delay 10.000 ms;
+		OHCLIN3Fr10 delay 10.000 ms;
+		IDRLin3Fr02 delay 10.000 ms;
+		IDRLin3Fr03 delay 10.000 ms;
+		OHCLIN3Fr11 delay 15.000 ms;
+		SRMLin3Fr02 delay 10.000 ms;
+		SRMLin3Fr03 delay 15.000 ms;
+		SRMLin3Fr04 delay 10.000 ms;
+		//EAMLIN3Fr02 delay 10.000 ms;
+		//EAMLIN3Fr03 delay 10.000 ms;
+		//ERMLIN3Fr02 delay 10.000 ms;
+		//ERMLIN3Fr03 delay 10.000 ms;
+		//ERMLIN3Fr04 delay 10.000 ms;
+		//ERMLIN3Fr05 delay 10.000 ms;
+		//ERMLIN3Fr06 delay 10.000 ms;
+	}
+	CEMLin3ScheduleTableEOL {
+		CEMLin3DevFr01 delay 15.000 ms;
+		OHCLin3DevFr01 delay 15.000 ms;
+	}
+}
+
+Signal_encoding_types {
+	AlrmSt {
+		logical_value, 0, "AlrmSt_Disarmd";
+		logical_value, 1, "AlrmSt_Armd";
+		logical_value, 2, "AlrmSt_Actv";
+	}
+	AmbLiTintg {
+		logical_value, 0, "AmbLiTintg_T";
+		logical_value, 1, "AmbLiTintg_Off";
+		logical_value, 2, "AmbLiTintg_Tintg1";
+		logical_value, 3, "AmbLiTintg_Tintg2";
+		logical_value, 4, "AmbLiTintg_Tintg3";
+		logical_value, 5, "AmbLiTintg_Tintg4";
+		logical_value, 6, "AmbLiTintg_Tintg5";
+		logical_value, 7, "AmbLiTintg_Tintg6";
+		logical_value, 8, "AmbLiTintg_Tintg7";
+	}
+	AmbT {
+		physical_value, 0, 2047, 0.1, -70.0, "degC";
+	}
+	Boolean {
+		logical_value, 0, "Boolean_FALSE";
+		logical_value, 1, "Boolean_TRUE";
+	}
+	BtnStsSngTyp {
+		logical_value, 0, "BtnStsSngTyp_Idle";
+		logical_value, 1, "BtnStsSngTyp_BtnPsd";
+	}
+	DevErrSts2 {
+		logical_value, 0, "DevErrSts2_NoFlt";
+		logical_value, 1, "DevErrSts2_Flt";
+	}
+	DiagcSig {
+		logical_value, 0, "DiagcSig_NoErr";
+		logical_value, 1, "DiagcSig_IntErr";
+		logical_value, 2, "DiagcSig_ComErr";
+		logical_value, 3, "DiagcSig_Spare";
+	}
+	GenQf1 {
+		logical_value, 0, "GenQf1_UndefindDataAccur";
+		logical_value, 1, "GenQf1_TmpUndefdData";
+		logical_value, 2, "GenQf1_DataAccurNotWithinSpcn";
+		logical_value, 3, "GenQf1_AccurData";
+	}
+	IntrLiCarTyp1 {
+		logical_value, 0, "IntrLiCarTyp1_Seat5AndLamp1";
+		logical_value, 1, "IntrLiCarTyp1_Seat7AndLamp2";
+		logical_value, 2, "IntrLiCarTyp1_Seat5AndLamp2";
+		logical_value, 3, "IntrLiCarTyp1_Seat7AndLamp3";
+	}
+	IntrLiGen2RoofRequest {
+		logical_value, 0, "IntrLiGen2RoofRequest_Unknown";
+		logical_value, 1, "IntrLiGen2RoofRequest_Welcome";
+		logical_value, 2, "IntrLiGen2RoofRequest_Courtesy";
+		logical_value, 3, "IntrLiGen2RoofRequest_Manual";
+		logical_value, 4, "IntrLiGen2RoofRequest_Polite";
+		logical_value, 5, "IntrLiGen2RoofRequest_ForceOn";
+		logical_value, 6, "IntrLiGen2RoofRequest_ForceOff";
+	}
+	IntrLiInten {
+		logical_value, 0, "IntrLiInten_Off";
+		logical_value, 1, "IntrLiInten_IntenLo";
+		logical_value, 2, "IntrLiInten_IntenHi";
+	}
+	linear_4 {
+		physical_value, 0, 15, 1.0, 0.0, "";
+	}
+	linear_5 {
+		physical_value, 0, 31, 1.0, 0.0, "";
+	}
+	linear_7 {
+		physical_value, 0, 127, 1.0, 0.0, "";
+	}
+	linear_8 {
+		physical_value, 0, 255, 1.0, 0.0, "";
+	}
+	MmedTvmPwerMod {
+		logical_value, 0, "MmedTvmPwerMod_Sleep";
+		logical_value, 1, "MmedTvmPwerMod_Switch";
+		logical_value, 2, "MmedTvmPwerMod_Standby";
+		logical_value, 3, "MmedTvmPwerMod_TPEG";
+		logical_value, 4, "MmedTvmPwerMod_On";
+	}
+	OnOff1 {
+		logical_value, 0, "OnOff1_Off";
+		logical_value, 1, "OnOff1_On";
+	}
+	OnOff2 {
+		logical_value, 0, "OnOff2_On";
+		logical_value, 1, "OnOff2_Off";
+	}
+	PassAirbLampReq {
+		logical_value, 0, "PassAirbLampReq_LampNotCfgd";
+		logical_value, 1, "PassAirbLampReq_LampOn";
+		logical_value, 2, "PassAirbLampReq_LampOff";
+		logical_value, 3, "PassAirbLampReq_Resd";
+	}
+	PassAirbLampSts1 {
+		logical_value, 0, "PassAirbLampSts1_Resd1";
+		logical_value, 1, "PassAirbLampSts1_LampStsOk";
+		logical_value, 2, "PassAirbLampSts1_LampStsNotOk";
+		logical_value, 3, "PassAirbLampSts1_Resd2";
+	}
+	PrmFailrTypOHx {
+		logical_value, 0, "PrmFailrTypOHx_OK";
+		logical_value, 1, "PrmFailrTypOHx_FlashFailr";
+		logical_value, 2, "PrmFailrTypOHx_DataNotVld";
+		logical_value, 3, "PrmFailrTypOHx_TrfFailr";
+	}
+	ReqForDisp {
+		logical_value, 0, "ReqForDisp_Idle";
+		logical_value, 1, "ReqForDisp_IndcnReqd";
+	}
+	Spd1 {
+		physical_value, 0, 31970, 0.00391, 0.0, "m/s";
+	}
+	StrtDiagcReadOutTyp {
+		logical_value, 0, "StrtDiagcReadOutTyp_DiagcIdle";
+		logical_value, 1, "StrtDiagcReadOutTyp_DiagcStart";
+	}
+	SunCurtRoofReqFromRe2 {
+		logical_value, 0, "SunCurtRoofReqFromRe2_Idle";
+		logical_value, 1, "SunCurtRoofReqFromRe2_UpMan";
+		logical_value, 2, "SunCurtRoofReqFromRe2_UpAut";
+		logical_value, 3, "SunCurtRoofReqFromRe2_DwnMan";
+		logical_value, 4, "SunCurtRoofReqFromRe2_DwnAut";
+		logical_value, 5, "SunCurtRoofReqFromRe2_NotDefd";
+	}
+	SunRoofAndCurtBtnStsTyp2 {
+		logical_value, 0, "SunRoofAndCurtBtnStsTyp2_Idle";
+		logical_value, 1, "SunRoofAndCurtBtnStsTyp2_TiltDwnSTep1";
+		logical_value, 2, "SunRoofAndCurtBtnStsTyp2_TiltDwnStep2";
+		logical_value, 3, "SunRoofAndCurtBtnStsTyp2_TiltUpStep1";
+		logical_value, 4, "SunRoofAndCurtBtnStsTyp2_BackwStep1";
+		logical_value, 5, "SunRoofAndCurtBtnStsTyp2_BackwStep2";
+		logical_value, 6, "SunRoofAndCurtBtnStsTyp2_Spare";
+		logical_value, 7, "SunRoofAndCurtBtnStsTyp2_Failr";
+	}
+	SunRoofAndCurtEnaTyp {
+		logical_value, 0, "SunRoofAndCurtEnaTyp_Di";
+		logical_value, 1, "SunRoofAndCurtEnaTyp_LimdEna";
+		logical_value, 2, "SunRoofAndCurtEnaTyp_FullEna";
+		logical_value, 3, "SunRoofAndCurtEnaTyp_Resd";
+	}
+	SunRoofAndCurtExtCmdTyp {
+		logical_value, 0, "SunRoofAndCurtExtCmdTyp_Idle";
+		logical_value, 1, "SunRoofAndCurtExtCmdTyp_PanAndCurtStop";
+		logical_value, 2, "SunRoofAndCurtExtCmdTyp_CurtClsFull";
+		logical_value, 3, "SunRoofAndCurtExtCmdTyp_CurtOpenFull";
+		logical_value, 4, "SunRoofAndCurtExtCmdTyp_PanClsFull";
+		logical_value, 5, "SunRoofAndCurtExtCmdTyp_PanOpenFull";
+		logical_value, 6, "SunRoofAndCurtExtCmdTyp_PanTilt";
+		logical_value, 7, "SunRoofAndCurtExtCmdTyp_AutClsFast";
+		logical_value, 8, "SunRoofAndCurtExtCmdTyp_AutOpenFast";
+		logical_value, 15, "SunRoofAndCurtExtCmdTyp_CurtAndPanInin";
+	}
+	SunRoofAndCurtFailrTyp {
+		logical_value, 0, "SunRoofAndCurtFailrTyp_NoErr";
+		logical_value, 1, "SunRoofAndCurtFailrTyp_EcuFailrGen";
+		logical_value, 2, "SunRoofAndCurtFailrTyp_CurtMotNotAvl";
+		logical_value, 3, "SunRoofAndCurtFailrTyp_PanMotNotAvl";
+		logical_value, 4, "SunRoofAndCurtFailrTyp_CurtMotFailr";
+		logical_value, 5, "SunRoofAndCurtFailrTyp_PanMotFailr";
+		logical_value, 6, "SunRoofAndCurtFailrTyp_Resd1";
+		logical_value, 7, "SunRoofAndCurtFailrTyp_Resd2";
+	}
+	SunRoofAndCurtImpctDetnStsTyp {
+		logical_value, 0, "SunRoofAndCurtImpctDetnStsTyp_ImpctDetnDi";
+		logical_value, 1, "SunRoofAndCurtImpctDetnStsTyp_ImpctDetnEna";
+		logical_value, 2, "SunRoofAndCurtImpctDetnStsTyp_ClsPinch";
+		logical_value, 3, "SunRoofAndCurtImpctDetnStsTyp_ClsBlk";
+		logical_value, 4, "SunRoofAndCurtImpctDetnStsTyp_OpenPinch";
+		logical_value, 5, "SunRoofAndCurtImpctDetnStsTyp_OpenBlk";
+	}
+	SunRoofReqFromRe2 {
+		logical_value, 0, "SunRoofReqFromRe2_Idle";
+		logical_value, 1, "SunRoofReqFromRe2_UpMan";
+		logical_value, 2, "SunRoofReqFromRe2_UpAut";
+		logical_value, 3, "SunRoofReqFromRe2_DwnMan";
+		logical_value, 4, "SunRoofReqFromRe2_DwnAut";
+		logical_value, 5, "SunRoofReqFromRe2_NotDefd";
+	}
+	Trig1 {
+		logical_value, 0, "Trig1_NoTrig";
+		logical_value, 1, "Trig1_Trig";
+	}
+	TwliBriSts1 {
+		logical_value, 0, "TwliBriSts1_Night";
+		logical_value, 1, "TwliBriSts1_Day";
+	}
+	WinAndRoofAndCurtPosnTyp {
+		logical_value, 0, "WinAndRoofAndCurtPosnTyp_PosnUkwn";
+		logical_value, 1, "WinAndRoofAndCurtPosnTyp_ClsFull";
+		logical_value, 2, "WinAndRoofAndCurtPosnTyp_PercOpen4";
+		logical_value, 3, "WinAndRoofAndCurtPosnTyp_PercOpen8";
+		logical_value, 4, "WinAndRoofAndCurtPosnTyp_PercOpen12";
+		logical_value, 5, "WinAndRoofAndCurtPosnTyp_PercOpen16";
+		logical_value, 6, "WinAndRoofAndCurtPosnTyp_PercOpen20";
+		logical_value, 7, "WinAndRoofAndCurtPosnTyp_PercOpen24";
+		logical_value, 8, "WinAndRoofAndCurtPosnTyp_PercOpen28";
+		logical_value, 9, "WinAndRoofAndCurtPosnTyp_PercOpen32";
+		logical_value, 10, "WinAndRoofAndCurtPosnTyp_PercOpen36";
+		logical_value, 11, "WinAndRoofAndCurtPosnTyp_PercOpen40";
+		logical_value, 12, "WinAndRoofAndCurtPosnTyp_PercOpen44";
+		logical_value, 13, "WinAndRoofAndCurtPosnTyp_PercOpen48";
+		logical_value, 14, "WinAndRoofAndCurtPosnTyp_PercOpen52";
+		logical_value, 15, "WinAndRoofAndCurtPosnTyp_PercOpen56";
+		logical_value, 16, "WinAndRoofAndCurtPosnTyp_PercOpen60";
+		logical_value, 17, "WinAndRoofAndCurtPosnTyp_PercOpen64";
+		logical_value, 18, "WinAndRoofAndCurtPosnTyp_PercOpen68";
+		logical_value, 19, "WinAndRoofAndCurtPosnTyp_PercOpen72";
+		logical_value, 20, "WinAndRoofAndCurtPosnTyp_PercOpen76";
+		logical_value, 21, "WinAndRoofAndCurtPosnTyp_PercOpen80";
+		logical_value, 22, "WinAndRoofAndCurtPosnTyp_PercOpen84";
+		logical_value, 23, "WinAndRoofAndCurtPosnTyp_PercOpen88";
+		logical_value, 24, "WinAndRoofAndCurtPosnTyp_PercOpen92";
+		logical_value, 25, "WinAndRoofAndCurtPosnTyp_PercOpen96";
+		logical_value, 26, "WinAndRoofAndCurtPosnTyp_OpenFull";
+		logical_value, 27, "WinAndRoofAndCurtPosnTyp_Resd1";
+		logical_value, 28, "WinAndRoofAndCurtPosnTyp_Resd2";
+		logical_value, 29, "WinAndRoofAndCurtPosnTyp_Resd3";
+		logical_value, 30, "WinAndRoofAndCurtPosnTyp_Resd4";
+		logical_value, 31, "WinAndRoofAndCurtPosnTyp_Movg";
+	}
+}
+
+Signal_representation {
+	AlrmSt : VehAlrmSts;
+	AmbLiTintg : ModOnLiTintgCmd;
+	AmbT : AmbTRawVal;
+	Boolean : ActvnOfRoofLiGroupIntrLiCmd, ActvnOfRoofLiGroupIntrLiDim, ActvnOfRoofLiGroupIntrLiReq,
+		ActvnOfRoofSwtIllmn, EmblemActivation, IntrLiActvn1, IntrLiActvnThrd, IntrLiCarTypeHRE, IntrLiDmdOff,
+		IntrLiGen2RoofDimSpeed, IntrLiGen2RoofResetMemory, IntrLiGen2RoofSwtAllOn, IntrLiGen2RoofSwtAUTO,
+		IntrLiRearReq, IntrLiRoofAUTOIndication, IntrLiRoofDim, IntrLiRoofDmdOff, IntrLiRoofLampStsOHCLeft,
+		IntrLiRoofLampStsOHCRight, ModOnLiCmd, RoofLampSts2, RoofLampSts3, RoofLampSts4, RoofLampSts5, RoofLampSts6,
+		RoofLampSts7;
+	BtnStsSngTyp : BtnStsOHCIntrLiSwtAllOnSts, BtnStsOHCIntrLiSwtAutOnSts, BtnStsOHCLiBtnReadingLe,
+		BtnStsOHCLiBtnReadingRi, BtnStsOHCRLiBtnReadingLe, BtnStsOHCRLiBtnReadingRi, BtnStsOHRL, BtnStsOHRR,
+		BtnStsOHTRLiBtnReadingLe, BtnStsOHTRLiBtnReadingRi;
+	DevErrSts2 : SftyBltTelltlFlt;
+	DiagcSig : DiagcSigOHC;
+	GenQf1 : AmbTRawQly, VehSpdLgtSafeQf;
+	IntrLiCarTyp1 : IntrLiCarTyp;
+	IntrLiGen2RoofRequest : IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon1,
+		IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon2, IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon3,
+		IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon4, IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon5,
+		IntrLiGen2RoofRequestIntrLiGen2SendRoofRequestZon6;
+	IntrLiInten : ModOnLiInten;
+	linear_4 : IntrBriSts, PassAirbLampReqCntr, PassAirbLampStsCntr, VehSpdLgtSafeCntr;
+	linear_5 : ModOnLiTCmd;
+	linear_7 : IntrLiGen2RoofParametersIntrLiAmbienceLvl, IntrLiGen2RoofParametersIntrLiCourtesyLvl,
+		IntrLiGen2RoofParametersIntrLiForceOnLvl, IntrLiGen2RoofParametersIntrLiPoliteLvl,
+		IntrLiGen2RoofParametersIntrLiWelcomeLvl;
+	linear_8 : DataSpclOHCDataIdn, DataSpclOHCDataNrSpcl1, DataSpclOHCDataNrSpcl2, DataSpclOHCDataNrSpcl3,
+		DataSpclOHCRDataIdn, DataSpclOHCRDataNrSpcl1, DataSpclOHCRDataNrSpcl2, DataSpclOHCRDataNrSpcl3,
+		DataSpclOHRLDataIdn, DataSpclOHRLDataNrSpcl1, DataSpclOHRLDataNrSpcl2, DataSpclOHRLDataNrSpcl3,
+		DataSpclOHRRDataIdn, DataSpclOHRRDataNrSpcl1, DataSpclOHRRDataNrSpcl2, DataSpclOHRRDataNrSpcl3,
+		DataSpclOHTRDataIdn, DataSpclOHTRDataNrSpcl1, DataSpclOHTRDataNrSpcl2, DataSpclOHTRDataNrSpcl3,
+		EndOfLineSigCtrlrByte0, EndOfLineSigCtrlrByte1, EndOfLineSigCtrlrByte2, EndOfLineSigCtrlrByte3,
+		EndOfLineSigCtrlrByte4, EndOfLineSigCtrlrByte5, EndOfLineSigCtrlrByte6, EndOfLineSigCtrlrByte7,
+		EndOfLineSigOverByte0, EndOfLineSigOverByte1, EndOfLineSigOverByte2, EndOfLineSigOverByte3,
+		EndOfLineSigOverByte4, EndOfLineSigOverByte5, EndOfLineSigOverByte6, EndOfLineSigOverByte7,
+		HwPartNoOHCEndSgn1, HwPartNoOHCEndSgn2, HwPartNoOHCEndSgn3, HwPartNoOHCNr1, HwPartNoOHCNr2, HwPartNoOHCNr3,
+		HwPartNoOHCNr4, PartNo10OHCEndSgn1, PartNo10OHCEndSgn2, PartNo10OHCEndSgn3, PartNo10OHCNr1, PartNo10OHCNr2,
+		PartNo10OHCNr3, PartNo10OHCNr4, PartNo10OHCNr5, PartNo10SRMEndSgn1, PartNo10SRMEndSgn2, PartNo10SRMEndSgn3,
+		PartNo10SRMNr1, PartNo10SRMNr2, PartNo10SRMNr3, PartNo10SRMNr4, PartNo10SRMNr5, PartNoApplDiagOHCEndSgn1,
+		PartNoApplDiagOHCEndSgn2, PartNoApplDiagOHCEndSgn3, PartNoApplDiagOHCNr1, PartNoApplDiagOHCNr2,
+		PartNoApplDiagOHCNr3, PartNoApplDiagOHCNr4, PartNoApplOHCEndSgn1, PartNoApplOHCEndSgn2, PartNoApplOHCEndSgn3,
+		PartNoApplOHCNr1, PartNoApplOHCNr2, PartNoApplOHCNr3, PartNoApplOHCNr4, PartNoIDREndSgn1, PartNoIDREndSgn2,
+		PartNoIDREndSgn3, PartNoIDRNr1, PartNoIDRNr2, PartNoIDRNr3, PartNoIDRNr4, PartNoOHCEndSgn1, PartNoOHCEndSgn2,
+		PartNoOHCEndSgn3, PartNoOHCNr1, PartNoOHCNr2, PartNoOHCNr3, PartNoOHCNr4, PartNoOHCREndSgn1,
+		PartNoOHCREndSgn2, PartNoOHCREndSgn3, PartNoOHCRNr1, PartNoOHCRNr2, PartNoOHCRNr3, PartNoOHCRNr4,
+		PartNoOHRLEndSgn1, PartNoOHRLEndSgn2, PartNoOHRLEndSgn3, PartNoOHRLNr1, PartNoOHRLNr2, PartNoOHRLNr3,
+		PartNoOHRLNr4, PartNoOHRREndSgn1, PartNoOHRREndSgn2, PartNoOHRREndSgn3, PartNoOHRRNr1, PartNoOHRRNr2,
+		PartNoOHRRNr3, PartNoOHRRNr4, PartNoOHTREndSgn1, PartNoOHTREndSgn2, PartNoOHTREndSgn3, PartNoOHTRNr1,
+		PartNoOHTRNr2, PartNoOHTRNr3, PartNoOHTRNr4, PartNoPrm1OHCEndSgn1, PartNoPrm1OHCEndSgn2, PartNoPrm1OHCEndSgn3,
+		PartNoPrm1OHCNr1, PartNoPrm1OHCNr2, PartNoPrm1OHCNr3, PartNoPrm1OHCNr4, PartNoPrm2OHCEndSgn1,
+		PartNoPrm2OHCEndSgn2, PartNoPrm2OHCEndSgn3, PartNoPrm2OHCNr1, PartNoPrm2OHCNr2, PartNoPrm2OHCNr3,
+		PartNoPrm2OHCNr4, PartNoSRMEndSgn1, PartNoSRMEndSgn2, PartNoSRMEndSgn3, PartNoSRMNr1, PartNoSRMNr2,
+		PartNoSRMNr3, PartNoSRMNr4, PassAirbLampReqChks, PassAirbLampStsChks, PrmTrfOHxNrPrm, PrmTrfOHxPrmTrf1,
+		PrmTrfOHxPrmtrf2, PrmTrfOHxPrmTrf3, PrmTrfOHxPrmTrf4, PrmTrfOHxPrmTrf5, PrmTrfOHxPrmTrf6, PrmTrfOHxPrmTrf7,
+		SerNoIDRNr1, SerNoIDRNr2, SerNoIDRNr3, SerNoIDRNr4, SerNoOHCNr1, SerNoOHCNr2, SerNoOHCNr3, SerNoOHCNr4,
+		SerNoOHCRNr1, SerNoOHCRNr2, SerNoOHCRNr3, SerNoOHCRNr4, SerNoOHRLNr1, SerNoOHRLNr2, SerNoOHRLNr3,
+		SerNoOHRLNr4, SerNoOHRRNr1, SerNoOHRRNr2, SerNoOHRRNr3, SerNoOHRRNr4, SerNoOHTRNr1, SerNoOHTRNr2,
+		SerNoOHTRNr3, SerNoOHTRNr4, SerNoSRMNr1, SerNoSRMNr2, SerNoSRMNr3, SerNoSRMNr4, VehSpdLgtSafeChks;
+	MmedTvmPwerMod : MmedTvmPwerMod;
+	OnOff1 : RlyPwrDistbnCmd1WdIgnRlyCmd, RlyPwrDistbnCmd1WdIgnRlyExtCmd;
+	OnOff2 : RednInVehAlarmSts;
+	PassAirbLampReq : PassAirbLampDiReq, PassAirbLampEnaReq;
+	PassAirbLampSts1 : PassAirbLampSts;
+	PrmFailrTypOHx : PrmFailrOHC, PrmFailrOHCR, PrmFailrOHRL, PrmFailrOHRR, PrmFailrOHTR;
+	ReqForDisp : PassAirbLampReqChgOfPassAirbSts;
+	Spd1 : VehSpdLgtSafe;
+	StrtDiagcReadOutTyp : StrtDiagcReadOut;
+	SunCurtRoofReqFromRe2 : SunRoofAndCurtReqFromReSunCurtRoofReqFromRe;
+	SunRoofAndCurtBtnStsTyp2 : SunRoofAndCurtBtnSts, SunRoofAndCurtBtnSts2;
+	SunRoofAndCurtEnaTyp : SunCurtEna, SunRoofEna;
+	SunRoofAndCurtExtCmdTyp : SunRoofAndCurtExtCmd;
+	SunRoofAndCurtFailrTyp : SunRoofAndCurtFailr, SunRoofAndCurtFailr2;
+	SunRoofAndCurtImpctDetnStsTyp : SunCurtImpctDetnSts, SunCurtImpctDetnSts2, SunRoofImpctDetnSts,
+		SunRoofImpctDetnSts2;
+	SunRoofReqFromRe2 : SunRoofAndCurtReqFromReSunRoofReqFromRe;
+	Trig1 : BltRmnTelltl, RoofAndLiCtrl;
+	TwliBriSts1 : TwliBriSts;
+	WinAndRoofAndCurtPosnTyp : SunCurtPosnSts1, SunCurtPosnSts2, SunRoofPosnSts1, SunRoofPosnSts2;
+}
+

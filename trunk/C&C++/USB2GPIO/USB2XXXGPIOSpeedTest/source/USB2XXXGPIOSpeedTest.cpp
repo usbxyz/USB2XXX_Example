@@ -62,11 +62,7 @@ int main(int argc, const char* argv[])
     LARGE_INTEGER litmp;
     LONGLONG StartTime,EndTime;
     double dfFreq;
-    QueryPerformanceFrequency(&litmp);// Get the performance counter frequency, in n/s
-    dfFreq = (double)litmp.QuadPart;
-    QueryPerformanceCounter(&litmp);  // Get the current value of the performance counter
-    StartTime = litmp.QuadPart;       // Start time
-    int TestNum = 100000;
+    int TestNum = 10000;
     CRITICAL_SECTION  _critical;
     /*初始化，最先调用的函数。没什么好说的，一般windows编程都有类似初始化的方法*/
     InitializeCriticalSection(&_critical);
@@ -74,10 +70,46 @@ int main(int argc, const char* argv[])
     把代码保护起来。调用此函数后，他以后的资源其他线程就不能访问了。
     */
     EnterCriticalSection(& _critical);
-    for(int i=0;i<TestNum;i++){
-        GPIO_Write(DevHandle[0],0xFFFF,0xFFFF);
-        GPIO_Write(DevHandle[0],0xFFFF,0x0000);
+    FILE *fp;
+    if((fp=fopen("GPIOSpeed.csv","wt"))==NULL){
+        printf("Cannot open file strike any key exit!\n");
+        getchar();
+        exit(1);
     }
+    int max0=0;//控制时间小于1ms的次数
+    int max1=0;//控制时间小于2ms，大于1ms的次数
+    int max2=0;//控制时间小于3ms，大于2ms的次数
+    int max3=0;//控制时间小于4ms，大于3ms的次数
+    int max4=0;//控制大于4ms的次数
+    for(int i=0;i<TestNum;i++){
+        QueryPerformanceFrequency(&litmp);// Get the performance counter frequency, in n/s
+        dfFreq = (double)litmp.QuadPart;
+        QueryPerformanceCounter(&litmp);  // Get the current value of the performance counter
+        StartTime = litmp.QuadPart;       // Start time
+        GPIO_Write(DevHandle[0],0xFFFF,0xFFFF);
+        QueryPerformanceCounter(&litmp);// Get the current value of the performance counter
+        EndTime = litmp.QuadPart; // Stop time
+        float time = 1000*((EndTime-StartTime)/dfFreq);
+        //GPIO_Write(DevHandle[0],0xFFFF,0x0000);
+        fprintf(fp,"%f\n",time);
+        if(time>=4){
+            max4++;
+        }else if(time>=3){
+            max3++;
+        }else if(time>=2){
+            max2++;
+        }else if(time>=1){
+            max1++;
+        }else{
+            max0++;
+        }
+    }
+    fclose(fp);
+    printf("控制时间大于4ms的次数 = %d\n",max4);
+    printf("控制时间大于3ms,小于4ms的次数 = %d\n",max3);
+    printf("控制时间大于2ms,小于3ms的次数  = %d\n",max2);
+    printf("控制时间大于1ms,小于2ms的次数  = %d\n",max1);
+    printf("控制时间小于1ms的次数  = %d\n",max0);
     /*
     离开临界区，表示其他线程能够进来了。注意EnterCritical和LeaveCrticalSection必须是成对出现的!当然除非你是想故意死锁！
     */
@@ -85,15 +117,6 @@ int main(int argc, const char* argv[])
     /*释放资源，确定不使用_critical时调用，一般在程序退出的时候调用。如果以后还要用_critical，则要重新调用InitializeCriticalSection
     */
     DeleteCriticalSection(&_critical); 
-	//获取结束时间并打印输出耗时和速度
-    QueryPerformanceCounter(&litmp);// Get the current value of the performance counter
-    EndTime = litmp.QuadPart; // Stop time
-	// Print the write data speed information
-	printf("-----------------------www.usbxyz.com-----------------------\n");
-	printf("控制GPIO次数: %d  \n",TestNum*2);
-	printf("消耗总时间: %f s\n",(EndTime-StartTime)/dfFreq);
-	printf("控制GPIO的速度: %.3f 次/s\n",(TestNum*2)/((EndTime-StartTime)/dfFreq));
-	printf("-----------------------www.usbxyz.com-----------------------\n");
 
     //关闭设备
     USB_CloseDevice(DevHandle[0]);

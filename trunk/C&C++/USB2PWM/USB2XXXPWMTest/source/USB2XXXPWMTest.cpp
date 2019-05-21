@@ -63,10 +63,10 @@ int main(int argc, const char* argv[])
         PWMConfig.Precision[i] = 100;//将所有通道的占空比调节精度都设置为1%
     }
     for(int i=0;i<8;i++){
-        PWMConfig.Prescaler[i] = 10;//将所有通道的预分频器都设置为10，则PWM输出频率为200MHz/(PWMConfig.Precision*PWMConfig.Prescaler)
+        PWMConfig.Prescaler[i] = 1;//将所有通道的预分频器都设置为10，则PWM输出频率为200MHz/(PWMConfig.Precision*PWMConfig.Prescaler)
     }
     for(int i=0;i<8;i++){
-        PWMConfig.Pulse[i] = PWMConfig.Precision[i]*30/100;//将所有通道的占空比都设置为30%
+        PWMConfig.Pulse[i] = PWMConfig.Precision[i]*20/100;//将所有通道的占空比都设置为20%
     }
     //初始化PWM
     ret = PWM_Init(DevHandle[0],&PWMConfig);
@@ -76,8 +76,21 @@ int main(int argc, const char* argv[])
     }else{
         printf("Initialize pwm sunccess!\n");
     }
+    //配置相位,根据Precision值来设置，最大值不能大于Precision
+    unsigned short Phase[8]={0};
+    Phase[0] = 0;
+    Phase[1] = 0;
+    Phase[2] = 0;
+    Phase[3] = 0;
+    ret = PWM_SetPhase(DevHandle[0],PWMConfig.ChannelMask,Phase);
+    if(ret != PWM_SUCCESS){
+        printf("Set pwm phase faild!\n");
+        return ret;
+    }else{
+        printf("Set pwm phase sunccess!\n");
+    }
     //启动PWM,RunTimeOfUs之后自动停止，利用该特性可以控制输出脉冲个数，脉冲个数=RunTimeOfUs*200/(PWMConfig.Precision*PWMConfig.Prescaler)
-    unsigned int RunTimeOfUs = 1000;
+    unsigned int RunTimeOfUs = 0;
     ret = PWM_Start(DevHandle[0],PWMConfig.ChannelMask,RunTimeOfUs);
     if(ret != PWM_SUCCESS){
         printf("Start pwm faild!\n");

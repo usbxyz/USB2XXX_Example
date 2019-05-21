@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  *<center><a href="http:\\www.usbxyz.com">http://www.usbxyz.com</a></center>
+  *<center><a href="http:\\www.toomoss.com">http://www.toomoss.com</a></center>
   *<center>All Rights Reserved</center></h3>
   * 
   ******************************************************************************
@@ -29,10 +29,10 @@
 //定义初始化PWM的数据类型
 typedef struct _PWM_CONFIG{
   unsigned short Prescaler[8];  //预分频器
-  unsigned short Precision[8];  //占空比调节精度
+  unsigned short Precision[8];  //占空比调节精度,实际频率 = 200MHz/(Prescaler*Precision)
   unsigned short Pulse[8];      //占空比，实际占空比=(Pulse/Precision)*100%
-  unsigned char  Polarity[8];    //波形极性，取值0或者1
-  unsigned char  ChannelMask;    //通道号，若要使能某个通道，则对应位为1，最低位对应通道0
+  unsigned char  Polarity[8];   //波形极性，取值0或者1
+  unsigned char  ChannelMask;   //通道号，若要使能某个通道，则对应位为1，最低位对应通道0
 }PWM_CONFIG,*PPWM_CONFIG;
 
 //定义函数返回错误代码
@@ -50,6 +50,8 @@ extern "C"
 int WINAPI PWM_Init(int DevHandle, PPWM_CONFIG pConfig);
 int WINAPI PWM_Start(int DevHandle,unsigned char ChannelMask,unsigned int RunTimeUs);
 int WINAPI PWM_SetPulse(int DevHandle,unsigned char ChannelMask,unsigned short *pPulse);
+int WINAPI PWM_SetPhase(int DevHandle,unsigned char ChannelMask,unsigned short *pPhase);
+int WINAPI PWM_SetFrequency(int DevHandle,unsigned char ChannelMask,unsigned short *pPrescaler,unsigned short *pPrecision);
 int WINAPI PWM_Stop(int DevHandle,unsigned char ChannelMask);
 
 #ifdef __cplusplus
