@@ -37,14 +37,6 @@ LIN_EX_MSG_TYPE_ID     = 7	# 反馈回来的数据，表明检测到了BREAK，S
 LIN_EX_MSG_TYPE_DT     = 8	# 反馈回来的数据，表明检测到了BREAK，SYNC，PID,DATA信号
 LIN_EX_MSG_TYPE_CK     = 9	# 反馈回来的数据，表明检测到了BREAK，SYNC，PID,DATA,CHECK信号
 
-# 定义初始化LIN初始化数据类型
-class LIN_CONFIG(Structure):
-    _fields_ = [
-        ("BaudRate",c_uint),      # 波特率,最大20K
-        ("CheckMode",c_ubyte),    # 校验模式，0-标准校验模式，1-增强校验模式（包含PID）
-        ("MasterMode",c_ubyte),   # 主从模式，0-从模式，1-主模式
-        ("BreakBits",c_ubyte),    # Break长度，0x00-10bit,0x20-11bit
-    ]
 # 设置从模式下ID操作模式
 class LIN_EX_MSG(Structure):
     _fields_ = [
@@ -56,6 +48,8 @@ class LIN_EX_MSG(Structure):
         ("PID",c_ubyte),        #接收数据表示带校验位的ID值，发送数据的时候只需要传递ID值即可，底层会自动计算校验位并添加上去
         ("Data",c_ubyte*8),     #接收或者发送的数据
         ("Check",c_ubyte),      #根据CheckType校验类型进行计算的校验数据，发送数据时若不是自定义校验类型则底层会自动计算
+        ("Reserve0",c_ubyte),   #保留
+        ("Reserve1",c_ubyte),   #保留
     ]
 def LIN_EX_Init(DevHandle,LINIndex,BaudRate,MasterMode):
     return USB2XXXLib.LIN_EX_Init(DevHandle,LINIndex,BaudRate,MasterMode)

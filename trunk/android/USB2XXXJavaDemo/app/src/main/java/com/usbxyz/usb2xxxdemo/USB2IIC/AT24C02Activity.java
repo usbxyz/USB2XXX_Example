@@ -97,6 +97,11 @@ public class AT24C02Activity extends AppCompatActivity {
                 }
                 //配置I2C总线相关参数
                 USB2IIC.IIC_CONFIG IICConfig =  new USB2IIC.IIC_CONFIG();
+                IICConfig.AddrBits = 7;
+                IICConfig.ClockSpeedHz = 100000;
+                IICConfig.EnablePu = 1;
+                IICConfig.Master = 1;
+                IICConfig.OwnAddr = 0x01;
                 ret = USB2IIC.INSTANCE.IIC_Init(DevHandle,IICIndex,IICConfig);
                 if(ret != USB2IIC.IIC_SUCCESS){
                     textView.append("Initialize device error!\n");
@@ -104,6 +109,14 @@ public class AT24C02Activity extends AppCompatActivity {
                 }else{
                     textView.append("Initialize device success!\n");
                 }
+                //扫描从机地址
+                short[] SlaveAddrs = new short[128];
+                ret = USB2IIC.INSTANCE.IIC_GetSlaveAddr(DevHandle,IICIndex,SlaveAddrs);
+                textView.append("Slave Addrs:");
+                for(int i=0;i<ret;i++){
+                    textView.append(String.format("%02X ",SlaveAddrs[i]));
+                }
+                textView.append("\n");
                 //写数据
                 byte[] WriteDataBuffer = new byte[9];
                 for(int i=0;i<256;i+=8){
@@ -113,7 +126,7 @@ public class AT24C02Activity extends AppCompatActivity {
                     }
                     ret = USB2IIC.INSTANCE.IIC_WriteBytes(DevHandle,IICIndex,(short)0x50,WriteDataBuffer,9,10);
                     if(ret != USB2IIC.IIC_SUCCESS){
-                        textView.append("Write data error!\n");
+                        textView.append("Write data error!"+String.format("%d\n",ret));
                         return;
                     }
                     try {
@@ -127,7 +140,7 @@ public class AT24C02Activity extends AppCompatActivity {
                 WriteDataBuffer[0] = 0x00;//起始地址
                 ret = USB2IIC.INSTANCE.IIC_WriteReadBytes(DevHandle,IICIndex,(short)0x50,WriteDataBuffer,1,ReadDataBuffer,256,10);
                 if(ret != USB2IIC.IIC_SUCCESS){
-                    textView.append("Read data error!\n");
+                    textView.append("Read data error!"+String.format("%d\n",ret));
                     return;
                 }else{
                     textView.append("Read Data:\n");
