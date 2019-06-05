@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>985</width>
+    <height>526</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>USB2XXX USB2CAN Bootloader Pro</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="image.qrc">
+    <normaloff>:/images/easyicon_net.png</normaloff>:/images/easyicon_net.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout_4">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <item>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="minimumSize">
+           <size>
+            <width>330</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>节点列表</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="0">
+            <widget class="QTableWidget" name="nodeListTableWidget">
+             <column>
+              <property name="text">
+               <string>选择</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>节点地址(NAD)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>固件类型</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>固件版本</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>升级状态</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame">
+        <property name="frameShape">
+         <enum>QFrame::Panel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout">
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>设备号：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="deviceHandleComboBox">
+                 <property name="minimumSize">
+                  <size>
+                   <width>80</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <widget class="QLabel" name="label_2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>48</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>通道号：</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="channelIndexComboBox">
+                 <property name="minimumSize">
+                  <size>
+                   <width>80</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>1</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_9">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <item>
+                  <widget class="QLabel" name="label_3">
+                   <property name="text">
+                    <string>波特率：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="baudRateComboBox">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>1000 Kbps</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>800 Kbps</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>500 Kbps</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>300 Kbps</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>250 Kbps</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>200 Kbps</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>150 Kbps</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>125 Kbps</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>100 Kbps</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>75 Kbps</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>50 Kbps</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>20 Kbps</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBoxEnResistor">
+                 <property name="text">
+                  <string>接入终端电阻</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>发送ID：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBoxSendID">
+                 <property name="minimumSize">
+                  <size>
+                   <width>76</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximum">
+                  <number>2047</number>
+                 </property>
+                 <property name="value">
+                  <number>60</number>
+                 </property>
+                 <property name="displayIntegerBase">
+                  <number>16</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>接收ID：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBoxReceiveID">
+                 <property name="minimumSize">
+                  <size>
+                   <width>76</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximum">
+                  <number>2047</number>
+                 </property>
+                 <property name="value">
+                  <number>61</number>
+                 </property>
+                 <property name="displayIntegerBase">
+                  <number>16</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string>ID类型：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="comboBoxIDType">
+                 <property name="minimumSize">
+                  <size>
+                   <width>80</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>标准帧ID</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>扩展帧ID</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QLabel" name="label_5">
+                 <property name="minimumSize">
+                  <size>
+                   <width>48</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>固件：</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="firmwareLineEdit"/>
+               </item>
+               <item>
+                <widget class="QPushButton" name="openFirmwareFilePushButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>80</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>打开文件</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="allNodeCheckBox">
+                 <property name="minimumSize">
+                  <size>
+                   <width>75</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>所有节点</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QPushButton" name="updateFirmwarePushButton">
+               <property name="minimumSize">
+                <size>
+                 <width>80</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>更新固件</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>985</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="openFirmwareFileAction"/>
+    <addaction name="exitAction"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>操作</string>
+    </property>
+    <addaction name="scanNodeAction"/>
+    <addaction name="actionAddNode"/>
+    <addaction name="actionScanDevice"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="contactUsAction"/>
+    <addaction name="aboutAction"/>
+    <addaction name="actionDocument"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="openFirmwareFileAction"/>
+   <addaction name="scanNodeAction"/>
+   <addaction name="separator"/>
+   <addaction name="contactUsAction"/>
+   <addaction name="aboutAction"/>
+   <addaction name="actionDocument"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="exitAction">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/images/gif_48_026.gif</normaloff>:/images/gif_48_026.gif</iconset>
+   </property>
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="scanNodeAction">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/images/gif_48_086.gif</normaloff>:/images/gif_48_086.gif</iconset>
+   </property>
+   <property name="text">
+    <string>扫描节点</string>
+   </property>
+  </action>
+  <action name="contactUsAction">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/images/gif_48_079.gif</normaloff>:/images/gif_48_079.gif</iconset>
+   </property>
+   <property name="text">
+    <string>联系我们</string>
+   </property>
+  </action>
+  <action name="aboutAction">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/images/gif_48_052.gif</normaloff>:/images/gif_48_052.gif</iconset>
+   </property>
+   <property name="text">
+    <string>关于软件</string>
+   </property>
+  </action>
+  <action name="openFirmwareFileAction">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/images/gif_48_045.gif</normaloff>:/images/gif_48_045.gif</iconset>
+   </property>
+   <property name="text">
+    <string>打开文件</string>
+   </property>
+  </action>
+  <action name="actionAddNode">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/images/gif_48_002.gif</normaloff>:/images/gif_48_002.gif</iconset>
+   </property>
+   <property name="text">
+    <string>添加节点</string>
+   </property>
+  </action>
+  <action name="actionScanDevice">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/images/gif_48_091.gif</normaloff>:/images/gif_48_091.gif</iconset>
+   </property>
+   <property name="text">
+    <string>扫描设备</string>
+   </property>
+  </action>
+  <action name="actionDocument">
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/images/gif_48_003.gif</normaloff>:/images/gif_48_003.gif</iconset>
+   </property>
+   <property name="text">
+    <string>协议文档</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="image.qrc"/>
+ </resources>
+ <connections/>
+</ui>
