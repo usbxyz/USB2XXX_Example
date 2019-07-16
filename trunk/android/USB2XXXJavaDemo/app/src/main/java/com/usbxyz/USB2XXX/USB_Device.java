@@ -41,7 +41,7 @@ public interface USB_Device extends Library{
 	  * @param  fd 安卓USB的设备的文件描述符
 	  * @retval 扫描到的设备数量
 	  */
-	int  USB_ScanDevice(int[] pDevHandle,int fd);
+	int  USB_ScanDevice(int[] pDevHandle,int[] pFd,int DevNum);
 	/**
 	  * @brief  打开设备，必须调用
 	  * @param  DevHandle 设备句柄
