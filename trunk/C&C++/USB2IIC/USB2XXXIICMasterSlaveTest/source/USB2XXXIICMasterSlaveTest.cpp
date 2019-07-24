@@ -22,8 +22,8 @@
 
 #define GET_FIRMWARE_INFO   1
 #define AUTO_GET_SLAVE_ADDR     1
-#define SLAVE_WRITE_TEST    0
-#define SLAVE_READ_TEST    0
+#define SLAVE_WRITE_TEST    1
+#define SLAVE_READ_TEST    1
 
 int main(int argc, const char* argv[])
 {
@@ -152,7 +152,7 @@ int main(int argc, const char* argv[])
         printf("\n");
     }
     //主机模式写数据
-    unsigned char WriteBuffer[8]={0x10,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
+    unsigned char WriteBuffer[8]={0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88};
     ret = IIC_WriteBytes(DevHandle[0],MasterIICIndex,0x71,WriteBuffer,sizeof(WriteBuffer),1000);
     if(ret != IIC_SUCCESS){
         printf("Master Write IIC failed!\n");

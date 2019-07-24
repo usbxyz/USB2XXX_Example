@@ -21,11 +21,11 @@
 #include "usb2can.h"
 
 #define GET_FIRMWARE_INFO   1
-#define CAN_MODE_LOOPBACK   1
+#define CAN_MODE_LOOPBACK   0
 #define CAN_SEND_MSG        1
 #define CAN_GET_MSG         1
 #define CAN_GET_STATUS      1
-
+#define CAN_SCH             1
 
 int main(int argc, const char* argv[])
 {
@@ -42,6 +42,7 @@ int main(int argc, const char* argv[])
         printf("No device connected!\n");
         return 0;
     }
+    DevHandle[0] = 0x050;
     //打开设备
     state = USB_OpenDevice(DevHandle[0]);
     if(!state){
@@ -76,9 +77,9 @@ int main(int argc, const char* argv[])
     CANConfig.CAN_RFLM = 0;//FIFO满之后覆盖旧报文
     CANConfig.CAN_TXFP = 1;//发送请求决定发送顺序
     //配置波特率,波特率 = 100M/(BRP*(SJW+BS1+BS2))
-    CANConfig.CAN_BRP = 25;
-    CANConfig.CAN_BS1 = 2;
-    CANConfig.CAN_BS2 = 1;
+    CANConfig.CAN_BRP = 2;
+    CANConfig.CAN_BS1 = 15;
+    CANConfig.CAN_BS2 = 5;
     CANConfig.CAN_SJW = 1;
     ret = CAN_Init(DevHandle[0],CANIndex,&CANConfig);
     if(ret != CAN_SUCCESS){
@@ -102,7 +103,7 @@ int main(int argc, const char* argv[])
     for(int i=0;i<5;i++){
         CanMsg[i].ExternFlag = 0;
         CanMsg[i].RemoteFlag = 0;
-        CanMsg[i].ID = i;
+        CanMsg[i].ID = i+1;
         CanMsg[i].DataLen = 8;
         for(int j=0;j<CanMsg[i].DataLen;j++){
             CanMsg[i].Data[j] = j;
@@ -151,6 +152,28 @@ int main(int argc, const char* argv[])
         printf("Get CAN data error!\n");
     }
 #endif
+#if CAN_SCH
+    CAN_MSG CanSchMsg[5];
+    for(int i=0;i<5;i++){
+        CanSchMsg[i].ExternFlag = 0;
+        CanSchMsg[i].RemoteFlag = 0;
+        CanSchMsg[i].ID = (i<<4)|(i+1);
+        CanSchMsg[i].DataLen = 8;
+        for(int j=0;j<CanMsg[i].DataLen;j++){
+            CanSchMsg[i].Data[j] = j;
+        }
+        CanSchMsg[i].TimeStamp =10;//帧间隔时间为10ms,必须设置，若其中的某一帧数据该项为0，则这帧发送完毕后不会继续进行后续的数据发送了
+    }
+    ret = CAN_StartSchedule(DevHandle[0],CANIndex,CanSchMsg,5);
+    if(ret == CAN_SUCCESS){
+        printf("Start CAN Schedule Success!\n",SendedNum);
+    }else{
+        printf("Start CAN Schedule Failed!\n");
+    }
+    Sleep(10000);
+    CAN_StopSchedule(DevHandle[0],CANIndex);
+#endif
+
     //关闭设备
     USB_CloseDevice(DevHandle[0]);
 	return 0;

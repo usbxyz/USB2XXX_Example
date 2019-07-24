@@ -26,7 +26,7 @@ int main(int argc, const char* argv[])
     DEVICE_INFO DevInfo;
     UART_CONFIG UARTConfig;
     int DevHandle[10];
-    int UARTIndex = 0;
+    int UARTIndex = 1;
     bool state;
     int ret;
     unsigned char WriteBuffer[256];
@@ -61,20 +61,16 @@ int main(int argc, const char* argv[])
     UARTConfig.Parity = UART_PARITY_NO;
     UARTConfig.StopBits = UART_STOP_BITS_1;
     UARTConfig.WordLength = UART_WORD_LENGTH_8BIT;
-    ret = UART_Init(DevHandle[0],1,&UARTConfig);
+    UARTConfig.TEPolarity = 0x40;
+    ret = UART_Init(DevHandle[0],0,&UARTConfig);
     ret = UART_Init(DevHandle[0],UARTIndex,&UARTConfig);
     if(ret != UART_SUCCESS){
         printf("Initialize device error!\n");
         return 0;
     }
-    //SPI发送数据
+    //UART发送数据
     for(int i=0;i<sizeof(WriteBuffer);i++){
         WriteBuffer[i] = i;
-    }
-    ret = UART_WriteBytes(DevHandle[0],UARTIndex,WriteBuffer,sizeof(WriteBuffer));
-    if(ret != UART_SUCCESS){
-        printf("UART write data error!\n");
-        return 0;
     }
     ret = UART_WriteBytes(DevHandle[0],UARTIndex,WriteBuffer,sizeof(WriteBuffer));
     if(ret != UART_SUCCESS){
@@ -89,11 +85,12 @@ int main(int argc, const char* argv[])
             return 0;
         }
     }
-    //SPI接收数据
+    //UART接收数据
     printf("Read Bytes:\n");
     int ReadDataNum = 0;
-    while(1){
-        ret = UART_ReadBytes(DevHandle[0],UARTIndex,ReadBuffer,5000);
+    int Time = 2000;
+    while(Time > 0){
+        ret = UART_ReadBytes(DevHandle[0],UARTIndex,ReadBuffer,10);
         if(ret > 0){
             ReadDataNum += ret;
             for(int i=0;i<ret;i++){
@@ -107,9 +104,9 @@ int main(int argc, const char* argv[])
         }else if(ret < 0){
             printf("ret = %d\n",ret);
         }
-        //Sleep(500);
+        Sleep(10);
+        Time -= 10;
     }
-    getchar();
     printf("Test UART_SUCCESS!\n");
     return 0;
 }

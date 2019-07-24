@@ -86,11 +86,10 @@ namespace USB2XXX_LIN_Test
             //主机写数据
             USB2LIN_EX.LIN_EX_MSG[] LINMsg = new USB2LIN_EX.LIN_EX_MSG[5];
             USB2LIN_EX.LIN_EX_MSG[] LINOutMsg = new USB2LIN_EX.LIN_EX_MSG[10];
-            int MsgLen = 5;
             LINMsg[0] = new USB2LIN_EX.LIN_EX_MSG();
             LINMsg[0].MsgType = USB2LIN_EX.LIN_EX_MSG_TYPE_BK;//只发送BREAK信号，一般用于唤醒休眠中的从设备
             LINMsg[0].Timestamp = 10;//发送该帧数据之后的延时时间，最小建议设置为1
-            for(int f=1;f<MsgLen;f++){
+            for(int f=1;f<LINMsg.Length;f++){
                 LINMsg[f] = new USB2LIN_EX.LIN_EX_MSG();
                 LINMsg[f].MsgType = USB2LIN_EX.LIN_EX_MSG_TYPE_MW;//主机发送数据
                 LINMsg[f].DataLen = 8;
@@ -105,7 +104,7 @@ namespace USB2XXX_LIN_Test
             //将数组转换成指针
             IntPtr pt = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(USB2LIN_EX.LIN_EX_MSG)) * LINOutMsg.Length);
 
-            ret = USB2LIN_EX.LIN_EX_MasterSync(DevHandle, LINIndex, LINMsg, pt, MsgLen);
+            ret = USB2LIN_EX.LIN_EX_MasterSync(DevHandle, LINIndex, LINMsg, pt, LINMsg.Length);
             if (ret < USB2LIN_EX.LIN_EX_SUCCESS)
             {
                 Console.WriteLine("MasterSync LIN failed!");

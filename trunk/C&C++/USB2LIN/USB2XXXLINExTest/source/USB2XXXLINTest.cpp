@@ -76,6 +76,8 @@ int main(int argc, const char* argv[])
         printf("Firmware SerialNumber:%08X%08X%08X\n",DevInfo.SerialNumber[0],DevInfo.SerialNumber[1],DevInfo.SerialNumber[2]);
     }
 #endif
+//    USB_ResetDevice(DevHandle[DevIndex]);//复位设备测试函数
+//    return 0;
 #if LIN_MASTER_SCH_TEST||LIN_MASTER_TEST
     //初始化配置LIN
     ret = LIN_EX_Init(DevHandle[DevIndex],LINMasterIndex,9600,1);
