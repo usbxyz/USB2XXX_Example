@@ -19,6 +19,7 @@ namespace USB2XXX_CAN_MultiThreadTest
         public static object locker = new object();
         public static bool CANReadMsgFlag = false;
         public static bool CANSendMsgFlag = false;
+        public static Int32 SendMsgNum = 0;
         public static void SendMsgThread()
         {
             while (CANSendMsgFlag)
@@ -43,7 +44,8 @@ namespace USB2XXX_CAN_MultiThreadTest
                     int SendedNum = USB2CAN.CAN_SendMsg(DevHandle, CANIndex, CanMsg, (UInt32)CanMsg.Length);
                     if (SendedNum >= 0)
                     {
-                        Console.WriteLine("Success send frames:{0}", SendedNum);
+                        SendMsgNum += SendedNum;
+                        Console.WriteLine("Success send frames:{0}", SendMsgNum);
                     }
                     else
                     {
@@ -66,7 +68,7 @@ namespace USB2XXX_CAN_MultiThreadTest
                         CanMsgBuffer[i] = new USB2CAN.CAN_MSG();
                         CanMsgBuffer[i].Data = new Byte[8];
                     }
-
+                    //申请数据缓冲区
                     IntPtr pt = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(USB2CAN.CAN_MSG)) * CanMsgBuffer.Length);
 
                     int CanNum = USB2CAN.CAN_GetMsg(DevHandle, CANIndex, pt);
@@ -90,6 +92,7 @@ namespace USB2XXX_CAN_MultiThreadTest
                         Console.WriteLine("Get CAN data error!");
                         break;
                     }
+                    Marshal.FreeHGlobal(pt);
                 }
                 Thread.Sleep(10);
             }
