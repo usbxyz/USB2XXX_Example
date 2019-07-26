@@ -1,4 +1,4 @@
-package com.usbxyz;
+package com.toomoss.USB2XXX;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,24 +11,23 @@ public interface USB2CAN extends Library {
 	USB2CAN INSTANCE  = (USB2CAN)Native.loadLibrary("USB2XXX",USB2CAN.class); 
 	
     //0.函数返回错误代码定义
-    public static int   CAN_SUCCESS             =(0);   //函数执行成功
-    public static int   CAN_ERR_NOT_SUPPORT     =(-1);  //适配器不支持该函数
-    public static int   CAN_ERR_USB_WRITE_FAIL  =(-2);  //USB写数据失败
-    public static int   CAN_ERR_USB_READ_FAIL   =(-3);  //USB读数据失败
-    public static int   CAN_ERR_CMD_FAIL        =(-4);  //命令执行失败
-    public static int   CAN_BL_ERR_CONFIG		=(-20); //配置设备错误
-    public static int	CAN_BL_ERR_SEND			=(-21); //发送数据出错
-    public static int	CAN_BL_ERR_TIME_OUT		=(-22); //超时错误
-    public static int	CAN_BL_ERR_CMD			=(-23); //执行命令失败
+    int CAN_SUCCESS             =(0);   //函数执行成功
+    int CAN_ERR_NOT_SUPPORT     =(-1);  //适配器不支持该函数
+    int CAN_ERR_USB_WRITE_FAIL  =(-2);  //USB写数据失败
+    int CAN_ERR_USB_READ_FAIL   =(-3);  //USB读数据失败
+    int CAN_ERR_CMD_FAIL        =(-4);  //命令执行失败
+    int CAN_BL_ERR_CONFIG		=(-20); //配置设备错误
+    int	CAN_BL_ERR_SEND			=(-21); //发送数据出错
+    int	CAN_BL_ERR_TIME_OUT		=(-22); //超时错误
+    int	CAN_BL_ERR_CMD			=(-23); //执行命令失败
 
-    public static int   CAN_BL_BOOT   =  0x55555555;
-    public static int   CAN_BL_APP    =  0xAAAAAAAA;
+    int CAN_BL_BOOT   =  0x55555555;
+    int CAN_BL_APP    =  0xAAAAAAAA;
     //1.CAN信息帧的数据类型定义
 	public class CAN_MSG  extends Structure{
-		
 	    public static class ByReference extends CAN_MSG implements Structure.ByReference {}  
-	    public static class ByValue extends CAN_MSG implements Structure.ByValue {}  
-	  
+	    public static class ByValue extends CAN_MSG implements Structure.ByValue {}
+
 		@Override
 		protected List getFieldOrder() {
 			// TODO Auto-generated method stub
@@ -45,7 +44,6 @@ public interface USB2CAN extends Library {
 
     //2.初始化CAN的数据类型定义
 	public class CAN_INIT_CONFIG  extends Structure{
-		
 	    public static class ByReference extends CAN_INIT_CONFIG implements Structure.ByReference {}  
 	    public static class ByValue extends CAN_INIT_CONFIG implements Structure.ByValue {}  
 	  
@@ -69,7 +67,6 @@ public interface USB2CAN extends Library {
 
     //3.CAN 滤波器设置数据类型定义
 	public class CAN_FILTER_CONFIG  extends Structure{
-		
 	    public static class ByReference extends CAN_FILTER_CONFIG implements Structure.ByReference {}  
 	    public static class ByValue extends CAN_FILTER_CONFIG implements Structure.ByValue {}  
 	  

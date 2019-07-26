@@ -1,4 +1,4 @@
-package com.usbxyz;
+package com.toomoss.USB2XXX;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +8,7 @@ import com.sun.jna.Native;
 import com.sun.jna.Structure;
 
 public interface USB2LIN extends Library {
-	USB2LIN INSTANCE  = (USB2LIN)Native.loadLibrary("USB2XXX",USB2LIN.class); 
+    USB2LIN INSTANCE  = (USB2LIN) Native.loadLibrary("USB2XXX",USB2LIN.class);
 	//初始化配置结构体
 	public class LIN_CONFIG  extends Structure{
 		
@@ -26,6 +26,7 @@ public interface USB2LIN extends Library {
 		public byte   MasterMode;   //主从选择控制:0-从机，1-主机
 		public byte   BreakBits;    //Break长度，0x00-10bit,0x20-11bit,主机模式无效，从机模式推荐设置为11bit
 	}
+
 	//LIN消息结构图定义
 	public class LIN_MSG  extends Structure{
 		
@@ -65,6 +66,7 @@ public interface USB2LIN extends Library {
     public static byte LIN_SLAVE_READ      = 1;
     //USB2LIN相关函数定义
     int LIN_Init(int DevHandle,byte LINIndex,LIN_CONFIG pConfig);
+    int LIN_SendBreak(int DevHandle,byte LINIndex);
     int LIN_Write(int DevHandle,byte LINIndex,LIN_MSG[] pLINMsg,int Len);
     int LIN_Read(int DevHandle,byte LINIndex,LIN_MSG[] pLINMsg,int Len);
     int LIN_SlaveSetIDMode(int DevHandle,byte LINIndex,byte IDMode,LIN_MSG[] pLINMsg,int Len);

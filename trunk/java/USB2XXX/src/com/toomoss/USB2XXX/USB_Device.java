@@ -1,4 +1,4 @@
-package com.usbxyz;
+package com.toomoss.USB2XXX;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,37 +9,40 @@ import com.sun.jna.Structure;
 
 public interface USB_Device extends Library{
 	USB_Device INSTANCE  = (USB_Device)Native.loadLibrary("USB2XXX",USB_Device.class); 
+	//定义设备的PID和VID
+	int DEV_PID = 0x7918;
+	int DEV_VID = 0x0483;
 	//定义电压输出值
 	char POWER_LEVEL_NONE = 0;	//不输出
 	char POWER_LEVEL_1V8 = 1;	//输出1.8V
 	char POWER_LEVEL_2V5 = 2;	//输出2.5V
 	char POWER_LEVEL_3V3 = 3;	//输出3.3V
     char POWER_LEVEL_5V0 = 4;	//输出5.0V
-
+	//定义设备信息
 	public class DEVICE_INFO  extends Structure{
-		
 	    public static class ByReference extends DEVICE_INFO implements Structure.ByReference {}  
-	    public static class ByValue extends DEVICE_INFO implements Structure.ByValue {}  
-	  
+	    public static class ByValue extends DEVICE_INFO implements Structure.ByValue {}
 		@Override
 		protected List getFieldOrder() {
 			// TODO Auto-generated method stub
 			return Arrays.asList(new String[]{"FirmwareName", "BuildDate", "HardwareVersion", "FirmwareVersion", "SerialNumber", "Functions"});
 		}
 	    
-		public byte[]   FirmwareName = new byte[32];   //固件名称字符串
-		public byte[]   BuildDate = new byte[32];      //固件编译时间字符串
-		public int     	HardwareVersion;    //硬件版本号
-		public int     	FirmwareVersion;    //固件版本号
-		public int[]    SerialNumber = new int[3];    //适配器序列号
-		public int     	Functions;          //适配器当前具备的功能
+		public byte[]   FirmwareName = new byte[32];   	//固件名称字符串
+		public byte[]   BuildDate = new byte[32];      	//固件编译时间字符串
+		public int     	HardwareVersion;    			//硬件版本号
+		public int     	FirmwareVersion;    			//固件版本号
+		public int[]    SerialNumber = new int[3];    	//适配器序列号
+		public int     	Functions;          			//适配器当前具备的功能
 	}
 	/**
 	  * @brief  初始化USB设备，并扫描设备连接数，必须调用
-	  * @param  pDevNum 每个设备的设备号存储地址，若不需要设备号，可以传入NULL
+	  * @param  pDevHandle 返回每个设备的设备句柄，后面对设备的所有操作都需要该句柄
+	  * @param  fd 安卓USB的设备的文件描述符
 	  * @retval 扫描到的设备数量
 	  */
 	int  USB_ScanDevice(int[] pDevHandle);
+	int  USB_ScanDevice(int[] pDevHandle,int[] pFd,int DevNum);//安卓下使用该函数
 	/**
 	  * @brief  打开设备，必须调用
 	  * @param  DevHandle 设备句柄
@@ -93,7 +96,7 @@ public interface USB_Device extends Library{
 	/**
 	 * @brief  设置可变电压输出引脚输出电压值
 	 * @param  DevHandle 设备索引号
-	 * @param  PowerLevel 输出电压值，0-不输出，1-1.8V，2-2.5V，3-3.3V，4-5V
+	 * @param  PowerLevel 输出电压值，0-1.8V，1-3.3V，2-不输出
 	 * @retval 设置输出电压状态
 	 */
 	boolean DEV_SetPowerLevel(int DevHandle,char PowerLevel);

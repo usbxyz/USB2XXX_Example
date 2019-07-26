@@ -1,5 +1,5 @@
 
-import com.usbxyz.USB_Device;
+import com.toomoss.USB2XXX.USB_Device;
 
 public class USB2XXXUSBDeviceTest {
     /** 
@@ -28,7 +28,7 @@ public class USB2XXXUSBDeviceTest {
         //获取设备信息
         USB_Device.DEVICE_INFO DevInfo = new USB_Device.DEVICE_INFO();
         byte[] funcStr = new byte[128];
-        state = USB_Device.INSTANCE.USB_GetDeviceInfo(DevHandle,DevInfo,funcStr);
+        state = USB_Device.INSTANCE.DEV_GetDeviceInfo(DevHandle,DevInfo,funcStr);
         if(!state){
         	System.out.println("get device infomation error");
         	return;
