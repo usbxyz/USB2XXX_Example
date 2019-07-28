@@ -1,4 +1,4 @@
-package com.usbxyz.USB2XXX;
+package com.toomoss.USB2XXX;
 
 import com.sun.jna.Library;
 import com.sun.jna.Native;
@@ -6,15 +6,15 @@ import com.sun.jna.Native;
 public interface USB2GPIO extends Library {
 	USB2GPIO INSTANCE  = (USB2GPIO)Native.loadLibrary("USB2XXX",USB2GPIO.class); 
 	//定义函数返回错误代码
-	int GPIO_SUCCESS             =(0);   //函数执行成功
-	int GPIO_ERR_NOT_SUPPORT     =(-1);  //适配器不支持该函数
-	int GPIO_ERR_USB_WRITE_FAIL  =(-2);  //USB写数据失败
-	int GPIO_ERR_USB_READ_FAIL   =(-3);  //USB读数据失败
-	int GPIO_ERR_CMD_FAIL        =(-4);  //命令执行失败
+	public static int GPIO_SUCCESS             =(0);   //函数执行成功
+	public static int GPIO_ERR_NOT_SUPPORT     =(-1);  //适配器不支持该函数
+	public static int GPIO_ERR_USB_WRITE_FAIL  =(-2);  //USB写数据失败
+	public static int GPIO_ERR_USB_READ_FAIL   =(-3);  //USB读数据失败
+	public static int GPIO_ERR_CMD_FAIL        =(-4);  //命令执行失败
     //上下拉电阻配置
-    byte GPIO_PUPD_NOPULL        = 0x00;    //没有上拉下拉
-    byte GPIO_PUPD_UP            = 0x01;    //使能内部上拉
-    byte GPIO_PUPD_DOWN          = 0x02;    //使能内部下拉
+	public static byte GPIO_PUPD_NOPULL        = 0x00;    //没有上拉下拉
+	public static byte GPIO_PUPD_UP            = 0x01;    //使能内部上拉
+	public static byte GPIO_PUPD_DOWN          = 0x02;    //使能内部下拉
 	/**
 	  * @brief  将GPIO引脚设置为输入模式
 	  * @param  DevHandle 设备索引号

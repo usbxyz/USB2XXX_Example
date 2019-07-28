@@ -17,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sun.jna.Pointer;
-import com.usbxyz.USB2XXX.USB2ADC;
-import com.usbxyz.USB2XXX.USB_Device;
+import com.toomoss.USB2XXX.USB2ADC;
+import com.toomoss.USB2XXX.USB_Device;
 import com.usbxyz.usb2xxxdemo.R;
 
 import java.util.HashMap;

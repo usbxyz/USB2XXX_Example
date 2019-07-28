@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.usbxyz.USB2XXX.USB_Device;
+import com.toomoss.USB2XXX.USB_Device;
 import com.usbxyz.usb2xxxdemo.R;
 import com.usbxyz.usb2xxxdemo.USB2GPIO.GPIOTestActivity;
 

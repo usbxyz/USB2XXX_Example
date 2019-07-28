@@ -1,4 +1,4 @@
-package com.usbxyz.USB2XXX;
+package com.toomoss.USB2XXX;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,19 +10,20 @@ import com.sun.jna.Structure;
 public interface USB2IIC extends Library {
 	USB2IIC INSTANCE  = (USB2IIC)Native.loadLibrary("USB2XXX",USB2IIC.class);
     //定义函数返回错误代码
-    int IIC_SUCCESS             = (0);   //函数执行成功
-    int IIC_ERR_NOT_SUPPORT     = (-1) ; //适配器不支持该函数
-    int IIC_ERR_USB_WRITE_FAIL  = (-2);  //USB写数据失败
-    int IIC_ERR_USB_READ_FAIL   = (-3);  //USB读数据失败
-    int IIC_ERR_CMD_FAIL        = (-4);  //命令执行失败
-    int IIC_ERR_PARA_ERROR      = (-5);  //参数传入错误
+    public static int IIC_SUCCESS             = (0);   //函数执行成功
+    public static int IIC_ERR_NOT_SUPPORT     = (-1) ; //适配器不支持该函数
+    public static int IIC_ERR_USB_WRITE_FAIL  = (-2);  //USB写数据失败
+    public static int IIC_ERR_USB_READ_FAIL   = (-3);  //USB读数据失败
+    public static int IIC_ERR_CMD_FAIL        = (-4);  //命令执行失败
+    public static int IIC_ERR_PARA_ERROR      = (-5);  //参数传入错误
     //定义IIC函数返回错误代码
-    int IIC_ERROR_SUCCESS     = 0;  //操作成功
-    int IIC_ERROR_CHANNEL     = 1;   //该通道不支持该函数
-    int IIC_ERROR_BUSY        = 2;   //总线忙
-    int IIC_ERROR_START_FAILD = 3;   //启动总线失败
-    int IIC_ERROR_TIMEOUT     = 4;   //超时
-    int IIC_ERROR_NACK        = 5;   //从机无应答
+    public static int IIC_ERROR_SUCCESS     = 0;  //操作成功
+    public static int IIC_ERROR_CHANNEL     = 1;  //该通道不支持该函数
+    public static int IIC_ERROR_BUSY        = 2;  //总线忙
+    public static int IIC_ERROR_START_FAILD = 3;  //启动总线失败
+    public static int IIC_ERROR_TIMEOUT     = 4;  //超时
+    public static int IIC_ERROR_NACK        = 5;  //从机无应答
+    public static int IIC_ERROR_PEC         = 6;  //PEC校验失败
 
 	public class IIC_CONFIG  extends Structure{
 		
