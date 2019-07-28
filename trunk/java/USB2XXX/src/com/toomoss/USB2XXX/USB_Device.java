@@ -9,15 +9,6 @@ import com.sun.jna.Structure;
 
 public interface USB_Device extends Library{
 	USB_Device INSTANCE  = (USB_Device)Native.loadLibrary("USB2XXX",USB_Device.class); 
-	//定义设备的PID和VID
-	int DEV_PID = 0x7918;
-	int DEV_VID = 0x0483;
-	//定义电压输出值
-	char POWER_LEVEL_NONE = 0;	//不输出
-	char POWER_LEVEL_1V8 = 1;	//输出1.8V
-	char POWER_LEVEL_2V5 = 2;	//输出2.5V
-	char POWER_LEVEL_3V3 = 3;	//输出3.3V
-    char POWER_LEVEL_5V0 = 4;	//输出5.0V
 	//定义设备信息
 	public class DEVICE_INFO  extends Structure{
 	    public static class ByReference extends DEVICE_INFO implements Structure.ByReference {}  
@@ -35,13 +26,22 @@ public interface USB_Device extends Library{
 		public int[]    SerialNumber = new int[3];    	//适配器序列号
 		public int     	Functions;          			//适配器当前具备的功能
 	}
+	//定义设备的PID和VID
+	public static int DEV_PID = 0x7918;
+	public static int DEV_VID = 0x0483;
+	//定义电压输出值
+	public static byte POWER_LEVEL_NONE = 0;	//不输出
+	public static byte POWER_LEVEL_1V8 = 1;	//输出1.8V
+	public static byte POWER_LEVEL_2V5 = 2;	//输出2.5V
+	public static byte POWER_LEVEL_3V3 = 3;	//输出3.3V
+	public static byte POWER_LEVEL_5V0 = 4;	//输出5.0V
 	/**
 	  * @brief  初始化USB设备，并扫描设备连接数，必须调用
 	  * @param  pDevHandle 返回每个设备的设备句柄，后面对设备的所有操作都需要该句柄
 	  * @param  fd 安卓USB的设备的文件描述符
 	  * @retval 扫描到的设备数量
 	  */
-	int  USB_ScanDevice(int[] pDevHandle);
+	int  USB_ScanDevice(int[] pDevHandle);//非安卓设备用该函数
 	int  USB_ScanDevice(int[] pDevHandle,int[] pFd,int DevNum);//安卓下使用该函数
 	/**
 	  * @brief  打开设备，必须调用
@@ -56,7 +56,14 @@ public interface USB_Device extends Library{
 	  * @retval 关闭设备的状态
 	  */
 	boolean USB_CloseDevice(int DevHandle);
-
+	
+	/**
+	  * @brief  复位设备程序，复位后需要重新调用USB_ScanDevice，USB_OpenDevice函数
+	  * @param  DevHandle 设备索引号
+	  * @retval 复位设备的状态
+	  */
+	boolean USB_ResetDevice(int DevHandle);
+	
 	/**
 	  * @brief  获取设备信息，比如设备名称，固件版本号，设备序号，设备功能说明字符串等
 	  * @param  DevHandle 设备句柄
@@ -96,8 +103,8 @@ public interface USB_Device extends Library{
 	/**
 	 * @brief  设置可变电压输出引脚输出电压值
 	 * @param  DevHandle 设备索引号
-	 * @param  PowerLevel 输出电压值，0-1.8V，1-3.3V，2-不输出
+	 * @param  PowerLevel 输出电压值
 	 * @retval 设置输出电压状态
 	 */
-	boolean DEV_SetPowerLevel(int DevHandle,char PowerLevel);
+	boolean DEV_SetPowerLevel(int DevHandle,byte PowerLevel);
 }

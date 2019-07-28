@@ -11,18 +11,23 @@ public interface USB2CAN extends Library {
 	USB2CAN INSTANCE  = (USB2CAN)Native.loadLibrary("USB2XXX",USB2CAN.class); 
 	
     //0.函数返回错误代码定义
-    int CAN_SUCCESS             =(0);   //函数执行成功
-    int CAN_ERR_NOT_SUPPORT     =(-1);  //适配器不支持该函数
-    int CAN_ERR_USB_WRITE_FAIL  =(-2);  //USB写数据失败
-    int CAN_ERR_USB_READ_FAIL   =(-3);  //USB读数据失败
-    int CAN_ERR_CMD_FAIL        =(-4);  //命令执行失败
-    int CAN_BL_ERR_CONFIG		=(-20); //配置设备错误
-    int	CAN_BL_ERR_SEND			=(-21); //发送数据出错
-    int	CAN_BL_ERR_TIME_OUT		=(-22); //超时错误
-    int	CAN_BL_ERR_CMD			=(-23); //执行命令失败
-
-    int CAN_BL_BOOT   =  0x55555555;
-    int CAN_BL_APP    =  0xAAAAAAAA;
+    public static int CAN_SUCCESS           =(0);   //函数执行成功
+    public static int CAN_ERR_NOT_SUPPORT   =(-1);  //适配器不支持该函数
+    public static int CAN_ERR_USB_WRITE_FAIL=(-2);  //USB写数据失败
+    public static int CAN_ERR_USB_READ_FAIL =(-3);  //USB读数据失败
+    public static int CAN_ERR_CMD_FAIL      =(-4);  //命令执行失败
+    public static int CAN_BL_ERR_CONFIG		=(-20); //配置设备错误
+    public static int CAN_BL_ERR_SEND		=(-21); //发送数据出错
+    public static int CAN_BL_ERR_TIME_OUT	=(-22); //超时错误
+    public static int CAN_BL_ERR_CMD		=(-23); //执行命令失败
+    public static int CAN_BOOT_ERR_CONFIG   =(-30); //配置设备错误
+    public static int CAN_BOOT_ERR_SEND     =(-31); //发送数据出错
+    public static int CAN_BOOT_ERR_TIME_OUT =(-32); //超时错误
+    public static int CAN_BOOT_ERR_CMD      =(-33); //执行命令失败
+    public static int CAN_BOOT_ERR_BAUD     =(-34); //波特率参数自动获取失败
+    public static int CAN_BOOT_ERR_BUFFER   =(-35); //从设备返回接收数据缓冲区大小为0
+    public static int CAN_BL_BOOT   =  0x55555555;
+    public static int CAN_BL_APP    =  0xAAAAAAAA;
     //1.CAN信息帧的数据类型定义
 	public class CAN_MSG  extends Structure{
 	    public static class ByReference extends CAN_MSG implements Structure.ByReference {}  
@@ -57,7 +62,7 @@ public interface USB2CAN extends Library {
         public byte	CAN_SJW;	//取值范围1~4
         public byte	CAN_BS1;	//取值范围1~16
         public byte	CAN_BS2;	//取值范围1~8
-        public byte	CAN_Mode;	//CAN工作模式，0-正常模式，1-环回模式，2-静默模式，3-静默环回模式
+        public byte	CAN_Mode;	//CAN工作模式，0-正常模式，1-环回模式，2-静默模式，3-静默环回模式，bit7为1则接入适配器内部终端电阻，否则不接入
         public byte	CAN_ABOM;	//自动离线管理，0-禁止，1-使能
         public byte	CAN_NART;	//报文重发管理，0-使能报文重传，1-禁止报文重传
         public byte	CAN_RFLM;	//FIFO锁定管理，0-新报文覆盖旧报文，1-丢弃新报文
@@ -169,7 +174,24 @@ public interface USB2CAN extends Library {
 	 * @return
 	 */
 	int  CAN_GetStatus(int DevHandle, byte CANIndex, CAN_STATUS pCANStatus);
-
+	
+	/**
+	 * 让适配器自己循环发送配置的CAN帧
+	 * @param DevHandle 设备句柄
+	 * @param CANIndex CAN通道号
+	 * @param pCanMsg 待发送的CAN数据数组
+	 * @param MsgNum 待发送的CAN数据数组大小
+	 * @return
+	 */
+	int CAN_StartSchedule(int DevHandle, byte CANIndex, CAN_MSG[] pCanMsg,int MsgNum);
+	/**
+	 * 停止自动发送CAN帧数据
+	 * @param DevHandle 设备句柄
+	 * @param CANIndex CAN通道号
+	 * @return
+	 */
+	int CAN_StopSchedule(int DevHandle, byte CANIndex);
+	//旧版本CAN Bootloader接口函数
 	int  CAN_BL_Init(int DevHandle,int CANIndex,CAN_INIT_CONFIG pInitConfig,CBL_CMD_LIST pCmdList);
 	int  CAN_BL_NodeCheck(int DevHandle,int CANIndex,short NodeAddr,int[] pVersion,int[] pType,int TimeOut);
 	int  CAN_BL_Erase(int DevHandle,int CANIndex,short NodeAddr,int FlashSize,int TimeOut);

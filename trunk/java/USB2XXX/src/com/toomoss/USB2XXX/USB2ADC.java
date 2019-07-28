@@ -10,12 +10,12 @@ public interface USB2ADC extends Library {
 	public USB2ADC INSTANCE  = (USB2ADC)Native.loadLibrary("USB2XXX",USB2ADC.class);
 	
     //定义函数返回错误代码
-    int ADC_SUCCESS             = (0);   //函数执行成功
-    int ADC_ERR_NOT_SUPPORT     = (-1);  //适配器不支持该函数
-    int ADC_ERR_USB_WRITE_FAIL  = (-2);  //USB写数据失败
-    int ADC_ERR_USB_READ_FAIL   = (-3);  //USB读数据失败
-    int ADC_ERR_CMD_FAIL        = (-4);  //命令执行失败
-    int ADC_ERR_CH_NO_INIT      = (-5);  //该通道未初始化
+    public static int ADC_SUCCESS             = (0);   //函数执行成功
+    public static int ADC_ERR_NOT_SUPPORT     = (-1);  //适配器不支持该函数
+    public static int ADC_ERR_USB_WRITE_FAIL  = (-2);  //USB写数据失败
+    public static int ADC_ERR_USB_READ_FAIL   = (-3);  //USB读数据失败
+    public static int ADC_ERR_CMD_FAIL        = (-4);  //命令执行失败
+    public static int ADC_ERR_CH_NO_INIT      = (-5);  //该通道未初始化
     //定义连续采集数据模式下的回调函数
     interface ADC_GET_DATA_HANDLE extends Callback {
         void ReceiveCallback(int DevHandle, final Pointer pData, final int DataNum);
