@@ -92,6 +92,7 @@ namespace USB2XXX_CAN_MultiThreadTest
                         Console.WriteLine("Get CAN data error!");
                         break;
                     }
+                    //释放数据缓冲区，必须释放，否则程序运行一段时间后会报内存不足
                     Marshal.FreeHGlobal(pt);
                 }
                 Thread.Sleep(10);
