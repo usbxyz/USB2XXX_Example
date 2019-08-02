@@ -12,5 +12,5 @@ Release
 Debug
 *.sdf
 *.user
-
+*.suo
 *.html
