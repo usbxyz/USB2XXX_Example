@@ -4,11 +4,11 @@
   * $Author: wdluo $
   * $Revision: 447 $
   * $Date:: 2013-06-29 18:24:57 +0800 #$
-  * @brief   USB设置操作相关函数和数据类型定义.
+  * @brief   设备操作相关函数和数据类型定义.
   ******************************************************************************
   * @attention
   *
-  *<center><a href="http:\\www.usbxzy.com">http://www.usbxzy.com</a></center>
+  *<center><a href="http:\\www.toomoss.com">http://www.toomoss.com</a></center>
   *<center>All Rights Reserved</center></h3>
   * 
   ******************************************************************************
@@ -37,11 +37,11 @@ typedef struct _DEVICE_INFO
 }DEVICE_INFO,*PDEVICE_INFO;
 
 //定义电压输出值
-#define POWER_LEVEL_NONE	0	//不输出
-#define POWER_LEVEL_1V8		1	//输出1.8V
-#define POWER_LEVEL_2V5		2	//输出2.5V
-#define POWER_LEVEL_3V3		3	//输出3.3V
-#define POWER_LEVEL_5V0		4	//输出5.0V
+#define POWER_LEVEL_NONE    0   //不输出
+#define POWER_LEVEL_1V8     1   //输出1.8V
+#define POWER_LEVEL_2V5     2   //输出2.5V
+#define POWER_LEVEL_3V3     3   //输出3.3V
+#define POWER_LEVEL_5V0     4   //输出5.0V
 
 #ifdef __cplusplus
 extern "C"
@@ -53,8 +53,8 @@ extern "C"
   * @param  pDevHandle 每个设备的设备号存储地址
   * @retval 扫描到的设备数量
   */
-#ifdef OS_ANDROID
-int  WINAPI USB_ScanDevice(int *pDevHandle,int fd);
+#ifdef __OS_ANDROID
+int WINAPI USB_ScanDevice(int *pDevHandle,int *pFd,int DevNum);
 #else
 int  WINAPI USB_ScanDevice(int *pDevHandle);
 #endif
@@ -72,6 +72,12 @@ bool WINAPI USB_OpenDevice(int DevHandle);
   */
 bool WINAPI USB_CloseDevice(int DevHandle);
 
+/**
+  * @brief  复位设备程序，复位后需要重新调用USB_ScanDevice，USB_OpenDevice函数
+  * @param  DevHandle 设备索引号
+  * @retval 复位设备的状态
+  */
+bool WINAPI USB_ResetDevice(int DevHandle);
 /**
   * @brief  获取设备信息，比如设备名称，固件版本号，设备序号，设备功能说明字符串等
   * @param  DevHandle 设备索引号

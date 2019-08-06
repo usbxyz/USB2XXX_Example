@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  *<center><a href="http:\\www.usbxyz.com">http://www.usbxyz.com</a></center>
+  *<center><a href="http:\\www.toomoss.com">http://www.toomoss.com</a></center>
   *<center>All Rights Reserved</center></h3>
   * 
   ******************************************************************************
@@ -26,8 +26,7 @@
 #endif
 #endif
 
-#define DECODE_WINDOW_SIZE  2//12
-
+//I2C数据类型定义
 typedef enum
 { 
     UNKNOWN = 0x00,
@@ -36,15 +35,15 @@ typedef enum
     DATA,
     STOP
 }I2C_DATA_TYPE;
-
+//I2C数据结构定义
 typedef struct
 {
-    unsigned char DataType;
-    unsigned char ACK;
-    unsigned char WriteRead;
-    unsigned char Data;
-    unsigned short Addr;
-    long long Timestamp;
+    unsigned char DataType; //当前数据类型
+    unsigned char ACK;      //0-当前ACK为低电平，1-当前ACK为高电平
+    unsigned char WriteRead;//1-读操作，0-写操作
+    unsigned char Data;     //当DataType为DATA时对应的数据
+    unsigned short Addr;    //数据对应的从机地址
+    long long Timestamp;    //时间戳，单位为ns
 }I2C_DATA;
 
 //解析到I2C数据后的回调函数
@@ -61,8 +60,8 @@ typedef  int (WINAPI I2C_GET_DATA_HANDLE)(int DevHandle,int Channel,I2C_DATA *pI
 extern "C"
 {
 #endif
-	int WINAPI I2C_SnifferStart(int DevHandle,int Channel,unsigned int SampleRateHz,I2C_GET_DATA_HANDLE *pGetI2CDataHandle);
-	int WINAPI I2C_SnifferStop(int DevHandle);
+    int WINAPI I2C_SnifferStart(int DevHandle,int Channel,unsigned int SampleRateHz,I2C_GET_DATA_HANDLE *pGetI2CDataHandle);
+    int WINAPI I2C_SnifferStop(int DevHandle);
 #ifdef __cplusplus
 }
 #endif

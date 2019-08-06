@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  *<center><a href="http:\\www.usbxyz.com">http://www.usbxyz.com</a></center>
+  *<center><a href="http:\\www.toomoss.com">http://www.toomoss.com</a></center>
   *<center>All Rights Reserved</center></h3>
   * 
   ******************************************************************************
@@ -84,13 +84,13 @@ typedef  int (WINAPI *PSPI_GET_DATA_HANDLE)(int DevHandle,int SPIIndex,unsigned 
 
 //定义初始化SPI的数据类型
 typedef struct _SPI_CONFIG{
-    char   Mode;            //SPI控制方式:0-硬件控制（全双工模式）,1-硬件控制（半双工模式），2-软件控制（半双工模式）,3-单总线模式，数据线输入输出都为MOSI,4-软件控制（全双工模式）
-    char   Master;          //主从选择控制:0-从机，1-主机
-    char   CPOL;            //时钟极性控制:0-SCK空闲时为低电平，1-SCK空闲时为高电平
-    char   CPHA;            //时钟相位控制:0-第一个SCK时钟采样，1-第二个SCK时钟采样
-    char   LSBFirst;        //数据移位方式:0-MSB在前，1-LSB在前
-    char   SelPolarity;     //片选信号极性:0-低电平选中，1-高电平选中
-    unsigned int ClockSpeedHz;    //SPI时钟频率:单位为HZ，硬件模式下最大50000000，最小390625，频率按2的倍数改变
+    char   Mode;              //SPI控制方式:0-硬件控制（全双工模式）,1-硬件控制（半双工模式），2-软件控制（半双工模式）,3-单总线模式，数据线输入输出都为MOSI,4-软件控制（全双工模式）
+    char   Master;            //主从选择控制:0-从机，1-主机
+    char   CPOL;              //时钟极性控制:0-SCK空闲时为低电平，1-SCK空闲时为高电平
+    char   CPHA;              //时钟相位控制:0-第一个SCK时钟采样，1-第二个SCK时钟采样
+    char   LSBFirst;          //数据移位方式:0-MSB在前，1-LSB在前
+    char   SelPolarity;       //片选信号极性:0-低电平选中，1-高电平选中
+    unsigned int ClockSpeedHz;//SPI时钟频率:单位为HZ，硬件模式下最大50000000，最小390625，频率按2的倍数改变
 }SPI_CONFIG,*PSPI_CONFIG;
 
 //定义SPI Flash器件配置参数数据类型
@@ -262,7 +262,7 @@ int WINAPI SPI_WriteReadBits(int DevHandle,int SPIIndex,char *pWriteBitStr,char 
   * @param  pWriteData 发送数据缓冲区首地址
   * @param  WriteLen 发送数据字节数
   * @param  TimeOutMs 等待数据发送完毕超时时间，若小于或者等于0则不会等待数据发送完毕，函数立即返回
-  * @retval 函数执行状态，小于0函数执行出错
+  * @retval 函数执行状态，小于0函数执行出错，大于0表示成功发送的字节数
   */
 int WINAPI SPI_SlaveWriteBytes(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteLen,int TimeOutMs);
 
@@ -283,7 +283,7 @@ int WINAPI SPI_SlaveReadBytes(int DevHandle,int SPIIndex,unsigned char *pReadDat
   * @param  pReadData 从机模式下接收数据缓冲区地址
   * @param  ReadDataLen 从机模式下接收数据的长度
   * @param  pReadReadLen 从机数据收发字节数
-  * @retval 函数执行状态，小于0函数执行出错
+  * @retval 函数执行状态，小于0函数执行出错，大于0则高16位是成功发送的数据字节数，低16位是成功读取的数据字节数
   */
 int WINAPI SPI_SlaveReadWriteBytes(int DevHandle,int SPIIndex,unsigned char *pReadData,int ReadDataLen,unsigned char *pWriteData,int WriteDataLen,int TimeOutMs);
 
@@ -294,7 +294,7 @@ int WINAPI SPI_SlaveReadWriteBytes(int DevHandle,int SPIIndex,unsigned char *pRe
   * @param  pWriteData 发送数据缓冲区首地址
   * @param  pReadData 数据接收缓冲区首地址
   * @param  pReadReadLen 从机数据收发字节数
-  * @retval 函数执行状态，小于0函数执行出错
+  * @retval 函数执行状态，小于0函数执行出错，大于0则高16位是成功发送的数据字节数，低16位是成功读取的数据字节数
   */
 int WINAPI SPI_SlaveWriteReadBytes(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteDataLen,unsigned char *pReadData,int ReadDataLen,int TimeOutMs);
 

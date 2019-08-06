@@ -40,24 +40,21 @@ def removeDirs(rootDir):
 			print ("dir "+file+" removed!") 
 	os.rmdir(rootDir)
 
-usb2xxx_dll_path_32 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\msvc\\win32\\USB2XXX.dll'
-usb2xxx_lib_path_32 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\msvc\\win32\\\\USB2XXX.lib'
-libusb_dll_path_32 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\msvc\\win32\\libusb-1.0.dll'
-usb2xxx_dll_path_64 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\msvc\\x64\\USB2XXX.dll'
-usb2xxx_lib_path_64 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\msvc\\x64\\\\USB2XXX.lib'
-libusb_dll_path_64 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\msvc\\x64\\libusb-1.0.dll'
-usb2xxx_so_path_x64 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\linux\\x64\\libUSB2XXX.so'
-libusb_so_path_x64 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\linux\\x64\\libusb-1.0.so'
-usb2xxx_so_path_x86 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\linux\\x86\\libUSB2XXX.so'
-libusb_so_path_x86 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\linux\\x86\\libusb-1.0.so'
-usb2xxx_so_path_ARMv6 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\linux\\ARMv6\\libUSB2XXX.so'
-libusb_so_path_ARMv6 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\linux\\ARMv6\\libusb-1.0.so'
-usb2xxx_so_path_ARMv7 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\linux\\ARMv7\\libUSB2XXX.so'
-libusb_so_path_ARMv7 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\linux\\ARMv7\\libusb-1.0.so'
-usb2xxx_so_path_ARMv8 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\linux\\ARMv8\\libUSB2XXX.so'
-libusb_so_path_ARMv8 = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\USB2XXXLib\\linux\\ARMv8\\libusb-1.0.so'
-header_file_path = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\source\\usb2xxx'
-usb_header_file_path = '..\\..\\..\\USB2XXX\\trunk\\USB2XXX\\USB2XXX\\source'
+usb2xxx_dll_path_32 = '..\\..\\sdk\\libs\\msvc_x86\\USB2XXX.dll'
+usb2xxx_lib_path_32 = '..\\..\\sdk\\libs\\msvc_x86\\USB2XXX.lib'
+libusb_dll_path_32 = '..\\..\\sdk\\libs\\msvc_x86\\libusb-1.0.dll'
+usb2xxx_dll_path_64 = '..\\..\\sdk\\libs\\msvc_x64\\USB2XXX.dll'
+usb2xxx_lib_path_64 = '..\\..\\sdk\\libs\\msvc_x64\\USB2XXX.lib'
+libusb_dll_path_64 = '..\\..\\sdk\\libs\\msvc_x64\\libusb-1.0.dll'
+usb2xxx_so_path_x64 = '..\\..\\sdk\\libs\\Linux_x64\\libUSB2XXX.so'
+libusb_so_path_x64 = '..\\..\\sdk\\libs\\Linux_x64\\libusb-1.0.so'
+usb2xxx_so_path_x86 = '..\\..\\sdk\\libs\\Linux_x86\\libUSB2XXX.so'
+libusb_so_path_x86 = '..\\..\\sdk\\libs\\Linux_x86\\libusb-1.0.so'
+usb2xxx_so_path_ARMv7 = '..\\..\\sdk\\libs\\Linux_ARMv7\\libUSB2XXX.so'
+libusb_so_path_ARMv7 = '..\\..\\sdk\\libs\\Linux_ARMv7\\libusb-1.0.so'
+usb2xxx_so_path_ARM64 = '..\\..\\sdk\\libs\\Linux_ARM64\\libUSB2XXX.so'
+libusb_so_path_ARM64 = '..\\..\\sdk\\libs\\Linux_ARM64\\libusb-1.0.so'
+header_file_path = '..\\..\\sdk\\api\\C&C++'
 
 def copyWinLibFiles():
     for root, dirs, files in os.walk(os.getcwd(), topdown=False):
@@ -86,19 +83,12 @@ def backupProject():
 				removeFiles(os.path.join(root, name),())
 				removeDirs(os.path.join(root, name))
 def copyHeaderFiles():
-    if os.path.exists(header_file_path):
-        headerFileList = [item for item in filter(lambda file: file.endswith('.h'),os.listdir(header_file_path))]
-        print(headerFileList)
+    headerFileList = [item for item in filter(lambda file: file.endswith('.h'),os.listdir(header_file_path))]
+    print(headerFileList)
     for root, dirs, files in os.walk(os.getcwd(), topdown=False):
         for name in files:
             if name in headerFileList:
                 shutil.copy(os.path.join(header_file_path, name),os.path.join(root, name))
-    headerFileList.clear()
-    headerFileList.append('usb_device.h')
-    for root, dirs, files in os.walk(os.getcwd(), topdown=False):
-        for name in files:
-            if name in headerFileList:
-                shutil.copy(os.path.join(usb_header_file_path, name),os.path.join(root, name))
 
 def creatLinuxProject():
     for root, dirs, files in os.walk(os.getcwd(), topdown=False):
@@ -110,6 +100,8 @@ def creatLinuxProject():
                     os.makedirs(os.path.join(root, 'linux/'+os.path.split(root)[-1]+'/lib/x64'))
                 if not os.path.exists(os.path.join(root, 'linux/'+os.path.split(root)[-1]+'/lib/ARMv7')):
                     os.makedirs(os.path.join(root, 'linux/'+os.path.split(root)[-1]+'/lib/ARMv7'))
+                if not os.path.exists(os.path.join(root, 'linux/'+os.path.split(root)[-1]+'/lib/ARM64')):
+                    os.makedirs(os.path.join(root, 'linux/'+os.path.split(root)[-1]+'/lib/ARM64'))
     
     for root, dirs, files in os.walk(os.getcwd(), topdown=False):
         #copy makefile 
@@ -128,6 +120,8 @@ def creatLinuxProject():
                     shutil.copy(os.path.join(libusb_so_path_x64),os.path.join(root, lib_root_path+'/lib/x64'))
                     shutil.copy(os.path.join(usb2xxx_so_path_ARMv7),os.path.join(root, lib_root_path+'/lib/ARMv7'))
                     shutil.copy(os.path.join(libusb_so_path_ARMv7),os.path.join(root, lib_root_path+'/lib/ARMv7'))
+                    shutil.copy(os.path.join(usb2xxx_so_path_ARM64),os.path.join(root, lib_root_path+'/lib/ARM64'))
+                    shutil.copy(os.path.join(libusb_so_path_ARM64),os.path.join(root, lib_root_path+'/lib/ARM64'))
 if __name__ == '__main__': 
     backupProject()
     print('Clear Success!')

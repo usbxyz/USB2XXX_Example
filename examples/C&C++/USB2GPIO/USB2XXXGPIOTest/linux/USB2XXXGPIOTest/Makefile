@@ -15,7 +15,7 @@ INC = -I../../source
 # Dependent libraries,Select library file According to the operating system you using
 OS_TYPE = $(shell uname -m)
 ifeq ($(OS_TYPE), x86_64)
-LIBS = -L./lib/x64 -lUSB2XXX -lusb-1.0 -lpthread 
+LIBS = -L./lib/x64 -lUSB2XXX -lusb-1.0 -lpthread
 endif
 ifeq ($(OS_TYPE), x86_32)
 LIBS = -L./lib/x86 -lUSB2XXX -lusb-1.0 -lpthread

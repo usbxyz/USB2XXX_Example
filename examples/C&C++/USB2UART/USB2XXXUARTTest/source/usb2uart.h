@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  *<center><a href="http:\\www.usbxyz.com">http://www.usbxyz.com</a></center>
+  *<center><a href="http:\\www.toomoss.com">http://www.toomoss.com</a></center>
   *<center>All Rights Reserved</center></h3>
   * 
   ******************************************************************************
@@ -45,10 +45,10 @@ typedef struct _UART_CONFIG{
 #define UART_WORD_LENGTH_8BIT     0
 #define UART_WORD_LENGTH_9BIT     1
 //停止位
-#define UART_STOP_BITS_1          0
-#define UART_STOP_BITS_05         1
-#define UART_STOP_BITS_2          2
-#define UART_STOP_BITS_15         3
+#define UART_STOP_BITS_1          0//1bit
+#define UART_STOP_BITS_05         1//0.5bit
+#define UART_STOP_BITS_2          2//2bit
+#define UART_STOP_BITS_15         3//1.5bit
 //奇偶校验位
 #define UART_PARITY_NO            0
 #define UART_PARITY_EVEN          4
@@ -57,6 +57,10 @@ typedef struct _UART_CONFIG{
 #define UART_TE_DISEN             0x00
 #define UART_TE_EN_LOW            0x80
 #define UART_TE_EN_HIGH           0x81
+//使能内部上拉电阻，CAN&LIN适配器支持
+#define UART_PPR_DISABLE          0x40
+#define UART_PPR_ENABLE           0x41
+
 
 #ifdef __cplusplus
 extern "C"
@@ -66,7 +70,9 @@ extern "C"
 int WINAPI UART_Init(int DevHandle, unsigned char Channel, PUART_CONFIG pConfig);
 int WINAPI UART_WriteBytes(int DevHandle,unsigned char Channel,unsigned char *pWriteData,int DataSize);
 int WINAPI UART_WriteBytesAsync(int DevHandle,unsigned char Channel,unsigned char *pWriteData,int DataSize);
+int WINAPI UART_WriteBytesInterval(int DevHandle,unsigned char Channel,unsigned char *pWriteData,int DataSize,unsigned char IntervalTimeMs);
 int WINAPI UART_ReadBytes(int DevHandle,unsigned char Channel,unsigned char *pReadData,int TimeOutMs);
+int WINAPI UART_ClearData(int DevHandle,unsigned char Channel);
 
 #ifdef __cplusplus
 }

@@ -4,11 +4,11 @@
   * $Author: wdluo $
   * $Revision: 447 $
   * $Date:: 2013-06-29 18:24:57 +0800 #$
-  * @brief   usb2spi相关函数和数据类型定义.
+  * @brief   usb2gpio相关函数和数据类型定义.
   ******************************************************************************
   * @attention
   *
-  *<center><a href="http:\\www.usbxyz.com">http://www.usbxyz.com</a></center>
+  *<center><a href="http:\\www.toomoss.com">http://www.toomoss.com</a></center>
   *<center>All Rights Reserved</center></h3>
   * 
   ******************************************************************************

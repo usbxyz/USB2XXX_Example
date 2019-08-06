@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  *<center><a href="http:\\www.usbxyz.com">http://www.usbxyz.com</a></center>
+  *<center><a href="http:\\www.toomoss.com">http://www.toomoss.com</a></center>
   *<center>All Rights Reserved</center></h3>
   * 
   ******************************************************************************
@@ -44,6 +44,7 @@
 #define SPI_MODE_HARD_HDX       1 //硬件控制（半双工模式）
 #define SPI_MODE_SOFT_HDX       2 //软件控制（半双工模式）
 #define SPI_MODE_SOFT_ONE_WIRE  3 //单总线模式，数据线输入输出都为MOSI
+#define SPI_MODE_SOFT_FDX       4 //软件控制（全双工模式）
 //定义主从机模式
 #define SPI_MASTER      1 //主机
 #define SPI_SLAVE       0 //从机
@@ -83,13 +84,13 @@ typedef  int (WINAPI *PSPI_GET_DATA_HANDLE)(int DevHandle,int SPIIndex,unsigned 
 
 //定义初始化SPI的数据类型
 typedef struct _SPI_CONFIG{
-    char   Mode;            //SPI控制方式:0-硬件控制（全双工模式）,1-硬件控制（半双工模式），2-软件控制（半双工模式）,3-单总线模式，数据线输入输出都为MOSI
-    char   Master;          //主从选择控制:0-从机，1-主机
-    char   CPOL;            //时钟极性控制:0-SCK空闲时为低电平，1-SCK空闲时为高电平
-    char   CPHA;            //时钟相位控制:0-第一个SCK时钟采样，1-第二个SCK时钟采样
-    char   LSBFirst;        //数据移位方式:0-MSB在前，1-LSB在前
-    char   SelPolarity;     //片选信号极性:0-低电平选中，1-高电平选中
-    unsigned int ClockSpeedHz;    //SPI时钟频率:单位为HZ，硬件模式下最大50000000，最小390625，频率按2的倍数改变
+    char   Mode;              //SPI控制方式:0-硬件控制（全双工模式）,1-硬件控制（半双工模式），2-软件控制（半双工模式）,3-单总线模式，数据线输入输出都为MOSI,4-软件控制（全双工模式）
+    char   Master;            //主从选择控制:0-从机，1-主机
+    char   CPOL;              //时钟极性控制:0-SCK空闲时为低电平，1-SCK空闲时为高电平
+    char   CPHA;              //时钟相位控制:0-第一个SCK时钟采样，1-第二个SCK时钟采样
+    char   LSBFirst;          //数据移位方式:0-MSB在前，1-LSB在前
+    char   SelPolarity;       //片选信号极性:0-低电平选中，1-高电平选中
+    unsigned int ClockSpeedHz;//SPI时钟频率:单位为HZ，硬件模式下最大50000000，最小390625，频率按2的倍数改变
 }SPI_CONFIG,*PSPI_CONFIG;
 
 //定义SPI Flash器件配置参数数据类型
@@ -123,6 +124,7 @@ typedef struct _SPI_FLASH_CONFIG{
 #define SPI_ERR_USB_READ_FAIL   (-3)  //USB读数据失败
 #define SPI_ERR_CMD_FAIL        (-4)  //命令执行失败
 #define SPI_ERR_PARAMETER       (-5)  //参数错误
+#define SPI_ERR_EVENT_TIMEOUT   (-6)  //检测Event超时
 #ifdef __cplusplus
 extern "C"
 {
@@ -260,25 +262,47 @@ int WINAPI SPI_WriteReadBits(int DevHandle,int SPIIndex,char *pWriteBitStr,char 
   * @param  pWriteData 发送数据缓冲区首地址
   * @param  WriteLen 发送数据字节数
   * @param  TimeOutMs 等待数据发送完毕超时时间，若小于或者等于0则不会等待数据发送完毕，函数立即返回
-  * @retval 函数执行状态，小于0函数执行出错
+  * @retval 函数执行状态，小于0函数执行出错，大于0表示成功发送的字节数
   */
 int WINAPI SPI_SlaveWriteBytes(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteLen,int TimeOutMs);
 
 /**
-  * @brief  SPI从机模式下获取接收数据缓冲区的数据
+  * @brief  SPI从机模式下接收数据
   * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pReadData 数据接收缓冲区首地址
-  * @param  pReadLen 接收到的数据字节数
-  * @retval 函数执行状态，小于0函数执行出错
+  * @param  pReadLen 准备接收数据的字节数
+  * @retval 函数执行状态，小于0函数执行出错，大于0表示接收到的数据字节数
   */
-int WINAPI SPI_SlaveReadBytes(int DevHandle,int SPIIndex,unsigned char *pReadData,int TimeOutMs);
+int WINAPI SPI_SlaveReadBytes(int DevHandle,int SPIIndex,unsigned char *pReadData,int ReadLen,int TimeOutMs);
+
+/**
+  * @brief  SPI从机模式下读写数据，全双工模式下读写数据同时进行，半双工模式下先读数据，然后再写数据
+  * @param  DevHandle 设备索引号
+  * @param  SPIIndex SPI通道号，取值0或者1
+  * @param  pReadData 从机模式下接收数据缓冲区地址
+  * @param  ReadDataLen 从机模式下接收数据的长度
+  * @param  pReadReadLen 从机数据收发字节数
+  * @retval 函数执行状态，小于0函数执行出错，大于0则高16位是成功发送的数据字节数，低16位是成功读取的数据字节数
+  */
+int WINAPI SPI_SlaveReadWriteBytes(int DevHandle,int SPIIndex,unsigned char *pReadData,int ReadDataLen,unsigned char *pWriteData,int WriteDataLen,int TimeOutMs);
+
+/**
+  * @brief  SPI从机模式下同时发送接收数据
+  * @param  DevHandle 设备索引号
+  * @param  SPIIndex SPI通道号，取值0或者1
+  * @param  pWriteData 发送数据缓冲区首地址
+  * @param  pReadData 数据接收缓冲区首地址
+  * @param  pReadReadLen 从机数据收发字节数
+  * @retval 函数执行状态，小于0函数执行出错，大于0则高16位是成功发送的数据字节数，低16位是成功读取的数据字节数
+  */
+int WINAPI SPI_SlaveWriteReadBytes(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteDataLen,unsigned char *pReadData,int ReadDataLen,int TimeOutMs);
 
 /**
   * @brief  SPI从机模式下连续读取数据,SPI在从机模式下接收到数据之后，通过回调函数传出数据
   * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
-  * @param  pSlaveReadDataHandle 从机模式下接收到数据后的回调函数
+  * @param  pSlaveReadDataHandle 从机模式下接收到数据后的回调函数，若传入NULL，则可以通过调用SPI_SlaveGetBytes函数来获取缓冲区中接收到的数据
   * @retval 函数执行状态，小于0函数执行出错
   */
 int WINAPI SPI_SlaveContinueRead(int DevHandle,int SPIIndex,PSPI_GET_DATA_HANDLE pSlaveReadDataHandle);
@@ -288,17 +312,28 @@ int WINAPI SPI_SlaveContinueRead(int DevHandle,int SPIIndex,PSPI_GET_DATA_HANDLE
   * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @param  pReadData 数据接收缓冲区首地址
-  * @param  BufferSize 数据缓冲区大小
+  * @param  TimeOutOfMs 若缓冲区中没有数据时等待数据超时时间
   * @retval 获取到的数据字节数
   */
-int WINAPI SPI_SlaveGetBytes(int DevHandle,int SPIIndex,unsigned char *pReadData,int BufferSize);
+int WINAPI SPI_SlaveGetBytes(int DevHandle,int SPIIndex,unsigned char *pReadData,int TimeOutOfMs);
 /**
   * @brief  停止SPI从机模式下连续读取数据
   * @param  DevHandle 设备索引号
   * @param  SPIIndex SPI通道号，取值0或者1
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_SlaveContinueReadStop(int DevHandle,int SPIIndex);
+int WINAPI SPI_SlaveContinueWriteReadStop(int DevHandle,int SPIIndex);
+
+/**
+  * @brief  SPI从机模式下连续发送数据，也就是将数据放到数据缓冲区中，主机来读取的时候会自动循环发送
+  * @param  DevHandle 设备索引号
+  * @param  SPIIndex SPI通道号，取值0或者1
+  * @param  pWriteData 需要循环发送的数据缓冲区指针
+  * @param  WriteDataNum 待发送的数据字节数
+  * @retval 函数执行状态，小于0函数执行出错
+  */
+int WINAPI SPI_SlaveContinueWrite(int DevHandle,int SPIIndex,unsigned char *pWriteData,int WriteLen);
+
 /**
   * @brief  读写SPI-Flash初始化配置
   * @param  DevHandle 设备索引号

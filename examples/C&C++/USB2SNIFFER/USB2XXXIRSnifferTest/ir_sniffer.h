@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  *<center><a href="http:\\www.usbxyz.com">http://www.usbxyz.com</a></center>
+  *<center><a href="http:\\www.toomoss.com">http://www.toomoss.com</a></center>
   *<center>All Rights Reserved</center></h3>
   * 
   ******************************************************************************
@@ -52,8 +52,8 @@ typedef  int (WINAPI IR_GET_DATA_HANDLE)(int DevHandle,int ChannelIndex,IR_RESUL
 extern "C"
 {
 #endif
-	int WINAPI IR_SnifferStart(int DevHandle,unsigned char Channel,IR_GET_DATA_HANDLE *pGetIRDataHandle);
-	int WINAPI IR_SnifferStop(int DevHandle);
+    int WINAPI IR_SnifferStart(int DevHandle,unsigned char Channel,IR_GET_DATA_HANDLE *pGetIRDataHandle);
+    int WINAPI IR_SnifferStop(int DevHandle);
 #ifdef __cplusplus
 }
 #endif

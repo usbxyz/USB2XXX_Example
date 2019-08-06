@@ -53,8 +53,8 @@ extern "C"
   * @param  pDevHandle 每个设备的设备号存储地址
   * @retval 扫描到的设备数量
   */
-#ifdef OS_ANDROID
-int  WINAPI USB_ScanDevice(int *pDevHandle,int fd);
+#ifdef __OS_ANDROID
+int WINAPI USB_ScanDevice(int *pDevHandle,int *pFd,int DevNum);
 #else
 int  WINAPI USB_ScanDevice(int *pDevHandle);
 #endif
@@ -72,6 +72,12 @@ bool WINAPI USB_OpenDevice(int DevHandle);
   */
 bool WINAPI USB_CloseDevice(int DevHandle);
 
+/**
+  * @brief  复位设备程序，复位后需要重新调用USB_ScanDevice，USB_OpenDevice函数
+  * @param  DevHandle 设备索引号
+  * @retval 复位设备的状态
+  */
+bool WINAPI USB_ResetDevice(int DevHandle);
 /**
   * @brief  获取设备信息，比如设备名称，固件版本号，设备序号，设备功能说明字符串等
   * @param  DevHandle 设备索引号

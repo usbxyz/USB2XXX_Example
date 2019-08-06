@@ -39,9 +39,26 @@
 extern "C"
 {
 #endif
-
+/**
+  * @brief  初始化配置DAC并输出信号
+  * @param  DevHandle 设备索引号
+  * @param  CycleUs 数据输出时间间隔，单位为0.25us，数据输出总时间=0.25*CycleUs*WaveDataNum us
+  * @param  pWaveData 待输出的数据缓冲区指针，数据最大值为0xFFF,对应电压为3.3V
+  * @param  WaveDataNum 输出的数据点数
+  * @retval 函数执行状态，小于0函数执行出错
+  */
 int WINAPI DAC_Init(int DevHandle,unsigned short CycleUs,unsigned short *pWaveData,unsigned short WaveDataNum);
+/**
+  * @brief  启动DAC并输出信号
+  * @param  DevHandle 设备索引号
+  * @retval 函数执行状态，小于0函数执行出错
+  */
 int WINAPI DAC_Start(int DevHandle);
+/**
+  * @brief  停止DAC输出信号
+  * @param  DevHandle 设备索引号
+  * @retval 函数执行状态，小于0函数执行出错
+  */
 int WINAPI DAC_Stop(int DevHandle);
 
 #ifdef __cplusplus

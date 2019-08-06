@@ -8,7 +8,7 @@
   ******************************************************************************
   * @attention
   *
-  *<center><a href="http:\\www.usbxyz.com">http://www.usbxyz.com</a></center>
+  *<center><a href="http:\\www.toomoss.com">http://www.toomoss.com</a></center>
   *<center>All Rights Reserved</center></h3>
   * 
   ******************************************************************************
@@ -58,9 +58,9 @@ typedef struct _LIN_CONFIG{
 
 //LIN数据收发帧格式定义
 typedef struct _LIN_MSG{
-	unsigned char ID;		//ID，取值范围0~0x3F
-	unsigned char DataLen;	//发送数据时，代表发送数据的长度，不含校验数据，接收数据时，数据的长度，包含校验数据
-	unsigned char Data[9];	//数据存储区
+    unsigned char ID;       //ID，取值范围0~0x3F
+    unsigned char DataLen;  //发送数据时，代表发送数据的长度，不含校验数据，接收数据时，数据的长度，包含校验数据
+    unsigned char Data[9];  //数据存储区
 }LIN_MSG,*PLIN_MSG;
 
 #ifdef __cplusplus
@@ -69,6 +69,7 @@ extern "C"
 #endif
 
 int WINAPI LIN_Init(int DevHandle,unsigned char LINIndex,LIN_CONFIG *pConfig);
+int WINAPI LIN_SendBreak(int DevHandle,unsigned char LINIndex);
 int WINAPI LIN_Write(int DevHandle,unsigned char LINIndex,LIN_MSG *pLINMsg,unsigned int Len);
 int WINAPI LIN_Read(int DevHandle,unsigned char LINIndex,LIN_MSG *pLINMsg,unsigned int Len);
 int WINAPI LIN_SlaveSetIDMode(int DevHandle,unsigned char LINIndex,unsigned char IDMode,LIN_MSG *pLINMsg,unsigned int Len);
