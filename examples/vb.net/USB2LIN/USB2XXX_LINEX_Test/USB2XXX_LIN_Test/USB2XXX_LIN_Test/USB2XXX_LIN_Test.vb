@@ -1,5 +1,5 @@
 ﻿
-#Const LIN_MASTER = False
+#Const LIN_MASTER = True
 
 Module USB2XXX_LIN_Test
     '若运行程序提示找不到USB2XXX.dll文件，请将USB2XXX.dll文件和libusb-1.0.dll文件拷贝到exe程序输出目录下，比如bin/Debug目录下
@@ -9,11 +9,12 @@ Module USB2XXX_LIN_Test
         Dim DeviceHandle(20) As UInt32
         Dim LINIndex As Byte
         LINIndex = 0
+        '扫描当前连接到电脑的LIN适配器
         ret = USB_ScanDevice(DeviceHandle)
         If ret <= 0 Then
             Console.WriteLine("No device connected")
         End If
-
+        '打开设备
         State = USB_OpenDevice(DeviceHandle(0))
         If State Then
             Console.WriteLine("Open device success!")
@@ -35,7 +36,7 @@ Module USB2XXX_LIN_Test
         End If
 
 #If LIN_MASTER Then
-        '主机写数据
+        '主机循环写数据
         Dim ID As Byte
         For ID = 0 To 9
             Dim msg_len As Byte = 1
@@ -47,17 +48,19 @@ Module USB2XXX_LIN_Test
             ReDim msg_out(0)
             ReDim msg_out(0).Data(8)
             For i = 0 To 7
-                msg_in(0).Data(i) = ID + i
+                msg_in(0).Data(i) = ID + i  '具体数据根据实际情况修改
             Next
-            msg_in(0).DataLen = 8
-            msg_in(0).PID = ID
-            msg_in(0).CheckType = LIN_EX_CHECK_EXT
-            msg_in(0).MsgType = LIN_EX_MSG_TYPE_MW
+            msg_in(0).DataLen = 8   '指定需要发送的数据字节数
+            msg_in(0).PID = ID      '传入ID即可，底层会自动计算校验位
+            msg_in(0).CheckType = LIN_EX_CHECK_EXT  '校验类型
+            msg_in(0).MsgType = LIN_EX_MSG_TYPE_MW  '消息类型，主机写数据
+            msg_in(0).Timestamp = 0                 '数据发送完毕后不需要延时
             ret = LIN_EX_MasterSync(DeviceHandle(0), LINIndex, msg_in, msg_out, msg_len)
             If ret <> msg_len Then
                 Console.WriteLine("LIN write data failed!")
                 Return
             Else
+                '通过对输出的消息进行判断可以知道发送出去的数据是否成功发送
                 Console.Write("Master LIN Write: PID[ID] = 0x{0:X2}[0x{1:X2}] Data = ", msg_out(0).PID, msg_out(0).PID And &H3F)
                 If msg_out(0).DataLen > 0 Then
                     For i = 0 To msg_out(0).DataLen - 1
@@ -69,7 +72,7 @@ Module USB2XXX_LIN_Test
             '延时
             Threading.Thread.Sleep(10)
         Next ID
-        '主机读数据
+        '主机循环读数据
         For ID = 10 To 15
             Dim msg_len As Byte = 1
             Dim msg_in(msg_len - 1) As LIN_EX_MSG
@@ -79,16 +82,17 @@ Module USB2XXX_LIN_Test
             ReDim msg_in(0).Data(8)
             ReDim msg_out(0)
             ReDim msg_out(0).Data(8)
-            msg_in(0).PID = ID
-            msg_in(0).MsgType = LIN_EX_MSG_TYPE_MW
+            msg_in(0).PID = ID  '传入ID即可，底层会自动计算校验位
+            msg_in(0).MsgType = LIN_EX_MSG_TYPE_MW  '消息类型，主机读数据
             ReDim msg_in(0).Data(8)
             ret = LIN_EX_MasterSync(DeviceHandle(0), LINIndex, msg_in, msg_out, msg_len)
             If ret <> msg_len Then
                 Console.WriteLine("LIN read data failed!")
                 Return
             Else
+                '主机读到的数据存放在数据消息中
                 Console.Write("Master LIN Read : PID[ID] = 0x{0:X2}[0x{1:X2}] Data = ", msg_out(0).PID, msg_out(0).PID And &H3F)
-                If msg_out(0).DataLen > 0 Then
+                If msg_out(0).DataLen > 0 Then  '具体读到了多少字节数据，可以通过DataLen参数获取
                     For i = 0 To msg_out(0).DataLen - 1
                         Console.Write("0x{0:X2} ", msg_out(0).Data(i))
                     Next i
