@@ -8,10 +8,14 @@
 	<Item Name="CAN BL Node Check.vi" Type="VI" URL="../VIs/CAN BL Node Check.vi"/>
 	<Item Name="CAN BL Set New Baud Rate.vi" Type="VI" URL="../VIs/CAN BL Set New Baud Rate.vi"/>
 	<Item Name="CAN BL Write.vi" Type="VI" URL="../VIs/CAN BL Write.vi"/>
+	<Item Name="CAN Decode List File.vi" Type="VI" URL="../VIs/CAN Decode List File.vi"/>
 	<Item Name="CAN Filter Init.vi" Type="VI" URL="../VIs/CAN Filter Init.vi"/>
+	<Item Name="CAN Get List File Msg.vi" Type="VI" URL="../VIs/CAN Get List File Msg.vi"/>
 	<Item Name="CAN Get Msg.vi" Type="VI" URL="../VIs/CAN Get Msg.vi"/>
 	<Item Name="CAN Get Status.vi" Type="VI" URL="../VIs/CAN Get Status.vi"/>
 	<Item Name="CAN Init.vi" Type="VI" URL="../VIs/CAN Init.vi"/>
 	<Item Name="CAN Send Msg.vi" Type="VI" URL="../VIs/CAN Send Msg.vi"/>
+	<Item Name="CAN Start Schedule.vi" Type="VI" URL="../VIs/CAN Start Schedule.vi"/>
+	<Item Name="CAN Stop Schedule.vi" Type="VI" URL="../VIs/CAN Stop Schedule.vi"/>
 	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>
