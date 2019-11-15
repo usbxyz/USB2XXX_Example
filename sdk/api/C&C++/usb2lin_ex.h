@@ -87,6 +87,10 @@ int WINAPI  LIN_EX_MasterStopSch(int DevHandle,unsigned char LINIndex);
 int WINAPI  LIN_EX_MasterGetSch(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg);
 
 int WINAPI  LIN_EX_MasterOfflineSch(int DevHandle,unsigned char LINIndex,unsigned int BaudRate,LIN_EX_MSG *pLINMsg,unsigned int MsgLen);
+
+int WINAPI  LIN_EX_DecodeListFile(char *pFileName,char CheckType,int BaudRate,char *pReadDataList,char ReadDataListLen,char *pCheckTypeList,char CheckTypeListLen);
+int WINAPI  LIN_EX_GetListFileMsg(int MsgIndex,int MsgLen,LIN_EX_MSG *pLINMsg);
+
 #ifdef __cplusplus
 }
 #endif

@@ -58,7 +58,7 @@ namespace USB2XXX
             [MarshalAs(UnmanagedType.U1)]
             public Byte Check;		//校验,只有校验数据类型为LIN_EX_CHECK_USER的时候才需要用户传入数据
             [MarshalAs(UnmanagedType.U1)]
-            public Byte Reserve0;
+            public Byte BreakBits;  //该帧的BRAK信号位数，有效值为10到26，若设置为其他值则默认为13位
             [MarshalAs(UnmanagedType.U1)]
             public Byte Reserve1;
         }
@@ -70,7 +70,24 @@ namespace USB2XXX
         [DllImport("USB2XXX.dll")]
         public static extern Int32  LIN_EX_SlaveSetIDMode(Int32 DevHandle,Byte LINIndex,LIN_EX_MSG[] pLINMsg,Int32 MsgLen);
         [DllImport("USB2XXX.dll")]
+        public static extern Int32  LIN_EX_SlaveGetIDMode(Int32 DevHandle,Byte LINIndex,IntPtr pLINMsg);
+        [DllImport("USB2XXX.dll")]
         public static extern Int32 LIN_EX_SlaveGetData(Int32 DevHandle, Byte LINIndex, IntPtr pLINMsg);
-
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32  LIN_EX_CtrlPowerOut(Int32 DevHandle,Byte State);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32  LIN_EX_GetVbatValue(Int32 DevHandle,Int16[] pBatValue);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32  LIN_EX_MasterStartSch(Int32 DevHandle,Byte LINIndex,LIN_EX_MSG[] pLINMsg,Int32 MsgLen);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32  LIN_EX_MasterStopSch(Int32 DevHandle,Byte LINIndex);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32  LIN_EX_MasterGetSch(Int32 DevHandle,Byte LINIndex,IntPtr pLINMsg);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32  LIN_EX_MasterOfflineSch(Int32 DevHandle,Byte LINIndex,Int32 BaudRate,LIN_EX_MSG[] pLINMsg,Int32 MsgLen);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32  LIN_EX_DecodeListFile(string pFileName,Byte CheckType,Int32 BaudRate,Byte[] pReadDataList,Byte ReadDataListLen,Byte[] pCheckTypeList,Byte CheckTypeListLen);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32  LIN_EX_GetListFileMsg(Int32 MsgIndex,Int32 MsgLen,IntPtr pLINMsg);
     }
 }

@@ -20,13 +20,13 @@
 #include "usb_device.h"
 #include "usb2spi.h"
 
-#define USE_SPI_FLASH_API   0
+#define USE_SPI_FLASH_API   1
 
 int main(int argc, const char* argv[])
 {
     DEVICE_INFO DevInfo;
     int DevHandle[10];
-    int SPIIndex = 0X20;
+    int SPIIndex = 0x00;
     bool state;
     int ret,i;
     //扫描查找设备
@@ -274,13 +274,13 @@ int main(int argc, const char* argv[])
             return 0;
         }
     }
-    //return 0;
-    
+    //扇区擦除
     ret = SPI_FlashEraseSector(DevHandle[0],SPIIndex,0,1);
     if(ret != SPI_SUCCESS){
         printf("Erase Sector Error!\n");
         return 0;
     }
+
     uint8_t TestBuffer[20*1024];
     for(int i=0;i<200;i++){
         TestBuffer[i] = i;
@@ -371,7 +371,11 @@ int main(int argc, const char* argv[])
         }
     }*/
     //擦出整片数据，该函数擦出速度最快
-    SPI_FlashEraseChip(DevHandle[0],SPIIndex);
+    ret = SPI_FlashEraseChip(DevHandle[0],SPIIndex,30000);//超时参数要大于整片擦除时间
+    if(ret != SPI_SUCCESS){
+        printf("Erase Chip Error!\n");
+        return 0;
+    }
     //计算消耗的时间并算出速度
     QueryPerformanceCounter(&litmp);// Get the current value of the performance counter
     EndTime = litmp.QuadPart; // Stop time

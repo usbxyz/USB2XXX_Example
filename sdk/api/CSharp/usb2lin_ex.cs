@@ -70,7 +70,22 @@ namespace USB2XXX
         [DllImport("USB2XXX.dll")]
         public static extern Int32  LIN_EX_SlaveSetIDMode(Int32 DevHandle,Byte LINIndex,LIN_EX_MSG[] pLINMsg,Int32 MsgLen);
         [DllImport("USB2XXX.dll")]
+        public static extern Int32  LIN_EX_SlaveGetIDMode(Int32 DevHandle,Byte LINIndex,IntPtr pLINMsg);
+        [DllImport("USB2XXX.dll")]
         public static extern Int32 LIN_EX_SlaveGetData(Int32 DevHandle, Byte LINIndex, IntPtr pLINMsg);
+
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 LIN_EX_CtrlPowerOut(Int32 DevHandle,Byte State);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 LIN_EX_GetVbatValue(Int32 DevHandle,UInt16[] pBatValue);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 LIN_EX_MasterStartSch(Int32 DevHandle,Byte LINIndex,LIN_EX_MSG[] pLINMsg,Int32 MsgLen);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 LIN_EX_MasterStopSch(Int32 DevHandle,Byte LINIndex);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 LIN_EX_MasterGetSch(Int32 DevHandle,Byte LINIndex,IntPtr pLINMsg);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 LIN_EX_MasterOfflineSch(Int32 DevHandle,Byte LINIndex,Int32 BaudRate,LIN_EX_MSG[] pLINMsg,Int32 MsgLen);
 
     }
 }

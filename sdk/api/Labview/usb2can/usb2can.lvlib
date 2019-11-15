@@ -8,7 +8,9 @@
 	<Item Name="CAN BL Node Check.vi" Type="VI" URL="../VIs/CAN BL Node Check.vi"/>
 	<Item Name="CAN BL Set New Baud Rate.vi" Type="VI" URL="../VIs/CAN BL Set New Baud Rate.vi"/>
 	<Item Name="CAN BL Write.vi" Type="VI" URL="../VIs/CAN BL Write.vi"/>
+	<Item Name="CAN Decode List File.vi" Type="VI" URL="../VIs/CAN Decode List File.vi"/>
 	<Item Name="CAN Filter Init.vi" Type="VI" URL="../VIs/CAN Filter Init.vi"/>
+	<Item Name="CAN Get List File Msg.vi" Type="VI" URL="../VIs/CAN Get List File Msg.vi"/>
 	<Item Name="CAN Get Msg.vi" Type="VI" URL="../VIs/CAN Get Msg.vi"/>
 	<Item Name="CAN Get Status.vi" Type="VI" URL="../VIs/CAN Get Status.vi"/>
 	<Item Name="CAN Init.vi" Type="VI" URL="../VIs/CAN Init.vi"/>

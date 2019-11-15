@@ -68,7 +68,7 @@ int main(int argc, const char* argv[])
     }
     //初始化SPI主机通道
     SPIConfig.Mode = SPI_MODE_HARD_HDX;
-    SPIConfig.ClockSpeedHz = 25000000;
+    SPIConfig.ClockSpeedHz = 25000000>>4;
     SPIConfig.CPHA = 1;
     SPIConfig.CPOL = 1;
     SPIConfig.LSBFirst = SPI_MSB;

@@ -129,6 +129,8 @@ int WINAPI CAN_BL_Write(int DevHandle,int CANIndex,unsigned short NodeAddr,unsig
 int WINAPI CAN_BL_Excute(int DevHandle,int CANIndex,unsigned short NodeAddr,unsigned int Type);
 int WINAPI CAN_BL_SetNewBaudRate(int DevHandle,int CANIndex,unsigned short NodeAddr,PCAN_INIT_CONFIG pInitConfig,unsigned int NewBaudRate,unsigned int TimeOut);
 
+int WINAPI  CAN_DecodeListFile(char *pFileName,unsigned int *pIgnoreIDList,int IgnoreIDListLen);
+int WINAPI  CAN_GetListFileMsg(int MsgIndex,int MsgLen,CAN_MSG *pCANMsg);
 
 #ifdef __cplusplus
 }

@@ -27,11 +27,21 @@ class PWM_CONFIG(Structure):
 # Initialize pwm
 def PWM_Init(DevHandle,pConfig):
     return USB2XXXLib.PWM_Init(DevHandle,pConfig)
-
 # 启动PWM
 def PWM_Start(DevHandle,ChannelMask,RunTimeOfUs):
     return USB2XXXLib.PWM_Start(DevHandle,ChannelMask,RunTimeOfUs)
-
 # 停止PWM
 def PWM_Stop(DevHandle,ChannelMask):
     return USB2XXXLib.PWM_Stop(DevHandle,ChannelMask)
+# 改变脉冲宽度
+def PWM_SetPulse(DevHandle,ChannelMask,pPulse):
+    return USB2XXXLib.PWM_SetPulse(DevHandle,ChannelMask,pPulse)
+# 改变相位
+def PWM_SetPhase(DevHandle,ChannelMask,pPhase):
+    return USB2XXXLib.PWM_SetPhase(DevHandle,ChannelMask,pPhase)
+# 改变频率
+def PWM_SetFrequency(DevHandle,ChannelMask,pPrescaler,pPrecision):
+    return USB2XXXLib.PWM_SetFrequency(DevHandle,ChannelMask,pPrescaler,pPrecision)
+# 改独立输出脉冲信号
+def PWM_SendPulses(DevHandle,PinMask,PulseWidthUs,PulsePeriodUs,PulseNum):
+    return USB2XXXLib.PWM_SendPulses(DevHandle,PinMask,PulseWidthUs,PulsePeriodUs,PulseNum)

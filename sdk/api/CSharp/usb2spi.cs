@@ -307,10 +307,11 @@ namespace USB2XXX
           * @param  SPIIndex SPI通道号，取值0或者1
           * @param  StartSector 起始扇区号，注意是扇区号，不是具体的扇区地址
           * @param  NumSector 需要擦除的扇区数
+          * @param  TimeOutMs 等待擦除完毕的时间，尽量长一点
           * @retval 函数执行状态，小于0函数执行出错
           */
         [DllImport("USB2XXX.dll")]
-        public static extern Int32 SPI_FlashEraseSector(Int32 DevHandle,Int32 SPIIndex,Int32 StartSector,Int32 NumSector);
+        public static extern Int32 SPI_FlashEraseSector(Int32 DevHandle,Int32 SPIIndex,Int32 StartSector,Int32 NumSector,Int32 TimeOutMs);
 
         /**
           * @brief  擦除SPI-Flash整个芯片的数据

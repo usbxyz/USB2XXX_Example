@@ -369,7 +369,7 @@ int WINAPI SPI_FlashEraseSector(int DevHandle,int SPIIndex,int StartSector,int N
   * @param  SPIIndex SPI通道号，取值0或者1
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_FlashEraseChip(int DevHandle,int SPIIndex);
+int WINAPI SPI_FlashEraseChip(int DevHandle,int SPIIndex,int TimeOutMs);
 
 
 /**

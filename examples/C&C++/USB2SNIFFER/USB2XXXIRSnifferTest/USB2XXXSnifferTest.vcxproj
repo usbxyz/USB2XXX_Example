@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ir_sniffer.h" />
+    <ClInclude Include="usb2ir.h" />
     <ClInclude Include="usb2sniffer.h" />
     <ClInclude Include="usb_device.h" />
   </ItemGroup>

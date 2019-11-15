@@ -6,6 +6,7 @@
 	<Item Name="UART Init.vi" Type="VI" URL="../VIs/UART Init.vi"/>
 	<Item Name="UART Read Bytes.vi" Type="VI" URL="../VIs/UART Read Bytes.vi"/>
 	<Item Name="UART Write Bytes Async.vi" Type="VI" URL="../VIs/UART Write Bytes Async.vi"/>
+	<Item Name="UART Write Bytes Interval.vi" Type="VI" URL="../VIs/UART Write Bytes Interval.vi"/>
 	<Item Name="UART Write Bytes.vi" Type="VI" URL="../VIs/UART Write Bytes.vi"/>
 	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>

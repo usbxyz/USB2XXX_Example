@@ -45,7 +45,7 @@ int main(int argc, const char* argv[])
         return 0;
     }
     //ldfÎÄ¼þ½âÎö
-    ret = LDF_Decode(DevHandle[0],"test.ldf",&LDFCoding);
+    ret = LDF_Decode(DevHandle[0],"Door_Protection_System_20190710.ldf",&LDFCoding);
     if(ret != LDF_SUCCESS){
         printf("LDF decode failed\n");
         return 0;

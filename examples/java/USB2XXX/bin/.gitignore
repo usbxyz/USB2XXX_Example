@@ -1,2 +1,3 @@
-/com/
-/USB2XXX_LIN_EX_MasterTest.class
+*.class
+/com
+

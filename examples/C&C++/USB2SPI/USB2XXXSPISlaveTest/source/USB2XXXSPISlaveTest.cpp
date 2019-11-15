@@ -23,8 +23,9 @@
 
 FILE *pBinFile;
 int FileSize = 0;
-int __stdcall SlaveGetData(int DevHandle,int SPIIndex,unsigned char *pData,int DataNum)
+int WINAPI SlaveGetData(int DevHandle,int SPIIndex,unsigned char *pData,int DataNum)
 {
+    printf("DevHandle = %08X,SPIIndex=%d,DataNum=%d\n",DevHandle,SPIIndex,DataNum);//测试用，正常接收数据到文件的时候需要注释掉
     fwrite(pData,1,DataNum,pBinFile);
     FileSize += DataNum;
     return 0;
@@ -38,36 +39,41 @@ int main(int argc, const char* argv[])
     int SPIIndex = SPI1_CS0;
     bool state;
     int ret;
+    int devNum=0;//若同时连接了多个设备，那么每个设备都会被启动数据接收
     unsigned char ReadBuffer[20480];
     unsigned char WriteBuffer[20480];
     //扫描查找设备
-    ret = USB_ScanDevice(DevHandle);
-    if(ret <= 0){
+    devNum = USB_ScanDevice(DevHandle);
+    if(devNum <= 0){
         printf("No device connected!\n");
         getchar();
         return 0;
     }
     //打开设备
-    state = USB_OpenDevice(DevHandle[0]);
-    if(!state){
-        printf("Open device error!\n");
-        getchar();
-        return 0;
+    for(int i=0;i<devNum;i++){
+        state = USB_OpenDevice(DevHandle[i]);
+        if(!state){
+            printf("Open device error!\n");
+            getchar();
+            return 0;
+        }
     }
     //获取固件信息
-    char FunctionStr[512]={0};
-    state = DEV_GetDeviceInfo(DevHandle[0],&DevInfo,FunctionStr);
-    if(!state){
-        printf("Get device infomation error!\n");
-        getchar();
-        return 0;
-    }else{
-	    printf("Firmware Name:%s\n",DevInfo.FirmwareName);
-        printf("Firmware Build Date:%s\n",DevInfo.BuildDate);
-        printf("Firmware Version:v%d.%d.%d\n",(DevInfo.FirmwareVersion>>24)&0xFF,(DevInfo.FirmwareVersion>>16)&0xFF,DevInfo.FirmwareVersion&0xFFFF);
-        printf("Hardware Version:v%d.%d.%d\n",(DevInfo.HardwareVersion>>24)&0xFF,(DevInfo.HardwareVersion>>16)&0xFF,DevInfo.HardwareVersion&0xFFFF);
-	    printf("Firmware Functions:%s\n",FunctionStr);
-        printf("Firmware Serial Number:%08X%08X%08X\n",DevInfo.SerialNumber[0],DevInfo.SerialNumber[1],DevInfo.SerialNumber[2]);
+    for(int i=0;i<devNum;i++){
+        char FunctionStr[512]={0};
+        state = DEV_GetDeviceInfo(DevHandle[i],&DevInfo,FunctionStr);
+        if(!state){
+            printf("Get device infomation error!\n");
+            getchar();
+            return 0;
+        }else{
+            printf("Firmware Name:%s\n",DevInfo.FirmwareName);
+            printf("Firmware Build Date:%s\n",DevInfo.BuildDate);
+            printf("Firmware Version:v%d.%d.%d\n",(DevInfo.FirmwareVersion>>24)&0xFF,(DevInfo.FirmwareVersion>>16)&0xFF,DevInfo.FirmwareVersion&0xFFFF);
+            printf("Hardware Version:v%d.%d.%d\n",(DevInfo.HardwareVersion>>24)&0xFF,(DevInfo.HardwareVersion>>16)&0xFF,DevInfo.HardwareVersion&0xFFFF);
+            printf("Firmware Functions:%s\n",FunctionStr);
+            printf("Firmware Serial Number:%08X%08X%08X\n",DevInfo.SerialNumber[0],DevInfo.SerialNumber[1],DevInfo.SerialNumber[2]);
+        }
     }
     //输入SPI相关参数，必须和主机匹配
     int DataTemp;
@@ -85,26 +91,22 @@ int main(int argc, const char* argv[])
     SPIConfig.LSBFirst = SPI_MSB;
     SPIConfig.Master = SPI_SLAVE;
     SPIConfig.SelPolarity = SPI_SEL_LOW;
-    ret = SPI_Init(DevHandle[0],SPIIndex,&SPIConfig);
-    if(ret != SPI_SUCCESS){
-        printf("Initialize device error!\n");
-        getchar();
-        return 0;
+    for(int i=0;i<devNum;i++){
+        ret = SPI_Init(DevHandle[i],SPIIndex,&SPIConfig);
+        if(ret != SPI_SUCCESS){
+            printf("Initialize device error!\n");
+            getchar();
+            return 0;
+        }
     }
-	//ret = SPI_SlaveWriteReadBytes(DevHandle[0],SPIIndex,WriteBuffer,ReadBuffer,32,1000);
-    //从机模式写数据，数据写入适配器内部数据缓冲区，等待主机读取
-    //ret = SPI_SlaveWriteBytes(DevHandle[0],SPIIndex,WriteBuffer,32,0);
-    //printf("ret = %d\n",ret);
-    //通过主动调用从机接收数据函数获取数据
-    //ret = SPI_SlaveReadBytes(DevHandle[0],SPIIndex)
-	time_t timep;
-	struct tm *tp;
-	time(&timep);
-	tp =localtime(&timep);
+    time_t timep;
+    struct tm *tp;
+    time(&timep);
+    tp =localtime(&timep);
     //通过回调函数方式接收数据，并将数据写入文件中
     //输入文件名
     char BinFileName[256];
-	sprintf(BinFileName,"SPIData_%02d%02d%02d%02d.bin",tp->tm_mday,tp->tm_hour,tp->tm_min,tp->tm_sec);
+    sprintf(BinFileName,"SPIData_%02d%02d%02d%02d.bin",tp->tm_mday,tp->tm_hour,tp->tm_min,tp->tm_sec);
     printf("Press any key to exit the data reception!\n");
     pBinFile=fopen(BinFileName,"wb"); //获取文件的指针
     if(pBinFile == NULL){
@@ -112,16 +114,25 @@ int main(int argc, const char* argv[])
         getchar();
         return 0;
     }
-    SPI_SlaveContinueRead(DevHandle[0],SPIIndex,SlaveGetData);
+    for(int i=0;i<devNum;i++){
+        ret = SPI_SlaveContinueRead(DevHandle[i],SPIIndex,SlaveGetData);
+        if(ret != SPI_SUCCESS){
+            printf("Start continue read faild\n");
+            getchar();
+            return 0;
+        }
+    }
     getchar();
-	getchar();
-    SPI_SlaveContinueReadStop(DevHandle[0],SPIIndex);
+    getchar();
+    for(int i=0;i<devNum;i++){
+        SPI_SlaveContinueWriteReadStop(DevHandle[i],SPIIndex);
+    }
     fclose(pBinFile);
-
+    //将二进制文件转换为十六进行显示的txt文件，方便数据查看
     printf("start convert file...\n");
     FILE *pTxtFile;
     char TextFileName[256];
-	sprintf(TextFileName,"SPIData_%02d%02d%02d%02d.txt",tp->tm_mday,tp->tm_hour,tp->tm_min,tp->tm_sec);
+    sprintf(TextFileName,"SPIData_%02d%02d%02d%02d.txt",tp->tm_mday,tp->tm_hour,tp->tm_min,tp->tm_sec);
     pTxtFile=fopen(TextFileName,"wb"); //获取文件的指针
     if(pTxtFile == NULL){
         printf("Open file faild\n");
@@ -141,7 +152,6 @@ int main(int argc, const char* argv[])
         if(ret <= 0){
             break;
         }else{
-            //fwrite(ReadBuffer,1,16,pTxtFile);
             for(int i=0;i<ret;i++){
                 fprintf(pTxtFile,"%02X ",ReadBuffer[i]);
             }
@@ -151,8 +161,9 @@ int main(int argc, const char* argv[])
 
     fclose(pBinFile);
     fclose(pTxtFile);
-
-    USB_CloseDevice(DevHandle[0]);
+    for(int i=0;i<devNum;i++){
+        USB_CloseDevice(DevHandle[i]);
+    }
     
     printf("FileSize = %d Byte\n",FileSize);
 	printf("Output bin file:%s\n",BinFileName);

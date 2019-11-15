@@ -45,7 +45,7 @@ namespace USB2XXX_LIN_LDFDecoder
                 Console.WriteLine("Open device success!");
             }
             //ldf文件解析
-            ret = LDFDecoder.LDF_Decode(DevHandle, "test.ldf", ref LDFCoding);
+            ret = LDFDecoder.LDF_Decode(DevHandle, "Door_Protection_System_20190710.ldf", ref LDFCoding);
             if (ret != LDFDecoder.LDF_SUCCESS)
             {
                 Console.WriteLine("LDF decode failed");
