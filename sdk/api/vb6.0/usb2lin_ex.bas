@@ -1,4 +1,4 @@
-Attribute VB_Name = "u2b2lin_ex"
+Attribute VB_Name = "usb2lin_ex"
 Public Const LIN_EX_SUCCESS             As Long = (0)
 Public Const LIN_EX_ERR_NOT_SUPPORT     As Long = (-1)
 Public Const LIN_EX_ERR_USB_WRITE_FAIL  As Long = (-2)
