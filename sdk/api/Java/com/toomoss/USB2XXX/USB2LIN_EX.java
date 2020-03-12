@@ -66,6 +66,8 @@ public interface USB2LIN_EX extends Library {
     //USB2LIN相关函数定义
 	int LIN_EX_Init(int DevHandle,byte LINIndex,int BaudRate,byte MasterMode);
 	int LIN_EX_MasterSync(int DevHandle,byte LINIndex,LIN_EX_MSG[] pInMsg,LIN_EX_MSG[] pOutMsg, int MsgLen);
+    int LIN_EX_MasterWrite(int DevHandle,byte LINIndex,byte PID,byte[] pData,byte DataLen,byte CheckType);
+    int LIN_EX_MasterRead(int DevHandle,byte LINIndex,byte PID,byte[] pData);
 	int LIN_EX_SlaveSetIDMode(int DevHandle,byte LINIndex,LIN_EX_MSG[] pLINMsg, int MsgLen);
 	int LIN_EX_SlaveGetIDMode(int DevHandle,byte LINIndex,LIN_EX_MSG[] pLINMsg);
 	int LIN_EX_SlaveGetData(int DevHandle,byte LINIndex,LIN_EX_MSG[] pLINMsg);
@@ -75,7 +77,5 @@ public interface USB2LIN_EX extends Library {
 	int LIN_EX_MasterStartSch(int DevHandle,byte LINIndex,LIN_EX_MSG[] pLINMsg,int MsgLen);
 	int LIN_EX_MasterStopSch(int DevHandle,byte LINIndex);
 	int LIN_EX_MasterGetSch(int DevHandle,byte LINIndex,LIN_EX_MSG[] pLINMsg);
-
-	int LIN_EX_MasterOfflineSch(int DevHandle,byte LINIndex,int BaudRate,LIN_EX_MSG[] pLINMsg,int MsgLen);
 	
 }

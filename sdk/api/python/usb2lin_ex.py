@@ -48,7 +48,7 @@ class LIN_EX_MSG(Structure):
         ("PID",c_ubyte),        #接收数据表示带校验位的ID值，发送数据的时候只需要传递ID值即可，底层会自动计算校验位并添加上去
         ("Data",c_ubyte*8),     #接收或者发送的数据
         ("Check",c_ubyte),      #根据CheckType校验类型进行计算的校验数据，发送数据时若不是自定义校验类型则底层会自动计算
-        ("Reserve0",c_ubyte),   #保留
+        ("BreakBits",c_ubyte),  #该帧的BRAK信号位数，有效值为10到26，若设置为其他值则默认为13位
         ("Reserve1",c_ubyte),   #保留
     ]
 def LIN_EX_Init(DevHandle,LINIndex,BaudRate,MasterMode):
@@ -56,6 +56,12 @@ def LIN_EX_Init(DevHandle,LINIndex,BaudRate,MasterMode):
 
 def LIN_EX_MasterSync(DevHandle,LINIndex,pInMsg,pOutMsg,MsgLen):
     return USB2XXXLib.LIN_EX_MasterSync(DevHandle,LINIndex,pInMsg,pOutMsg,MsgLen)
+
+def LIN_EX_MasterWrite(DevHandle, LINIndex, PID,pData, DataLen, CheckType):
+    return USB2XXXLib.LIN_EX_MasterWrite(DevHandle, LINIndex, PID,pData, DataLen, CheckType)
+
+def LIN_EX_MasterRead(DevHandle,LINIndex,PID,pData):
+    return USB2XXXLib.LIN_EX_MasterRead(DevHandle,LINIndex,PID,pData)
 
 def LIN_EX_SlaveGetIDMode(DevHandle,LINIndex,pLINMsg,MsgLen):
     return USB2XXXLib.LIN_EX_SlaveGetIDMode(DevHandle,LINIndex,pLINMsg,MsgLen)
@@ -80,6 +86,3 @@ def LIN_EX_MasterStopSch(DevHandle,LINIndex):
 
 def LIN_EX_MasterGetSch(DevHandle,LINIndex,pLINMsg):
     return USB2XXXLib.LIN_EX_MasterGetSch(DevHandle,LINIndex,pLINMsg)
-
-def LIN_EX_MasterOfflineSch(DevHandle,LINIndex,BaudRate,pLINMsg,MsgLen):
-    return USB2XXXLib.LIN_EX_MasterOfflineSch(DevHandle,LINIndex,BaudRate,pLINMsg,MsgLen)

@@ -42,7 +42,7 @@ namespace USB2XXX
         public struct LIN_EX_MSG
         {
             [MarshalAs(UnmanagedType.U4)]
-            public UInt32  Timestamp;    //时间戳
+            public UInt32  Timestamp;    //从机接收数据时代表时间戳，单位为0.1ms;主机读写数据时，表示数据读写后的延时时间，单位为ms
             [MarshalAs(UnmanagedType.U1)]
             public Byte MsgType;	    //帧类型
             [MarshalAs(UnmanagedType.U1)]
@@ -58,7 +58,7 @@ namespace USB2XXX
             [MarshalAs(UnmanagedType.U1)]
             public Byte Check;		//校验,只有校验数据类型为LIN_EX_CHECK_USER的时候才需要用户传入数据
             [MarshalAs(UnmanagedType.U1)]
-            public Byte Reserve0;
+            public Byte BreakBits;  //该帧的BRAK信号位数，有效值为10到26，若设置为其他值则默认为13位
             [MarshalAs(UnmanagedType.U1)]
             public Byte Reserve1;
         }
@@ -67,6 +67,10 @@ namespace USB2XXX
         public static extern Int32  LIN_EX_Init(Int32 DevHandle,Byte LINIndex,Int32 BaudRate,Byte MasterMode);
         [DllImport("USB2XXX.dll")]
         public static extern Int32 LIN_EX_MasterSync(Int32 DevHandle, Byte LINIndex, LIN_EX_MSG[] pInMsg, IntPtr pOutMsg, Int32 MsgLen);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 LIN_EX_MasterWrite(Int32 DevHandle,Byte LINIndex,Byte PID,Byte[] pData,Byte DataLen,Byte CheckType);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 LIN_EX_MasterRead(Int32 DevHandle,Byte LINIndex,Byte PID,Byte[] pData);
         [DllImport("USB2XXX.dll")]
         public static extern Int32  LIN_EX_SlaveSetIDMode(Int32 DevHandle,Byte LINIndex,LIN_EX_MSG[] pLINMsg,Int32 MsgLen);
         [DllImport("USB2XXX.dll")]
@@ -84,8 +88,6 @@ namespace USB2XXX
         public static extern Int32 LIN_EX_MasterStopSch(Int32 DevHandle,Byte LINIndex);
         [DllImport("USB2XXX.dll")]
         public static extern Int32 LIN_EX_MasterGetSch(Int32 DevHandle,Byte LINIndex,IntPtr pLINMsg);
-        [DllImport("USB2XXX.dll")]
-        public static extern Int32 LIN_EX_MasterOfflineSch(Int32 DevHandle,Byte LINIndex,Int32 BaudRate,LIN_EX_MSG[] pLINMsg,Int32 MsgLen);
 
     }
 }

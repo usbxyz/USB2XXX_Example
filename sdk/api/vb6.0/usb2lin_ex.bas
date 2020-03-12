@@ -42,6 +42,8 @@ End Type
 
 Declare Function LIN_EX_Init Lib "USB2XXX.dll" (ByVal DevHandle As Long, ByVal LINIndex As Byte, ByVal BaudRate As Long, ByVal MasterMode As Byte) As Long
 Declare Function LIN_EX_MasterSync Lib "USB2XXX.dll" (ByVal DevHandle As Long, ByVal LINIndex As Byte, ByVal pInMsg As Long, ByVal pOutMsg As Long, ByVal MsgLen As Long) As Long
+Declare Function LIN_EX_MasterWrite Lib "USB2XXX.dll"(ByVal DevHandle As Long,ByVal LINIndex As Byte,ByVal PID As Byte,ByVal pData As Any,ByVal DataLen As Byte,ByVal CheckType As Byte) As Long
+Declare Function LIN_EX_MasterRead Lib "USB2XXX.dll"(ByVal DevHandle As Long,ByVal LINIndex As Byte,ByVal PID As Byte,ByVal pData As Any) As Long
 Declare Function LIN_EX_SlaveSetIDMode Lib "USB2XXX.dll" (ByVal DevHandle As Long, ByVal LINIndex As Byte, ByVal pLINMsg As Long, ByVal MsgLen As Long) As Long
 Declare Function LIN_EX_SlaveGetIDMode Lib "USB2XXX.dll" (ByVal DevHandle As Long, ByVal LINIndex As Byte, ByVal pLINMsg As Long) As Long
 Declare Function LIN_EX_SlaveGetData Lib "USB2XXX.dll" (ByVal DevHandle As Long, ByVal LINIndex As Byte, ByVal pLINMsg As Long) As Long
@@ -52,4 +54,3 @@ Declare Function LIN_EX_MasterStartSch Lib "USB2XXX.dll" (ByVal DevHandle As Lon
 Declare Function LIN_EX_MasterStopSch Lib "USB2XXX.dll" (ByVal DevHandle As Long, ByVal LINIndex As Byte) As Long
 Declare Function LIN_EX_MasterGetSch Lib "USB2XXX.dll" (ByVal DevHandle As Long, ByVal LINIndex As Byte, ByVal pLINMsg As Long) As Long
 
-Declare Function LIN_EX_MasterOfflineSch Lib "USB2XXX.dll" (ByVal DevHandle As Long, ByVal LINIndex As Byte, ByVal BaudRate As Long, ByVal pLINMsg As Long, ByVal MsgLen As Long) As Long
