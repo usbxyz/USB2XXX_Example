@@ -184,7 +184,6 @@ int main(int argc, const char* argv[])
         Sleep(1000);
     }
 #endif
-
 #if LIN_MASTER_SCH_TEST
     LIN_EX_MSG LINMsg[6];
     LIN_EX_MSG LINOutMsg[10];

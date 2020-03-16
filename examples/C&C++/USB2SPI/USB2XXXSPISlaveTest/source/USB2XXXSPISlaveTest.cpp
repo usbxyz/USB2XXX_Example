@@ -49,6 +49,7 @@ int main(int argc, const char* argv[])
         getchar();
         return 0;
     }
+    devNum = 1;
     //打开设备
     for(int i=0;i<devNum;i++){
         state = USB_OpenDevice(DevHandle[i]);
@@ -115,12 +116,19 @@ int main(int argc, const char* argv[])
         return 0;
     }
     for(int i=0;i<devNum;i++){
-        ret = SPI_SlaveContinueRead(DevHandle[i],SPIIndex,SlaveGetData);
+        ret = SPI_SlaveContinueRead(DevHandle[i],SPIIndex,NULL);
         if(ret != SPI_SUCCESS){
             printf("Start continue read faild\n");
             getchar();
             return 0;
         }
+    }
+    while(1){
+        ret = SPI_SlaveGetBytes(DevHandle[0],SPIIndex,ReadBuffer,10);
+        for(int i=0;i<ret;i++){
+            printf("%02X ",ReadBuffer[i]);
+        }
+        //Sleep(100);
     }
     getchar();
     getchar();

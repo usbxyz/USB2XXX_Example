@@ -87,6 +87,22 @@ if __name__ == '__main__':
         exit()
     else:
         print("Stop continue read adc success")
+    sleep(0.01)
+    ret = ADC_StartContinueRead(DevHandles[DevIndex],ADCChannel,100000,1024,pGetAdcDataHandle)
+    if(ret != ADC_SUCCESS):
+        print("Start continue read2 adc faild!")
+        exit()
+    else:
+        print("Start continue read2 adc success")
+    # Delay
+    sleep(5)
+    ret = ADC_StopContinueRead(DevHandles[DevIndex])
+    if(ret != ADC_SUCCESS):
+        print("Stop continue read2 adc faild!")
+        exit()
+    else:
+        print("Stop continue read2 adc success")
+    sleep(0.01)
     # Close device
     ret = USB_CloseDevice(DevHandles[DevIndex])
     if(bool(ret)):
