@@ -8,12 +8,13 @@
 	<Item Name="LIN EX Get Vbat Value.vi" Type="VI" URL="../VIs/LIN EX Get Vbat Value.vi"/>
 	<Item Name="LIN EX Init.vi" Type="VI" URL="../VIs/LIN EX Init.vi"/>
 	<Item Name="LIN EX Master Get Sch.vi" Type="VI" URL="../VIs/LIN EX Master Get Sch.vi"/>
-	<Item Name="LIN EX Master Offline Sch.vi" Type="VI" URL="../VIs/LIN EX Master Offline Sch.vi"/>
+	<Item Name="LIN EX Master Read.vi" Type="VI" URL="../VIs/LIN EX Master Read.vi"/>
 	<Item Name="LIN EX Master Start Sch.vi" Type="VI" URL="../VIs/LIN EX Master Start Sch.vi"/>
 	<Item Name="LIN EX Master Stop Sch.vi" Type="VI" URL="../VIs/LIN EX Master Stop Sch.vi"/>
 	<Item Name="LIN EX Master Sync.vi" Type="VI" URL="../VIs/LIN EX Master Sync.vi"/>
+	<Item Name="LIN EX Master Write.vi" Type="VI" URL="../VIs/LIN EX Master Write.vi"/>
 	<Item Name="LIN EX Slave Get Data.vi" Type="VI" URL="../VIs/LIN EX Slave Get Data.vi"/>
 	<Item Name="LIN EX Slave Get ID Mode.vi" Type="VI" URL="../VIs/LIN EX Slave Get ID Mode.vi"/>
 	<Item Name="LIN EX Slave Set ID Mode.vi" Type="VI" URL="../VIs/LIN EX Slave Set ID Mode.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../../../../../USB2XXX/trunk/USB2XXX/USB2XXX/vs2010/Release/USB2XXX.dll"/>
 </Library>
