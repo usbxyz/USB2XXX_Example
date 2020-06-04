@@ -76,6 +76,20 @@ int main(int argc, const char* argv[])
     }else{
         printf("CANFD Init Success!\n");
     }
+    //配置过滤器，若不配置过滤器，默认是接收所有数据
+    CANFD_FILTER_CONFIG CANFDFilter;
+    CANFDFilter.Index = 0;//取值范围为：0~31
+    CANFDFilter.Enable = 1;
+    //配置为只接收扩展帧数据
+    CANFDFilter.ID_Accept = 0x80000000;
+    CANFDFilter.ID_Mask = 0x80000000;
+    ret = CANFD_SetFilter(DevHandle[0], CANIndex, &CANFDFilter, 1);
+    if (ret != CANFD_SUCCESS){
+        printf("Config filter failed!\n");
+        return 0;
+    }else{
+        printf("Config filter success!\n");
+    }
     //启动CAN数据接收
     ret = CANFD_StartGetMsg(DevHandle[0], CANIndex);
     if (ret != CANFD_SUCCESS){
@@ -89,7 +103,7 @@ int main(int argc, const char* argv[])
     for (int i = 0; i < 5; i++){
         CanMsg[i].Flags = 0;//bit[0]-BRS,bit[1]-ESI,bit[2]-FDF,bit[6..5]-Channel,bit[7]-RXD
         CanMsg[i].DLC = 8;
-        CanMsg[i].ID = i;
+        CanMsg[i].ID = i|CANFD_MSG_FLAG_IDE;
         for (int j = 0; j < CanMsg[i].DLC; j++){
             CanMsg[i].Data[j] = j;
         }

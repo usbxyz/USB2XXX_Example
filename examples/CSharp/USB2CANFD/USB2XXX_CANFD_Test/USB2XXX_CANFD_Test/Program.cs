@@ -61,7 +61,7 @@ namespace USB2XXX_CANFD_Test
             }
             //初始化配置CANFD设备
             USB2CANFD.CANFD_INIT_CONFIG CANFDConfig = new USB2CANFD.CANFD_INIT_CONFIG();
-            CANFDConfig.Mode = 0;        //0-正常模式，1-自发自收模式
+            CANFDConfig.Mode = 1;        //0-正常模式，1-自发自收模式
             CANFDConfig.RetrySend = 1;   //使能自动重传
             CANFDConfig.ISOCRCEnable = 1;//使能ISOCRC
             CANFDConfig.ResEnable = 1;   //使能内部终端电阻（若总线上没有终端电阻，则必须使能终端电阻才能正常传输数据）
@@ -86,6 +86,23 @@ namespace USB2XXX_CANFD_Test
             {
                 Console.WriteLine("Config CANFD Success!");
             }
+            //配置过滤器，若不配置过滤器，默认是接收所有数据
+            USB2CANFD.CANFD_FILTER_CONFIG CANFDFilter = new USB2CANFD.CANFD_FILTER_CONFIG();
+            CANFDFilter.Index = 0;//取值范围为：0~31
+            CANFDFilter.Enable = 1;
+            //配置为只接收扩展帧数据
+            CANFDFilter.ID_Accept = 0x80000000;
+            CANFDFilter.ID_Mask = 0x80000000;
+            ret = USB2CANFD.CANFD_SetFilter(DevHandle, CANIndex, ref CANFDFilter, 1);
+            if (ret != USB2CANFD.CANFD_SUCCESS)
+            {
+                Console.WriteLine("Config filter failed!");
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Config filter success!");
+            }
             //启动CAN数据接收
             ret = USB2CANFD.CANFD_StartGetMsg(DevHandle, CANIndex);
             if (ret != USB2CANFD.CANFD_SUCCESS)
@@ -100,12 +117,12 @@ namespace USB2XXX_CANFD_Test
             //发送CAN数据
             USB2CANFD.CANFD_MSG[] CanMsg = new USB2CANFD.CANFD_MSG[5];
             IntPtr pCanSendMsg = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(USB2CANFD.CANFD_MSG))*CanMsg.Length);//申请缓冲区
-            for (int i = 0; i < 5; i++)
+            for (Int32 i = 0; i < 5; i++)
             {
                 CanMsg[i] = new USB2CANFD.CANFD_MSG();
                 CanMsg[i].Flags = 0;//bit[0]-BRS,bit[1]-ESI,bit[2]-FDF,bit[6..5]-Channel,bit[7]-RXD
                 CanMsg[i].DLC = 8;
-                CanMsg[i].ID = (UInt32)i;
+                CanMsg[i].ID = (UInt32)(i | USB2CANFD.CANFD_MSG_FLAG_IDE);
                 CanMsg[i].Data = new Byte[64];
                 for (int j = 0; j < CanMsg[i].DLC; j++)
                 {

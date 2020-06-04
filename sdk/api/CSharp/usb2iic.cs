@@ -31,7 +31,7 @@ namespace USB2XXX
           public Byte   AddrBits;     //从机地址模式，7-7bit模式，10-10bit模式
           public Byte   EnablePu;     //使能引脚芯片内部上拉电阻，若不使能，则I2C总线上必须接上拉电阻
         }
-        //USB2IIC相关函数定义
+        //USB2IIC基础函数
         [DllImport("USB2XXX.dll")]
         public static extern Int32 IIC_Init(Int32 DevHandle,Int32 IICIndex, ref IIC_CONFIG pConfig);
         [DllImport("USB2XXX.dll")]
@@ -42,6 +42,13 @@ namespace USB2XXX
         public static extern Int32 IIC_ReadBytes(Int32 DevHandle,Int32 IICIndex,Int16 SlaveAddr,Byte[] pReadData,Int32 ReadLen,Int32 TimeOutMs);
         [DllImport("USB2XXX.dll")]
         public static extern Int32 IIC_WriteReadBytes(Int32 DevHandle,Int32 IICIndex,Int16 SlaveAddr,Byte[] pWriteData,Int32 WriteLen,Byte[] pReadData,Int32 ReadLen,Int32 TimeOutMs);
+        //块读写函数
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 IIC_BlockWriteBytes(Int32 DevHandle,Int32 IICIndex,Int16 SlaveAddr,Byte[] pWriteData,Int32 BlockSize,Int32 BlockNum,Int32 IntervalTimeUs);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 IIC_BlockReadBytes(Int32 DevHandle,Int32 IICIndex,Int16 SlaveAddr,Byte[] pReadData,Int32 BlockSize,Int32 BlockNum,Int32 IntervalTimeUs);
+
+        //从机操作相关函数
         [DllImport("USB2XXX.dll")]
         public static extern Int32 IIC_SlaveWriteBytes(Int32 DevHandle,Int32 IICIndex,Byte[] pWriteData,Int32 WriteLen,Int32 TimeOutMs);
         [DllImport("USB2XXX.dll")]

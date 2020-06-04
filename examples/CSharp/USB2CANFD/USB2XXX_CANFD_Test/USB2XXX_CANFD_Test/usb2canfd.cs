@@ -62,12 +62,11 @@ namespace USB2XXX
             public Byte Flags;//参考总线错误标志定义
         };
         //5.CAN 滤波器设置数据类型定义
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)] 
         public struct CANFD_FILTER_CONFIG{
             public Byte   Enable; //使能该过滤器，1-使能，0-禁止
             public Byte   Index;  //过滤器索引号，取值范围为0到31
-            UInt32    ID_Accept;  //验收码ID,bit[28..0]为有效ID位，bit[31]为IDE
-            UInt32    ID_Mask;    //屏蔽码，对应bit位若为1，则需要对比对应验收码bit位，相同才接收
+            public UInt32 ID_Accept;  //验收码ID,bit[28..0]为有效ID位，bit[31]为IDE
+            public UInt32 ID_Mask;    //屏蔽码，对应bit位若为1，则需要对比对应验收码bit位，相同才接收
         };
 
         //函数返回错误代码定义
