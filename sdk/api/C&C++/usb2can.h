@@ -35,6 +35,7 @@ typedef  struct  _CAN_MSG
     unsigned char   ExternFlag;   //是否是扩展帧
     unsigned char   DataLen;      //数据长度(<=8)，即Data 的长度。
     unsigned char   Data[8];      //报文的数据。
+    unsigned char   __Res;
 }CAN_MSG,*PCAN_MSG;
 
 //2.初始化CAN的数据类型定义

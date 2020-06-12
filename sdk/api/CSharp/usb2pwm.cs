@@ -24,8 +24,16 @@ namespace USB2XXX
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
             public UInt16[] Pulse;      //占空比，实际占空比=(Pulse/Precision)*100%
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+            public UInt16[] Phase;      //波形相位，取值0到Precision-1
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
             public Byte[] Polarity;    //波形极性
             public Byte ChannelMask;    //通道号
+        }
+        //定义PWM测量数据
+        public struct PWM_CAP_DATA
+        {
+            public UInt16 LowValue;//低电平时间，单位为us
+            public UInt16 HighValue;//高电平时间，单位为us
         }
         //函数定义
         [DllImport("USB2XXX.dll")]
@@ -35,8 +43,16 @@ namespace USB2XXX
         [DllImport("USB2XXX.dll")]
         public static extern Int32 PWM_SetPulse(Int32 DevHandle,Byte ChannelMask,UInt16[] pPulse);
         [DllImport("USB2XXX.dll")]
+        public static extern Int32 PWM_SetPhase(Int32 DevHandle,Byte ChannelMask,UInt16[] pPhase);
+        [DllImport("USB2XXX.dll")]
         public static extern Int32 PWM_SetFrequency(Int32 DevHandle,Byte ChannelMask,UInt16[] pPrescaler,UInt16[] pPrecision);
         [DllImport("USB2XXX.dll")]
         public static extern Int32 PWM_Stop(Int32 DevHandle,Byte ChannelMask);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 PWM_CAP_Init(Int32 DevHandle, Byte Channel);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 PWM_CAP_GetData(Int32 DevHandle, Byte Channel,ref PWM_CAP_DATA pPWMData);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 PWM_CAP_Stop(Int32 DevHandle, Byte Channel);
     }
 }

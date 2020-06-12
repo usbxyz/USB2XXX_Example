@@ -122,6 +122,7 @@ namespace USB2XXX_LIN_Test
             }
             MsgIndex++;
             /********************需要发送更多帧数据，请按照前面的方式继续添加********************/
+            //Console.WriteLine("Marshal.SizeOf(typeof(USB2LIN_EX.LIN_EX_MSG)) = {0}", Marshal.SizeOf(typeof(USB2LIN_EX.LIN_EX_MSG)));
             //将数组转换成指针
             IntPtr pt = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(USB2LIN_EX.LIN_EX_MSG)) * MsgIndex);
             ret = USB2LIN_EX.LIN_EX_MasterSync(DevHandle, LINIndex, LINMsg, pt, MsgIndex);
