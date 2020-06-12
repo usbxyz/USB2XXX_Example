@@ -16,5 +16,7 @@
 	<Item Name="LIN EX Slave Get Data.vi" Type="VI" URL="../VIs/LIN EX Slave Get Data.vi"/>
 	<Item Name="LIN EX Slave Get ID Mode.vi" Type="VI" URL="../VIs/LIN EX Slave Get ID Mode.vi"/>
 	<Item Name="LIN EX Slave Set ID Mode.vi" Type="VI" URL="../VIs/LIN EX Slave Set ID Mode.vi"/>
-	<Item Name="USB2XXX.dll" Type="Document" URL="../../../../../../USB2XXX/trunk/USB2XXX/USB2XXX/vs2010/Release/USB2XXX.dll"/>
+	<Item Name="LIN USD Request.vi" Type="VI" URL="../VIs/LIN USD Request.vi"/>
+	<Item Name="LIN USD Response.vi" Type="VI" URL="../VIs/LIN USD Response.vi"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../USB2XXX.dll"/>
 </Library>

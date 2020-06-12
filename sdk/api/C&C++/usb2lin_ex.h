@@ -73,17 +73,20 @@ typedef struct _LIN_EX_MSG{
 extern "C"
 {
 #endif
-
+//初始化
 int WINAPI  LIN_EX_Init(int DevHandle,unsigned char LINIndex,unsigned int BaudRate,unsigned char MasterMode);
+//主机模式操作函数
 int WINAPI  LIN_EX_MasterSync(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pInMsg,LIN_EX_MSG *pOutMsg,unsigned int MsgLen);
 int WINAPI  LIN_EX_MasterWrite(int DevHandle,unsigned char LINIndex,unsigned char PID,unsigned char *pData,unsigned char DataLen,unsigned char CheckType);
 int WINAPI  LIN_EX_MasterRead(int DevHandle,unsigned char LINIndex,unsigned char PID,unsigned char *pData);
+//从机模式操作函数
 int WINAPI  LIN_EX_SlaveSetIDMode(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg,unsigned int MsgLen);
 int WINAPI  LIN_EX_SlaveGetIDMode(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg);
 int WINAPI  LIN_EX_SlaveGetData(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg);
+//电源控制相关函数
 int WINAPI  LIN_EX_CtrlPowerOut(int DevHandle,unsigned char State);
 int WINAPI  LIN_EX_GetVbatValue(int DevHandle,unsigned short *pBatValue);
-
+//主机模式自动发送数据相关函数
 int WINAPI  LIN_EX_MasterStartSch(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg,unsigned int MsgLen);
 int WINAPI  LIN_EX_MasterStopSch(int DevHandle,unsigned char LINIndex);
 int WINAPI  LIN_EX_MasterGetSch(int DevHandle,unsigned char LINIndex,LIN_EX_MSG *pLINMsg);
@@ -91,6 +94,9 @@ int WINAPI  LIN_EX_MasterGetSch(int DevHandle,unsigned char LINIndex,LIN_EX_MSG 
 int WINAPI  LIN_EX_DecodeListFile(char *pFileName,char CheckType,int BaudRate,char *pReadDataList,char ReadDataListLen,char *pCheckTypeList,char CheckTypeListLen);
 int WINAPI  LIN_EX_GetListFileMsg(int MsgIndex,int MsgLen,LIN_EX_MSG *pLINMsg);
 
+//LIN UDS协议操作相关函数
+int WINAPI LIN_USD_Request(int DevHandle,int LINIndex,unsigned char ID,unsigned char NAD,unsigned char *pCmd,unsigned short Len);
+int WINAPI LIN_USD_Response(int DevHandle,int LINIndex,unsigned char ID,unsigned char NAD,unsigned char *pRes,unsigned short *pLen);
 #ifdef __cplusplus
 }
 #endif
