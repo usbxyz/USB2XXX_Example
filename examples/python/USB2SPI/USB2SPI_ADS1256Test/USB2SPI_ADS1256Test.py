@@ -74,25 +74,25 @@ if __name__ == '__main__':
     if(ret != ADS1256_SUCCESS):
         print("Start ADS1256 error!")
         exit()
-    # 延时一段时间后读取数据
-    sleep(0.01)
-    DataBuffer =  (c_uint32 * 20480)()
-    DataNum = 0
-    ret = ADS1256_Read(DevHandles[DevIndex],ADS1256Channel,byref(DataBuffer))
-    if(ret < 0):
-        print("Read ADS1256 error!");
-        exit()
-    else:
-        DataNum = ret
+    for t in range(0,1000):
+        # 延时一段时间后读取数据
+        sleep(0.01)
+        DataBuffer =  (c_uint32 * 20480)()
+        DataNum = 0
+        ret = ADS1256_Read(DevHandles[DevIndex],ADS1256Channel,byref(DataBuffer))
+        if(ret < 0):
+            print("Read ADS1256 error!");
+            exit()
+        else:
+            DataNum = ret
+        # 打印数据
+        for i in range(0, DataNum):
+            print("ADCDataBuffer[d%][%d] = %f"%(t,i,(DataBuffer[i]*0.59604644775390625)/((1<<ADS1256Config.PGA)*(1000000))))
     # 停止ADS1256
     ret = ADS1256_Stop(DevHandles[DevIndex],ADS1256Channel);
     if(ret != ADS1256_SUCCESS):
         print("Stop ADS1256 error!")
         exit()
-    # 打印数据
-    for i in range(0, DataNum):
-        print("ADCDataBuffer[%d] = %f"%i,(DataBuffer[i]*0.59604644775390625)/((1<<ADS1256Config.PGA)*(1000000)))
-
     print("ADS1256 Test End!")
     # Close device
     ret = USB_CloseDevice(DevHandles[DevIndex])
