@@ -21,7 +21,7 @@
 #include "usb2can.h"
 
 #define GET_FIRMWARE_INFO   1
-#define CAN_MODE_LOOPBACK   0
+#define CAN_MODE_LOOPBACK   1
 #define CAN_SEND_MSG        1
 #define CAN_GET_MSG         1
 #define CAN_GET_STATUS      1
@@ -42,7 +42,6 @@ int main(int argc, const char* argv[])
         printf("No device connected!\n");
         return 0;
     }
-    DevHandle[0] = 0x050;
     //打开设备
     state = USB_OpenDevice(DevHandle[0]);
     if(!state){
