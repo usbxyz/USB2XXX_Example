@@ -21,7 +21,7 @@
 #include "usb2can.h"
 
 #define GET_FIRMWARE_INFO   1
-#define CAN_MODE_LOOPBACK   1
+#define CAN_MODE_LOOPBACK   0
 #define CAN_SEND_MSG        1
 #define CAN_GET_MSG         1
 #define CAN_GET_STATUS      1
@@ -33,7 +33,7 @@ int main(int argc, const char* argv[])
     DEVICE_INFO DevInfo;
 #endif
     int DevHandle[10];
-    int CANIndex = 0;//USB2XXX只支持一个通道，所以该参数必须为0
+    int CANIndex = 0;//0-CAN1,1-CAN2
     bool state;
     int ret;
     //扫描查找设备
@@ -108,11 +108,13 @@ int main(int argc, const char* argv[])
             CanMsg[i].Data[j] = j;
         }
     }
-    int SendedNum = CAN_SendMsg(DevHandle[0],CANIndex,CanMsg,5);
-    if(SendedNum >= 0){
-        printf("Success send frames:%d\n",SendedNum);
-    }else{
-        printf("Send CAN data failed!\n");
+    for(int t=0;t<100;t++){
+        int SendedNum = CAN_SendMsg(DevHandle[0],CANIndex,CanMsg,5);
+        if(SendedNum >= 0){
+            printf("Success send frames:%d\n",SendedNum);
+        }else{
+            printf("Send CAN data failed! %d\n",SendedNum);
+        }
     }
 #endif
 #if CAN_GET_STATUS
@@ -165,7 +167,7 @@ int main(int argc, const char* argv[])
     }
     ret = CAN_StartSchedule(DevHandle[0],CANIndex,CanSchMsg,5);
     if(ret == CAN_SUCCESS){
-        printf("Start CAN Schedule Success!\n",SendedNum);
+        printf("Start CAN Schedule Success!\n");
     }else{
         printf("Start CAN Schedule Failed!\n");
     }

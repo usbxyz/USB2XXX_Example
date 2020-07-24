@@ -60,6 +60,10 @@ int WINAPI IIC_GetSlaveAddr(int DevHandle,int IICIndex,short *pSlaveAddr);
 int WINAPI IIC_WriteBytes(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pWriteData,int WriteLen,int TimeOutMs);
 int WINAPI IIC_ReadBytes(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pReadData,int ReadLen,int TimeOutMs);
 int WINAPI IIC_WriteReadBytes(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pWriteData,int WriteLen,unsigned char *pReadData,int ReadLen,int TimeOutMs);
+
+int WINAPI IIC_BlockWriteBytes(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pWriteData,int BlockSize,int BlockNum,int IntervalTimeUs);
+int WINAPI IIC_BlockReadBytes(int DevHandle,int IICIndex,short SlaveAddr,unsigned char *pReadData,int BlockSize,int BlockNum,int IntervalTimeUs);
+
 int WINAPI IIC_SlaveWriteBytes(int DevHandle,int IICIndex,unsigned char *pWriteData,int WriteLen,int TimeOutMs);
 int WINAPI IIC_SlaveReadBytes(int DevHandle,int IICIndex,unsigned char *pReadData,int TimeOutMs);
 int WINAPI IIC_SlaveWriteRemain(int DevHandle,int IICIndex);

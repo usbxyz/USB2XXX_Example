@@ -83,6 +83,16 @@ int WINAPI GPIO_Write(int DevHandle,unsigned int PinMask, unsigned int PinValue)
   * @retval 函数执行状态，小于0函数执行出错
   */
 int WINAPI GPIO_Read(int DevHandle,unsigned int PinMask, unsigned int *pPinValue);
+/**
+  * @brief  控制GPIO输出高脉冲
+  * @param  DevHandle 设备索引号
+  * @param  PinMask 需要获取状态的引脚，每个bit位代表一个引脚，对应bit位为1时改引脚对设置有效，最低位对应P0
+  * @param  PulseWidthUs 高脉冲宽度，单位为微秒
+  * @param  PulsePeriodUs 脉冲输出周期，单位为为微秒，必须大于等于PulseWidthUs
+  * @param  PulseNum 脉冲输出个数
+  * @retval 函数执行状态，小于0函数执行出错
+  */
+int WINAPI GPIO_SendPulses(int DevHandle,unsigned int PinMask,unsigned int PulseWidthUs,unsigned int PulsePeriodUs,unsigned int PulseNum);
 
 #ifdef __cplusplus
 }

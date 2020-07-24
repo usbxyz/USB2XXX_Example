@@ -361,7 +361,7 @@ int WINAPI SPI_FlashReadID(int DevHandle,int SPIIndex,unsigned char *pID);
   * @param  NumSector 需要擦除的扇区数
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_FlashEraseSector(int DevHandle,int SPIIndex,int StartSector,int NumSector);
+int WINAPI SPI_FlashEraseSector(int DevHandle,int SPIIndex,int StartSector,int NumSector,int TimeOutMs);
 
 /**
   * @brief  擦除SPI-Flash整个芯片的数据
@@ -369,8 +369,19 @@ int WINAPI SPI_FlashEraseSector(int DevHandle,int SPIIndex,int StartSector,int N
   * @param  SPIIndex SPI通道号，取值0或者1
   * @retval 函数执行状态，小于0函数执行出错
   */
-int WINAPI SPI_FlashEraseChip(int DevHandle,int SPIIndex);
+int WINAPI SPI_FlashEraseChip(int DevHandle,int SPIIndex,int TimeOutMs);
 
+/**
+  * @brief  擦除SPI-Flash的数据，根据传入的指令不一样，可以是扇区擦除，块擦除，整片擦除
+  * @param  DevHandle 设备索引号
+  * @param  SPIIndex SPI通道号，取值0或者1
+  * @param  StartAddr 擦除数据的起始地址
+  * @param  AddrBytes 地址字节数，一般是3字节
+  * @param  EraseCmd 擦除数据命令，不同的擦除方式，命令值不一样
+  * @param  TimeOutMs 等待擦除完毕超时时间，若超时时间到之后还没擦除完毕，则返回超时错误
+  * @retval 函数执行状态，小于0函数执行出错
+  */
+int WINAPI SPI_FlashErase(int DevHandle,int SPIIndex,int StartAddr,unsigned char AddrBytes,unsigned char EraseCmd,int TimeOutMs);
 
 /**
   * @brief  向SPI-Flash写数据

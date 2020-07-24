@@ -1,0 +1,8 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<Library LVVersion="10008000">
+	<Property Name="NI.Lib.Icon" Type="Bin">%!#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!,#!!!*Q(C=\:;R&lt;B."%)&lt;`%+21U&amp;C#(E6U,O=6,.'ZQH**A_961GF=O8!"%21D75LP"X$D!BZAKIC#RO).8#&amp;2(N_NV]:%C2-E1"4-?MZ\`_T/@,?\0FEK^E#[L_9WUS(L%H^[MX5PW`CC;2;,=NF]&amp;L6$]B+PA9XPRR?TJM:X3H.^P#2LLO;P]2_F&gt;`&amp;;&lt;6.`]:/62.6G&lt;&lt;Q`O^EO$T^`P]4\VVK$T_Y7&lt;_DD\&gt;=GMLX@R*OK&amp;8WPXVS&gt;X^]G+0&gt;=._OT8\4:&amp;CFWC/^``#`&amp;OY@08`@SE.XFZTW[&gt;&gt;!@.OF)\9M)4TRQRUVNK%HU2%`U2%`U2!`U1!`U1!`U1(&gt;U2X&gt;U2X&gt;U2T&gt;U1T&gt;U1T&gt;U1S].8?B#&amp;TKLEB20#C6*EQ4*9&amp;#58"+?B#@B38CY6=+4]#1]#5`#QR!F0!F0QJ0Q*$R-5]+4]#1]#5`#1[J#EK7BQZ0QE&amp;Y"4]!4]!1]!1]F&amp;@!%!%'R)('1"!Q&amp;Q;!4]!1]!1^&gt;"4Q"4]!4]!1]B"8Q"$Q"4]!4]$#FL%I5GL;BQU-;/4Q/D]0D]$A]J*&lt;$Y`!Y0![0QU-Z/4Q/DQ0B&amp;(33AS"HED0!O8&amp;Y("[_Z0!Y0![0Q_0Q%#I\Z'6F7JKWI=.D]"A]"I`"9`#11A;0Q70Q'$Q'$WFF]"A]"I`"9`"13A;0Q70Q'#"'5=L,3':-.!9:AM($JZQ7+\M5B=2+E_LB64W5KI&gt;.^2#J(A\646@&gt;4.6.5FV]V56683T626"^/&amp;6I62D6)KK4WY&amp;;=VXB3XS/4`!T@)$X]&amp;/]UU\^T108[\67KZ77S[8G]\EGEYH/TMYU'!T5[`6U?HKK4K?T_TPRB,;RI_V\;51@0Z[_(,]Y^`(QT@PR]0TL?$B^^`JCJ&amp;=H&amp;ZMRR`CTVK?@(XVZ_`TR=0LJY&lt;@2]==4N&amp;`S.N_(X8PJ8XAX[J[;P&lt;^BL.&amp;X,\KDZA!!!!!</Property>
+	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
+	<Item Name="CAN UDS Request.vi" Type="VI" URL="../VIs/CAN UDS Request.vi"/>
+	<Item Name="CAN UDS Response.vi" Type="VI" URL="../VIs/CAN UDS Response.vi"/>
+	<Item Name="USB2XXX.dll" Type="Document" URL="../../../../../../USB2XXX/trunk/USB2XXX/USB2XXX/vs2010/Release/USB2XXX.dll"/>
+</Library>

@@ -10,7 +10,7 @@ namespace USB2XXX
     {
         //CAN UDS地址定义
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]  
-        public struct CAN_MSG
+        public struct CAN_UDS_ADDR
         {
             public UInt32  ReqID;       //请求报文ID。
             public UInt32  ResID;       //应答报文ID。

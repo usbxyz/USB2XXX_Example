@@ -17,6 +17,7 @@
 #define __USB2CAN_H_
 
 #include <stdint.h>
+#include "offline_type.h"
 #ifndef OS_UNIX
 #include <Windows.h>
 #else
@@ -109,7 +110,12 @@ typedef  struct  _CBL_CMD_LIST{
 //7.CAN Bootloader固件类型
 #define CAN_BL_BOOT     0x55555555
 #define CAN_BL_APP      0xAAAAAAAA
-
+//8.中继模式定义
+#define CAN_RELAY_NONE      0x00    //关闭中继功能
+#define CAN_RELAY_CAN1TO2   0x01    //CAN1 --> CAN2 CAN1收到数据后通过CAN2转发出去
+#define CAN_RELAY_CAN2TO1   0x10    //CAN2 --> CAN1 CAN2收到数据后通过CAN1转发出去
+#define CAN_RELAY_CANALL    0x11    //CAN1 <-> CAN2 CAN1收到数据后通过CAN2转发出去,CAN2收到数据后通过CAN1转发出去
+#define CAN_RELAY_ONLINE    0x88	//根据中继数据进行在线转换，需要调用CAN_SetOnlineRelayData函数
 #ifdef __cplusplus
 extern "C"
 {
@@ -117,12 +123,20 @@ extern "C"
 
 int WINAPI CAN_Init(int DevHandle, unsigned char CANIndex, PCAN_INIT_CONFIG pCanConfig);
 int WINAPI CAN_Filter_Init(int DevHandle, unsigned char CANIndex, PCAN_FILTER_CONFIG pFilterConfig);
+int WINAPI CAN_StartGetMsg(int DevHandle, unsigned char CANIndex);
+int WINAPI CAN_StopGetMsg(int DevHandle, unsigned char CANIndex);
 int WINAPI CAN_SendMsg(int DevHandle, unsigned char CANIndex, PCAN_MSG pCanSendMsg,unsigned int SendMsgNum);
 int WINAPI CAN_GetMsg(int DevHandle, unsigned char CANIndex, PCAN_MSG pCanGetMsg);
+int WINAPI CAN_GetMsgWithSize(int DevHandle, unsigned char CANIndex, CAN_MSG *pCanGetMsg,int BufferSize);
+int WINAPI CAN_ClearMsg(int DevHandle, unsigned char CANIndex);
 int WINAPI CAN_GetStatus(int DevHandle, unsigned char CANIndex, PCAN_STATUS pCANStatus);
+//以调度表的方式发送数据，可以精确的控制每帧之间的间隔时间
 int WINAPI CAN_StartSchedule(int DevHandle, unsigned char CANIndex, PCAN_MSG pCanMsg,unsigned int MsgNum);
 int WINAPI CAN_StopSchedule(int DevHandle, unsigned char CANIndex);
-
+int WINAPI CAN_SetRelayData(int DevHandle, CAN_RELAY_HEAD *pCANRelayHead, CAN_RELAY_DATA *pCANRelayData);
+int WINAPI CAN_GetRelayData(int DevHandle, CAN_RELAY_HEAD *pCANRelayHead, CAN_RELAY_DATA *pCANRelayData);
+int WINAPI CAN_SetRelay(int DevHandle, unsigned char RelayState);
+//老版本接口函数，不建议再使用
 int WINAPI CAN_BL_Init(int DevHandle,int CANIndex,PCAN_INIT_CONFIG pInitConfig,PCBL_CMD_LIST pCmdList);
 int WINAPI CAN_BL_NodeCheck(int DevHandle,int CANIndex,unsigned short NodeAddr,unsigned int *pVersion,unsigned int *pType,unsigned int TimeOut);
 int WINAPI CAN_BL_Erase(int DevHandle,int CANIndex,unsigned short NodeAddr,unsigned int FlashSize,unsigned int TimeOut);

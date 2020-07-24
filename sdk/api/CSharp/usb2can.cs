@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
-
+using USB2XXX;
 namespace USB2XXX
 {
     class USB2CAN
@@ -19,6 +19,7 @@ namespace USB2XXX
             public Byte    DataLen;     //数据长度(<=8)，即Data 的长度。
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.I1)]
             public Byte[]  Data;        //报文的数据。
+            public Byte __Res;
         };
 
         //2.初始化CAN的数据类型定义
@@ -96,11 +97,29 @@ namespace USB2XXX
         [DllImport("USB2XXX.dll")]
         public static extern Int32 CAN_Filter_Init(Int32 DevHandle, Byte CANIndex, ref CAN_FILTER_CONFIG pFilterConfig);
         [DllImport("USB2XXX.dll")]
+        public static extern Int32 CAN_StartGetMsg(Int32 DevHandle, Byte CANIndex);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 CAN_StopGetMsg(Int32 DevHandle, Byte CANIndex);
+        [DllImport("USB2XXX.dll")]
         public static extern Int32 CAN_SendMsg(Int32 DevHandle, Byte CANIndex, CAN_MSG[] pCanSendMsg,UInt32 SendMsgNum);
         [DllImport("USB2XXX.dll")]
         public static extern Int32 CAN_GetMsg(Int32 DevHandle, Byte CANIndex, IntPtr pCanGetMsg);
         [DllImport("USB2XXX.dll")]
+        public static extern Int32 CAN_GetMsgWithSize(Int32 DevHandle, Byte CANIndex, IntPtr pCanGetMsg, Int32 BufferSize);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 CAN_ClearMsg(Int32 DevHandle, Byte CANIndex);
+        [DllImport("USB2XXX.dll")]
         public static extern Int32 CAN_GetStatus(Int32 DevHandle, Byte CANIndex, ref CAN_STATUS pCANStatus);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 CAN_StartSchedule(Int32 DevHandle, Byte CANIndex, CAN_MSG[] pCanMsg, UInt32 MsgNum);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 CAN_StopSchedule(Int32 DevHandle, Byte CANIndex);
+        //[DllImport("USB2XXX.dll")]
+        //public static extern Int32 CAN_SetRelayData(Int32 DevHandle, CAN_RELAY_HEAD *pCANRelayHead, CAN_RELAY_DATA *pCANRelayData);
+        //[DllImport("USB2XXX.dll")]
+        //public static extern Int32 CAN_GetRelayData(Int32 DevHandle, CAN_RELAY_HEAD *pCANRelayHead, CAN_RELAY_DATA *pCANRelayData);
+        [DllImport("USB2XXX.dll")]
+        public static extern Int32 CAN_SetRelay(Int32 DevHandle, Byte RelayState);
 
         //CAN Bootloader相关函数
         [DllImport("USB2XXX.dll")]

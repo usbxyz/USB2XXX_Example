@@ -17,7 +17,6 @@
 #define __USB2CANFD_H_
 
 #include <stdint.h>
-#include "offline_type.h"
 #ifndef OS_UNIX
 #include <Windows.h>
 #else
@@ -109,11 +108,14 @@ typedef struct _CANFD_BUS_ERROR {
     unsigned char TEC;//发送错误计数
     unsigned char REC;//接收错误计数
     unsigned char Flags;//参考总线错误标志定义
+    unsigned char __Res0;
 }CANFD_BUS_ERROR;
 //5.CAN 滤波器设置数据类型定义
 typedef struct _CANFD_FILTER_CONFIG{
     unsigned char   Enable;   //使能该过滤器，1-使能，0-禁止
     unsigned char   Index;    //过滤器索引号，取值范围为0到31
+    unsigned char __Res0;
+    unsigned char __Res1;
     unsigned int    ID_Accept;//验收码ID,bit[28..0]为有效ID位，bit[31]为IDE
     unsigned int    ID_Mask;  //屏蔽码，对应bit位若为1，则需要对比对应验收码bit位，相同才接收
 }CANFD_FILTER_CONFIG;

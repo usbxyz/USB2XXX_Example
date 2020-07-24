@@ -15,6 +15,7 @@ class CAN_MSG(Structure):
         ("ExternFlag",c_ubyte),      # 是否是扩展帧
         ("DataLen",c_ubyte),         # 数据长度(<=8)，即Data 的长度。
         ("Data",c_ubyte*8),          # 报文的数据。
+        ("__Res",c_ubyte),
     ]
 
 # 2.初始化CAN的数据类型定义
@@ -162,11 +163,23 @@ def CAN_Init(DevHandle, CANIndex, pCanConfig):
 def CAN_Filter_Init(DevHandle, CANIndex, pFilterConfig):
     return USB2XXXLib.CAN_Filter_Init(DevHandle, CANIndex, pFilterConfig)
 
+def CAN_StartGetMsg(DevHandle, CANIndex):
+    return USB2XXXLib.CAN_StartGetMsg(DevHandle, CANIndex)
+
+def CAN_StopGetMsg(DevHandle, CANIndex):
+    return USB2XXXLib.CAN_StopGetMsg(DevHandle, CANIndex)
+
 def CAN_SendMsg(DevHandle, CANIndex, pCanSendMsg,SendMsgNum):
     return USB2XXXLib.CAN_SendMsg(DevHandle, CANIndex, pCanSendMsg,SendMsgNum)
 
 def CAN_GetMsg(DevHandle, CANIndex, pCanGetMsg):
     return USB2XXXLib.CAN_GetMsg(DevHandle, CANIndex, pCanGetMsg)
+
+def CAN_GetMsgWithSize(DevHandle, CANIndex, pCanGetMsg,BufferSize):
+    return USB2XXXLib.CAN_GetMsgWithSize(DevHandle, CANIndex, pCanGetMsg,BufferSize)
+
+def CAN_ClearMsg(DevHandle, CANIndex):
+    return USB2XXXLib.CAN_ClearMsg(DevHandle, CANIndex)
 
 def CAN_GetStatus(DevHandle, CANIndex, pCANStatus):
     return USB2XXXLib.CAN_GetStatus(DevHandle, CANIndex, pCANStatus)

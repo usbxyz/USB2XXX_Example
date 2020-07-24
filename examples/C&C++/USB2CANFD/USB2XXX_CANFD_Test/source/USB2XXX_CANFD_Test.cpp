@@ -79,7 +79,7 @@ int main(int argc, const char* argv[])
     //配置过滤器，若不配置过滤器，默认是接收所有数据
     CANFD_FILTER_CONFIG CANFDFilter;
     CANFDFilter.Index = 0;//取值范围为：0~31
-    CANFDFilter.Enable = 1;
+    CANFDFilter.Enable = 1;//0-禁止，1-使能
     //配置为只接收扩展帧数据
     CANFDFilter.ID_Accept = 0x80000000;
     CANFDFilter.ID_Mask = 0x80000000;

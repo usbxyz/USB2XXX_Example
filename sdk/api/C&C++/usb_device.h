@@ -122,6 +122,13 @@ bool WINAPI DEV_ReadUserData(int DevHandle,int OffsetAddr,unsigned char *pReadDa
   */
 bool WINAPI DEV_SetPowerLevel(int DevHandle,char PowerLevel);
 
+/**
+  * @brief  或者CAN或者LIN的时间戳原始值
+  * @param  DevHandle 设备索引号
+  * @param  pTimestamp 时间戳指针
+  * @retval 获取时间戳状态
+  */
+bool WINAPI DEV_GetTimestamp(int DevHandle,char BusType,unsigned int *pTimestamp);
 #ifdef __cplusplus
 }
 #endif

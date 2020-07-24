@@ -1,13 +1,16 @@
 """
 文件说明：USB2XXX设备操作相关函数集合
-更多帮助：www.usbxyz.com
+更多帮助：www.toomoss.com
+使用说明：程序正常运行，需要将sdk/libs目录复制到程序目录下
 """
 
 from ctypes import *
 import platform
+import os
+import shutil
 
 # Device info define
-class DEVICE_INFO(Structure):  
+class DEVICE_INFO(Structure):
     _fields_ = [
         ("FirmwareName", c_char*32),   # firmware name string
         ("BuildDate", c_char*32),      # firmware build date and time string
@@ -24,28 +27,36 @@ POWER_LEVEL_2V5     = 2 # 输出2.5V
 POWER_LEVEL_3V3     = 3 # 输出3.3V
 POWER_LEVEL_5V0     = 4 # 输出5.0V
 
-# Import library
+#复制库文件到程序目录下
+if(not os.path.exists("libs")):
+    if(os.path.exists("../../../../sdk/libs")):
+        shutil.copytree("../../../../sdk/libs", "./libs")
+    else:
+        print("libs does not exist,You need to manually copy the libs directory to the current directory")
+        exit()
+
+#根据系统自动导入对应的库文件，若没能识别到正确的系统，可以修改下面的源码
 if(platform.system()=="Windows"):
     if "64bit" in platform.architecture():
-        windll.LoadLibrary( "./lib/windows/x86_64/libusb-1.0.dll" )
-        USB2XXXLib = windll.LoadLibrary( "./lib/windows/x86_64/USB2XXX.dll" )
+        windll.LoadLibrary( "./libs/msvc_x64/libusb-1.0.dll" )
+        USB2XXXLib = windll.LoadLibrary( "./libs/msvc_x64/USB2XXX.dll" )
     else:
-        windll.LoadLibrary( "./lib/windows/x86_32/libusb-1.0.dll" )
-        USB2XXXLib = windll.LoadLibrary( "./lib/windows/x86_32/USB2XXX.dll" )
+        windll.LoadLibrary( "./libs/msvc_x86/libusb-1.0.dll" )
+        USB2XXXLib = windll.LoadLibrary( "./libs/msvc_x86/USB2XXX.dll" )
 elif(platform.system()=="Darwin"):
-    cdll.LoadLibrary( "./lib/macos/libusb-1.0.dylib" )
-    USB2XXXLib = cdll.LoadLibrary( "./lib/macos/libUSB2XXX.dylib" )
+    cdll.LoadLibrary( "./libs/mac_os/libusb-1.0.dylib" )
+    USB2XXXLib = cdll.LoadLibrary( "./libs/mac_os/libUSB2XXX.dylib" )
 elif(platform.system()=="Linux"):
     if 'arm' in platform.machine():
-        cdll.LoadLibrary( "./lib/linux/ARMv7/libusb-1.0.so" )
-        USB2XXXLib = cdll.LoadLibrary( "./lib/linux/ARMv7/libUSB2XXX.so" )
+        cdll.LoadLibrary( "./libs/Linux_ARMv7/libusb-1.0.so" )
+        USB2XXXLib = cdll.LoadLibrary( "./libs/Linux_ARMv7/libUSB2XXX.so" )
     else:
         if "64bit" in platform.architecture():
-            cdll.LoadLibrary( "./lib/linux/x86_64/libusb-1.0.so" )
-            USB2XXXLib = cdll.LoadLibrary( "./lib/linux/x86_64/libUSB2XXX.so" )
+            cdll.LoadLibrary( "./libs/Linux_x64/libusb-1.0.so" )
+            USB2XXXLib = cdll.LoadLibrary( "./lib/Linux_x64/libUSB2XXX.so" )
         else:
-            cdll.LoadLibrary( "./lib/linux/x86_64/libusb-1.0.so" )
-            USB2XXXLib = cdll.LoadLibrary( "./lib/linux/x86_32/libUSB2XXX.so" )
+            cdll.LoadLibrary( "./libs/Linux_x86/libusb-1.0.so" )
+            USB2XXXLib = cdll.LoadLibrary( "./libs/Linux_x86/libUSB2XXX.so" )
 else:
     print("unsupported system")
     exit()
@@ -57,6 +68,10 @@ def USB_ScanDevice(pDevHandle):
 # Open device
 def USB_OpenDevice(DevHandle):
     return USB2XXXLib.USB_OpenDevice(DevHandle)
+
+# Reset device
+def USB_ResetDevice(DevHandle):
+    return USB2XXXLib.USB_ResetDevice(DevHandle)
 
 # Get USB2XXX infomation
 def DEV_GetDeviceInfo(DevHandle, pDevInfo, pFunctionStr):
@@ -77,3 +92,8 @@ def DEV_ReadUserData(DevHandle,OffsetAddr,pReadData,DataLen):
 
 def DEV_SetPowerLevel(DevHandle,PowerLevel):
     return USB2XXXLib.DEV_SetPowerLevel(DevHandle,PowerLevel)
+
+def DEV_GetTimestamp(DevHandle,BusType,pTimestamp):
+    return USB2XXXLib.DEV_GetTimestamp(DevHandle,BusType,pTimestamp)
+
+

@@ -94,9 +94,6 @@ int WINAPI  LIN_EX_MasterGetSch(int DevHandle,unsigned char LINIndex,LIN_EX_MSG 
 int WINAPI  LIN_EX_DecodeListFile(char *pFileName,char CheckType,int BaudRate,char *pReadDataList,char ReadDataListLen,char *pCheckTypeList,char CheckTypeListLen);
 int WINAPI  LIN_EX_GetListFileMsg(int MsgIndex,int MsgLen,LIN_EX_MSG *pLINMsg);
 
-//LIN UDS协议操作相关函数
-int WINAPI LIN_USD_Request(int DevHandle,int LINIndex,unsigned char ID,unsigned char NAD,unsigned char *pCmd,unsigned short Len);
-int WINAPI LIN_USD_Response(int DevHandle,int LINIndex,unsigned char ID,unsigned char NAD,unsigned char *pRes,unsigned short *pLen);
 #ifdef __cplusplus
 }
 #endif

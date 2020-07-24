@@ -50,6 +50,13 @@ namespace USB2XXX
         [DllImport("USB2XXX.dll")]
         public static extern bool USB_CloseDevice(Int32 DevHandle);
         /**
+          * @brief  复位设备程序，复位后需要重新调用USB_ScanDevice，USB_OpenDevice函数
+          * @param  DevHandle 设备索引号
+          * @retval 复位设备的状态
+          */
+        [DllImport("USB2XXX.dll")]
+        public static extern bool USB_ResetDevice(Int32 DevHandle);
+        /**
           * @brief  获取设备信息，比如设备名称，固件版本号，设备序号，设备功能说明字符串等
           * @param  DevHandle 设备索引号
           * @param  pDevInfo 设备信息存储结构体指针
@@ -64,7 +71,7 @@ namespace USB2XXX
           * @retval 用户区数据擦出状态
           */
         [DllImport("USB2XXX.dll")]
-        public static extern bool DEV_EraseUserData(int DevHandle);
+        public static extern bool DEV_EraseUserData(Int32 DevHandle);
 
         /**
           * @brief  向用户区域写入用户自定义数据，写入数据之前需要调用擦出函数将数据擦出
@@ -75,7 +82,7 @@ namespace USB2XXX
           * @retval 写入用户自定义数据状态
           */
         [DllImport("USB2XXX.dll")]
-        public static extern bool DEV_WriteUserData(int DevHandle,int OffsetAddr,byte[] pWriteData,int DataLen);
+        public static extern bool DEV_WriteUserData(Int32 DevHandle,Int32 OffsetAddr,byte[] pWriteData,Int32 DataLen);
 
         /**
           * @brief  从用户自定义数据区读出数据
@@ -86,7 +93,7 @@ namespace USB2XXX
           * @retval 读出用户自定义数据的状态
           */
         [DllImport("USB2XXX.dll")]
-        public static extern bool DEV_ReadUserData(int DevHandle,int OffsetAddr,byte[] pReadData,int DataLen);
+        public static extern bool DEV_ReadUserData(Int32 DevHandle,Int32 OffsetAddr,byte[] pReadData,Int32 DataLen);
 
         /**
           * @brief  设置可变电压输出引脚输出电压值
@@ -95,6 +102,14 @@ namespace USB2XXX
           * @retval 设置输出电压状态
           */
         [DllImport("USB2XXX.dll")]
-        public static extern bool DEV_SetPowerLevel(int DevHandle,byte PowerLevel);
+        public static extern bool DEV_SetPowerLevel(Int32 DevHandle,byte PowerLevel);
+        /**
+          * @brief  或者CAN或者LIN的时间戳原始值
+          * @param  DevHandle 设备索引号
+          * @param  pTimestamp 时间戳指针
+          * @retval 获取时间戳状态
+          */
+        [DllImport("USB2XXX.dll")]
+        public static extern bool  DEV_GetTimestamp(Int32 DevHandle,byte BusType,Int32[] pTimestamp);
     }
 }

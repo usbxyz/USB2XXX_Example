@@ -81,9 +81,9 @@ namespace USB2XXXCANTest
             CANConfig.CAN_RFLM = 0;//FIFO满之后覆盖旧报文
             CANConfig.CAN_TXFP = 1;//发送请求决定发送顺序
             //配置波特率,波特率 = 100M/(BRP*(SJW+BS1+BS2))
-            CANConfig.CAN_BRP = 25;
-            CANConfig.CAN_BS1 = 2;
-            CANConfig.CAN_BS2 = 1;
+            CANConfig.CAN_BRP = 2;
+            CANConfig.CAN_BS1 = 15;
+            CANConfig.CAN_BS2 = 5;
             CANConfig.CAN_SJW = 1;
             ret = USB2CAN.CAN_Init(DevHandle,CANIndex,ref CANConfig);
             if(ret != USB2CAN.CAN_SUCCESS){
@@ -92,7 +92,7 @@ namespace USB2XXXCANTest
             }else{
                 Console.WriteLine("Config CAN Success!");
             }
-            //配置过滤器，必须配置，否则可能无法收到数据
+            //配置过滤器，接收所有数据
             USB2CAN.CAN_FILTER_CONFIG CANFilter = new USB2CAN.CAN_FILTER_CONFIG();
             CANFilter.Enable = 1;
             CANFilter.ExtFrame = 0;
@@ -101,7 +101,27 @@ namespace USB2XXXCANTest
             CANFilter.MASK_IDE = 0;
             CANFilter.MASK_RTR = 0;
             CANFilter.MASK_Std_Ext = 0;
-            USB2CAN.CAN_Filter_Init(DevHandle,CANIndex,ref CANFilter);
+            ret = USB2CAN.CAN_Filter_Init(DevHandle,CANIndex,ref CANFilter);
+            if (ret != USB2CAN.CAN_SUCCESS)
+            {
+                Console.WriteLine("Config CAN Filter failed!");
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Config CAN Filter Success!");
+            }
+            //启动CAN接收数据
+            ret = USB2CAN.CAN_StartGetMsg(DevHandle, CANIndex);
+            if (ret != USB2CAN.CAN_SUCCESS)
+            {
+                Console.WriteLine("Start CAN failed!");
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Start CAN Success!");
+            }
 #if CAN_SEND_MSG//发送CAN帧
             USB2CAN.CAN_MSG[] CanMsg = new USB2CAN.CAN_MSG[5];
             for(int i=0;i<5;i++){
@@ -137,22 +157,17 @@ namespace USB2XXXCANTest
             System.Threading.Thread.Sleep(500);
             
 #if CAN_GET_MSG
-            while (true)
+            for (int t = 0; t < 10; t++)
             {
-                USB2CAN.CAN_MSG[] CanMsgBuffer = new USB2CAN.CAN_MSG[10240];
-                for (int i = 0; i < CanMsgBuffer.Length; i++)
-                {
-                    CanMsgBuffer[i] = new USB2CAN.CAN_MSG();
-                    CanMsgBuffer[i].Data = new Byte[8];
-                }
-
+                USB2CAN.CAN_MSG[] CanMsgBuffer = new USB2CAN.CAN_MSG[1024];
+                //申请存储数据缓冲区
                 IntPtr pt = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(USB2CAN.CAN_MSG)) * CanMsgBuffer.Length);
-
-                int CanNum = USB2CAN.CAN_GetMsg(DevHandle, CANIndex, pt);
+                int CanNum = USB2CAN.CAN_GetMsgWithSize(DevHandle, CANIndex, pt, CanMsgBuffer.Length);
                 if (CanNum > 0)
                 {
                     for (int i = 0; i < CanNum; i++)
                     {
+                        //从缓冲区中获取数据
                         CanMsgBuffer[i] = (USB2CAN.CAN_MSG)Marshal.PtrToStructure((IntPtr)((UInt32)pt + i * Marshal.SizeOf(typeof(USB2CAN.CAN_MSG))), typeof(USB2CAN.CAN_MSG));
                         Console.WriteLine("CanMsg[{0}].ID = {1}", i, CanMsgBuffer[i].ID);
                         Console.WriteLine("CanMsg[{0}].TimeStamp = {1}", i, CanMsgBuffer[i].TimeStamp);
@@ -170,10 +185,12 @@ namespace USB2XXXCANTest
                 }
                 //延时
                 System.Threading.Thread.Sleep(100);
+                //释放申请的数据缓冲区
+                Marshal.FreeHGlobal(pt);
             }
+            //停止CAN
+            USB2CAN.CAN_StopGetMsg(DevHandle, CANIndex);
 #endif
-            //关闭设备
-            usb_device.USB_CloseDevice(DevHandle);
         }
     }
 }
