@@ -17,7 +17,6 @@
 #define __CAN_UDS_H_
 
 #include <stdint.h>
-#include "offline_type.h"
 #ifndef OS_UNIX
 #include <Windows.h>
 #else
@@ -26,7 +25,7 @@
 #define WINAPI
 #endif
 #endif
-
+//函数返回值错误定义
 #define CAN_UDS_OK            0
 #define CAN_UDS_TRAN_USB      -98
 #define CAN_UDS_TRAN_CAN      -99
@@ -40,12 +39,12 @@
 #define CAN_UDS_BUFFER_OVFLW  -107
 #define CAN_UDS_ERROR         -108
 
-//1.CAN UDS地址定义
+//CAN UDS地址定义
 typedef  struct  _CAN_UDS_ADDR
 {
     unsigned int    ReqID;        //请求报文ID。
     unsigned int    ResID;        //应答报文ID。
-    unsigned char   ExternFlag;   //是否是扩展帧
+    unsigned char   ExternFlag;   //0-标准帧，1-扩展帧
     unsigned char   AddrFormats;  //0-normal, 1-extended ,2-mixed
     unsigned char   AddrExt;      //当AddrFormats不为normal时，该数据放到CAN数据域第1字节
     unsigned char   __Res;
@@ -56,8 +55,8 @@ extern "C"
 {
 #endif
 
-    int WINAPI CAN_UDS_Request(int DevHandle,unsigned char CANIndex,CAN_UDS_ADDR UDSAddr,unsigned char *pReqData,int DataLen);
-    int WINAPI CAN_UDS_Response(int DevHandle,unsigned char CANIndex,CAN_UDS_ADDR UDSAddr,unsigned char *pResData,int TimeOutMs);
+    int WINAPI CAN_UDS_Request(int DevHandle,unsigned char CANIndex,CAN_UDS_ADDR *pUDSAddr,unsigned char *pReqData,int DataLen);
+    int WINAPI CAN_UDS_Response(int DevHandle,unsigned char CANIndex,CAN_UDS_ADDR *pUDSAddr,unsigned char *pResData,int TimeOutMs);
 
 #ifdef __cplusplus
 }

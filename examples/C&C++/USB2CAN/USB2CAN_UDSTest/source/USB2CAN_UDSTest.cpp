@@ -88,7 +88,7 @@ int main(int argc, const char* argv[])
     UDSAddr.AddrFormats = 0;
     UDSAddr.ReqID = 0x7DF;
     UDSAddr.ResID = 0x7E8;
-    ret = CAN_UDS_Request(DevHandle[DEVIndex],CANIndex,UDSAddr,req_data,sizeof(req_data));
+    ret = CAN_UDS_Request(DevHandle[DEVIndex],CANIndex,&UDSAddr,req_data,sizeof(req_data));
     if(ret != CAN_UDS_OK){
         printf("CAN UDS request failed! %d\r\n",ret);
     }else{
@@ -98,7 +98,7 @@ int main(int argc, const char* argv[])
         }
         printf("\r\n");
     }
-    ret = CAN_UDS_Response(DevHandle[DEVIndex],CANIndex,UDSAddr,res_data,1000);
+    ret = CAN_UDS_Response(DevHandle[DEVIndex],CANIndex,&UDSAddr,res_data,1000);
     if(ret <= CAN_UDS_OK){
         printf("CAN UDS response failed! %d\r\n",ret);
     }else{
@@ -113,7 +113,7 @@ int main(int argc, const char* argv[])
     }
     //获取车速
     req_data[1] = 0x0D;
-    ret = CAN_UDS_Request(DevHandle[DEVIndex],CANIndex,UDSAddr,req_data,sizeof(req_data));
+    ret = CAN_UDS_Request(DevHandle[DEVIndex],CANIndex,&UDSAddr,req_data,sizeof(req_data));
     if(ret != CAN_UDS_OK){
         printf("CAN UDS request failed! %d\r\n",ret);
     }else{
@@ -123,7 +123,7 @@ int main(int argc, const char* argv[])
         }
         printf("\r\n");
     }
-    ret = CAN_UDS_Response(DevHandle[DEVIndex],CANIndex,UDSAddr,res_data,1000);
+    ret = CAN_UDS_Response(DevHandle[DEVIndex],CANIndex,&UDSAddr,res_data,1000);
     if(ret <= CAN_UDS_OK){
         printf("CAN UDS response failed! %d\r\n",ret);
     }else{

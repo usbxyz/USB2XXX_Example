@@ -96,7 +96,13 @@ int main(int argc, const char* argv[])
     CANFilter.MASK_IDE = 0;
     CANFilter.MASK_RTR = 0;
     CANFilter.MASK_Std_Ext = 0;
-    CAN_Filter_Init(DevHandle[0],CANIndex,&CANFilter);
+    ret = CAN_Filter_Init(DevHandle[0],CANIndex,&CANFilter);
+    if(ret != CAN_SUCCESS){
+        printf("Config CAN Filter failed!\n");
+        return 0;
+    }else{
+        printf("Config CAN Filter Success!\n");
+    }
 #if CAN_SEND_MSG//·¢ËÍCANÖ¡
     CAN_MSG CanMsg[5];
     for(int i=0;i<5;i++){
