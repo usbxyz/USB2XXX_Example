@@ -101,8 +101,8 @@ int main(int argc, const char* argv[])
     //·¢ËÍCANÊý¾Ý
     CANFD_MSG CanMsg[5];
     for (int i = 0; i < 5; i++){
-        CanMsg[i].Flags = 0;//bit[0]-BRS,bit[1]-ESI,bit[2]-FDF,bit[6..5]-Channel,bit[7]-RXD
-        CanMsg[i].DLC = 8;
+        CanMsg[i].Flags = CANFD_MSG_FLAG_FDF;//bit[0]-BRS,bit[1]-ESI,bit[2]-FDF,bit[6..5]-Channel,bit[7]-RXD
+        CanMsg[i].DLC = 16;
         CanMsg[i].ID = i|CANFD_MSG_FLAG_IDE;
         for (int j = 0; j < CanMsg[i].DLC; j++){
             CanMsg[i].Data[j] = j;

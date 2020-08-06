@@ -15,7 +15,7 @@
   */
 #ifndef __USB2CANFD_H_
 #define __USB2CANFD_H_
-
+#include "offline_type.h"
 #include <stdint.h>
 #ifndef OS_UNIX
 #include <Windows.h>
