@@ -83,11 +83,11 @@ Module USB2XXX_LIN_Test
             ReDim msg_out(0)
             ReDim msg_out(0).Data(8)
             msg_in(0).PID = ID  '传入ID即可，底层会自动计算校验位
-            msg_in(0).MsgType = LIN_EX_MSG_TYPE_MW  '消息类型，主机读数据
+            msg_in(0).MsgType = LIN_EX_MSG_TYPE_MR  '消息类型，主机读数据
             ReDim msg_in(0).Data(8)
             ret = LIN_EX_MasterSync(DeviceHandle(0), LINIndex, msg_in, msg_out, msg_len)
             If ret <> msg_len Then
-                Console.WriteLine("LIN read data failed!")
+                Console.WriteLine("LIN read data failed!{0}", ret)
                 Return
             Else
                 '主机读到的数据存放在数据消息中

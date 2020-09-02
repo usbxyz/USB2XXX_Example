@@ -48,12 +48,10 @@ if __name__ == '__main__':
     PWMConfig.ChannelMask = 0xFF # 初始化所有通道
     for i in range(0,8):
         PWMConfig.Polarity[i] = 1 # 将所有PWM通道都设置为正极性
-    for i in range(0,8):
         PWMConfig.Precision[i] = 100 # 将所有通道的占空比调节精度都设置为1%
-    for i in range(0,8):
         PWMConfig.Prescaler[i] = 10 # 将所有通道的预分频器都设置为10，则PWM输出频率为200MHz/(PWMConfig.Precision*PWMConfig.Prescaler)
-    for i in range(0,8):
         PWMConfig.Pulse[i] = PWMConfig.Precision[i]*30//100 # 将所有通道的占空比都设置为30%
+        PWMConfig.Phase[i] = 0
     # 初始化PWM
     ret = PWM_Init(DevHandles[DevIndex],byref(PWMConfig));
     if ret != PWM_SUCCESS:
@@ -69,7 +67,16 @@ if __name__ == '__main__':
         exit()
     else:
         print("Start pwm sunccess!")
-    
+    # 设置相位
+    PWMPhase = (c_ushort * 8)()
+    for i in range(0,8):
+        PWMPhase[i] = 0
+    ret = PWM_SetPhase(DevHandles[DevIndex],PWMConfig.ChannelMask,PWMPhase)
+    if(ret != PWM_SUCCESS):
+        print("Set pwm phase faild!")
+        exit()
+    else:
+        print("Set pwm phase sunccess!")
     # 停止PWM
     # ret = PWM_Stop(DevHandles[DevIndex],PWMConfig.ChannelMask)
     # if(ret != PWM_SUCCESS):

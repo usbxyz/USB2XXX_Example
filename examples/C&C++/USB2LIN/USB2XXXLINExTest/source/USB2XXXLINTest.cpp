@@ -21,9 +21,9 @@
 #include "usb2lin_ex.h"
 
 #define GET_FIRMWARE_INFO       1//获取固件信息
-#define LIN_MASTER_TEST         0//主机模式读写测试
+#define LIN_MASTER_TEST         1//主机模式读写测试
 #define LIN_SLAVE_TEST          0//从机模式读写测试
-#define LIN_MASTER_SCH_TEST     1//主机模式调度表测试
+#define LIN_MASTER_SCH_TEST     0//主机模式调度表测试
 
 int main(int argc, const char* argv[])
 {
@@ -80,7 +80,7 @@ int main(int argc, const char* argv[])
 //    return 0;
 #if LIN_MASTER_SCH_TEST||LIN_MASTER_TEST
     //初始化配置LIN
-    ret = LIN_EX_Init(DevHandle[DevIndex],LINMasterIndex,9600,1);
+    ret = LIN_EX_Init(DevHandle[DevIndex],LINMasterIndex,19200,1);
     if(ret != LIN_EX_SUCCESS){
         printf("Config LIN failed!\n");
         return 0;

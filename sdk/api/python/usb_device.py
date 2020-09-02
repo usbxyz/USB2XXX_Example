@@ -38,25 +38,25 @@ if(not os.path.exists("libs")):
 #根据系统自动导入对应的库文件，若没能识别到正确的系统，可以修改下面的源码
 if(platform.system()=="Windows"):
     if "64bit" in platform.architecture():
-        windll.LoadLibrary( "./libs/msvc_x64/libusb-1.0.dll" )
-        USB2XXXLib = windll.LoadLibrary( "./libs/msvc_x64/USB2XXX.dll" )
+        windll.LoadLibrary(os.getcwd()+"/libs/msvc_x64/libusb-1.0.dll" )
+        USB2XXXLib = windll.LoadLibrary(os.getcwd()+"/libs/msvc_x64/USB2XXX.dll" )
     else:
-        windll.LoadLibrary( "./libs/msvc_x86/libusb-1.0.dll" )
-        USB2XXXLib = windll.LoadLibrary( "./libs/msvc_x86/USB2XXX.dll" )
+        windll.LoadLibrary(os.getcwd()+"/libs/msvc_x86/libusb-1.0.dll" )
+        USB2XXXLib = windll.LoadLibrary(os.getcwd()+"/libs/msvc_x86/USB2XXX.dll" )
 elif(platform.system()=="Darwin"):
-    cdll.LoadLibrary( "./libs/mac_os/libusb-1.0.dylib" )
-    USB2XXXLib = cdll.LoadLibrary( "./libs/mac_os/libUSB2XXX.dylib" )
+    cdll.LoadLibrary(os.getcwd()+"/libs/mac_os/libusb-1.0.dylib" )
+    USB2XXXLib = cdll.LoadLibrary(os.getcwd()+"/libs/mac_os/libUSB2XXX.dylib" )
 elif(platform.system()=="Linux"):
     if 'arm' in platform.machine():
-        cdll.LoadLibrary( "./libs/Linux_ARMv7/libusb-1.0.so" )
-        USB2XXXLib = cdll.LoadLibrary( "./libs/Linux_ARMv7/libUSB2XXX.so" )
+        cdll.LoadLibrary(os.getcwd()+"/libs/Linux_ARMv7/libusb-1.0.so" )
+        USB2XXXLib = cdll.LoadLibrary(os.getcwd()+"/libs/Linux_ARMv7/libUSB2XXX.so" )
     else:
         if "64bit" in platform.architecture():
-            cdll.LoadLibrary( "./libs/Linux_x64/libusb-1.0.so" )
-            USB2XXXLib = cdll.LoadLibrary( "./lib/Linux_x64/libUSB2XXX.so" )
+            cdll.LoadLibrary(os.getcwd()+"/libs/Linux_x64/libusb-1.0.so" )
+            USB2XXXLib = cdll.LoadLibrary(os.getcwd()+"/lib/Linux_x64/libUSB2XXX.so" )
         else:
-            cdll.LoadLibrary( "./libs/Linux_x86/libusb-1.0.so" )
-            USB2XXXLib = cdll.LoadLibrary( "./libs/Linux_x86/libUSB2XXX.so" )
+            cdll.LoadLibrary(os.getcwd()+"/libs/Linux_x86/libusb-1.0.so" )
+            USB2XXXLib = cdll.LoadLibrary(os.getcwd()+"/libs/Linux_x86/libUSB2XXX.so" )
 else:
     print("unsupported system")
     exit()
